@@ -4,6 +4,9 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import config from './util/config';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+import Nothing from './components/Nothing';
+import Numbers from './components/Numbers';
 
 //Other SDKs:
 /* import "firebase/analytics";
@@ -58,35 +61,38 @@ class App extends Component {
 
   render() {
     return (
-      <div className='App'>
-        <header>
-          <nav>
-            <ul>
-              <li>
-                <a href='/example1'>Example 1</a>
-              </li>
-              <li>
-                <a href='/example2'>Example 2</a>
-              </li>
-            </ul>
-          </nav>
-        </header>
-        <h1>Presto Web App</h1>
-
-        {this.state.authenticated ? (
-          <div>
-            <button onClick={this.postRandomNumber}>
-              Post a Random Number
-            </button>
-            <button onClick={this.getAllRandomNumers}>
-              Get All Random Numbers
-            </button>
-            <p>{this.state.numbers}</p>
-          </div>
-        ) : (
-          <p>Please login to use the random number generator.</p>
-        )}
-      </div>
+      <BrowserRouter>
+        <div className='App'>
+          <header>
+            <nav>
+              <ul>
+                <li>
+                  <Link to='/'>Show Nothing</Link>
+                </li>
+                <li>
+                  <Link to='/numbers'>Show Numbers</Link>
+                </li>
+                <li>
+                  <Link to='/auth'>Login</Link>
+                </li>
+              </ul>
+            </nav>
+          </header>
+          <h1>Presto Web App</h1>
+          <Route path='/' exact component={Nothing} />
+          <Route
+            path='/numbers'
+            exact
+            component={() => (
+              <Numbers
+                postClick={this.postRandomNumber}
+                getClick={this.getAllRandomNumers}
+                allNumbers={this.state.numbers}
+              />
+            )}
+          />
+        </div>
+      </BrowserRouter>
     );
   }
 }
