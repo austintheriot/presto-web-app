@@ -20,7 +20,7 @@ const isEmail = (string) => {
   return string.match(regex);
 };
 
-export default function (string, type) {
+export default function (string, type, signup) {
   if (type === 'email') {
     if (isEmpty(string)) {
       return 'Email must not be empty';
@@ -32,6 +32,14 @@ export default function (string, type) {
     if (isEmpty(string)) {
       return 'Password must not be empty';
     }
+  } else if (type === 'confirmPassword') {
+    if (isEmpty(string)) {
+      return 'Confirm password must not be empty';
+    }
+  }
+
+  //check length only for sign up sheets
+  else if (signup) {
     if (string.length > 30) {
       return 'Password is too long';
     }
