@@ -17,3 +17,27 @@
 .App a {
   text-decoration: none;
 }
+
+form {
+  width: 50%;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  text-align: left;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+input {
+  width: 50%;
+}
+
+button {
+  display: block;
+  width: max-content;
+  margin: 0 auto;
+  margin-top: 1rem;
+}

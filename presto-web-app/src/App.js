@@ -4,9 +4,10 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import config from './util/config';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import Nothing from './components/Nothing';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Numbers from './components/Numbers';
+import Auth from './components/Auth';
+import Header from './components/Header';
 
 //Other SDKs:
 /* import "firebase/analytics";
@@ -22,8 +23,8 @@ firebase.initializeApp(config);
 const db = firebase.firestore();
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       authenticated: false,
       numbers: [],
@@ -57,29 +58,51 @@ class App extends Component {
       });
   };
 
-  componentDidMount() {}
+  updateAuthentication = (user) => {
+    if (user) {
+      // User is signed in.
+      let displayName = user.displayName;
+      let email = user.email;
+      let emailVerified = user.emailVerified;
+      let photoURL = user.photoURL;
+      let isAnonymous = user.isAnonymous;
+      let uid = user.uid;
+      let providerData = user.providerData;
+      console.log(
+        'User successfully signed in',
+        displayName,
+        email,
+        emailVerified,
+        photoURL,
+        isAnonymous,
+        uid,
+        providerData
+      );
+      this.setState({
+        authenticated: true,
+      });
+      // ...
+    } else {
+      console.log('User is signed out');
+      this.setState({
+        authenticated: false,
+      });
+    }
+  };
+
+  componentDidMount() {
+    //create event listeners for change in authentication state
+    firebase.auth().onAuthStateChanged(this.updateAuthentication);
+  }
 
   render() {
+    console.log('rendering');
     return (
       <BrowserRouter>
         <div className='App'>
-          <header>
-            <nav>
-              <ul>
-                <li>
-                  <Link to='/'>Show Nothing</Link>
-                </li>
-                <li>
-                  <Link to='/numbers'>Show Numbers</Link>
-                </li>
-                <li>
-                  <Link to='/auth'>Login</Link>
-                </li>
-              </ul>
-            </nav>
-          </header>
           <h1>Presto Web App</h1>
-          <Route path='/' exact component={Nothing} />
+          <Header authenticated={this.state.authenticated} />
+          <Route path='/' exact component={Auth} />
           <Route
             path='/numbers'
             exact
@@ -98,3 +121,9 @@ class App extends Component {
 }
 
 export default App;
+
+//after log in in or signing up, set top-level authenticated: true
+//create Sign Out button visible after user is authenticated
+//add event listener for when user becomes signed out
+//move onAuthStateChanged so that it doesn't trigger an immediate re-render
+//move sign out somether else
