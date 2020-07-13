@@ -3,13 +3,12 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import Modal from './Modal';
 import Auxiliary from './Auxiliary';
-import returnAnyLoginInputErrors from '../util/returnAnyLoginInputErrors';
+import returnInputErrors from '../util/returnInputErrors';
 import isNotValid from '../util/isNotValid';
 
 export default () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [modalMessage, setModalMessage] = useState('');
 
   const inputChangeHandler = (event, type) => {
@@ -18,17 +17,16 @@ export default () => {
       setEmail(event.target.value);
     } else if (type === 'password') {
       setPassword(event.target.value);
-    } else if (type === 'confirmPassword') {
-      setConfirmPassword(event.target.value);
     }
 
     //check for any errors in input (not just newly entered data)
-    let anyErrors = returnAnyLoginInputErrors(
+    let anyErrors = returnInputErrors(
       event.target.value,
       type,
       email,
       password,
-      confirmPassword
+      null,
+      false
     );
     //output input errors on modal
     setModalMessage(anyErrors);

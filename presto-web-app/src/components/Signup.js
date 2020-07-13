@@ -3,7 +3,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import Modal from './Modal';
 import Auxiliary from './Auxiliary';
-import returnAnySignupInputErrors from '../util/returnAnySignupInputErrors';
+import returnInputErrors from '../util/returnInputErrors';
 import isNotValid from '../util/isNotValid';
 
 export default () => {
@@ -23,12 +23,13 @@ export default () => {
     }
 
     //check for any errors in input (not just newly entered data)
-    let anyErrors = returnAnySignupInputErrors(
+    let anyErrors = returnInputErrors(
       event.target.value,
       type,
       email,
       password,
-      confirmPassword
+      confirmPassword,
+      true
     );
     //output input errors on modal
     setModalMessage(anyErrors);
@@ -36,6 +37,8 @@ export default () => {
 
   const submitHandler = (event, type) => {
     event.preventDefault();
+
+    //final validation check before submitting it
     if (modalMessage) {
       return;
     } else if (

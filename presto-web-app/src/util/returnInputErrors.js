@@ -1,13 +1,20 @@
 import isNotValid from './isNotValid';
 
-export default (newData, type, email, password, confirmPassword) => {
+export default (
+  newData,
+  type,
+  email = null,
+  password = null,
+  confirmPassword = null,
+  isSignup = null
+) => {
   if (type === 'email') {
-    if (isNotValid(newData, 'email', true)) {
-      return isNotValid(newData, 'email', true);
+    if (isNotValid(newData, 'email', isSignup)) {
+      return isNotValid(newData, 'email', isSignup);
     }
     if (password) {
-      if (isNotValid(password, 'password', true)) {
-        return isNotValid(password, 'password', true);
+      if (isNotValid(password, 'password', isSignup)) {
+        return isNotValid(password, 'password', isSignup);
       }
     }
     //if no issues with email or password, and confirmPassword has some data:
@@ -24,12 +31,12 @@ export default (newData, type, email, password, confirmPassword) => {
   }
   if (type === 'password') {
     if (email) {
-      if (isNotValid(email, 'email', true)) {
-        return isNotValid(email, 'email', true);
+      if (isNotValid(email, 'email', isSignup)) {
+        return isNotValid(email, 'email', isSignup);
       }
     }
-    if (isNotValid(newData, 'password', true)) {
-      return isNotValid(newData, 'password', true);
+    if (isNotValid(newData, 'password', isSignup)) {
+      return isNotValid(newData, 'password', isSignup);
     }
     //if no issues with email or password, and confirmPassword has some data:
     if (newData && confirmPassword) {
@@ -45,13 +52,13 @@ export default (newData, type, email, password, confirmPassword) => {
   }
   if (type === 'confirmPassword') {
     if (email) {
-      if (isNotValid(email, 'email', true)) {
-        return isNotValid(email, 'email', true);
+      if (isNotValid(email, 'email', isSignup)) {
+        return isNotValid(email, 'email', isSignup);
       }
     }
     if (password) {
-      if (isNotValid(password, 'password', true)) {
-        return isNotValid(password, 'password', true);
+      if (isNotValid(password, 'password', isSignup)) {
+        return isNotValid(password, 'password', isSignup);
       }
     }
     //if no issues with email or password, and confirmPassword has some data:
