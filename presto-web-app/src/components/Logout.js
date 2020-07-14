@@ -9,7 +9,7 @@ export default () => {
       .auth()
       .signOut()
       .then(() => {
-        console.log('User successfully signed out');
+        console.log('[Logout]: User successfully signed out');
       })
       .catch((error) => {
         console.error(error.message);

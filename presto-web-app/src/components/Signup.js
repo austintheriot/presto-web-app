@@ -5,8 +5,10 @@ import Modal from './Modal';
 import Auxiliary from './Auxiliary';
 import returnInputErrors from '../util/returnInputErrors';
 import isNotValid from '../util/isNotValid';
+import { Redirect } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider';
 
-export default () => {
+export default (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -76,8 +78,16 @@ export default () => {
       });
   };
 
+  let authenticated = useAuth();
+  let redirect = '/';
+  if (props.history?.location?.state?.redirect) {
+    redirect = props.history.location.state.redirect;
+    console.log('[Sign Up] will redirect to: ', redirect);
+  }
+
   return (
     <Auxiliary>
+      {authenticated ? <Redirect to={redirect} /> : null}
       <form onSubmit={submitHandler}>
         <label htmlFor='email'>Email*</label>
         <input

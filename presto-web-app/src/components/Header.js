@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logout from './Logout';
+import { useAuth } from '../context/AuthProvider';
 import Auxiliary from './Auxiliary';
 
-const header = (props) => {
+const Header = (props) => {
+  let authenticated = useAuth();
+
   return (
     <header>
       <nav>
@@ -11,10 +14,10 @@ const header = (props) => {
           <li>
             <Link to='/'>Home</Link>
           </li>
-          {props.authenticated ? (
+          {authenticated ? (
             <Auxiliary>
               <li>
-                <Link to='/admin'>Admin</Link>
+                <Link to='/protected'>Protected</Link>
               </li>
               <li>
                 <Logout />
@@ -36,4 +39,4 @@ const header = (props) => {
   );
 };
 
-export default header;
+export default Header;
