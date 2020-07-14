@@ -111,8 +111,8 @@ export default AppContainer;
 //enable updating user info and their doc
 //implement datase security measures (only accessing uid of logged in user)
 
-//Others TO-DOs:
-//prevent flash of the not-logged-in screen before loggin in user
+//Minor/General/Optimization TO-DOs:
+//prevent flash of the not-logged-in screen before login in user
 
 //when redirected to log in, redirect back to the page that was left--
 //currently, the page is redirecting before the promise is complete?
