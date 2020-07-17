@@ -1,0 +1,56 @@
+.title {
+  margin-top: 5rem;
+}
+
+.LoginDiv {
+  position: absolute;
+  text-align: right;
+  top: 1rem;
+  right: 2rem;
+}
+
+.LoginDiv a {
+  color: black;
+}
+
+.buttonsDiv {
+  margin-top: 2rem;
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.linkLeft {
+  height: 50px;
+  margin: 0 auto;
+  position: relative;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  border-radius: 50%;
+}
+
+.linkLeftImg {
+  border-radius: 50%;
+  transform: scale(1.05);
+  background-color: white;
+}
+
+.linkRight {
+  height: 77px;
+  margin: 0 auto;
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+}
+
+.linkRightImg {
+  border-radius: 50%;
+  transform: scale(1.05);
+}
+
+.linkRight:focus,
+.linkLeft:focus {
+  outline-offset: 5px;
+  outline: 3px solid var(--pop-color);
+}

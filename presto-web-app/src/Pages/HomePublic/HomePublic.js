@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../components/Button/Button';
-import { useAuth } from '../context/AuthProvider';
+import Button from '../../components/Button/Button';
+import { useAuth } from '../../context/AuthProvider';
 import styles from './HomePublic.module.css';
-import Logout from '../components/Logout';
+import Logout from '../../components/Logout';
 
 const Home = (props) => {
   let { authenticated } = useAuth();
@@ -29,20 +29,32 @@ const Home = (props) => {
       <p className={styles.subtitle}>web app for musicians</p>
       <img
         alt=''
-        src={require('../assets/images/home1.svg')}
+        src={require('../../assets/images/home1.svg')}
         className={styles.img1}
       />
-      {authenticated ? null : (
-        <>
+      {authenticated ? (
+        <Link to='/home' style={{ textDecoration: 'none' }}>
           <Button>
-            <Link to='/login'>Log In</Link>
+            <p>Enter</p>
           </Button>
-          <Button customstyle='inverted'>
-            <Link to='/login'>Sign Up</Link>
-          </Button>
-          <Button customstyle='inverted'>
-            <Link to='/'>I'm a Guest</Link>
-          </Button>
+        </Link>
+      ) : (
+        <>
+          <Link to='/login' style={{ textDecoration: 'none' }}>
+            <Button>
+              <p>Log In</p>
+            </Button>
+          </Link>
+          <Link to='/signup' style={{ textDecoration: 'none' }}>
+            <Button customstyle='inverted'>
+              <p>Sign Up</p>
+            </Button>
+          </Link>
+          <Link to='/' style={{ textDecoration: 'none' }}>
+            <Button customstyle='inverted'>
+              <p>I'm a Guest</p>
+            </Button>
+          </Link>
         </>
       )}
     </>

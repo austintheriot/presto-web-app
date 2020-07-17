@@ -16,9 +16,6 @@ const Header = (props) => {
           {authenticated ? (
             <>
               <li>
-                <Link to='/protected'>Protected</Link>
-              </li>
-              <li>
                 <Logout />
               </li>
             </>

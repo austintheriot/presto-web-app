@@ -5,17 +5,17 @@ export default () => {
   return (
     <div>
       <img
-        src={require('../assets/images/logo--small.svg')}
+        src={require('../../assets/images/logo.svg')}
         alt='logo'
         className={styles.Logo}
       />
       <img
-        src={require('../assets/images/loading--small.svg')}
+        src={require('../../assets/images/loading.svg')}
         alt='logo'
         className={styles.LoadingImg1}
       />
       <img
-        src={require('../assets/images/loading--small2.svg')}
+        src={require('../../assets/images/loading2.svg')}
         alt='logo'
         className={styles.LoadingImg2}
       />

@@ -8,11 +8,11 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   height="451.03778"
-   width="451.03778"
-   sodipodi:docname="loading.svg"
+   height="175.48116"
+   width="174.58089"
+   sodipodi:docname="loading--small.svg"
    xml:space="preserve"
-   viewBox="0 0 451.03778 451.03778"
+   viewBox="0 0 174.58089 175.48116"
    y="0px"
    x="0px"
    id="Layer_1"
@@ -20,14 +20,47 @@
    id="metadata68"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
-   id="defs66" /><sodipodi:namedview
+   id="defs66"><marker
+     inkscape:isstock="true"
+     style="overflow:visible"
+     id="DiamondM"
+     refX="0.0"
+     refY="0.0"
+     orient="auto"
+     inkscape:stockid="DiamondM"><path
+       transform="scale(0.4)"
+       style="fill-rule:evenodd;stroke:#60399d;stroke-width:1pt;stroke-opacity:1;fill:#60399d;fill-opacity:1"
+       d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+       id="path985" /></marker><marker
+     inkscape:isstock="true"
+     style="overflow:visible"
+     id="SquareM"
+     refX="0.0"
+     refY="0.0"
+     orient="auto"
+     inkscape:stockid="SquareM"><path
+       transform="scale(0.4)"
+       style="fill-rule:evenodd;stroke:#60399d;stroke-width:1pt;stroke-opacity:1;fill:#60399d;fill-opacity:1"
+       d="M -5.0,-5.0 L -5.0,5.0 L 5.0,5.0 L 5.0,-5.0 L -5.0,-5.0 z "
+       id="path976" /></marker><marker
+     inkscape:isstock="true"
+     style="overflow:visible"
+     id="DiamondL"
+     refX="0.0"
+     refY="0.0"
+     orient="auto"
+     inkscape:stockid="DiamondL"><path
+       transform="scale(0.8)"
+       style="fill-rule:evenodd;stroke:#60399d;stroke-width:1pt;stroke-opacity:1;fill:#60399d;fill-opacity:1"
+       d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+       id="path982" /></marker></defs><sodipodi:namedview
    inkscape:current-layer="Layer_1"
    inkscape:window-maximized="1"
    inkscape:window-y="-9"
    inkscape:window-x="-9"
-   inkscape:cy="226.22387"
-   inkscape:cx="113.05417"
-   inkscape:zoom="0.70710678"
+   inkscape:cy="70.278497"
+   inkscape:cx="59.741895"
+   inkscape:zoom="4"
    showgrid="false"
    id="namedview64"
    inkscape:window-height="1001"
@@ -50,7 +83,7 @@
 	.st4{fill:url(#SVGID_5_);}
 </style>
 <linearGradient
-   gradientTransform="matrix(0.34589005,0,0,0.34589005,57.720544,62.640526)"
+   gradientTransform="matrix(0.12886433,0,0,0.12886597,26.275563,27.221594)"
    y2="358"
    x2="839"
    y1="358"
@@ -68,7 +101,7 @@
 </linearGradient>
 
 <linearGradient
-   gradientTransform="matrix(0,0.34589005,-0.34589005,0,269.07407,-28.828994)"
+   gradientTransform="matrix(0,0.12886597,-0.12886433,0,105.01715,-6.8565994)"
    y2="157.8728"
    x2="1137.4858"
    y1="233.6237"
@@ -94,7 +127,7 @@
 </linearGradient>
 
 <linearGradient
-   gradientTransform="matrix(0.34589005,0,0,0.34589005,57.720544,62.640526)"
+   gradientTransform="matrix(0.12886433,0,0,0.12886597,26.275563,27.221594)"
    y2="320"
    x2="521"
    y1="320"
@@ -128,7 +161,7 @@
 </linearGradient>
 
 <linearGradient
-   gradientTransform="matrix(0.34589005,0,0,0.34589005,57.720544,62.640526)"
+   gradientTransform="matrix(0.12886433,0,0,0.12886597,26.275563,27.221594)"
    y2="192"
    x2="513"
    y1="192"
@@ -162,7 +195,7 @@
 </linearGradient>
 
 <linearGradient
-   gradientTransform="matrix(0,0.34589005,-0.34589005,0,269.07407,-28.828994)"
+   gradientTransform="matrix(0,0.12886597,-0.12886433,0,105.01715,-6.8565994)"
    y2="288.22049"
    x2="1063.3719"
    y1="350.60651"
@@ -187,4 +220,10 @@
    offset="1" />
 </linearGradient>
 
-</svg>
+<ellipse
+   ry="73.509781"
+   rx="73.508842"
+   cy="87.954117"
+   cx="87.666206"
+   id="path1371"
+   style="fill:none;stroke:#60399d;stroke-width:3.77952003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:0, 3.77952003000000003, 7.55904007000000000, 11.33856010000000047, 15.11808014000000000, 18.89760017000000047, 22.67712020999999822, 26.45664023999999870, 30.23616028000000000, 34.01568031000000047, 37.79520035000000178, 41.57472038000000225, 45.35424041999999645, 49.13376044999999692, 52.91328048999999822;stroke-dashoffset:37.03929634;marker-start:" /></svg>

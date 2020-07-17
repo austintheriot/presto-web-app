@@ -1,9 +1,11 @@
 import React from 'react';
+import Nav from '../../components/Nav/Nav';
 
 export default (props) => {
   return (
     <>
-      <h1>Protected Page</h1>
+      <Nav />
+      <h1>Settings</h1>
     </>
   );
 };

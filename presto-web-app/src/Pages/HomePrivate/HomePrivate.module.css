@@ -1,21 +1,32 @@
 .LogoutDiv {
   position: absolute;
-  width: 100%;
   text-align: right;
-  clear: both;
-  right: 1rem;
+  top: 1rem;
+  right: 2rem;
 }
+
 .LogoutDiv a {
   color: white;
 }
 
-.title {
-  color: white;
+@media (min-width: 900px) {
+  .LogoutDiv a {
+    color: black;
+  }
 }
 
-.subtitle {
+.title {
+  text-align: left;
   color: white;
-  margin-bottom: 3rem;
+  width: 30vw;
+  margin: 0 0 4rem 2rem;
+}
+
+.welcome {
+  text-align: left;
+  color: white;
+  padding-top: 1rem;
+  margin: 0 0 0 2.2rem;
 }
 
 /* Wavy element */

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import Modal from '../components/Modal/Modal';
-import returnInputErrors from '../util/returnInputErrors';
-import { Redirect } from 'react-router-dom';
-import { useAuth } from '../context/AuthProvider';
-import Input from '../components/Input/Input';
-import Button from '../components/Button/Button';
+import Modal from '../../components/Modal/Modal';
+import returnInputErrors from '../../util/returnInputErrors';
+import { Redirect, Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthProvider';
+import Input from '../../components/Input/Input';
+import styles from './Login.module.css';
 
 //redirect with AuthContext once SetState permeates down to component
 
@@ -151,11 +151,14 @@ export default function Login(props) {
   return (
     //display modal message if redirected from another page requiring authentication:
     <>
+      <div className={styles.SignupDiv}>
+        <Link to='/signup'>Sign Up</Link>
+      </div>
       {authenticated ? <Redirect to={redirect} /> : null}
       {props.history?.location?.state?.modalMessage ? (
         <Modal message={props.history.location.state.modalMessage} />
       ) : null}
-      <h1>Log In</h1>
+      <h1 className={styles.title}>Log In</h1>
       <form onSubmit={submitHandler}>
         <Input
           type='email'
@@ -179,9 +182,26 @@ export default function Login(props) {
           message={props.modalMessage ? props.modalMessage : modalMessage}
           color={modalMessage ? 'red' : null}
         />
-        <Button onClick={submitHandler} type='submit'>
-          <p>Log In</p>
-        </Button>
+        <div className={styles.buttonsDiv}>
+          <Link to='/' className={styles.linkLeft}>
+            <img
+              className={styles.linkLeftImg}
+              src={require('../../assets/images/arrow-left.svg')}
+              alt='back'
+            />
+          </Link>
+
+          <button
+            className={styles.linkRight}
+            type='submit'
+            onClick={submitHandler}>
+            <img
+              className={styles.linkRightImg}
+              src={require('../../assets/images/arrow-right.svg')}
+              alt='sign up'
+            />
+          </button>
+        </div>
       </form>
     </>
   );

@@ -6,6 +6,7 @@
   height: 1.5rem;
   width: 50%;
   min-width: 250px;
+  max-width: 400px;
 }
 
 .Label {
@@ -20,6 +21,7 @@
   margin-top: 1rem;
   min-width: 250px;
   width: 100%;
+  max-width: 400px;
 }
 
 .down {
@@ -53,6 +55,7 @@
   margin: 0 auto;
   margin-bottom: 1rem;
   border-radius: 5px 5px 0 0;
+  max-width: 400px;
 }
 
 .gray {

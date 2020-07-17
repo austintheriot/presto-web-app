@@ -4,6 +4,10 @@ import styles from './Button.module.css';
 export default ({ ...props }) => {
   let buttonStyle;
 
+  React.useEffect(() => {
+    console.log('[Button.js] useEffect is firing...');
+  });
+
   switch (props.customstyle) {
     case 'inverted':
       buttonStyle = styles.inverted;

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { firebaseAuth } from './util/config';
 
 //pages
-import LoadingScreen from './Pages/LoadingScreen';
-import HomePublic from './Pages/HomePublic';
-import HomePrivate from './Pages/HomePrivate';
-import Login from './Pages/Login';
-import Signup from './Pages/Signup';
-import Protected from './Pages/Protected';
+import LoadingScreen from './Pages/LoadingScreen/LoadingScreen';
+import HomePublic from './Pages/HomePublic/HomePublic';
+import HomePrivate from './Pages/HomePrivate/HomePrivate';
+import Login from './Pages/Login/Login';
+import Signup from './Pages/Signup/Signup';
+import Posts from './Pages/Posts/Posts';
+import Profile from './Pages/Profile/Profile';
+import Settings from './Pages/Settings/Settings';
 
 //components
 import PrivateRoute from './components/PrivateRoute';
@@ -17,7 +19,6 @@ import {
   Route,
   withRouter,
 } from 'react-router-dom';
-import Input from './components/Input/Input';
 
 //context
 import { AuthContext } from './context/AuthProvider';
@@ -41,6 +42,7 @@ function App() {
 
   useEffect(() => {
     authListener();
+    console.log('[App.js] useEffect is firing...');
   }, []);
 
   function authListener() {
@@ -82,9 +84,11 @@ function App() {
                 <Route exact path='/' component={HomePublic} />
                 <Route path='/login' component={Login} />
                 <Route path='/signup' component={Signup} />
-                <PrivateRoute path='/protected' component={Protected} />
                 <PrivateRoute path='/home' component={HomePrivate} />
-                <Route path='*' component={HomePublic} />
+                <PrivateRoute path='/posts' component={Posts} />
+                <PrivateRoute path='/profile' component={Profile} />
+                <PrivateRoute path='/settings' component={Settings} />
+                <Route path='*' component={HomePrivate} />
               </Switch>
             </>
           ) : (

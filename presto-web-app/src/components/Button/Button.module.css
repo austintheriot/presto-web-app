@@ -20,6 +20,7 @@
 }
 
 .Button a,
+.Button a:link,
 .Button p {
   color: white;
   font-size: 1.25rem;
@@ -43,11 +44,12 @@
 }
 
 .inverted a,
+.inverted a:link,
 .inverted p {
+  text-decoration: none;
   color: var(--pop-color);
   font-size: 1.25rem;
   outline: none;
-  text-decoration: none;
 }
 
 .inverted:hover,
