@@ -13,7 +13,7 @@ const PrivateRoute = ({ component: ComposedComponent, path, ...rest }) => {
             to={{
               pathname: '/login',
               state: {
-                modalMessage: 'You must log in to see this page.',
+                infoMessage: 'You must be logged in to see this page.',
                 redirect: path,
               },
             }}

@@ -7,6 +7,7 @@ import HomePublic from './Pages/HomePublic/HomePublic';
 import HomePrivate from './Pages/HomePrivate/HomePrivate';
 import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
+import LogoutByRender from './components/LogoutByRender';
 import Posts from './Pages/Posts/Posts';
 import Profile from './Pages/Profile/Profile';
 import Settings from './Pages/Settings/Settings';
@@ -40,7 +41,16 @@ import "firebase/remote-config"; */
 function App() {
   const [user, setUser] = useState(false);
 
+  /* const fakeDelay = (delayTime) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(), delayTime);
+    });
+  }; */
+
   useEffect(() => {
+    /* fakeDelay(0).then(() => {
+      //put authListener in here to see loading screen
+    }); */
     authListener();
     console.log('[App.js] useEffect is firing...');
   }, []);
@@ -59,6 +69,7 @@ function App() {
           photoUrl: user.photoURL,
           isAnonymous: user.isAnonymous,
         });
+        console.log(user.credential);
       } else {
         setUser({
           authenticated: false,
@@ -84,6 +95,7 @@ function App() {
                 <Route exact path='/' component={HomePublic} />
                 <Route path='/login' component={Login} />
                 <Route path='/signup' component={Signup} />
+                <Route path='/logout' component={LogoutByRender} />
                 <PrivateRoute path='/home' component={HomePrivate} />
                 <PrivateRoute path='/posts' component={Posts} />
                 <PrivateRoute path='/profile' component={Profile} />

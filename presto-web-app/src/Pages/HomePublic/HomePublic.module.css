@@ -1,20 +1,30 @@
 .LogoutDiv {
   position: absolute;
-  width: 100%;
   text-align: right;
-  clear: both;
-  top: 1rem;
-  right: 2rem;
+  top: 0.5rem;
+  right: 1rem;
 }
+
+@media (min-width: 900px) {
+  .LogoutDiv {
+    top: 1em;
+    right: 2rem;
+  }
+}
+
 .LogoutDiv a {
   color: white;
 }
 
 .title {
+  position: relative;
+  left: -5%;
   color: white;
 }
 
 .subtitle {
+  position: relative;
+  left: 5%;
   color: white;
   margin-bottom: 3rem;
 }
@@ -45,4 +55,11 @@
   min-width: 250px;
   margin: 0 auto;
   left: -2%;
+}
+
+.Link {
+  text-decoration: none;
+  display: block;
+  width: max-content;
+  margin: 0 auto;
 }

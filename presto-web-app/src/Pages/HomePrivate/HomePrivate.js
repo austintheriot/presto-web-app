@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthProvider';
 import styles from './HomePrivate.module.css';
 import Logout from '../../components/Logout';
 import Nav from '../../components/Nav/Nav';
+import { Link } from 'react-router-dom';
 
 export default (props) => {
   let user = useAuth();
@@ -21,12 +22,29 @@ export default (props) => {
         </svg>
       </div>
       <div className={styles.LogoutDiv}>
-        <Logout />
+        <ul>
+          {user.isAnonymous ? (
+            <>
+              <li>
+                <Link to='/signup'>Sign Up</Link>
+              </li>
+              <li>
+                <Logout />
+              </li>
+            </>
+          ) : (
+            <li>
+              <Logout />
+            </li>
+          )}
+        </ul>
       </div>
       {user.firstName || true ? (
         <>
           <p className={styles.welcome}>Welcome,</p>
-          <h1 className={styles.title}>{user.firstName || 'Firstname'}</h1>
+          <h1 className={styles.title}>
+            {user.isAnonymous ? 'Guest' : user.firstName || 'Firstname'}
+          </h1>
         </>
       ) : (
         <h1>Welcome</h1>

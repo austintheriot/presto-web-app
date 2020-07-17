@@ -27,7 +27,6 @@ export default function Login(props) {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((data) => {})
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use')
           return setModalMessage('Email already in use');
@@ -130,7 +129,7 @@ export default function Login(props) {
   };
 
   let { authenticated } = useAuth();
-  let redirect = '/home';
+  let redirect = '/moreinfo1';
   if (props.history?.location?.state?.redirect) {
     redirect = props.history?.location?.state?.redirect;
     console.log('[Signup] will redirect to: ', redirect);

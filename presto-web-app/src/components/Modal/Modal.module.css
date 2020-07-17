@@ -1,5 +1,5 @@
 /* Default */
-.div {
+.divHidden {
   display: block;
   width: max-content;
   min-width: 200px;
@@ -12,22 +12,28 @@
   height: 0rem;
   transition: all 0.2s;
 }
-.divRed {
-  composes: div;
-  border: 3px solid var(--red);
-  height: 2.5rem;
-  padding: 5px;
-  margin: 2rem auto;
-}
-.divGreen {
-  composes: div;
-  border: 3px solid var(--green);
+
+.divShown {
+  composes: divHidden;
   height: 2.5rem;
   padding: 5px;
   margin: 2rem auto;
 }
 
-.paragraph {
+.divRed {
+  composes: divShown;
+  border: 3px solid var(--red);
+}
+.divGreen {
+  composes: divShown;
+  border: 3px solid var(--green);
+}
+.divBlack {
+  composes: divShown;
+  border: none;
+}
+
+.paragraphHidden {
   box-sizing: border-box;
   color: black;
   padding: 0.1rem 1rem;
@@ -35,13 +41,20 @@
   transition: all 0.2;
 }
 
-.paragraphRed {
-  composes: paragraph;
-  color: red;
+.paragraphShown {
+  composes: paragraphHidden;
   height: 1.2rem;
 }
+
+.paragraphRed {
+  composes: paragraphShown;
+  color: red;
+}
 .paragraphGreen {
-  composes: paragraph;
+  composes: paragraphShown;
   color: green;
-  height: 1.2rem;
+}
+.paragraphBlack {
+  composes: paragraphShown;
+  color: black;
 }

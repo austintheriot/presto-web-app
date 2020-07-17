@@ -4,6 +4,9 @@ import styles from './Modal.module.css';
 const modal = (props) => {
   let divStyle;
   switch (props?.color) {
+    case 'black':
+      divStyle = styles.divBlack;
+      break;
     case 'red':
       divStyle = styles.divRed;
       break;
@@ -11,11 +14,14 @@ const modal = (props) => {
       divStyle = styles.divGreen;
       break;
     default:
-      divStyle = styles.div;
+      divStyle = styles.divHidden;
   }
 
   let paragraphStyle;
   switch (props?.color) {
+    case 'black':
+      paragraphStyle = styles.paragraphBlack;
+      break;
     case 'red':
       paragraphStyle = styles.paragraphRed;
       break;
@@ -23,7 +29,7 @@ const modal = (props) => {
       paragraphStyle = styles.paragraphGreen;
       break;
     default:
-      paragraphStyle = styles.paragraph;
+      paragraphStyle = styles.paragraphHidden;
   }
 
   return (

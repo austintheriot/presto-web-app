@@ -1,8 +1,15 @@
 .LogoutDiv {
   position: absolute;
   text-align: right;
-  top: 1rem;
-  right: 2rem;
+  right: 1rem;
+  top: -0.25rem;
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .LogoutDiv {
+    display: block;
+  }
 }
 
 .LogoutDiv a {
@@ -11,7 +18,7 @@
 
 @media (min-width: 900px) {
   .LogoutDiv a {
-    color: black;
+    color: var(--pop-color);
   }
 }
 
@@ -25,7 +32,7 @@
 .welcome {
   text-align: left;
   color: white;
-  padding-top: 1rem;
+  padding: 1rem 0 0 0;
   margin: 0 0 0 2.2rem;
 }
 
@@ -33,7 +40,7 @@
 .waveDiv {
   position: absolute;
   z-index: -5;
-  height: 210px;
+  height: 200px;
   width: 100%;
   overflow: hidden;
 }

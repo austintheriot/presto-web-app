@@ -1,15 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import { useAuth } from '../../context/AuthProvider';
 import styles from './HomePublic.module.css';
 import Logout from '../../components/Logout';
+import Modal from '../../components/Modal/Modal';
 
 const Home = (props) => {
   let { authenticated } = useAuth();
+  const [modalMessage, setModalMessage] = useState('');
+  const [signedInAnonymously, setSignedInAnonymously] = useState(false);
+
+  const signInAnonymously = () => {
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then(() => {
+        setSignedInAnonymously(true);
+      })
+      .catch(function (error) {
+        console.error(error.code, error.message);
+        setModalMessage('Server error. Please try again later.');
+      });
+  };
 
   return (
     <>
+      {signedInAnonymously ? <Redirect to='/home' /> : null}
       <div className={styles.waveDiv}>
         <svg
           className={styles.waveSvg}
@@ -33,28 +52,30 @@ const Home = (props) => {
         className={styles.img1}
       />
       {authenticated ? (
-        <Link to='/home' style={{ textDecoration: 'none' }}>
+        <Link to='/home' className={styles.Link}>
           <Button>
             <p>Enter</p>
           </Button>
         </Link>
       ) : (
         <>
-          <Link to='/login' style={{ textDecoration: 'none' }}>
+          <Link to='/login' className={styles.Link}>
             <Button>
               <p>Log In</p>
             </Button>
           </Link>
-          <Link to='/signup' style={{ textDecoration: 'none' }}>
+          <Link to='/signup' className={styles.Link}>
             <Button customstyle='inverted'>
               <p>Sign Up</p>
             </Button>
           </Link>
-          <Link to='/' style={{ textDecoration: 'none' }}>
-            <Button customstyle='inverted'>
-              <p>I'm a Guest</p>
-            </Button>
-          </Link>
+          <Button customstyle='inverted' onClick={signInAnonymously}>
+            <p>I'm a Guest</p>
+          </Button>
+          <Modal
+            message={props.modalMessage ? props.modalMessage : modalMessage}
+            color={modalMessage ? 'red' : null}
+          />
         </>
       )}
     </>

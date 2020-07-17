@@ -5,8 +5,15 @@
 .LoginDiv {
   position: absolute;
   text-align: right;
-  top: 1rem;
-  right: 2rem;
+  top: 0.5rem;
+  right: 1rem;
+}
+
+@media (min-width: 900px) {
+  .LoginDiv {
+    top: 1em;
+    right: 2rem;
+  }
 }
 
 .LoginDiv a {

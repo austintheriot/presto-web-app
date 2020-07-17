@@ -12,9 +12,8 @@
   padding: 0;
   margin: 0;
   top: -14px;
-  height: 50px;
-  width: 50px;
-
+  height: 35px;
+  width: 35px;
   -webkit-appearance: none;
   -moz-appearance: none;
   border: none;
@@ -39,7 +38,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  height: 25px;
+  height: 20px;
   margin: 0;
   padding: 0;
   border-radius: 5px;
@@ -53,7 +52,7 @@
 @media (min-width: 900px) {
   .nav {
     position: sticky;
-    height: 60px;
+    height: 50px;
     top: 0;
   }
   .button {
@@ -71,7 +70,7 @@
     padding: 0.25rem 1rem;
     border-radius: 5px;
     z-index: 1;
-    top: 50px;
+    top: 30px;
     opacity: 0;
     transition: opacity 0.2s 0s;
   }

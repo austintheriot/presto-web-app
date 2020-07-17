@@ -17,7 +17,7 @@ export default () => {
   };
 
   return (
-    <Link to='/login' onClick={signout}>
+    <Link to='/' onClick={signout}>
       Log Out
     </Link>
   );

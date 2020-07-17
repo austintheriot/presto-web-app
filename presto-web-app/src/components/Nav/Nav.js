@@ -10,7 +10,11 @@ export default (props) => {
           <li className={styles.li}>
             <Link to='/home'>
               <button className={styles.home} data-info='Home'>
-                <img src={require('../../assets/images/home.svg')} alt='home' />
+                <img
+                  className={styles.img}
+                  src={require('../../assets/images/home.svg')}
+                  alt='home'
+                />
               </button>
             </Link>
           </li>
@@ -18,6 +22,7 @@ export default (props) => {
             <Link to='/posts'>
               <button className={styles.button} data-info='Posts'>
                 <img
+                  className={styles.img}
                   src={require('../../assets/images/posts.svg')}
                   alt='posts'
                 />
@@ -27,6 +32,7 @@ export default (props) => {
           <li className={styles.li}>
             <button className={styles.button} data-info='Notifications'>
               <img
+                className={styles.img}
                 src={require('../../assets/images/notifications.svg')}
                 alt='notifications'
               />
@@ -36,6 +42,7 @@ export default (props) => {
             <Link to='/profile'>
               <button className={styles.button} data-info='Profile'>
                 <img
+                  className={styles.img}
                   src={require('../../assets/images/profile.svg')}
                   alt='profile'
                 />
@@ -46,6 +53,7 @@ export default (props) => {
             <Link to='settings'>
               <button className={styles.button} data-info='Settings'>
                 <img
+                  className={styles.img}
                   src={require('../../assets/images/settings.svg')}
                   alt='settings'
                 />

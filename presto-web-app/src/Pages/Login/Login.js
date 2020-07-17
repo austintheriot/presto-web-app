@@ -24,7 +24,6 @@ export default function Login(props) {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((data) => {})
       .catch((error) => {
         //account diabled
         if (error.code === 'auth/user-disabled') {
@@ -148,6 +147,9 @@ export default function Login(props) {
     console.log('[Login] will redirect to: ', redirect, ' when finished');
   }
 
+  //top modal:
+  let infoMessage = props.history?.location?.state?.infoMessage;
+
   return (
     //display modal message if redirected from another page requiring authentication:
     <>
@@ -155,10 +157,9 @@ export default function Login(props) {
         <Link to='/signup'>Sign Up</Link>
       </div>
       {authenticated ? <Redirect to={redirect} /> : null}
-      {props.history?.location?.state?.modalMessage ? (
-        <Modal message={props.history.location.state.modalMessage} />
-      ) : null}
+
       <h1 className={styles.title}>Log In</h1>
+      {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
       <form onSubmit={submitHandler}>
         <Input
           type='email'
