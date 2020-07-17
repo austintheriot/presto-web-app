@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { firebaseAuth } from './util/config';
 
 //pages
-import Home from './components/Home';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Protected from './components/Protected';
+import LoadingScreen from './Pages/LoadingScreen';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import Protected from './Pages/Protected';
 
 //components
 import Header from './components/Header';
@@ -22,7 +23,7 @@ import Input from './components/Input/Input';
 import { AuthContext } from './context/AuthProvider';
 
 //styling
-import './App.css';
+import './App.css'; //global styles
 
 //Other SDKs:
 /* import "firebase/analytics";
@@ -36,7 +37,7 @@ import "firebase/remote-config"; */
 /* const db = firebase.firestore(); */
 
 function App() {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     authListener();
@@ -48,6 +49,7 @@ function App() {
         console.log('[App]: user logged in');
         setUser({
           authenticated: true,
+          init: true,
           email: user.email,
           uid: user.uid,
           displayName: user.displayName,
@@ -57,6 +59,7 @@ function App() {
         });
       } else {
         setUser({
+          init: true,
           authenticated: false,
           email: null,
           uid: null,
@@ -71,10 +74,11 @@ function App() {
   }
   return (
     <AuthContext.Provider value={user.authenticated}>
-      <Router>
-        <div className='App'>
-          <Header />
+      <div className='App'>
+        <LoadingScreen />
+        <Router>
           <Switch>
+            <Header />
             <Route exact path='/' component={Home}></Route>
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
@@ -84,8 +88,8 @@ function App() {
             </Route>
             <Route path='*' component={Home}></Route>
           </Switch>
-        </div>
-      </Router>
+        </Router>
+      </div>
     </AuthContext.Provider>
   );
 }

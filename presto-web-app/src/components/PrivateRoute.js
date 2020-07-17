@@ -33,7 +33,6 @@ const PrivateRoute = ({ component: ComposedComponent, path, ...rest }) => {
     };
 
     render() {
-      console.log('rendering private route...');
       return <Route {...rest} render={this.handleRender} />;
     }
   }

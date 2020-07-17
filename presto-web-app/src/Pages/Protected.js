@@ -1,11 +1,10 @@
 import React from 'react';
-import Auxiliary from './Auxiliary';
 
 const Protected = (props) => {
   return (
-    <Auxiliary>
-      <h1>Protected</h1>
-    </Auxiliary>
+    <React.Fragment>
+      <h1>Protected Page</h1>
+    </React.Fragment>
   );
 };
 

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   height="451.03778"
+   width="451.03778"
+   sodipodi:docname="logo.svg"
+   xml:space="preserve"
+   viewBox="0 0 451.03778 451.03778"
+   y="0px"
+   x="0px"
+   id="Layer_1"
+   version="1.1"><metadata
+   id="metadata68"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs66" /><sodipodi:namedview
+   inkscape:current-layer="Layer_1"
+   inkscape:window-maximized="1"
+   inkscape:window-y="-9"
+   inkscape:window-x="-9"
+   inkscape:cy="226.22387"
+   inkscape:cx="565.60251"
+   inkscape:zoom="0.70710678"
+   showgrid="false"
+   id="namedview64"
+   inkscape:window-height="1001"
+   inkscape:window-width="1920"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0"
+   guidetolerance="10"
+   gridtolerance="10"
+   objecttolerance="10"
+   borderopacity="1"
+   bordercolor="#666666"
+   pagecolor="#ffffff" />
+<style
+   id="style2"
+   type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:url(#SVGID_2_);}
+	.st2{fill:url(#SVGID_3_);}
+	.st3{fill:url(#SVGID_4_);}
+	.st4{fill:url(#SVGID_5_);}
+</style>
+<linearGradient
+   gradientTransform="matrix(0.34589005,0,0,0.34589005,57.720544,62.640526)"
+   y2="358"
+   x2="839"
+   y1="358"
+   x1="400"
+   gradientUnits="userSpaceOnUse"
+   id="SVGID_1_">
+	<stop
+   id="stop4"
+   style="stop-color:#38A3B4"
+   offset="0" />
+	<stop
+   id="stop6"
+   style="stop-color:#60399D"
+   offset="1" />
+</linearGradient>
+<path
+   style="fill:url(#SVGID_1_);stroke-width:0.999999"
+   id="path9"
+   d="m 204.89677,84.777494 v 0 c -4.85284,0 -8.8202,3.97082 -8.8202,8.82366 v 8.035016 c 0,5.00503 4.1403,8.98969 9.14533,8.86517 1.27288,-0.0311 2.54921,-0.0484 3.83246,-0.0484 58.36203,0 105.67633,33.31613 105.67633,74.41479 0,41.09865 -47.3143,74.41478 -105.67633,74.41478 -1.28325,0 -2.56304,-0.0173 -3.83246,-0.0484 -5.00503,-0.12798 -9.14533,3.85667 -9.14533,8.8617 v 11.24143 c 0,4.85283 3.96736,8.82019 8.8202,8.82365 v 0 c 78.99091,-5e-5 143.02553,-45.52955 143.02553,-101.69172 0,-56.16217 -64.03462,-101.691676 -143.02553,-101.691676 z"
+   class="st0" />
+<linearGradient
+   gradientTransform="matrix(0,0.34589005,-0.34589005,0,269.07407,-28.828994)"
+   y2="157.8728"
+   x2="1137.4858"
+   y1="233.6237"
+   x1="360.46609"
+   gradientUnits="userSpaceOnUse"
+   id="SVGID_2_">
+	<stop
+   id="stop11"
+   style="stop-color:#60399D"
+   offset="0.063" />
+	<stop
+   id="stop13"
+   style="stop-color:#594CA1"
+   offset="0.2766" />
+	<stop
+   id="stop15"
+   style="stop-color:#467EAC"
+   offset="0.7087" />
+	<stop
+   id="stop17"
+   style="stop-color:#38A3B4"
+   offset="1" />
+</linearGradient>
+<path
+   style="fill:url(#SVGID_2_);stroke-width:0.999999"
+   id="path20"
+   d="M 184.8974,362.62059 V 101.0447 c 0,-8.927416 7.23602,-16.163436 16.16345,-16.163436 h 0.92352 c 8.92742,0 16.16344,7.23602 16.16344,16.163436 v 261.57935 c 0,8.92742 -7.23602,16.16344 -16.16344,16.16344 h -0.92352 c -8.92397,-0.003 -16.16345,-7.23947 -16.16345,-16.1669 z"
+   class="st1" />
+<linearGradient
+   gradientTransform="matrix(0.34589005,0,0,0.34589005,57.720544,62.640526)"
+   y2="320"
+   x2="521"
+   y1="320"
+   x1="521"
+   gradientUnits="userSpaceOnUse"
+   id="SVGID_3_">
+	<stop
+   id="stop22"
+   style="stop-color:#FFFF00"
+   offset="0.063" />
+	<stop
+   id="stop24"
+   style="stop-color:#FCDC08"
+   offset="0.2149" />
+	<stop
+   id="stop26"
+   style="stop-color:#F7A414"
+   offset="0.4807" />
+	<stop
+   id="stop28"
+   style="stop-color:#F47C1D"
+   offset="0.7097" />
+	<stop
+   id="stop30"
+   style="stop-color:#F26322"
+   offset="0.8903" />
+	<stop
+   id="stop32"
+   style="stop-color:#F15A24"
+   offset="1" />
+</linearGradient>
+<path
+   style="fill:url(#SVGID_3_);stroke-width:0.999999"
+   id="path35"
+   d="M 237.92927,173.32535"
+   class="st2" />
+<linearGradient
+   gradientTransform="matrix(0.34589005,0,0,0.34589005,57.720544,62.640526)"
+   y2="192"
+   x2="513"
+   y1="192"
+   x1="513"
+   gradientUnits="userSpaceOnUse"
+   id="SVGID_4_">
+	<stop
+   id="stop37"
+   style="stop-color:#FFFF00"
+   offset="0.063" />
+	<stop
+   id="stop39"
+   style="stop-color:#FCDC08"
+   offset="0.2149" />
+	<stop
+   id="stop41"
+   style="stop-color:#F7A414"
+   offset="0.4807" />
+	<stop
+   id="stop43"
+   style="stop-color:#F47C1D"
+   offset="0.7097" />
+	<stop
+   id="stop45"
+   style="stop-color:#F26322"
+   offset="0.8903" />
+	<stop
+   id="stop47"
+   style="stop-color:#F15A24"
+   offset="1" />
+</linearGradient>
+<path
+   style="fill:url(#SVGID_4_);stroke-width:0.999999"
+   id="path50"
+   d="M 235.16215,129.05142"
+   class="st3" />
+<linearGradient
+   gradientTransform="matrix(0,0.34589005,-0.34589005,0,269.07407,-28.828994)"
+   y2="288.22049"
+   x2="1063.3719"
+   y1="350.60651"
+   x1="423.4422"
+   gradientUnits="userSpaceOnUse"
+   id="SVGID_5_">
+	<stop
+   id="stop52"
+   style="stop-color:#60399D"
+   offset="0.063" />
+	<stop
+   id="stop54"
+   style="stop-color:#594CA1"
+   offset="0.2766" />
+	<stop
+   id="stop56"
+   style="stop-color:#467EAC"
+   offset="0.7087" />
+	<stop
+   id="stop58"
+   style="stop-color:#38A3B4"
+   offset="1" />
+</linearGradient>
+<path
+   style="fill:url(#SVGID_5_);stroke-width:0.999999"
+   id="path61"
+   d="M 143.15539,336.05278 V 123.1955 c 0,-8.02465 6.50274,-14.52738 14.52738,-14.52738 h 2.07534 c 8.02465,0 14.52739,6.50273 14.52739,14.52738 v 212.85382 c 0,8.02465 -6.50274,14.52738 -14.52739,14.52738 h -2.07534 c -8.02464,0.003 -14.52738,-6.50273 -14.52738,-14.52392 z"
+   class="st4" />
+</svg>
