@@ -1,3 +1,4 @@
+/* Default Button Styling */
 .Button {
   display: block;
   border: none;
@@ -5,12 +6,11 @@
   margin: 0;
   text-decoration: none;
   background-color: var(--pop-color);
-  color: white;
+  color: 'white';
   cursor: pointer;
   text-align: center;
   -webkit-appearance: none;
   -moz-appearance: none;
-  font-size: 1.25rem;
   padding: 0.5rem 3rem;
   border-radius: 5px;
   margin: 2rem auto;
@@ -18,8 +18,10 @@
   transition: background-color 0.1s;
 }
 
-.Button a {
+.Button a,
+.Button p {
   color: white;
+  font-size: 1.25rem;
   outline: none;
   text-decoration: none;
 }
@@ -27,4 +29,26 @@
 .Button:hover,
 .Button:focus {
   background-color: var(--pop-color-dark);
+}
+
+/* Inverted Button Styling */
+
+.inverted {
+  composes: Button;
+  background-color: white;
+  color: var(--pop-color);
+  border: 3px solid var(--pop-color);
+}
+
+.inverted a,
+.inverted p {
+  color: var(--pop-color);
+  font-size: 1.25rem;
+  outline: none;
+  text-decoration: none;
+}
+
+.inverted:hover,
+.inverted:focus {
+  background-color: #eeeeee;
 }

@@ -52,6 +52,7 @@
   min-width: 250px;
   margin: 0 auto;
   margin-bottom: 1rem;
+  border-radius: 5px 5px 0 0;
 }
 
 .gray {

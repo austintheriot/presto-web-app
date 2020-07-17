@@ -155,6 +155,7 @@ export default function Login(props) {
       {props.history?.location?.state?.modalMessage ? (
         <Modal message={props.history.location.state.modalMessage} />
       ) : null}
+      <h1>Log In</h1>
       <form onSubmit={submitHandler}>
         <Input
           type='email'
@@ -179,7 +180,7 @@ export default function Login(props) {
           color={modalMessage ? 'red' : null}
         />
         <Button onClick={submitHandler} type='submit'>
-          Log In
+          <p>Log In</p>
         </Button>
       </form>
     </React.Fragment>
