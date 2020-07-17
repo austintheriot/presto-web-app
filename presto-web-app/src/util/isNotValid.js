@@ -1,17 +1,7 @@
 const isEmpty = (string) => {
   //if string is defined:
-  if (string) {
-    //if its whitespace, it is empty
-    if (!string.trim()) {
-      return true;
-      //if its not whitespace, it is not empty
-    } else {
-      return false;
-    }
-  } else {
-    //if string is undefined:
-    return true;
-  }
+  //if its whitespace, it is empty
+  return !string.trim() ? true : false;
 };
 
 const isEmail = (string) => {

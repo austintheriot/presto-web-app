@@ -1,0 +1,47 @@
+/* Default */
+.div {
+  display: block;
+  width: max-content;
+  min-width: 200px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 3px solid transparent;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 0 5px;
+  height: 0rem;
+  transition: all 0.2s;
+}
+.divRed {
+  composes: div;
+  border: 3px solid var(--red);
+  height: 2.5rem;
+  padding: 5px;
+  margin: 2rem auto;
+}
+.divGreen {
+  composes: div;
+  border: 3px solid var(--green);
+  height: 2.5rem;
+  padding: 5px;
+  margin: 2rem auto;
+}
+
+.paragraph {
+  box-sizing: border-box;
+  color: black;
+  padding: 0.1rem 1rem;
+  height: 0rem;
+  transition: all 0.2;
+}
+
+.paragraphRed {
+  composes: paragraph;
+  color: red;
+  height: 1.2rem;
+}
+.paragraphGreen {
+  composes: paragraph;
+  color: green;
+  height: 1.2rem;
+}

@@ -1,0 +1,70 @@
+.div {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  height: 1.5rem;
+  width: 50%;
+  min-width: 250px;
+}
+
+.Label {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  top: 0;
+  left: 0;
+  transition: all 0.1s;
+  text-align: left;
+  margin: 0 auto;
+  margin-top: 1rem;
+  min-width: 250px;
+  width: 100%;
+}
+
+.down {
+  composes: Label;
+  color: #adadad;
+  top: 1.25rem;
+  font-size: 1rem;
+}
+
+.up {
+  composes: Label;
+  color: #60399dff;
+  font-size: 0.8rem;
+}
+
+.Input {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  height: 2rem;
+  border: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  border-bottom: 3px solid #dbdbdbff;
+  transition: all 0.1s;
+  width: 50%;
+  min-width: 250px;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+
+.gray {
+  composes: Input;
+  border-bottom: 3px solid #dbdbdbff;
+}
+
+.color {
+  composes: Input;
+  border-bottom: 3px solid #60399dff;
+}
+
+.red {
+  composes: Input;
+  border-bottom: 3px solid red;
+}

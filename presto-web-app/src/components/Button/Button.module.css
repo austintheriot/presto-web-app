@@ -1,0 +1,28 @@
+.Button {
+  display: block;
+  border: none;
+  outline: none;
+  margin: 0;
+  text-decoration: none;
+  background-color: var(--pop-color);
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-size: 1.25rem;
+  padding: 0.5rem 3rem;
+  border-radius: 5px;
+  margin: 2rem auto;
+  box-shadow: var(--shadow);
+  transition: background-color 0.1s;
+}
+
+.Button a {
+  color: white;
+  text-decoration: none;
+}
+
+.Button:hover {
+  background-color: var(--pop-color-dark);
+}

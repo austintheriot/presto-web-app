@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import Modal from './Modal';
+import Modal from './Modal/Modal';
 import Auxiliary from './Auxiliary';
 import returnInputErrors from '../util/returnInputErrors';
-import isNotValid from '../util/isNotValid';
 import { Redirect } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
+import Input from './Input/Input';
+import Button from './Button/Button';
 
 //redirect with AuthContext once SetState permeates down to component
 
 export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
   const [modalMessage, setModalMessage] = useState('');
+  const [emailInvalid, setEmailInvalid] = useState(false);
+  const [passwordInvalid, setPasswordInvalid] = useState(false);
 
   const login = () => {
     firebase
@@ -50,7 +56,32 @@ export default function Login(props) {
       });
   };
 
-  const inputChangeHandler = (event, type) => {
+  const handleFocus = (event, type) => {
+    if (type === 'email') setEmailTouched(true);
+    if (type === 'password') setPasswordTouched(true);
+  };
+
+  //check for empty fields on blur
+  const handleBlur = () => {
+    if (
+      emailTouched &&
+      email.length === 0 &&
+      passwordTouched &&
+      password.length === 0
+    ) {
+      setEmailInvalid(true);
+      setPasswordInvalid(true);
+      setModalMessage('Email and password are required');
+    } else if (emailTouched && email.length === 0) {
+      setEmailInvalid(true);
+      setModalMessage('Email is required');
+    } else if (passwordTouched && password.length === 0) {
+      setPasswordInvalid(true);
+      setModalMessage('Password is required');
+    }
+  };
+
+  const handleChange = (event, type) => {
     //set state
     if (type === 'email') {
       setEmail(event.target.value);
@@ -58,30 +89,56 @@ export default function Login(props) {
       setPassword(event.target.value);
     }
 
-    //check for any errors in input (not just newly entered data)
-    let anyErrors = returnInputErrors(
-      event.target.value,
-      type,
-      email,
-      password,
-      null,
-      false
-    );
-    //output input errors on modal
-    setModalMessage(anyErrors);
+    //check for any errors in input
+    //return an object so that the input to which it applies can be turned red for invalid
+    //give validator the most recent information--substitue a new value for state when the new value is the accurate one
+    let validationSettings = {
+      email: type === 'email' ? event.target.value : email,
+      password: type === 'password' ? event.target.value : password,
+      confirmPassword: null,
+      isSignup: false,
+      emailTouched,
+      passwordTouched,
+      confirmPasswordTouched: null,
+    };
+    let anyErrorsObject = returnInputErrors(validationSettings);
+    console.log(anyErrorsObject);
+
+    //update state to tell input that this input is invalid (turn its styling red)
+    anyErrorsObject.email ? setEmailInvalid(true) : setEmailInvalid(false);
+    anyErrorsObject.password
+      ? setPasswordInvalid(true)
+      : setPasswordInvalid(false);
+
+    //extract any error message that is not null
+    let errorMessage = Object.keys(anyErrorsObject)
+      .map((key) => anyErrorsObject[key])
+      .find((el) => el !== null);
+
+    //display the error message on the modal
+    setModalMessage(errorMessage);
   };
 
   const submitHandler = (event) => {
     //prevent default form submission
     event.preventDefault();
 
-    //check form inputs one last time
+    //check empty form inputs one more time
     if (modalMessage) {
       return;
-    } else if (isNotValid(email, 'email') || isNotValid(password, 'password')) {
-      return setModalMessage(
-        isNotValid(email, 'email') || isNotValid(password, 'password')
-      );
+    }
+    if (password.length === 0 && email.length === 0) {
+      setEmailInvalid(true);
+      setModalMessage('Email and password are required');
+      return;
+    } else if (email.length === 0) {
+      setEmailInvalid(true);
+      setModalMessage('Email is required');
+      return;
+    } else if (password.length === 0) {
+      setPasswordInvalid(true);
+      setModalMessage('Password is required');
+      return;
     }
 
     //assuming the email and password are both valid, log in
@@ -103,23 +160,32 @@ export default function Login(props) {
         <Modal message={props.history.location.state.modalMessage} />
       ) : null}
       <form onSubmit={submitHandler}>
-        <label htmlFor='email'>Email*</label>
-        <input
+        <Input
           type='email'
           id='email'
-          value={email}
-          onChange={(e) => inputChangeHandler(e, 'email')}></input>
-        <label htmlFor='password'>Password*</label>
-        <input
+          handleFocus={handleFocus}
+          handleBlur={handleBlur}
+          handleChange={handleChange}
+          label={'Email*'}
+          invalid={emailInvalid}
+        />
+        <Input
           type='password'
           id='password'
-          value={password}
-          onChange={(e) => inputChangeHandler(e, 'password')}></input>
-        <button onClick={submitHandler} type='submit'>
+          handleFocus={handleFocus}
+          handleBlur={handleBlur}
+          handleChange={handleChange}
+          label={'Password*'}
+          invalid={passwordInvalid}
+        />
+        <Modal
+          message={props.modalMessage ? props.modalMessage : modalMessage}
+          color={modalMessage ? 'red' : null}
+        />
+        <Button onClick={submitHandler} type='submit'>
           Log In
-        </button>
+        </Button>
       </form>
-      <Modal message={props.modalMessage ? props.modalMessage : modalMessage} />
     </Auxiliary>
   );
 }

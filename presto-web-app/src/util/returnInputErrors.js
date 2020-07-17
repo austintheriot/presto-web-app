@@ -1,76 +1,48 @@
-import isNotValid from './isNotValid';
+export default ({
+  email,
+  password,
+  confirmPassword,
+  isSignup,
+  emailTouched,
+  passwordTouched,
+  confirmPasswordTouched,
+}) => {
+  let errors = {
+    email: null,
+    password: null,
+    confirmPassword: null,
+  };
+  //validate email
+  // eslint-disable-next-line no-control-regex
+  let regex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+  if (!email.match(regex)) errors.email = 'Invalid email';
+  if (password && confirmPassword && password !== confirmPassword)
+    errors.confirmPassword = 'Passwords do not match';
+  if (emailTouched && email.length === 0) errors.email = 'Email is required';
+  if (passwordTouched && password.length === 0)
+    errors.password = 'Password is required';
+  if (
+    emailTouched &&
+    email.length === 0 &&
+    passwordTouched &&
+    password.length === 0
+  ) {
+    errors.email = 'Email and password are required';
+    errors.password = 'Email and password are required';
+  }
 
-export default (
-  newData,
-  type,
-  email = null,
-  password = null,
-  confirmPassword = null,
-  isSignup = null
-) => {
-  if (type === 'email') {
-    if (isNotValid(newData, 'email', isSignup)) {
-      return isNotValid(newData, 'email', isSignup);
+  console.log(email, password);
+  if (confirmPasswordTouched && confirmPassword.length === 0)
+    errors.confirmPassword = 'Confirm password is required';
+
+  //check length only for sign up sheets
+  if (isSignup) {
+    if (password.length > 30 && password.length !== 0) {
+      errors.password = 'Password is too long';
     }
-    if (password) {
-      if (isNotValid(password, 'password', isSignup)) {
-        return isNotValid(password, 'password', isSignup);
-      }
-    }
-    //if no issues with email or password, and confirmPassword has some data:
-    if (password && confirmPassword) {
-      if (password !== confirmPassword) {
-        return 'Passwords do not match';
-      } else {
-        return null;
-      }
-      //if no issues with email or password, and confirmPassword has no data yet:
-    } else {
-      return null;
+    if (password.length < 6 && password.length !== 0) {
+      errors.password = 'Password is too short';
     }
   }
-  if (type === 'password') {
-    if (email) {
-      if (isNotValid(email, 'email', isSignup)) {
-        return isNotValid(email, 'email', isSignup);
-      }
-    }
-    if (isNotValid(newData, 'password', isSignup)) {
-      return isNotValid(newData, 'password', isSignup);
-    }
-    //if no issues with email or password, and confirmPassword has some data:
-    if (newData && confirmPassword) {
-      if (newData !== confirmPassword) {
-        return 'Passwords do not match';
-      } else {
-        return null;
-      }
-      //if no issues with email or password, and confirmPassword has no data yet:
-    } else {
-      return null;
-    }
-  }
-  if (type === 'confirmPassword') {
-    if (email) {
-      if (isNotValid(email, 'email', isSignup)) {
-        return isNotValid(email, 'email', isSignup);
-      }
-    }
-    if (password) {
-      if (isNotValid(password, 'password', isSignup)) {
-        return isNotValid(password, 'password', isSignup);
-      }
-    }
-    //if no issues with email or password, and confirmPassword has some data:
-    if (password && newData) {
-      if (password !== newData) {
-        return 'Passwords do not match';
-      } else {
-        return null;
-      }
-      //if no issues with email or password, and confirmPassword has no data yet:
-    } else {
-      return null;
-    }
-  }
+  return errors;
 };
