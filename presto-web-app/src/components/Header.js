@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Logout from './Logout';
 import { useAuth } from '../context/AuthProvider';
-import Auxiliary from './Auxiliary';
 
 const Header = (props) => {
-  let authenticated = useAuth();
+  let { authenticated } = useAuth();
 
   return (
     <header>
@@ -15,23 +14,23 @@ const Header = (props) => {
             <Link to='/'>Home</Link>
           </li>
           {authenticated ? (
-            <Auxiliary>
+            <React.Fragment>
               <li>
                 <Link to='/protected'>Protected</Link>
               </li>
               <li>
                 <Logout />
               </li>
-            </Auxiliary>
+            </React.Fragment>
           ) : (
-            <Auxiliary>
+            <React.Fragment>
               <li>
                 <Link to='/login'>Log In</Link>
               </li>
               <li>
                 <Link to='/signup'>Sign Up</Link>
               </li>
-            </Auxiliary>
+            </React.Fragment>
           )}
         </ul>
       </nav>

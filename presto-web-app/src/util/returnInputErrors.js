@@ -31,7 +31,6 @@ export default ({
     errors.password = 'Email and password are required';
   }
 
-  console.log(email, password);
   if (confirmPasswordTouched && confirmPassword.length === 0)
     errors.confirmPassword = 'Confirm password is required';
 

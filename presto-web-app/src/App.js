@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { firebaseAuth } from './util/config';
 
 //pages
-import LoadingScreen from './Pages/LoadingScreen';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
@@ -23,7 +22,8 @@ import Input from './components/Input/Input';
 import { AuthContext } from './context/AuthProvider';
 
 //styling
-import './App.css'; //global styles
+import './App.css';
+import LoadingScreen from './Pages/LoadingScreen';
 
 //Other SDKs:
 /* import "firebase/analytics";
@@ -37,7 +37,7 @@ import "firebase/remote-config"; */
 /* const db = firebase.firestore(); */
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     authListener();
@@ -59,8 +59,8 @@ function App() {
         });
       } else {
         setUser({
-          init: true,
           authenticated: false,
+          init: true,
           email: null,
           uid: null,
           displayName: null,
@@ -73,23 +73,28 @@ function App() {
     //second argument here causes to never run again (since the array doesn't change)
   }
   return (
-    <AuthContext.Provider value={user.authenticated}>
-      <div className='App'>
-        <LoadingScreen />
-        <Router>
-          <Switch>
-            <Header />
-            <Route exact path='/' component={Home}></Route>
-            <Route path='/login' component={Login} />
-            <Route path='/signup' component={Signup} />
-            <PrivateRoute path='/protected' component={Protected} />
-            <Route path='/input'>
-              <Input></Input>
-            </Route>
-            <Route path='*' component={Home}></Route>
-          </Switch>
-        </Router>
-      </div>
+    <AuthContext.Provider value={user}>
+      <Router>
+        <div className='App'>
+          {user.init ? (
+            <React.Fragment>
+              <Header />
+              <Switch>
+                <Route exact path='/' component={Home}></Route>
+                <Route path='/login' component={Login} />
+                <Route path='/signup' component={Signup} />
+                <PrivateRoute path='/protected' component={Protected} />
+                <Route path='/input'>
+                  <Input></Input>
+                </Route>
+                <Route path='*' component={Home}></Route>
+              </Switch>
+            </React.Fragment>
+          ) : (
+            <LoadingScreen />
+          )}
+        </div>
+      </Router>
     </AuthContext.Provider>
   );
 }

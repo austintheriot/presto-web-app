@@ -20,9 +20,11 @@
 
 .Button a {
   color: white;
+  outline: none;
   text-decoration: none;
 }
 
-.Button:hover {
+.Button:hover,
+.Button:focus {
   background-color: var(--pop-color-dark);
 }

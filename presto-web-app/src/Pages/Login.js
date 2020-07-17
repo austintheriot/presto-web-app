@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import Modal from '../components/Modal/Modal';
-import Auxiliary from '../components/Auxiliary';
 import returnInputErrors from '../util/returnInputErrors';
 import { Redirect } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
@@ -142,7 +141,7 @@ export default function Login(props) {
     login();
   };
 
-  let authenticated = useAuth();
+  let { authenticated } = useAuth();
   let redirect = '/';
   if (props.history?.location?.state?.redirect) {
     redirect = props.history?.location?.state?.redirect;
@@ -151,7 +150,7 @@ export default function Login(props) {
 
   return (
     //display modal message if redirected from another page requiring authentication:
-    <Auxiliary>
+    <React.Fragment>
       {authenticated ? <Redirect to={redirect} /> : null}
       {props.history?.location?.state?.modalMessage ? (
         <Modal message={props.history.location.state.modalMessage} />
@@ -183,6 +182,6 @@ export default function Login(props) {
           Log In
         </Button>
       </form>
-    </Auxiliary>
+    </React.Fragment>
   );
 }

@@ -4,11 +4,10 @@ import Button from '../components/Button/Button';
 import { useAuth } from '../context/AuthProvider';
 
 const Home = (props) => {
-  let authenticated = useAuth();
+  let { authenticated } = useAuth();
 
   return (
     <React.Fragment>
-      <h1>Home</h1>
       {authenticated ? (
         <h1>Home Page</h1>
       ) : (
