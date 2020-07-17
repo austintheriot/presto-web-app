@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { firebaseAuth } from './util/config';
 
 //pages
-import Home from './Pages/Home';
+import LoadingScreen from './Pages/LoadingScreen';
+import HomePublic from './Pages/HomePublic';
+import HomePrivate from './Pages/HomePrivate';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Protected from './Pages/Protected';
 
 //components
-import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import {
   BrowserRouter as Router,
@@ -23,7 +24,6 @@ import { AuthContext } from './context/AuthProvider';
 
 //styling
 import './App.css';
-import LoadingScreen from './Pages/LoadingScreen';
 
 //Other SDKs:
 /* import "firebase/analytics";
@@ -78,16 +78,13 @@ function App() {
         <div className='App'>
           {user.init ? (
             <>
-              <Header />
               <Switch>
-                <Route exact path='/' component={Home}></Route>
+                <Route exact path='/' component={HomePublic} />
                 <Route path='/login' component={Login} />
                 <Route path='/signup' component={Signup} />
                 <PrivateRoute path='/protected' component={Protected} />
-                <Route path='/input'>
-                  <Input></Input>
-                </Route>
-                <Route path='*' component={Home}></Route>
+                <PrivateRoute path='/home' component={HomePrivate} />
+                <Route path='*' component={HomePublic} />
               </Switch>
             </>
           ) : (

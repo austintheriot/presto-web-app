@@ -130,7 +130,7 @@ export default function Login(props) {
   };
 
   let { authenticated } = useAuth();
-  let redirect = '/';
+  let redirect = '/home';
   if (props.history?.location?.state?.redirect) {
     redirect = props.history?.location?.state?.redirect;
     console.log('[Signup] will redirect to: ', redirect);

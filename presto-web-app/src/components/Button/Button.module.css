@@ -1,12 +1,13 @@
 /* Default Button Styling */
 .Button {
+  box-sizing: border-box;
   display: block;
   border: none;
   outline: none;
   margin: 0;
   text-decoration: none;
   background-color: var(--pop-color);
-  color: 'white';
+  color: white;
   cursor: pointer;
   text-align: center;
   -webkit-appearance: none;
@@ -36,6 +37,7 @@
 .inverted {
   composes: Button;
   background-color: white;
+  padding: 0.4rem 2.5rem;
   color: var(--pop-color);
   border: 3px solid var(--pop-color);
 }
@@ -50,5 +52,5 @@
 
 .inverted:hover,
 .inverted:focus {
-  background-color: #eeeeee;
+  background-color: #dddddd;
 }

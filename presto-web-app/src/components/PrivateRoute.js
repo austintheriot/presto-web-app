@@ -39,7 +39,7 @@ const PrivateRoute = ({ component: ComposedComponent, path, ...rest }) => {
 
   return (
     <AuthContext.Consumer>
-      {(authenticated) => <Authentication authenticated={authenticated} />}
+      {({ authenticated }) => <Authentication authenticated={authenticated} />}
     </AuthContext.Consumer>
   );
 };

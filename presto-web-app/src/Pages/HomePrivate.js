@@ -1,0 +1,35 @@
+import React from 'react';
+import { useAuth } from '../context/AuthProvider';
+import styles from './HomePrivate.module.css';
+import Logout from '../components/Logout';
+export default (props) => {
+  let user = useAuth();
+
+  return (
+    <>
+      <div className={styles.waveDiv}>
+        <svg
+          className={styles.waveSvg}
+          viewBox='0 0 500 150'
+          preserveAspectRatio='none'>
+          <path
+            className={styles.wavePath}
+            d='M-1.92,94.96 C126.11,160.90 403.16,62.48 506.25,127.44 L499.74,0.00 L0.00,0.00 Z'></path>
+        </svg>
+      </div>
+      {user.authenticated ? (
+        <div className={styles.LogoutDiv}>
+          <Logout />
+        </div>
+      ) : null}
+      {user.firstName || true ? (
+        <>
+          <p className={styles.welcome}>Welcome,</p>
+          <h1 className={styles.title}>{user.firstName || 'Firstname'}</h1>
+        </>
+      ) : (
+        <h1 className={styles.title}>Welcome</h1>
+      )}
+    </>
+  );
+};

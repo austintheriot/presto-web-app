@@ -1,0 +1,52 @@
+.LogoutDiv {
+  position: absolute;
+  width: 100%;
+  text-align: right;
+  clear: both;
+  right: 1rem;
+}
+.LogoutDiv a {
+  color: white;
+}
+
+.title {
+  text-align: left;
+  color: white;
+  width: 30vw;
+  margin: 0 0 0 2rem;
+}
+
+.welcome {
+  text-align: left;
+  color: white;
+  padding-top: 1rem;
+  margin: 0 0 0 2rem;
+}
+
+/* Wavy element */
+.waveDiv {
+  position: absolute;
+  z-index: -5;
+  height: 210px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.waveSvg {
+  height: 100%;
+  width: 100%;
+}
+
+.wavePath {
+  stroke: none;
+  fill: var(--pop-color);
+}
+
+.img1 {
+  position: relative;
+  display: block;
+  width: 30vw;
+  min-width: 250px;
+  margin: 0 auto;
+  left: -2%;
+}

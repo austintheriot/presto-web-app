@@ -142,7 +142,7 @@ export default function Login(props) {
   };
 
   let { authenticated } = useAuth();
-  let redirect = '/';
+  let redirect = '/home';
   if (props.history?.location?.state?.redirect) {
     redirect = props.history?.location?.state?.redirect;
     console.log('[Login] will redirect to: ', redirect, ' when finished');
