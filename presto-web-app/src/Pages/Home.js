@@ -7,11 +7,11 @@ const Home = (props) => {
   let { authenticated } = useAuth();
 
   return (
-    <React.Fragment>
+    <>
       <h1>Presto</h1>
       <p>web app for musicians</p>
       {authenticated ? null : (
-        <React.Fragment>
+        <>
           <Button>
             <Link to='/login'>Log In</Link>
           </Button>
@@ -21,9 +21,9 @@ const Home = (props) => {
           <Button customstyle='inverted'>
             <Link to='/'>I'm a Guest</Link>
           </Button>
-        </React.Fragment>
+        </>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

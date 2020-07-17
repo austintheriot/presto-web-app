@@ -138,7 +138,7 @@ export default function Login(props) {
 
   return (
     //display modal message if redirected from another page requiring authentication:
-    <React.Fragment>
+    <>
       {authenticated ? <Redirect to={redirect} /> : null}
       {props.history?.location?.state?.modalMessage ? (
         <Modal message={props.history.location.state.modalMessage} />
@@ -181,6 +181,6 @@ export default function Login(props) {
           <p>Log In</p>
         </Button>
       </form>
-    </React.Fragment>
+    </>
   );
 }

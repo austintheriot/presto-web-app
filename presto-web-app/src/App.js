@@ -77,7 +77,7 @@ function App() {
       <Router>
         <div className='App'>
           {user.init ? (
-            <React.Fragment>
+            <>
               <Header />
               <Switch>
                 <Route exact path='/' component={Home}></Route>
@@ -89,7 +89,7 @@ function App() {
                 </Route>
                 <Route path='*' component={Home}></Route>
               </Switch>
-            </React.Fragment>
+            </>
           ) : (
             <LoadingScreen />
           )}

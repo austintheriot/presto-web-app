@@ -14,23 +14,23 @@ const Header = (props) => {
             <Link to='/'>Home</Link>
           </li>
           {authenticated ? (
-            <React.Fragment>
+            <>
               <li>
                 <Link to='/protected'>Protected</Link>
               </li>
               <li>
                 <Logout />
               </li>
-            </React.Fragment>
+            </>
           ) : (
-            <React.Fragment>
+            <>
               <li>
                 <Link to='/login'>Log In</Link>
               </li>
               <li>
                 <Link to='/signup'>Sign Up</Link>
               </li>
-            </React.Fragment>
+            </>
           )}
         </ul>
       </nav>
