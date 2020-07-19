@@ -22,6 +22,8 @@ import {
   Route,
   withRouter,
 } from 'react-router-dom';
+import InputEmail from './components/InputEmail/InputEmail';
+import InputPassword from './components/InputPassword/InputPassword';
 
 //context
 import { AuthContext } from './context/AuthProvider';
@@ -97,6 +99,10 @@ function App() {
                 <Route path='/login' component={Login} />
                 <Route path='/signup' component={Signup} />
                 <Route path='/logout' component={LogoutByRender} />
+                <Route path='/inputs'>
+                  <InputEmail />
+                  <InputPassword />
+                </Route>
                 <PrivateRoute path='/moreinfo1' component={MoreInfo1} />
                 <PrivateRoute path='/moreinfo2' component={MoreInfo2} />
                 <PrivateRoute path='/home' component={HomePrivate} />
