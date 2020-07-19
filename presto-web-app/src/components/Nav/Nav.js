@@ -6,6 +6,11 @@ export default (props) => {
   return (
     <>
       <nav className={styles.nav}>
+        <img
+          alt='presto logo'
+          src={require('../../assets/images/logo.svg')}
+          className={styles.logo}
+        />
         <ul className={styles.ul}>
           <li className={styles.li}>
             <Link to='/home'>

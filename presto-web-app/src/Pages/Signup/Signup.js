@@ -149,31 +149,31 @@ export default function Login(props) {
       <form onSubmit={submitHandler}>
         <Input
           type='email'
-          id='email'
           handleFocus={handleFocus}
           handleBlur={handleBlur}
           handleChange={handleChange}
           label={'Email*'}
           invalid={emailInvalid}
+          value={email}
         />
         <Input
           type='password'
-          id='password'
           handleFocus={handleFocus}
           handleBlur={handleBlur}
           handleChange={handleChange}
           label={'Password*'}
           invalid={passwordInvalid}
+          value={password}
         />
         <Input
           type='password'
-          validationType='confirmPassword'
-          id='password'
+          customType='confirmPassword'
           handleFocus={handleFocus}
           handleBlur={handleBlur}
           handleChange={handleChange}
           label={'Confirm Password*'}
           invalid={confirmPasswordInvalid}
+          value={confirmPassword}
         />
         <Modal
           message={props.modalMessage ? props.modalMessage : modalMessage}

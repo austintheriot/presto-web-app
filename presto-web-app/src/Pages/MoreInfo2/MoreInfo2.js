@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'MoreInfo2.module.css';
+import styles from './MoreInfo2.module.css';
 
 //To update a user's profile:
 /* user.updateProfile({

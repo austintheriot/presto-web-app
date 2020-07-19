@@ -7,6 +7,8 @@ import HomePublic from './Pages/HomePublic/HomePublic';
 import HomePrivate from './Pages/HomePrivate/HomePrivate';
 import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
+import MoreInfo1 from './Pages/MoreInfo1/MoreInfo1';
+import MoreInfo2 from './Pages/MoreInfo2/MoreInfo2';
 import LogoutByRender from './components/LogoutByRender';
 import Posts from './Pages/Posts/Posts';
 import Profile from './Pages/Profile/Profile';
@@ -69,7 +71,6 @@ function App() {
           photoUrl: user.photoURL,
           isAnonymous: user.isAnonymous,
         });
-        console.log(user.credential);
       } else {
         setUser({
           authenticated: false,
@@ -96,6 +97,8 @@ function App() {
                 <Route path='/login' component={Login} />
                 <Route path='/signup' component={Signup} />
                 <Route path='/logout' component={LogoutByRender} />
+                <PrivateRoute path='/moreinfo1' component={MoreInfo1} />
+                <PrivateRoute path='/moreinfo2' component={MoreInfo2} />
                 <PrivateRoute path='/home' component={HomePrivate} />
                 <PrivateRoute path='/posts' component={Posts} />
                 <PrivateRoute path='/profile' component={Profile} />

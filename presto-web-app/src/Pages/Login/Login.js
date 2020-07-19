@@ -163,20 +163,20 @@ export default function Login(props) {
       <form onSubmit={submitHandler}>
         <Input
           type='email'
-          id='email'
           handleFocus={handleFocus}
           handleBlur={handleBlur}
           handleChange={handleChange}
           label={'Email*'}
+          value={email}
           invalid={emailInvalid}
         />
         <Input
           type='password'
-          id='password'
           handleFocus={handleFocus}
           handleBlur={handleBlur}
           handleChange={handleChange}
           label={'Password*'}
+          value={password}
           invalid={passwordInvalid}
         />
         <Modal

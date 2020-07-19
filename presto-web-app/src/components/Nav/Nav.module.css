@@ -7,6 +7,10 @@
   background-color: white;
 }
 
+.logo {
+  display: none;
+}
+
 .button {
   position: relative;
   padding: 0;
@@ -55,6 +59,13 @@
     height: 50px;
     top: 0;
   }
+
+  .logo {
+    display: block;
+    height: 50px;
+    position: absolute;
+  }
+
   .button {
     top: -11px;
   }
