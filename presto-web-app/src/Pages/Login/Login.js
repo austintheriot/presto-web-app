@@ -87,7 +87,7 @@ export default function Login(props) {
   };
 
   const handleBlur = (type) => {
-    //animation first
+    //animation
     switch (type) {
       case 'email':
         setEmail((prevState) => ({
@@ -102,14 +102,15 @@ export default function Login(props) {
         }));
         break;
       default:
+        return;
     }
 
     //check for empty fields on blur
     if (
       email.touched &&
-      email.length === 0 &&
+      email.value.length === 0 &&
       password.touched &&
-      password.length === 0
+      password.value.length === 0
     ) {
       setEmail((prevState) => ({
         ...prevState,
@@ -120,13 +121,13 @@ export default function Login(props) {
         touched: true,
       }));
       setModalMessage('Email and password are required');
-    } else if (email.touched && email.length === 0) {
+    } else if (email.touched && email.value.length === 0) {
       setEmail((prevState) => ({
         ...prevState,
         invalid: true,
       }));
       setModalMessage('Email is required');
-    } else if (password.touched && password.length === 0) {
+    } else if (password.touched && password.value.length === 0) {
       setPassword((prevState) => ({
         ...prevState,
         touched: true,
@@ -138,26 +139,31 @@ export default function Login(props) {
   const handleChange = (event, type) => {
     let targetValue = event.target.value;
     //set state
-    if (type === 'email') {
-      setEmail((prevState) => ({
-        ...prevState,
-        value: targetValue,
-        empty: targetValue.length === 0 ? true : false,
-      }));
-    } else if (type === 'password') {
-      setPassword((prevState) => ({
-        ...prevState,
-        value: targetValue,
-        empty: targetValue.length === 0 ? true : false,
-      }));
+    switch (type) {
+      case 'email':
+        setEmail((prevState) => ({
+          ...prevState,
+          value: targetValue,
+          empty: targetValue.length === 0 ? true : false,
+        }));
+        break;
+      case 'password':
+        setPassword((prevState) => ({
+          ...prevState,
+          value: targetValue,
+          empty: targetValue.length === 0 ? true : false,
+        }));
+        break;
+      default:
+        return;
     }
 
     //check for any errors in input
     //return an object so that the input to which it applies can be turned red for invalid
     //give validator the most recent information--substitue a new value for state when the new value is the accurate one
     let validationSettings = {
-      email: type === 'email' ? event.target.value : email.value,
-      password: type === 'password' ? event.target.value : password.value,
+      email: type === 'email' ? targetValue : email.value,
+      password: type === 'password' ? targetValue : password.value,
       confirmPassword: null,
       isSignup: false,
       emailTouched: email.touched,
@@ -203,21 +209,21 @@ export default function Login(props) {
     if (modalMessage) {
       return;
     }
-    if (password.length === 0 && email.length === 0) {
+    if (password.value.length === 0 && email.value.length === 0) {
       setEmail((prevState) => ({
         ...prevState,
         invalid: true,
       }));
       setModalMessage('Email and password are required');
       return;
-    } else if (email.length === 0) {
+    } else if (email.value.length === 0) {
       setEmail((prevState) => ({
         ...prevState,
         invalid: true,
       }));
       setModalMessage('Email is required');
       return;
-    } else if (password.length === 0) {
+    } else if (password.value.length === 0) {
       setPassword((prevState) => ({
         ...prevState,
         invalid: true,
