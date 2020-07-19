@@ -7,7 +7,7 @@ export default (props) => {
       <div className={styles.div}>
         <label
           className={
-            props?.classNames?.label || props.animateUp
+            props?.classNames?.label || props?.computedState?.animateUp
               ? styles.up
               : styles.down
           }>
@@ -19,11 +19,11 @@ export default (props) => {
         className={
           props?.classNames?.input || props.invalid
             ? styles.red
-            : props.animateUp
+            : props?.computedState?.animateUp
             ? styles.color
             : styles.gray
         }
-        value={props.value}
+        value={props?.computedState?.value}
         type={props?.type || 'text'}
         onBlur={props.handleBlur}
         onFocus={props.handleFocus}

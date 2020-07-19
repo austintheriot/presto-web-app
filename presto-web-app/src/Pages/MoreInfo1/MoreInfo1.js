@@ -20,32 +20,32 @@ import geoapifyKey from '../../util/geoapifyKey';
 
 export default () => {
   const [username, setUsername] = useState({
-    username: '',
+    value: '',
     animateUp: false,
     empty: true,
   });
   const [firstName, setFirstName] = useState({
-    firstName: '',
+    value: '',
     animateUp: false,
     empty: true,
   });
   const [lastName, setLastName] = useState({
-    lastName: '',
+    value: '',
     animateUp: false,
     empty: true,
   });
   const [city, setCity] = useState({
-    city: '',
+    value: '',
     animateUp: false,
     empty: true,
   });
   const [state, setState] = useState({
-    state: '',
+    value: '',
     animateUp: false,
     empty: true,
   });
   const [country, setCountry] = useState({
-    country: '',
+    value: '',
     animateUp: false,
     empty: true,
   });
@@ -79,86 +79,86 @@ export default () => {
       case 'username':
         setUsername((prevState) => ({
           ...prevState,
-          animateUp: username.empty ? false : true,
+          animateUp: prevState.empty ? false : true,
         }));
         break;
       case 'firstName':
         setFirstName((prevState) => ({
           ...prevState,
-          animateUp: username.empty ? false : true,
+          animateUp: prevState.empty ? false : true,
         }));
         break;
       case 'lastName':
         setLastName((prevState) => ({
           ...prevState,
-          animateUp: username.empty ? false : true,
+          animateUp: prevState.empty ? false : true,
         }));
         break;
       case 'city':
         setCity((prevState) => ({
           ...prevState,
-          animateUp: username.empty ? false : true,
+          animateUp: prevState.empty ? false : true,
         }));
         break;
       case 'state':
         setState((prevState) => ({
           ...prevState,
-          animateUp: username.empty ? false : true,
+          animateUp: prevState.empty ? false : true,
         }));
         break;
       case 'country':
         setCountry((prevState) => ({
           ...prevState,
-          animateUp: username.empty ? false : true,
+          animateUp: prevState.empty ? false : true,
         }));
         break;
       default:
     }
   };
   const handleChange = (e, type) => {
-    let character = e.target.value;
-    console.log(character);
+    let targetValue = e.target.value;
+    console.log(targetValue);
     switch (type) {
       case 'username':
         setUsername((prevState) => ({
           ...prevState,
-          [type]: character,
-          empty: character.length === 0 ? true : false,
+          value: targetValue,
+          empty: targetValue.length === 0 ? true : false,
         }));
         break;
       case 'firstName':
         setFirstName((prevState) => ({
           ...prevState,
-          [type]: character,
-          empty: character.length === 0 ? true : false,
+          value: targetValue,
+          empty: targetValue.length === 0 ? true : false,
         }));
         break;
       case 'lastName':
         setLastName((prevState) => ({
           ...prevState,
-          [type]: character,
-          empty: character.length === 0 ? true : false,
+          value: targetValue,
+          empty: targetValue.length === 0 ? true : false,
         }));
         break;
       case 'city':
         setCity((prevState) => ({
           ...prevState,
-          [type]: character,
-          empty: character.length === 0 ? true : false,
+          value: targetValue,
+          empty: targetValue.length === 0 ? true : false,
         }));
         break;
       case 'state':
         setState((prevState) => ({
           ...prevState,
-          [type]: character,
-          empty: character.length === 0 ? true : false,
+          value: targetValue,
+          empty: targetValue.length === 0 ? true : false,
         }));
         break;
       case 'country':
         setCountry((prevState) => ({
           ...prevState,
-          [type]: character,
-          empty: character.length === 0 ? true : false,
+          value: targetValue,
+          empty: targetValue.length === 0 ? true : false,
         }));
         break;
       default:
@@ -196,17 +196,17 @@ export default () => {
           let properties = xhr.response.features[0].properties;
           setCity({
             animateUp: true,
-            city: properties.city,
+            value: properties.city,
             empty: false,
           });
           setState({
             animateUp: true,
-            state: properties.state,
+            value: properties.state,
             empty: false,
           });
           setCountry({
             animateUp: true,
-            country: properties.country,
+            value: properties.country,
             empty: false,
           });
           let locationInfo = {
@@ -218,6 +218,7 @@ export default () => {
             country: properties.country,
             zip: properties.postcode,
           };
+          console.log(locationInfo);
         }
       };
     };
@@ -252,9 +253,8 @@ export default () => {
         handleFocus={handleFocus.bind(this, 'username')}
         handleBlur={handleBlur.bind(this, 'username')}
         handleChange={(e) => handleChange(e, 'username')}
-        animateUp={username.animateUp}
         label={'Username'}
-        value={username.username}
+        computedState={username}
       />
       <Input
         type='text'
@@ -262,9 +262,8 @@ export default () => {
         handleFocus={handleFocus.bind(this, 'firstName')}
         handleBlur={handleBlur.bind(this, 'firstName')}
         handleChange={(e) => handleChange(e, 'firstName')}
-        animateUp={firstName.animateUp}
         label={'First Name'}
-        value={firstName.firstName}
+        computedState={firstName}
       />
       <Input
         type='text'
@@ -272,9 +271,8 @@ export default () => {
         handleFocus={handleFocus.bind(this, 'lastName')}
         handleBlur={handleBlur.bind(this, 'lastName')}
         handleChange={(e) => handleChange(e, 'lastName')}
-        animateUp={lastName.animateUp}
         label={'Last Name'}
-        value={lastName.lastName}
+        computedState={lastName}
       />
       <Modal message={modalMessage} color='black' />
       <Button onClick={getLocation}>Autofill Location</Button>
@@ -284,9 +282,8 @@ export default () => {
         handleFocus={handleFocus.bind(this, 'city')}
         handleBlur={handleBlur.bind(this, 'city')}
         handleChange={(e) => handleChange(e, 'city')}
-        animateUp={city.animateUp}
         label={'City'}
-        value={city.city}
+        computedState={city}
       />
       <Input
         type='text'
@@ -294,9 +291,8 @@ export default () => {
         handleFocus={handleFocus.bind(this, 'state')}
         handleBlur={handleBlur.bind(this, 'state')}
         handleChange={(e) => handleChange(e, 'state')}
-        animateUp={state.animateUp}
         label={'State'}
-        value={state.state}
+        computedState={state}
       />
       <Input
         type='text'
@@ -304,9 +300,7 @@ export default () => {
         handleFocus={handleFocus.bind(this, 'country')}
         handleBlur={handleBlur.bind(this, 'country')}
         handleChange={(e) => handleChange(e, 'country')}
-        animateUp={country.animateUp}
-        label={'Country'}
-        value={country.country}
+        computedState={country}
       />
     </>
   );
