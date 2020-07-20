@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import Modal from '../../components/Modal/Modal';
@@ -11,229 +11,193 @@ import styles from './Login.module.css';
 //redirect with AuthContext once SetState permeates down to component
 
 export default function Login(props) {
-  const [email, setEmail] = useState({
-    value: '',
-    animateUp: false,
-    empty: true,
-    touched: false,
-    invalid: false,
+  const [state, setState] = useState({
+    inputs: {
+      email: {
+        value: '',
+        animateUp: false,
+        empty: true,
+        touched: false,
+        message: {
+          error: false,
+          text: '',
+        },
+      },
+      password: {
+        value: '',
+        animateUp: false,
+        empty: true,
+        touched: false,
+        message: {
+          error: false,
+          text: '',
+        },
+      },
+    },
   });
-  const [password, setPassword] = useState({
-    value: '',
-    animateUp: false,
-    empty: true,
-    touched: false,
-    invalid: false,
-  });
+  const [modalMessage, setModalMessasge] = useState('');
 
-  const [modalMessage, setModalMessage] = useState('');
-
-  const login = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email.value, password.value)
-      .catch((error) => {
-        //account diabled
-        if (error.code === 'auth/user-disabled') {
-          return setModalMessage(
-            'This account corresponding to this email has been disabled'
-          );
-        }
-        //wrong email or password
-        else if (
-          error.code === 'auth/invalid-email' ||
-          error.code === 'auth/wrong-password'
-        ) {
-          return setModalMessage(
-            'The email or password you entered is incorrect'
-          );
-        }
-        //no account
-        else if (error.code === 'auth/user-not-found') {
-          return setModalMessage(
-            'There is no account associated with this email.'
-          );
-        } else {
-          console.error(error.code, error.message);
-          setModalMessage('Server error. Please try again later.');
-        }
-      });
-  };
-
-  const handleFocus = (type) => {
+  const handleFocus = (event, newestType) => {
     //animation
-    switch (type) {
-      case 'email':
-        setEmail((prevState) => ({ ...prevState, animateUp: true }));
-        break;
-      case 'password':
-        setPassword((prevState) => ({ ...prevState, animateUp: true }));
-        break;
-      default:
-        return;
-    }
-
-    //validation
-    if (type === 'email')
-      setEmail((prevState) => ({
-        ...prevState,
-        touched: true,
-      }));
-    if (type === 'password')
-      setPassword((prevState) => ({
-        ...prevState,
-        touched: true,
-      }));
+    setState((prevState) => ({
+      ...prevState,
+      inputs: {
+        ...prevState.inputs,
+        [newestType]: {
+          ...prevState.inputs[newestType],
+          animateUp: true,
+          touched: true,
+        },
+      },
+    }));
   };
 
-  const handleBlur = (type) => {
-    //animation
-    switch (type) {
-      case 'email':
-        setEmail((prevState) => ({
-          ...prevState,
-          animateUp: prevState.empty ? false : true,
-        }));
-        break;
-      case 'password':
-        setPassword((prevState) => ({
-          ...prevState,
-          animateUp: prevState.empty ? false : true,
-        }));
-        break;
-      default:
-        return;
-    }
+  const handleBlur = (event, newestType) => {
+    //animation & output error if empty
+    let targetEmpty =
+      state.inputs[newestType].touched &&
+      state.inputs[newestType].value.length === 0
+        ? true
+        : false;
 
-    //check for empty fields on blur
-    if (
-      email.touched &&
-      email.value.length === 0 &&
-      password.touched &&
-      password.value.length === 0
-    ) {
-      setEmail((prevState) => ({
-        ...prevState,
-        invalid: true,
-      }));
-      setPassword((prevState) => ({
-        ...prevState,
-        touched: true,
-      }));
-      setModalMessage('Email and password are required');
-    } else if (email.touched && email.value.length === 0) {
-      setEmail((prevState) => ({
-        ...prevState,
-        invalid: true,
-      }));
-      setModalMessage('Email is required');
-    } else if (password.touched && password.value.length === 0) {
-      setPassword((prevState) => ({
-        ...prevState,
-        touched: true,
-      }));
-      setModalMessage('Password is required');
-    }
+    setState((prevState) => ({
+      ...prevState,
+      inputs: {
+        ...prevState.inputs,
+        [newestType]: {
+          ...prevState.inputs[newestType],
+          //animation
+          animateUp: targetEmpty ? false : true,
+          //output error if empty
+          message: {
+            error: targetEmpty
+              ? true
+              : prevState.inputs[newestType].message.error,
+            text: targetEmpty
+              ? 'This input is required'
+              : prevState.inputs[newestType].message.text,
+          },
+        },
+      },
+    }));
   };
 
-  const handleChange = (event, type) => {
-    let targetValue = event.target.value;
-    //set state
-    switch (type) {
-      case 'email':
-        setEmail((prevState) => ({
-          ...prevState,
-          value: targetValue,
-          empty: targetValue.length === 0 ? true : false,
-        }));
-        break;
-      case 'password':
-        setPassword((prevState) => ({
-          ...prevState,
-          value: targetValue,
-          empty: targetValue.length === 0 ? true : false,
-        }));
-        break;
-      default:
-        return;
-    }
-
-    //check for any errors in input
-    //return an object so that the input to which it applies can be turned red for invalid
-    //give validator the most recent information--substitue a new value for state when the new value is the accurate one
+  const validateInputs = (
+    newestType,
+    targetValue,
+    targetEmpty,
+    submittingForm = false
+  ) => {
+    //validate input
     let validationSettings = {
-      email: type === 'email' ? targetValue : email.value,
-      password: type === 'password' ? targetValue : password.value,
+      email: newestType === 'email' ? targetValue : state.inputs.email.value,
+      password:
+        newestType === 'password' ? targetValue : state.inputs.password.value,
       confirmPassword: null,
       isSignup: false,
-      emailTouched: email.touched,
-      passwordTouched: password.touched,
-      confirmPasswordTouched: null,
+      emailTouched: state.inputs.email.touched,
+      passwordTouched: state.inputs.password.touched,
+      confirmPasswordTouched: false,
+      submittingForm: submittingForm,
     };
     let anyErrorsObject = returnInputErrors(validationSettings);
 
-    //update state to tell input that this input is invalid (turn its styling red)
-    anyErrorsObject.email
-      ? setEmail((prevState) => ({
-          ...prevState,
-          invalid: true,
-        }))
-      : setEmail((prevState) => ({
-          ...prevState,
-          invalid: false,
-        }));
-    anyErrorsObject.password
-      ? setPassword((prevState) => ({
-          ...prevState,
-          invalid: true,
-        }))
-      : setPassword((prevState) => ({
-          ...prevState,
-          invalid: false,
-        }));
+    //update state for all inputs
+    Object.keys(state.inputs).forEach((inputType) => {
+      setState((prevState) => ({
+        ...prevState,
+        inputs: {
+          ...prevState.inputs,
+          [inputType]: {
+            ...prevState.inputs[inputType],
 
-    //extract any error message that is not null
-    let errorMessage = Object.keys(anyErrorsObject)
-      .map((key) => anyErrorsObject[key])
-      .find((el) => el !== null);
+            //update generic values
+            value:
+              inputType === newestType
+                ? targetValue
+                : prevState.inputs[inputType].value,
+            empty:
+              inputType === newestType
+                ? targetEmpty
+                : prevState.inputs[inputType].empty,
 
-    //display the error message on the modal
-    setModalMessage(errorMessage);
+            //update errors: If no error, set to empty
+            message: {
+              error: anyErrorsObject[inputType] ? true : false,
+              text: anyErrorsObject[inputType]
+                ? anyErrorsObject[inputType]
+                : false,
+            },
+          },
+        },
+      }));
+    });
+    return anyErrorsObject;
+  };
+
+  const handleChange = (event, newestType) => {
+    let targetValue = event.target.value;
+    let targetEmpty = targetValue.length === 0 ? true : false;
+    validateInputs(newestType, targetValue, targetEmpty);
   };
 
   const submitHandler = (event) => {
     //prevent default form submission
     event.preventDefault();
 
-    //check empty form inputs one more time
-    if (modalMessage) {
-      return;
-    }
-    if (password.value.length === 0 && email.value.length === 0) {
-      setEmail((prevState) => ({
-        ...prevState,
-        invalid: true,
-      }));
-      setModalMessage('Email and password are required');
-      return;
-    } else if (email.value.length === 0) {
-      setEmail((prevState) => ({
-        ...prevState,
-        invalid: true,
-      }));
-      setModalMessage('Email is required');
-      return;
-    } else if (password.value.length === 0) {
-      setPassword((prevState) => ({
-        ...prevState,
-        invalid: true,
-      }));
-      setModalMessage('Password is required');
-      return;
-    }
+    //check for any errors before submitting
+    let anyErrorsFound = false;
+    let errors = validateInputs('', null, null, true);
+    Object.keys(errors).forEach((inputType) => {
+      if (errors[inputType]) {
+        anyErrorsFound = true;
+      }
+    });
 
-    //assuming the email and password are both valid, log in
-    login();
+    if (anyErrorsFound) {
+      setModalMessasge('Please fix all errors before submitting');
+      return;
+    } else {
+      //assuming the email and password are both valid, log in
+      console.log('sending log in form');
+      login();
+    }
+  };
+
+  const login = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(
+        state.inputs.email.value,
+        state.inputs.password.value
+      )
+      .catch((error) => {
+        switch (error.code) {
+          //account diabled
+          case 'auth/user-disabled':
+            setModalMessasge(
+              'This account corresponding to this email has been disabled'
+            );
+            break;
+          case 'auth/invalid-email':
+            setModalMessasge('The email or password you entered is incorrect');
+            break;
+          case 'auth/wrong-password':
+            setModalMessasge('The email or password you entered is incorrect');
+            break;
+          case 'auth/user-not-found':
+            setModalMessasge('There is no account associated with this email.');
+            break;
+          case 'auth/too-many-requests':
+            setModalMessasge(
+              'Too many unsuccessful attempts. Please try again later.'
+            );
+            break;
+          default:
+            console.error(error.code, error.message);
+            return setModalMessasge('Server error. Please try again later.');
+        }
+      });
   };
 
   let { authenticated } = useAuth();
@@ -258,25 +222,24 @@ export default function Login(props) {
       {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
       <form onSubmit={submitHandler}>
         <Input
+          type='email'
           customType='email'
-          handleFocus={handleFocus.bind(this, 'email')}
-          handleBlur={handleBlur.bind(this, 'email')}
+          handleFocus={(e) => handleFocus(e, 'email')}
+          handleBlur={(e) => handleBlur(e, 'email')}
           handleChange={(e) => handleChange(e, 'email')}
           label={'Email*'}
-          computedState={email}
+          state={state}
         />
         <Input
+          type='password'
           customType='password'
-          handleFocus={handleFocus.bind(this, 'password')}
-          handleBlur={handleBlur.bind(this, 'password')}
+          handleFocus={(e) => handleFocus(e, 'password')}
+          handleBlur={(e) => handleBlur(e, 'password')}
           handleChange={(e) => handleChange(e, 'password')}
           label={'Password*'}
-          computedState={password}
+          state={state}
         />
-        <Modal
-          message={props.modalMessage ? props.modalMessage : modalMessage}
-          color={modalMessage ? 'red' : null}
-        />
+        <Modal message={modalMessage} color='black' />
         <div className={styles.buttonsDiv}>
           <Link to='/' className={styles.linkLeft}>
             <img

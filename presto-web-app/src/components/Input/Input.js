@@ -15,7 +15,7 @@ export default (props) => {
   return (
     <>
       <div className={styles.div}>
-        {props.customType === 'password' ? (
+        {props?.customType === 'password' ? (
           <img
             className={styles.eye}
             alt='show password'
@@ -25,11 +25,11 @@ export default (props) => {
         ) : null}
         <label
           className={
-            props?.state?.message.error
-              ? props?.state?.animateUp
+            props?.state.inputs[props.customType]?.message?.error
+              ? props?.state.inputs[props.customType]?.animateUp
                 ? styles.redUp
                 : styles.redDown
-              : props?.state?.animateUp
+              : props?.state.inputs[props.customType]?.animateUp
               ? styles.up
               : styles.down
           }>
@@ -37,27 +37,29 @@ export default (props) => {
         </label>
       </div>
       <input
-        list={props.list || ''}
+        list={props?.list || ''}
         className={
-          props?.state?.message.error
+          props?.state.inputs[props.customType]?.message?.error
             ? styles.redInput
-            : props?.state?.animateUp
+            : props?.state[props.customType]?.animateUp
             ? styles.colorInput
             : styles.Input
         }
-        value={props?.state?.value}
+        value={props?.state?.inputs[props.customType]?.value}
         type={
           props?.type === 'password' ? state.innerType : props?.type || 'text'
         }
-        onBlur={props.handleBlur}
-        onFocus={props.handleFocus}
+        onBlur={props?.handleBlur.bind(props.customType)}
+        onFocus={props?.handleFocus.bind(props.customType)}
         onChange={(e) => props.handleChange(e, props.customType)}
       />
       <p
         className={
-          props.state.message.error ? styles.redMessage : styles.message
+          props?.state.inputs[props.customType]?.message?.error
+            ? styles.redMessage
+            : styles.message
         }>
-        {props.state.message.text}
+        {props?.state.inputs[props.customType]?.message?.text}
       </p>
     </>
   );

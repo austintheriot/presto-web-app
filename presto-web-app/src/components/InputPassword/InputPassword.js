@@ -3,7 +3,7 @@ import Input from '../Input/Input';
 import returnInputErrors from '../../util/returnInputErrors';
 
 //assume that the password is not a signup form
-export default function InputPassword({ isSignup = true }) {
+export default function InputPassword({ isSignup = false }) {
   const [state, setState] = useState({
     value: '',
     animateUp: false,

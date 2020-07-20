@@ -17,11 +17,15 @@ export default function InputEmail(props) {
   const handleFocus = () => {
     //animation
     setState((prevState) => ({ ...prevState, animateUp: true, touched: true }));
+
+    //any parent validation
+    if (props?.handleFocus) {
+      props.handleFocus();
+    }
   };
 
   const handleBlur = () => {
     //animation
-
     let empty = state.touched && state.value.length === 0 ? true : false;
 
     setState((prevState) => ({

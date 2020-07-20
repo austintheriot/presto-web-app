@@ -6,6 +6,7 @@ export default ({
   emailTouched = false,
   passwordTouched = false,
   confirmPasswordTouched = false,
+  submittingForm = false,
 }) => {
   let errors = {
     email: null,
@@ -18,24 +19,29 @@ export default ({
   if (email && !email.match(regex)) errors.email = 'Invalid email';
   if (password && confirmPassword && password !== confirmPassword)
     errors.confirmPassword = 'Passwords do not match';
-  if (email && emailTouched && email.length === 0)
-    errors.email = 'Email is required';
-  if (password && passwordTouched && password.length === 0)
-    errors.password = 'Password is required';
   if (
-    email &&
-    emailTouched &&
-    email.length === 0 &&
-    password &&
-    passwordTouched &&
-    password.length === 0
-  ) {
-    errors.email = 'Email and password are required';
-    errors.password = 'Email and password are required';
-  }
-
-  if (confirmPassword && confirmPasswordTouched && confirmPassword.length === 0)
-    errors.confirmPassword = 'Confirm password is required';
+    //error if touched
+    (email !== null && emailTouched && email.length === 0) ||
+    //error if submitted without touching
+    (email !== null && submittingForm && email.length === 0)
+  )
+    errors.email = 'This input is required';
+  if (
+    //error if touched
+    (password !== null && passwordTouched && password.length === 0) ||
+    //error if submitted without touching
+    (password !== null && submittingForm && password.length === 0)
+  )
+    errors.password = 'This input is required';
+  if (
+    //error if touched
+    (confirmPassword !== null &&
+      confirmPasswordTouched &&
+      confirmPassword.length === 0) ||
+    //error if submitted without touching
+    (confirmPassword !== null && submittingForm && confirmPassword.length === 0)
+  )
+    errors.confirmPassword = 'This input is required';
 
   //check length only for sign up sheets
   if (isSignup) {
