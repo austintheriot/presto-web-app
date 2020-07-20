@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import Modal from '../../components/Modal/Modal';
@@ -8,30 +8,28 @@ import { useAuth } from '../../context/AuthProvider';
 import Input from '../../components/Input/Input';
 import styles from './Login.module.css';
 
-//redirect with AuthContext once SetState permeates down to component
+//redirect with AuthContext once setInputs permeates down to component
 
 export default function Login(props) {
-  const [state, setState] = useState({
-    inputs: {
-      email: {
-        value: '',
-        animateUp: false,
-        empty: true,
-        touched: false,
-        message: {
-          error: false,
-          text: '',
-        },
+  const [inputs, setInputs] = useState({
+    email: {
+      value: '',
+      animateUp: false,
+      empty: true,
+      touched: false,
+      message: {
+        error: false,
+        text: '',
       },
-      password: {
-        value: '',
-        animateUp: false,
-        empty: true,
-        touched: false,
-        message: {
-          error: false,
-          text: '',
-        },
+    },
+    password: {
+      value: '',
+      animateUp: false,
+      empty: true,
+      touched: false,
+      message: {
+        error: false,
+        text: '',
       },
     },
   });
@@ -39,15 +37,12 @@ export default function Login(props) {
 
   const handleFocus = (event, newestType) => {
     //animation
-    setState((prevState) => ({
+    setInputs((prevState) => ({
       ...prevState,
-      inputs: {
-        ...prevState.inputs,
-        [newestType]: {
-          ...prevState.inputs[newestType],
-          animateUp: true,
-          touched: true,
-        },
+      [newestType]: {
+        ...prevState[newestType],
+        animateUp: true,
+        touched: true,
       },
     }));
   };
@@ -55,28 +50,22 @@ export default function Login(props) {
   const handleBlur = (event, newestType) => {
     //animation & output error if empty
     let targetEmpty =
-      state.inputs[newestType].touched &&
-      state.inputs[newestType].value.length === 0
+      inputs[newestType].touched && inputs[newestType].value.length === 0
         ? true
         : false;
 
-    setState((prevState) => ({
+    setInputs((prevState) => ({
       ...prevState,
-      inputs: {
-        ...prevState.inputs,
-        [newestType]: {
-          ...prevState.inputs[newestType],
-          //animation
-          animateUp: targetEmpty ? false : true,
-          //output error if empty
-          message: {
-            error: targetEmpty
-              ? true
-              : prevState.inputs[newestType].message.error,
-            text: targetEmpty
-              ? 'This input is required'
-              : prevState.inputs[newestType].message.text,
-          },
+      [newestType]: {
+        ...prevState[newestType],
+        //animation
+        animateUp: targetEmpty ? false : true,
+        //output error if empty
+        message: {
+          error: targetEmpty ? true : prevState[newestType].message.error,
+          text: targetEmpty
+            ? 'This input is required'
+            : prevState[newestType].message.text,
         },
       },
     }));
@@ -90,44 +79,36 @@ export default function Login(props) {
   ) => {
     //validate input
     let validationSettings = {
-      email: newestType === 'email' ? targetValue : state.inputs.email.value,
-      password:
-        newestType === 'password' ? targetValue : state.inputs.password.value,
+      email: newestType === 'email' ? targetValue : inputs.email.value,
+      password: newestType === 'password' ? targetValue : inputs.password.value,
       confirmPassword: null,
       isSignup: false,
-      emailTouched: state.inputs.email.touched,
-      passwordTouched: state.inputs.password.touched,
+      emailTouched: inputs.email.touched,
+      passwordTouched: inputs.password.touched,
       confirmPasswordTouched: false,
       submittingForm: submittingForm,
     };
     let anyErrorsObject = returnInputErrors(validationSettings);
 
     //update state for all inputs
-    Object.keys(state.inputs).forEach((inputType) => {
-      setState((prevState) => ({
+    Object.keys(inputs).forEach((inputType) => {
+      setInputs((prevState) => ({
         ...prevState,
-        inputs: {
-          ...prevState.inputs,
-          [inputType]: {
-            ...prevState.inputs[inputType],
+        [inputType]: {
+          ...prevState[inputType],
 
-            //update generic values
-            value:
-              inputType === newestType
-                ? targetValue
-                : prevState.inputs[inputType].value,
-            empty:
-              inputType === newestType
-                ? targetEmpty
-                : prevState.inputs[inputType].empty,
+          //update generic values
+          value:
+            inputType === newestType ? targetValue : prevState[inputType].value,
+          empty:
+            inputType === newestType ? targetEmpty : prevState[inputType].empty,
 
-            //update errors: If no error, set to empty
-            message: {
-              error: anyErrorsObject[inputType] ? true : false,
-              text: anyErrorsObject[inputType]
-                ? anyErrorsObject[inputType]
-                : false,
-            },
+          //update errors: If no error, set to empty
+          message: {
+            error: anyErrorsObject[inputType] ? true : false,
+            text: anyErrorsObject[inputType]
+              ? anyErrorsObject[inputType]
+              : false,
           },
         },
       }));
@@ -167,10 +148,7 @@ export default function Login(props) {
   const login = () => {
     firebase
       .auth()
-      .signInWithEmailAndPassword(
-        state.inputs.email.value,
-        state.inputs.password.value
-      )
+      .signInWithEmailAndPassword(inputs.email.value, inputs.password.value)
       .catch((error) => {
         switch (error.code) {
           //account diabled
@@ -228,7 +206,7 @@ export default function Login(props) {
           handleBlur={(e) => handleBlur(e, 'email')}
           handleChange={(e) => handleChange(e, 'email')}
           label={'Email*'}
-          state={state}
+          inputs={inputs}
         />
         <Input
           type='password'
@@ -237,7 +215,7 @@ export default function Login(props) {
           handleBlur={(e) => handleBlur(e, 'password')}
           handleChange={(e) => handleChange(e, 'password')}
           label={'Password*'}
-          state={state}
+          inputs={inputs}
         />
         <Modal message={modalMessage} color='black' />
         <div className={styles.buttonsDiv}>

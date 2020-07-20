@@ -25,11 +25,11 @@ export default (props) => {
         ) : null}
         <label
           className={
-            props?.state.inputs[props.customType]?.message?.error
-              ? props?.state.inputs[props.customType]?.animateUp
+            props?.inputs[props.customType]?.message?.error
+              ? props?.inputs[props.customType]?.animateUp
                 ? styles.redUp
                 : styles.redDown
-              : props?.state.inputs[props.customType]?.animateUp
+              : props?.inputs[props.customType]?.animateUp
               ? styles.up
               : styles.down
           }>
@@ -39,13 +39,13 @@ export default (props) => {
       <input
         list={props?.list || ''}
         className={
-          props?.state.inputs[props.customType]?.message?.error
+          props?.inputs[props.customType]?.message?.error
             ? styles.redInput
-            : props?.state[props.customType]?.animateUp
+            : props?.inputs[props.customType]?.animateUp
             ? styles.colorInput
             : styles.Input
         }
-        value={props?.state?.inputs[props.customType]?.value}
+        value={props?.inputs[props.customType]?.value}
         type={
           props?.type === 'password' ? state.innerType : props?.type || 'text'
         }
@@ -55,11 +55,11 @@ export default (props) => {
       />
       <p
         className={
-          props?.state.inputs[props.customType]?.message?.error
+          props?.inputs[props.customType]?.message?.error
             ? styles.redMessage
             : styles.message
         }>
-        {props?.state.inputs[props.customType]?.message?.text}
+        {props?.inputs[props.customType]?.message?.text}
       </p>
     </>
   );
