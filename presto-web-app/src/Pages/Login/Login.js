@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/analytics';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../util/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
@@ -33,7 +34,7 @@ export default function Login(props) {
       },
     },
   });
-  const [modalMessage, setModalMessasge] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
 
   const handleFocus = (event, newestType) => {
     //animation
@@ -136,7 +137,7 @@ export default function Login(props) {
     });
 
     if (anyErrorsFound) {
-      setModalMessasge('Please fix all errors before submitting');
+      setModalMessage('Please fix all errors before submitting');
       return;
     } else {
       //assuming the email and password are both valid, log in
@@ -149,31 +150,36 @@ export default function Login(props) {
     firebase
       .auth()
       .signInWithEmailAndPassword(inputs.email.value, inputs.password.value)
+      .then(() => {
+        firebase.analytics().logEvent('login', {
+          method: 'Email & Password',
+        });
+      })
       .catch((error) => {
         switch (error.code) {
           //account diabled
           case 'auth/user-disabled':
-            setModalMessasge(
+            setModalMessage(
               'This account corresponding to this email has been disabled'
             );
             break;
           case 'auth/invalid-email':
-            setModalMessasge('The email or password you entered is incorrect');
+            setModalMessage('The email or password you entered is incorrect');
             break;
           case 'auth/wrong-password':
-            setModalMessasge('The email or password you entered is incorrect');
+            setModalMessage('The email or password you entered is incorrect');
             break;
           case 'auth/user-not-found':
-            setModalMessasge('There is no account associated with this email.');
+            setModalMessage('There is no account associated with this email.');
             break;
           case 'auth/too-many-requests':
-            setModalMessasge(
+            setModalMessage(
               'Too many unsuccessful attempts. Please try again later.'
             );
             break;
           default:
             console.error(error.code, error.message);
-            return setModalMessasge('Server error. Please try again later.');
+            return setModalMessage('Server error. Please try again later.');
         }
       });
   };
@@ -234,7 +240,7 @@ export default function Login(props) {
             <img
               className={styles.linkRightImg}
               src={require('../../assets/images/arrow-right.svg')}
-              alt='sign up'
+              alt='log in'
             />
           </button>
         </div>

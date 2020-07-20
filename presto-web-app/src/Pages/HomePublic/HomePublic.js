@@ -18,6 +18,9 @@ const Home = (props) => {
       .auth()
       .signInAnonymously()
       .then(() => {
+        firebase.analytics().logEvent('login', {
+          method: 'Anonymous',
+        });
         setSignedInAnonymously(true);
       })
       .catch(function (error) {
