@@ -13,7 +13,7 @@ export default ({ ...props }) => {
   }
 
   return (
-    <button className={buttonStyle || styles.Button} {...props}>
+    <button type='button' className={buttonStyle || styles.Button} {...props}>
       {props.children || 'Button'}
     </button>
   );

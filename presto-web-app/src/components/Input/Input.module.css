@@ -9,45 +9,43 @@
   max-width: 400px;
 }
 
-.Label {
+.label {
   box-sizing: border-box;
   position: relative;
   display: block;
   top: 0.5rem;
-  left: 1rem;
+  left: 0.75rem;
   transition: all 0.1s;
   text-align: left;
   width: max-content;
-  border-radius: 2px;
-  padding: 0.1rem;
+  border-radius: 5px;
+  padding: 0.1rem 0.3rem;
+}
+
+.up {
+  z-index: 1;
+  background-color: white;
+  color: #60399dff;
+  font-size: 0.8rem;
+  top: 0;
 }
 
 .down {
-  composes: Label;
   color: #adadad;
   top: 1.75rem;
   font-size: 1rem;
 }
 
-.redDown {
-  composes: down;
+.redLabel {
   color: red;
 }
 
-.up {
-  composes: Label;
-  z-index: 1;
-  background-color: white;
-  color: #60399dff;
-  font-size: 0.8rem;
+.inactiveLabel {
+  color: #777;
+  background-color: #efefef;
 }
 
-.redUp {
-  composes: up;
-  color: red;
-}
-
-.Input {
+.input {
   box-sizing: border-box;
   position: relative;
   display: block;
@@ -68,13 +66,18 @@
 }
 
 .colorInput {
-  composes: Input;
   border: 2px solid #60399dff;
 }
 
 .redInput {
-  composes: Input;
   border: 2px solid red;
+}
+
+.inactiveInput {
+  border-color: #adadad;
+  background-color: #efefef;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .message {

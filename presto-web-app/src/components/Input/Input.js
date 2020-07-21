@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Input.module.css';
+import SuggestionList from '../../components/SuggestionList/SuggestionList';
 
 export default (props) => {
   const [state, setState] = useState({
@@ -24,34 +25,54 @@ export default (props) => {
           />
         ) : null}
         <label
-          className={
-            props?.inputs[props.customType]?.message?.error
-              ? props?.inputs[props.customType]?.animateUp
-                ? styles.redUp
-                : styles.redDown
-              : props?.inputs[props.customType]?.animateUp
+          className={[
+            //general
+            styles.label,
+
+            //animate up?
+            props?.inputs[props.customType]?.animateUp
               ? styles.up
-              : styles.down
-          }>
+              : styles.down,
+
+            //error?
+            props?.inputs[props.customType]?.message?.error
+              ? styles.redLabel
+              : '',
+
+            //inactive?
+            props?.readOnly ? styles.inactiveLabel : '',
+          ].join(' ')}>
           {props?.label || 'Label'}
         </label>
       </div>
       <input
-        list={props?.list || ''}
-        className={
+        readOnly={props?.readOnly || false}
+        className={[
+          //general
+          styles.input,
+
+          //animate up?
+          props?.inputs[props.customType]?.animateUp ? styles.colorInput : '',
+
+          //error?
           props?.inputs[props.customType]?.message?.error
             ? styles.redInput
-            : props?.inputs[props.customType]?.animateUp
-            ? styles.colorInput
-            : styles.Input
-        }
-        value={props?.inputs[props.customType]?.value}
+            : '',
+
+          //inactive?
+          props?.readOnly ? styles.inactiveInput : '',
+        ].join(' ')}
+        value={props?.inputs[props.customType]?.value || ''}
         type={
           props?.type === 'password' ? state.innerType : props?.type || 'text'
         }
-        onBlur={props?.handleBlur.bind(props.customType)}
-        onFocus={props?.handleFocus.bind(props.customType)}
+        onBlur={(e) => props.handleBlur(e, props.customType)}
+        onFocus={(e) => props.handleFocus(e, props.customType)}
         onChange={(e) => props.handleChange(e, props.customType)}
+      />
+      <SuggestionList
+        suggestions={props?.inputs[props.customType]?.suggestions || null}
+        suggestionClickHandler={props?.suggestionClickHandler || null}
       />
       <p
         className={

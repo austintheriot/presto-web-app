@@ -29,7 +29,7 @@ export default function Login(props) {
   });
   const [individualRadioChecked, setIndividualRadioChecked] = useState(true);
   const [ensembleRadioChecked, setEnsembleRadioChecked] = useState(false);
-  const [radioValue, setRadioValue] = useState('');
+  const [radioValue, setRadioValue] = useState('individual');
   const [modalMessage, setModalMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -168,6 +168,7 @@ export default function Login(props) {
       )
       .then(() => {
         console.log('Document successfully written!');
+        //redirect on successful submission
         setSubmitted(true);
       })
       .catch((error) => {
@@ -188,8 +189,8 @@ export default function Login(props) {
       {submitted ? <Redirect to={'/signup/location'} /> : null}
       <h1 className={styles.title}>Thanks for Signing up!</h1>
       <p className={styles.subtitle}>
-        Add some info about yourself so that others can find you easier (you can
-        edit this later).
+        Add some info about yourself. This information is public and allows
+        others to find you easier (you can edit this later).
       </p>
       {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
       <form onSubmit={submitHandler}>
