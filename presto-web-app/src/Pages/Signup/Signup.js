@@ -11,6 +11,7 @@ import styles from './Signup.module.css';
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Signup(props) {
+  let { authenticated } = useAuth();
   const [inputs, setInputs] = useState({
     email: {
       value: '',
@@ -34,6 +35,7 @@ export default function Signup(props) {
     },
   });
   const [modalMessage, setModalMessage] = useState('');
+  const [signedUpUser, setSignedUpUser] = useState(null);
 
   const handleFocus = (event, newestType) => {
     //animation
@@ -64,7 +66,7 @@ export default function Signup(props) {
         message: {
           error: targetEmpty ? true : prevState[newestType].message.error,
           text: targetEmpty
-            ? 'This input is required'
+            ? 'This field is required'
             : prevState[newestType].message.text,
         },
       },
@@ -149,10 +151,12 @@ export default function Signup(props) {
     firebase
       .auth()
       .createUserWithEmailAndPassword(inputs.email.value, inputs.password.value)
-      .then(() => {
+      .then((data) => {
         firebase.analytics().logEvent('sign_up', {
           method: 'Email & Password',
         });
+        setSignedUpUser(data.user);
+        console.log('[Signup] user:', data.user);
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use')
@@ -168,12 +172,49 @@ export default function Signup(props) {
       });
   };
 
-  let { authenticated } = useAuth();
-  let redirect = '/home';
+  let redirect = '/signup/personal';
   if (props.history?.location?.state?.redirect) {
     redirect = props.history?.location?.state?.redirect;
     console.log('[Sign Up] will redirect to: ', redirect, ' when finished');
   }
+
+  const createDocumentAndRedirect = () => {
+    if (authenticated && signedUpUser) {
+      console.log(
+        '[Sign Up] adding user email & timeCreated to user document:'
+      );
+      // Add a new document in collection "cities"
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(signedUpUser.uid)
+        .set(
+          {
+            email: signedUpUser.email,
+            timeCreated: new Date().toISOString(),
+          },
+          { merge: true }
+        )
+        .then(() => {
+          console.log('Document successfully written!');
+        })
+        .catch(function (error) {
+          console.error('Error writing document: ', error);
+        });
+      return <Redirect to={redirect} />;
+    } else {
+      return null;
+    }
+  };
+
+  const redirectWithoutCreatingDocument = () => {
+    if (authenticated && !signedUpUser) {
+      console.log('[Signup] redirecting without creating document...');
+      return <Redirect to={redirect} />;
+    } else {
+      return null;
+    }
+  };
 
   //top modal:
   let infoMessage = props.history?.location?.state?.infoMessage;
@@ -184,7 +225,9 @@ export default function Signup(props) {
       <div className={styles.LoginDiv}>
         <Link to='/login'>Log In</Link>
       </div>
-      {authenticated ? <Redirect to={redirect} /> : null}
+
+      {createDocumentAndRedirect()}
+      {redirectWithoutCreatingDocument()}
 
       <h1 className={styles.title}>Sign Up</h1>
       {infoMessage ? <Modal message={infoMessage} color='black' /> : null}

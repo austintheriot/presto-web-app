@@ -7,8 +7,9 @@ import HomePublic from './Pages/HomePublic/HomePublic';
 import HomePrivate from './Pages/HomePrivate/HomePrivate';
 import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
-import MoreInfo1 from './Pages/MoreInfo1/MoreInfo1';
-import MoreInfo2 from './Pages/MoreInfo2/MoreInfo2';
+import SignupPersonal from './Pages/SignupPersonal/SignupPersonal';
+import SignupLocation from './Pages/SignupLocation/SignupLocation';
+import SignupProfile from './Pages/SignupProfile/SignupProfile';
 import LogoutByRender from './components/LogoutByRender';
 import Posts from './Pages/Posts/Posts';
 import Profile from './Pages/Profile/Profile';
@@ -22,8 +23,6 @@ import {
   Route,
   withRouter,
 } from 'react-router-dom';
-import InputEmail from './components/InputEmail/InputEmail';
-import InputPassword from './components/InputPassword/InputPassword';
 
 //context
 import { AuthContext } from './context/AuthProvider';
@@ -96,19 +95,27 @@ function App() {
             <>
               <Switch>
                 <Route exact path='/' component={HomePublic} />
-                <Route path='/login' component={Login} />
-                <Route path='/signup' component={Signup} />
-                <Route path='/logout' component={LogoutByRender} />
-                <Route path='/inputs'>
-                  <InputEmail />
-                  <InputPassword />
-                </Route>
-                <PrivateRoute path='/moreinfo1' component={MoreInfo1} />
-                <PrivateRoute path='/moreinfo2' component={MoreInfo2} />
-                <PrivateRoute path='/home' component={HomePrivate} />
-                <PrivateRoute path='/posts' component={Posts} />
-                <PrivateRoute path='/profile' component={Profile} />
-                <PrivateRoute path='/settings' component={Settings} />
+                <Route exact path='/logout' component={LogoutByRender} />
+                <Route exact path='/login' component={Login} />
+                <Route exact path='/signup' component={Signup} />
+                <PrivateRoute
+                  exact
+                  path='/signup/personal'
+                  component={SignupPersonal}
+                />
+                <PrivateRoute
+                  exact
+                  path='/signup/location'
+                  component={SignupLocation}
+                />
+                <PrivateRoute
+                  exact
+                  path='/signup/profile'
+                  component={SignupProfile}
+                />
+                <PrivateRoute exact path='/posts' component={Posts} />
+                <PrivateRoute exact path='/profile' component={Profile} />
+                <PrivateRoute exact path='/settings' component={Settings} />
                 <Route path='*' component={HomePrivate} />
               </Switch>
             </>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './MoreInfo2.module.css';
+import styles from './SignupProfile.module.css';
 
 //To update a user's profile:
 /* user.updateProfile({
@@ -15,7 +15,7 @@ import styles from './MoreInfo2.module.css';
 export default () => {
   return (
     <>
-      <h1 className={styles.title}>More Info 2</h1>
+      <h1 className={styles.title}>Profile</h1>
     </>
   );
 };

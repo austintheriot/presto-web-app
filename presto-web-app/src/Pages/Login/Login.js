@@ -65,7 +65,7 @@ export default function Login(props) {
         message: {
           error: targetEmpty ? true : prevState[newestType].message.error,
           text: targetEmpty
-            ? 'This input is required'
+            ? 'This field is required'
             : prevState[newestType].message.text,
         },
       },
@@ -141,7 +141,6 @@ export default function Login(props) {
       return;
     } else {
       //assuming the email and password are both valid, log in
-      console.log('sending log in form');
       login();
     }
   };

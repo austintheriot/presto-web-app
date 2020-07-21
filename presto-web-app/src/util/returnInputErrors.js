@@ -25,14 +25,14 @@ export default ({
     //error if submitted without touching
     (email !== null && submittingForm && email.length === 0)
   )
-    errors.email = 'This input is required';
+    errors.email = 'This field is required';
   if (
     //error if touched
     (password !== null && passwordTouched && password.length === 0) ||
     //error if submitted without touching
     (password !== null && submittingForm && password.length === 0)
   )
-    errors.password = 'This input is required';
+    errors.password = 'This field is required';
   if (
     //error if touched
     (confirmPassword !== null &&
@@ -41,7 +41,7 @@ export default ({
     //error if submitted without touching
     (confirmPassword !== null && submittingForm && confirmPassword.length === 0)
   )
-    errors.confirmPassword = 'This input is required';
+    errors.confirmPassword = 'This field is required';
 
   //check length only for sign up sheets
   if (isSignup) {
