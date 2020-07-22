@@ -27,13 +27,9 @@
   font-size: var(--h3);
 }
 
-.title {
-  margin-top: 3rem;
-}
-
 .subtitle {
   width: 50%;
-  max-width: 400px;
+  max-width: 600px;
   min-width: 300px;
   margin: 0 auto;
 }

@@ -391,14 +391,18 @@ export default function Login(props) {
       />
       <h1 className={styles.title}>Location</h1>
       <p className={styles.subtitle}>
-        Where are you based out of? This information is public, and will allow
-        you to write posts in the location that helps you get the most gigs (you
-        can edit this later).
+        This information is public--we don't ask you for your street address.
       </p>
-      {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
-      <Modal message={modalMessage} color='black' />
+      <br />
+      <p className={styles.subtitle}>
+        Sharing your general location allows you to write posts in the place
+        that helps you the most (you can edit this later).
+      </p>
+      {infoMessage ? (
+        <Modal message={infoMessage} color={infoMessage ? 'black' : null} />
+      ) : null}
+      <Modal message={modalMessage} color={modalMessage ? 'black' : null} />
       <Button onClick={getLocation}>Autofill Location</Button>
-      <p>Or manually input:</p>
       <Input
         type='text'
         customType='location'

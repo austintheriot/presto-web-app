@@ -210,7 +210,16 @@ export default function Signup(props) {
   const redirectWithoutCreatingDocument = () => {
     if (authenticated && !signedUpUser) {
       console.log('[Signup] redirecting without creating document...');
-      return <Redirect to={redirect} />;
+      return (
+        <Redirect
+          to={{
+            pathname: redirect,
+            state: {
+              infoMessage: 'You are already signed up.',
+            },
+          }}
+        />
+      );
     } else {
       return null;
     }

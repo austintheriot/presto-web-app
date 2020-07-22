@@ -8,7 +8,7 @@ import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import styles from './SignupPersonal.module.css';
 import { useAuth } from '../../context/AuthProvider';
-import SignupPersonal from '../../components/ProgressBar/ProgressBar';
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 //redirect with AuthContext once setInputs permeates down to component
 
@@ -188,13 +188,13 @@ export default function Login(props) {
         <Link to='/signup/location'>Skip</Link>
       </div>
       {submitted ? <Redirect to={'/signup/location'} /> : null}
-      <SignupPersonal signup={'complete'} personal={'inProgress'} />
+      <ProgressBar signup='complete' personal='inProgress' />
+      {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
       <h1 className={styles.title}>Thanks for Signing up!</h1>
       <p className={styles.subtitle}>
         Add some info about yourself. This information is public and allows
         others to find you easier (you can edit this later).
       </p>
-      {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
       <form onSubmit={submitHandler}>
         <p className={styles.radioTitle}>I am registering as:</p>
         <div className={styles.radioGroup}>

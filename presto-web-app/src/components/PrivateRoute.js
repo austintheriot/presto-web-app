@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
 
-const PrivateRoute = ({ component: ComposedComponent, path, ...rest }) => {
+const PrivateRoute = ({ component: ComposedComponent, ...rest }) => {
   class Authentication extends Component {
     //call this function below to determine which component to render
     handleRender = (props) => {
@@ -14,7 +14,6 @@ const PrivateRoute = ({ component: ComposedComponent, path, ...rest }) => {
               pathname: '/login',
               state: {
                 infoMessage: 'You must be logged in to see this page.',
-                redirect: path,
               },
             }}
           />

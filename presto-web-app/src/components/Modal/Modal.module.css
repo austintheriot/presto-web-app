@@ -11,10 +11,12 @@
   padding: 0 5px;
   height: 0rem;
   transition: all 0.2s;
+  display: none;
 }
 
 .divShown {
   composes: divHidden;
+  display: block;
   height: 2.5rem;
   padding: 5px;
   margin: 2rem auto;
