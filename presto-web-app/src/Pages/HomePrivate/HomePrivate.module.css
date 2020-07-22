@@ -8,6 +8,7 @@
 
 @media (min-width: 900px) {
   .LogoutDiv {
+    top: 0.7rem;
     display: block;
   }
 }

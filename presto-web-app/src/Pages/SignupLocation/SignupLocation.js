@@ -10,6 +10,7 @@ import { useAuth } from '../../context/AuthProvider';
 import Button from '../../components/Button/Button';
 import geoapifyKey from '../../util/geoapifyKey';
 import styles from './SignupLocation.module.css';
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 //redirect with AuthContext once setInputs permeates down to component
 
@@ -383,6 +384,11 @@ export default function Login(props) {
         <Link to='/signup/profile'>Skip</Link>
       </div>
       {submitted ? <Redirect to={'/signup/profile'} /> : null}
+      <ProgressBar
+        signup='complete'
+        personal='complete'
+        location='inProgress'
+      />
       <h1 className={styles.title}>Location</h1>
       <p className={styles.subtitle}>
         Where are you based out of? This information is public, and will allow
@@ -403,7 +409,7 @@ export default function Login(props) {
         inputs={inputs}
         suggestionClickHandler={suggestionClickHandler}
       />
-      <div className={styles.spacer}></div>
+      <div className='spacerSmall'></div>
       <form onSubmit={submitHandler}>
         <fieldset className={styles.fieldset}>
           <Input
@@ -479,6 +485,7 @@ export default function Login(props) {
           </button>
         </div>
       </form>
+      <div className='spacerMedium'></div>
     </>
   );
 }

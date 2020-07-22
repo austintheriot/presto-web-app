@@ -227,7 +227,7 @@ export default function Login(props) {
           <Link to='/' className={styles.linkLeft}>
             <img
               className={styles.linkLeftImg}
-              src={require('../../assets/images/arrow-left.svg')}
+              src={require('../../assets/images/home.svg')}
               alt='back'
             />
           </Link>

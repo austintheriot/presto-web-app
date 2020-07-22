@@ -1,0 +1,47 @@
+.line {
+  position: relative;
+  margin: 5rem auto 5rem auto;
+  min-width: 250px;
+  max-width: 500px;
+  width: 50%;
+  height: 1px;
+  background-color: #aaa;
+  border-radius: 5px;
+  display: flex;
+  flex: none;
+  justify-content: space-between;
+}
+
+.circle {
+  position: relative;
+  height: 15px;
+  width: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid var(--pop-color);
+}
+
+.p {
+  position: relative;
+  width: max-content;
+  text-align: center;
+  left: 50%;
+  top: 2rem;
+  transform: translateX(-50%);
+}
+
+.complete {
+  background-color: var(--pop-color);
+}
+
+.inProgress {
+  height: 15px;
+  width: 15px;
+  border: 4px solid var(--pop-color);
+}
+
+.inProgress .p {
+  top: 1.8rem;
+}

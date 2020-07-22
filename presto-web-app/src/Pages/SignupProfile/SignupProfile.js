@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './SignupProfile.module.css';
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 //To update a user's profile:
 /* user.updateProfile({
@@ -15,6 +16,12 @@ import styles from './SignupProfile.module.css';
 export default () => {
   return (
     <>
+      <ProgressBar
+        signup='complete'
+        personal='complete'
+        location='complete'
+        profile='inProgress'
+      />
       <h1 className={styles.title}>Profile</h1>
     </>
   );

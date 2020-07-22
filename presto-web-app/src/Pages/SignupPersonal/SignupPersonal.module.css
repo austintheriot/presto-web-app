@@ -27,19 +27,15 @@
   font-size: var(--h3);
 }
 
-.title {
-  margin-top: 5rem;
-}
-
 .subtitle {
   width: 50%;
   max-width: 400px;
   min-width: 250px;
-  margin: 0 auto;
+  margin: 2rem auto;
 }
 
 .radioTitle {
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .radioGroup {

@@ -30,18 +30,23 @@
 }
 
 .linkLeft {
-  height: 50px;
-  margin: 0 auto;
   position: relative;
+  height: 60px;
+  width: 60px;
+  margin: 0 auto;
   cursor: pointer;
   box-shadow: var(--shadow);
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .linkLeftImg {
-  border-radius: 50%;
   transform: scale(1.05);
   background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .linkRight {
