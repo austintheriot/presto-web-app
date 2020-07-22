@@ -18,6 +18,8 @@
 
 .title {
   position: relative;
+  width: max-content;
+  margin: 0 auto;
   left: -5%;
   color: white;
 }

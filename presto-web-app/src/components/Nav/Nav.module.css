@@ -35,6 +35,10 @@
   height: 100%;
 }
 
+.li {
+  width: max-content;
+}
+
 .img {
   box-sizing: content-box;
   position: absolute;

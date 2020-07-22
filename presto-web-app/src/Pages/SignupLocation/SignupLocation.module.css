@@ -18,7 +18,7 @@
 
 .title,
 .p {
-  min-width: 250px;
+  min-width: 300px;
   max-width: 75%;
   margin: 1rem auto;
 }
@@ -34,8 +34,12 @@
 .subtitle {
   width: 50%;
   max-width: 400px;
-  min-width: 250px;
+  min-width: 300px;
   margin: 0 auto;
+}
+
+.spacer {
+  height: 3rem;
 }
 
 .fieldset {
@@ -44,6 +48,7 @@
   max-width: 500px;
   margin: 0 auto;
 }
+
 .buttonsDiv {
   margin-top: 2rem;
   display: flex;

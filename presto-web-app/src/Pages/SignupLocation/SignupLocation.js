@@ -27,8 +27,8 @@ export default function Login(props) {
       },
       message: {
         error: false,
-        text: 'e.g. Address, City, State, Zip Code, etc.',
-        default: 'e.g. Address, City, State, Zip Code, etc.',
+        text: 'e.g. Address/City/State/Zip Code, etc.',
+        default: 'e.g. Address/City/State/Zip Code, etc.',
       },
     },
     city: {
@@ -199,7 +199,7 @@ export default function Login(props) {
     xhr.send(null);
     xhr.onerror = () => {
       console.error('Request failed');
-      setModalMessage('Sorry, there was an error.');
+      setModalMessage(`Sorry, we couldn't find your location.`);
     };
     xhr.onload = () => {
       if (xhr.status !== 200) {
@@ -281,7 +281,7 @@ export default function Login(props) {
       xhr.send(null);
       xhr.onerror = () => {
         console.error('Request failed');
-        setModalMessage('Sorry, there was an error.');
+        setModalMessage(`Sorry, we couldn't find your location.`);
       };
       xhr.onload = (data) => {
         if (xhr.status !== 200) {
@@ -328,7 +328,7 @@ export default function Login(props) {
 
     const handleGeolocationFail = (err) => {
       console.warn(`ERROR(${err.code}): ${err.message}`);
-      setModalMessage('Sorry, there was an error.');
+      setModalMessage(`Sorry, we couldn't find your location.`);
     };
 
     //if Geolocation is supported, call it (see above)
@@ -390,7 +390,9 @@ export default function Login(props) {
         can edit this later).
       </p>
       {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
+      <Modal message={modalMessage} color='black' />
       <Button onClick={getLocation}>Autofill Location</Button>
+      <p>Or manually input:</p>
       <Input
         type='text'
         customType='location'
@@ -401,6 +403,7 @@ export default function Login(props) {
         inputs={inputs}
         suggestionClickHandler={suggestionClickHandler}
       />
+      <div className={styles.spacer}></div>
       <form onSubmit={submitHandler}>
         <fieldset className={styles.fieldset}>
           <Input
@@ -455,7 +458,6 @@ export default function Login(props) {
           />
         </fieldset>
 
-        <Modal message={modalMessage} color='black' />
         <div className={styles.buttonsDiv}>
           <Link to='/personal' className={styles.linkLeft}>
             <img

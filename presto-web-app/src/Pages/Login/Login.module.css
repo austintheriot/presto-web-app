@@ -1,4 +1,6 @@
 .title {
+  width: max-content;
+  margin: 0 auto;
   margin-top: 5rem;
 }
 
