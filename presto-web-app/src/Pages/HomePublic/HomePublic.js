@@ -9,7 +9,7 @@ import Logout from '../../components/Logout';
 import Modal from '../../components/Modal/Modal';
 
 //images
-import home1 from '../../assets/images/home1.svg';
+import LoginButtons from '../../assets/images/LoginButtons.svg';
 import home2 from '../../assets/images/home2.svg';
 import home3 from '../../assets/images/home4.svg';
 import home4 from '../../assets/images/home5.svg';
@@ -35,7 +35,8 @@ const Home = (props) => {
 			});
 	};
 
-	const Home1 = () => {
+	//Defined here since used twice below
+	const LoginButtons = () => {
 		return (
 			<>
 				{authenticated ? (
@@ -89,8 +90,8 @@ const Home = (props) => {
 			) : null}
 			<h1 className={styles.title}>Presto</h1>
 			<p className={styles.subtitle}>web app for musicians</p>
-			<img alt='' src={home1} className={styles.home1} />
-			<Home1 />
+			<img alt='' src={LoginButtons} className={styles.LoginButtons} />
+			<LoginButtons />
 			<div className={styles.home2Container}>
 				<p className={styles.homeCaption}>
 					Meeting and hiring local musicians should be easy.
@@ -117,7 +118,7 @@ const Home = (props) => {
 			<div className={styles.home5Container}>
 				<img alt='' src={home4} className={styles.home5} />
 			</div>
-			<Home1 />
+			<LoginButtons />
 		</>
 	);
 };
