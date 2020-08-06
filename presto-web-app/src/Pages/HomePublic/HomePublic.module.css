@@ -1,67 +1,144 @@
 .LogoutDiv {
-  position: absolute;
-  text-align: right;
-  top: 0.5rem;
-  right: 1rem;
+	position: absolute;
+	text-align: right;
+	top: 0.5rem;
+	right: 1rem;
 }
 
 @media (min-width: 900px) {
-  .LogoutDiv {
-    top: 1rem;
-    right: 2rem;
-  }
+	.LogoutDiv {
+		top: 1rem;
+		right: 2rem;
+	}
 }
 
 .LogoutDiv a {
-  color: white;
+	color: white;
 }
 
 .title {
-  position: relative;
-  width: max-content;
-  margin: 0 auto;
-  left: -5%;
-  color: white;
+	position: relative;
+	width: max-content;
+	margin: 0 auto;
+	left: -5%;
+	color: white;
 }
 
 .subtitle {
-  position: relative;
-  left: 5%;
-  color: white;
-  margin-bottom: 3rem;
+	position: relative;
+	left: 5%;
+	color: white;
+	margin-bottom: 3rem;
 }
 
 /* Wavy element */
 .waveDiv {
-  position: absolute;
-  z-index: -5;
-  height: 210px;
-  width: 100%;
-  overflow: hidden;
+	position: absolute;
+	z-index: -5;
+	height: 210px;
+	width: 100%;
+	overflow: hidden;
 }
 
 .waveSvg {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 .wavePath {
-  stroke: none;
-  fill: var(--pop-color);
+	stroke: none;
+	fill: var(--pop-color);
 }
 
-.img1 {
-  position: relative;
-  display: block;
-  width: 30vw;
-  min-width: 250px;
-  margin: 0 auto;
-  left: -2%;
+.homeCaption {
+	width: 90%;
+	min-width: 300px;
+	max-width: 600px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.img {
+	position: relative;
+	display: block;
+	width: 30vw;
+	min-width: 250px;
+	margin: 0 auto;
+}
+
+.home1 {
+	composes: img;
+	left: -2%;
+}
+
+/* Login buttons */
+
+/* Meeting and hiring local musicians should be easy */
+.home2Container {
+	margin: 100px auto;
+}
+
+.home2Container p {
+	margin: 2rem auto;
+}
+
+.home2 {
+	composes: img;
+}
+
+/* Thats why we made presto */
+.home3Container {
+	margin: 100px auto;
+	height: 100px;
+	display: flex;
+	flex: none;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Post a note to find a local */
+.home4Container {
+	margin: 100px auto;
+	width: 90%;
+	margin: 2rem auto 100px;
+	display: flex;
+	flex: none;
+	justify-content: center;
+}
+
+.home4Container ul {
+	width: 20vw;
+	min-width: max-content;
+	max-width: 600px;
+	display: flex;
+	flex: none;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+@media (min-width: 800px) {
+	.home4Container ul {
+		align-items: flex-start;
+	}
+}
+
+.home4 {
+	composes: img;
+	margin: 0 auto 2rem auto;
+}
+
+/* Once you've found a good match, message them... */
+.home5Container {
+	margin: 2rem auto 100px auto;
+}
+.home5 {
+	composes: img;
 }
 
 .Link {
-  text-decoration: none;
-  display: block;
-  width: max-content;
-  margin: 0 auto;
+	text-decoration: none;
+	display: block;
+	width: max-content;
+	margin: 0 auto;
 }
