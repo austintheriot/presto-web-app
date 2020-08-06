@@ -9,7 +9,7 @@ import Logout from '../../components/Logout';
 import Modal from '../../components/Modal/Modal';
 
 //images
-import LoginButtons from '../../assets/images/LoginButtons.svg';
+import home1 from '../../assets/images/home1.svg';
 import home2 from '../../assets/images/home2.svg';
 import home3 from '../../assets/images/home4.svg';
 import home4 from '../../assets/images/home5.svg';
@@ -90,7 +90,7 @@ const Home = (props) => {
 			) : null}
 			<h1 className={styles.title}>Presto</h1>
 			<p className={styles.subtitle}>web app for musicians</p>
-			<img alt='' src={LoginButtons} className={styles.LoginButtons} />
+			<img alt='' src={home1} className={styles.home1} />
 			<LoginButtons />
 			<div className={styles.home2Container}>
 				<p className={styles.homeCaption}>

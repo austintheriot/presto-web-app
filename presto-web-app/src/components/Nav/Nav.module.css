@@ -1,106 +1,96 @@
 .nav {
-  position: fixed;
-  height: 50px;
-  top: calc(100% - 60px);
-  width: 100%;
-  left: 0;
-  background-color: white;
-}
-
-.logo {
-  display: none;
+	position: fixed;
+	height: 50px;
+	top: calc(100% - 60px);
+	width: 100%;
+	left: 0;
+	background-color: white;
 }
 
 .button {
-  position: relative;
-  padding: 0;
-  margin: 0;
-  top: -14px;
-  height: 35px;
-  width: 35px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: none;
-  outline: none;
-  text-decoration: none;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: white;
+	position: relative;
+	padding: 0;
+	margin: 0;
+	top: -14px;
+	height: 35px;
+	width: 35px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	border: none;
+	outline: none;
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: 5px;
+	background-color: white;
 }
 
 .ul {
-  width: 100%;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  height: 100%;
+	width: 100%;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	height: 100%;
 }
 
 .li {
-  width: max-content;
-  display: inline-block;
-  margin: 1rem;
+	width: max-content;
+	display: inline-block;
+	margin: 1rem;
 }
 
 .img {
-  box-sizing: content-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: block;
-  height: 20px;
-  margin: 0;
-  padding: 0;
-  border-radius: 5px;
+	box-sizing: content-box;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: block;
+	height: 20px;
+	margin: 0;
+	padding: 0;
+	border-radius: 5px;
 }
 
 .home {
-  composes: button;
-  left: 3px;
+	composes: button;
+	left: 3px;
 }
 
 @media (min-width: 900px) {
-  .nav {
-    position: sticky;
-    height: 50px;
-    top: 0;
-  }
+	.nav {
+		position: sticky;
+		height: 50px;
+		top: 0;
+	}
 
-  .logo {
-    display: block;
-    height: 50px;
-    position: absolute;
-  }
+	.button {
+		top: -11px;
+	}
+	.home {
+		composes: button;
+		left: 3px;
+	}
 
-  .button {
-    top: -11px;
-  }
-  .home {
-    composes: button;
-    left: 3px;
-  }
+	.button::after {
+		content: attr(data-info);
+		position: absolute;
+		background-color: white;
+		padding: 0.25rem 1rem;
+		border-radius: 5px;
+		z-index: 1;
+		top: 30px;
+		opacity: 0;
+		transition: opacity 0.2s 0s;
+	}
 
-  .button::after {
-    content: attr(data-info);
-    position: absolute;
-    background-color: white;
-    padding: 0.25rem 1rem;
-    border-radius: 5px;
-    z-index: 1;
-    top: 30px;
-    opacity: 0;
-    transition: opacity 0.2s 0s;
-  }
+	.button:hover::after {
+		opacity: 1;
+		transition: opacity 0.2s 0.2s;
+	}
 
-  .button:hover::after {
-    opacity: 1;
-    transition: opacity 0.2s 0.2s;
-  }
+	.button:hover {
+		background-color: #eeeeee;
+	}
 
-  .button:hover {
-    background-color: #eeeeee;
-  }
-
-  /* Info on hover */
+	/* Info on hover */
 }
