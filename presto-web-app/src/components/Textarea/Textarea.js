@@ -1,29 +1,11 @@
 import React, { useState } from 'react';
-import styles from './Input.module.css';
+import styles from './Textarea.module.css';
 import SuggestionList from '../SuggestionList/SuggestionList';
 
 export default (props) => {
-	const [state, setState] = useState({
-		innerType: 'password',
-	});
-
-	const togglePasswordVisibility = () => {
-		setState((prevState) => ({
-			innerType: prevState.innerType === 'password' ? 'text' : 'password',
-		}));
-	};
-
 	return (
 		<>
 			<div className={styles.div}>
-				{props?.customType === 'password' ? (
-					<img
-						className={styles.eye}
-						alt='show password'
-						src={require('../../assets/images/eye.svg')}
-						onClick={togglePasswordVisibility}
-					/>
-				) : null}
 				<label
 					htmlFor={props.label}
 					className={[
@@ -46,29 +28,29 @@ export default (props) => {
 					{props?.label || 'Label'}
 				</label>
 			</div>
-			<input
+			<textarea
 				autoComplete='on'
 				id={props.label}
 				readOnly={props?.readOnly || false}
 				className={[
 					//general
-					styles.input,
+					styles.textarea,
 
 					//animate up?
-					props?.inputs[props.customType]?.animateUp ? styles.colorInput : '',
+					props?.inputs[props.customType]?.animateUp
+						? styles.colorTextarea
+						: '',
 
 					//error?
 					props?.inputs[props.customType]?.message?.error
-						? styles.redInput
+						? styles.redTextarea
 						: '',
 
 					//inactive?
-					props?.readOnly ? styles.inactiveInput : '',
+					props?.readOnly ? styles.inactiveTextarea : '',
 				].join(' ')}
 				value={props?.inputs[props.customType]?.value || ''}
-				type={
-					props?.type === 'password' ? state.innerType : props?.type || 'text'
-				}
+				type={props?.type || 'text'}
 				onBlur={(e) => props.handleBlur(e, props.customType)}
 				onFocus={(e) => props.handleFocus(e, props.customType)}
 				onChange={(e) => props.handleChange(e, props.customType)}

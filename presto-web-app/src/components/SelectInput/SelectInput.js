@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Input.module.css';
+import styles from './SelectInput.module.css';
 import SuggestionList from '../SuggestionList/SuggestionList';
 
 export default (props) => {
