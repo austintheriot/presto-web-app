@@ -1,84 +1,83 @@
 .SkipDiv {
-  position: absolute;
-  text-align: right;
-  top: 0.5rem;
-  right: 1rem;
+	position: absolute;
+	text-align: right;
+	top: 0.5rem;
+	right: 1rem;
 }
 
 @media (min-width: 900px) {
-  .SkipDiv {
-    top: 1em;
-    right: 2rem;
-  }
+	.SkipDiv {
+		top: 1em;
+		right: 2rem;
+	}
 }
 
 .SkipDiv a {
-  color: black;
+	color: black;
 }
 
 .title,
 .p {
-  min-width: 300px;
-  max-width: 75%;
-  margin: 1rem auto;
+	min-width: 300px;
+	max-width: 75%;
+	margin: 1rem auto;
 }
 
 .title {
-  font-size: var(--h3);
+	font-size: var(--h3);
 }
 
 .subtitle {
-  width: 50%;
-  max-width: 600px;
-  min-width: 300px;
-  margin: 0 auto;
+	width: 50%;
+	max-width: 600px;
+	min-width: 300px;
+	margin: 0 auto;
 }
 
 .fieldset {
-  width: 75%;
-  min-width: 300px;
-  max-width: 500px;
-  margin: 0 auto;
+	width: 75%;
+	min-width: 300px;
+	max-width: 500px;
+	margin: 0 auto;
 }
 
 .buttonsDiv {
-  margin-top: 2rem;
-  display: flex;
-  flex: none;
-  align-items: center;
+	margin-top: 2rem;
+	display: flex;
+	flex: none;
+	align-items: center;
 }
 
 .linkLeft {
-  height: 50px;
-  margin: 0 auto;
-  position: relative;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  border-radius: 50%;
+	height: 50px;
+	margin: 0 auto;
+	position: relative;
+	cursor: pointer;
+
+	border-radius: 50%;
 }
 
 .linkLeftImg {
-  border-radius: 50%;
-  transform: scale(1.05);
-  background-color: white;
+	border-radius: 50%;
+	transform: scale(1.05);
+	background-color: white;
 }
 
 .linkRight {
-  height: 77px;
-  margin: 0 auto;
-  position: relative;
-  cursor: pointer;
-  border-radius: 50%;
-  box-shadow: var(--shadow);
+	height: 77px;
+	margin: 0 auto;
+	position: relative;
+	cursor: pointer;
+	border-radius: 50%;
 }
 
 .linkRightImg {
-  border-radius: 50%;
-  transform: scale(1.05);
+	border-radius: 50%;
+	transform: scale(1.05);
 }
 
 .linkRight:focus,
 .linkLeft:focus {
-  outline-offset: 5px;
-  outline: 3px solid var(--pop-color);
+	outline-offset: 5px;
+	outline: 3px solid var(--pop-color);
 }
