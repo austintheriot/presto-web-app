@@ -25,7 +25,7 @@ import {
 import authListener from './util/authListener';
 
 //context
-import { AuthContext } from './context/AuthProvider';
+import { AuthContext } from './util/AuthProvider';
 
 //styling
 import './App.css';
@@ -33,14 +33,16 @@ import './App.css';
 function App() {
 	const [user, setUser] = useState(false);
 
-	const fakeDelay = (delayTime) => {
+	/* 	const fakeDelay = (delayTime) => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => resolve(), delayTime);
 		});
 	};
 	fakeDelay(5000).then(() => {});
+ */
 
 	useEffect(() => {
+		//authListener initializes authentication & user data, then listens for changes in either
 		//set up a listener for changes in user authentication:
 		// pass that information through Context API to components that need it
 		authListener(setUser);

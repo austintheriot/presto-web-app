@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { auth, analytics } from '../../util/config';
 import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../util/AuthProvider';
 import styles from './HomePublic.module.css';
 import Logout from '../../components/Logout';
 import Modal from '../../components/Modal/Modal';

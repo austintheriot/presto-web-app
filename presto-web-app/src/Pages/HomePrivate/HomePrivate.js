@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../util/AuthProvider';
 import styles from './HomePrivate.module.css';
 import Nav from '../../components/Nav/Nav';
 

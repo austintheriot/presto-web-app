@@ -6,7 +6,7 @@ import 'firebase/firestore';
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../util/AuthProvider';
 import Button from '../../components/Button/Button';
 import geoapifyKey from '../../util/geoapifyKey';
 import styles from './SignupLocation.module.css';

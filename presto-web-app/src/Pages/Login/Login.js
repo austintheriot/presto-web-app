@@ -3,7 +3,7 @@ import { auth, analytics } from '../../util/config';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../util/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../util/AuthProvider';
 import Input from '../../components/Input/Input';
 import styles from './Login.module.css';
 

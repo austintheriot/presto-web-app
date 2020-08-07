@@ -9,7 +9,7 @@ import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Textarea from '../../components/Textarea/Textarea';
 import styles from './SignupProfile.module.css';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../util/AuthProvider';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import InstrumentArray from './InstrumentArray';
 

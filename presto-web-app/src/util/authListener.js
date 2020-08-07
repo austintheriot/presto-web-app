@@ -5,7 +5,8 @@ export default (setUser) => {
 
 	auth.onAuthStateChanged((user) => {
 		if (user) {
-			//get data about user from authentication request
+			console.log('[App]: user logged in');
+			//extract data about user from authentication request
 			let {
 				email,
 				uid,
@@ -14,21 +15,20 @@ export default (setUser) => {
 				photoUrl,
 				isAnonymous,
 			} = user;
-			console.log('[App]: user logged in');
 			console.log('[App]: fetching datbase data');
 			//get user data from database
 			db.collection('users')
 				.doc(user.uid)
-				//subscribe to data changes in real time and push automatically
+				//subscribe to data changes in real time and push automatically to the rest of the app
 				.onSnapshot(
 					(doc) => {
-						console.log('[App]: database data fetched');
+						console.log('[App]: database data successfully received');
 						//update user data on the client side with authentication & database data
 						//only show full screen once user info has been successfully retrieved
 						//doc will not exist for brand new signups, or if user has not submitted any info
 						//if databse data for user DOES exist, initialize data:
 						if (doc.exists) {
-							console.log('[App]: database doc exists');
+							console.log('[App]: user document exists in database');
 							let {
 								activity = '',
 								bio = '',
@@ -65,7 +65,7 @@ export default (setUser) => {
 								zip,
 							};
 						} else {
-							console.log('[App]: database doc does not exist');
+							console.log('[App]: user document does not exist in database');
 							//if databse data for user does NOT exist, initialize data with auth data only:
 							userInfo = {
 								authenticated: true,

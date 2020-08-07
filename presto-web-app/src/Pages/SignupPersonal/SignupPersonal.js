@@ -7,7 +7,7 @@ import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import styles from './SignupPersonal.module.css';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../util/AuthProvider';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 //redirect with AuthContext once setInputs permeates down to component
