@@ -114,7 +114,6 @@ function App() {
 							zip,
 						};
 
-						console.log(allUserInfo);
 						//update user data on the client side with authentication & database data
 						//only show full screen once user info has been successfully retrieved
 						setUser(allUserInfo);
@@ -143,17 +142,17 @@ function App() {
 								<Route exact path='/signup' component={Signup} />
 								<PrivateRoute
 									exact
-									path='/signup/personal'
+									path='/signup-personal'
 									component={SignupPersonal}
 								/>
 								<PrivateRoute
 									exact
-									path='/signup/location'
+									path='/signup-location'
 									component={SignupLocation}
 								/>
 								<PrivateRoute
 									exact
-									path='/signup/profile'
+									path='/signup-profile'
 									component={SignupProfile}
 								/>
 								<PrivateRoute exact path='/home' component={HomePrivate} />

@@ -388,9 +388,9 @@ export default function Login(props) {
 		//display modal message if redirected from another page requiring authentication:
 		<>
 			<div className={styles.SkipDiv}>
-				<Link to='/signup/profile'>Skip</Link>
+				<Link to='/signup-profile'>Skip</Link>
 			</div>
-			{submitted ? <Redirect to={'/signup/profile'} /> : null}
+			{submitted ? <Redirect to={'/signup-profile'} /> : null}
 			<ProgressBar
 				signup='complete'
 				personal='complete'
@@ -477,7 +477,7 @@ export default function Login(props) {
 				</fieldset>
 
 				<div className={styles.buttonsDiv}>
-					<Link to='/signup/personal' className={styles.linkLeft}>
+					<Link to='/signup-personal' className={styles.linkLeft}>
 						<img
 							className={styles.linkLeftImg}
 							src={require('../../assets/images/arrow-left.svg')}

@@ -17,6 +17,10 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 export default function Login(props) {
 	let user = useAuth();
 
+	React.useEffect(() => {
+		console.log('rendering...');
+	});
+
 	const [inputs, setInputs] = useState({
 		activity: {
 			label: 'Musical Activity',
@@ -275,7 +279,7 @@ export default function Login(props) {
 
 				<Modal message={modalMessage} color='black' />
 				<div className={styles.buttonsDiv}>
-					<Link to='/signup/location' className={styles.linkLeft}>
+					<Link to='/signup-location' className={styles.linkLeft}>
 						<img
 							className={styles.linkLeftImg}
 							src={require('../../assets/images/arrow-left.svg')}
