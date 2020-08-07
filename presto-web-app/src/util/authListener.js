@@ -41,6 +41,7 @@ export default (setUser) => {
 								type = '',
 								website = '',
 								zip = '',
+								createdAt = '',
 							} = doc.data();
 
 							userInfo = {
@@ -63,6 +64,7 @@ export default (setUser) => {
 								type,
 								website,
 								zip,
+								createdAt,
 							};
 						} else {
 							console.log('[App]: user document does not exist in database');

@@ -9,7 +9,7 @@
 	right: 1rem;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 800px) {
 	.LoginDiv {
 		top: 1em;
 		right: 2rem;
