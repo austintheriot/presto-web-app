@@ -61,8 +61,7 @@ function App() {
 	function authListener() {
 		firebaseAuth.onAuthStateChanged((user) => {
 			if (user) {
-				let authenticationData = user;
-				//get data from authentication request
+				//get data about user from authentication request
 				let {
 					email,
 					uid,
@@ -76,7 +75,7 @@ function App() {
 				firebase
 					.firestore()
 					.collection('users')
-					.doc(authenticationData.uid)
+					.doc(user.uid)
 					.get()
 					.then((doc) => {
 						let {
