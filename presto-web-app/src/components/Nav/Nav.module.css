@@ -1,10 +1,11 @@
 .nav {
 	position: fixed;
 	height: 50px;
-	top: calc(100% - 60px);
+	top: calc(100% - 50px);
 	width: 100%;
 	left: 0;
 	background-color: white;
+	z-index: 50;
 }
 
 .button {

@@ -9,7 +9,7 @@ import Textarea from '../../components/Textarea/Textarea';
 import styles from './SignupProfile.module.css';
 import { useAuth } from '../../util/AuthProvider';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
-import InstrumentArray from './InstrumentArray';
+import InstrumentArray from '../../util/InstrumentArray';
 
 //redirect with AuthContext once setInputs permeates down to component
 

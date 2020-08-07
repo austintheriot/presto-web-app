@@ -38,11 +38,11 @@ export default function Login(props) {
 		if (type === 'individual') {
 			setIndividualRadioChecked(true);
 			setEnsembleRadioChecked(false);
-			setRadioValue('individual');
+			setRadioValue('Individual');
 		} else if (type === 'ensemble') {
 			setIndividualRadioChecked(false);
 			setEnsembleRadioChecked(true);
-			setRadioValue('ensemble');
+			setRadioValue('Ensemble');
 		}
 	};
 
