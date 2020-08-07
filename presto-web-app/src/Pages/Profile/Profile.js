@@ -1,13 +1,251 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Nav from '../../components/Nav/Nav';
 import styles from './Profile.module.css';
 import { useAuth } from '../../util/AuthProvider';
+import Button from '../../components/Button/Button';
+import InstrumentArray from '../../util/InstrumentArray';
+import { db } from '../../util/config';
+
+import Select from '../../components/Select/Select';
+import Input from '../../components/Input/Input';
+import Textarea from '../../components/Textarea/Textarea';
+import Modal from '../../components/Modal/Modal';
 
 export default (props) => {
 	const user = useAuth();
 
-	const capitalizeFirstLetter = (string) => {
-		return string[0].toUpperCase().concat(string.slice(1));
+	const [inputs, setInputs] = useState({
+		type: {
+			label: 'Individual/Ensemble',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: ['Individual', 'Ensemble'],
+			},
+			value: user.type || '',
+			animateUp: user.type,
+			empty: !user.type,
+			touched: true,
+			message: {
+				error: false,
+				text: '',
+				default: '',
+			},
+		},
+		activity: {
+			label: 'Musical Activity',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [
+					'Performer',
+					'Teacher',
+					'Composer',
+					'Arranger',
+					'Conductor',
+					'Therapist',
+					'Curator',
+					'Producer',
+					'Publicist',
+					'Editor',
+					'Copyist',
+					'Engraver',
+					'Worship Leader',
+					'Engineer',
+					'Other',
+				],
+			},
+			value: user.activity || '',
+			animateUp: user.activity,
+			empty: !user.activity,
+			message: {
+				error: false,
+				text: 'i.e. Performer, Composer, Teacher, etc.',
+				default: 'i.e. Performer, Composer, Teacher, etc.',
+			},
+		},
+		instrument: {
+			label: 'Instrument/Voice Type',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: InstrumentArray,
+			},
+			value: user.instrument || '',
+			animateUp: user.instrument,
+			empty: !user.instrument,
+			message: {
+				error: false,
+				text: 'i.e. Piano, Violin, Soprano, etc.',
+				default: 'i.e. Piano, Violin, Soprano, etc.',
+			},
+		},
+		website: {
+			label: 'Website',
+			value: user.website || '',
+			animateUp: user.website,
+			empty: !user.website,
+			message: {
+				error: false,
+				text: 'Link to your personal website.',
+				default: 'Link to your personal website.',
+			},
+		},
+		bio: {
+			label: 'Short Bio',
+			value: user.random || '',
+			animateUp: user.random,
+			empty: !user.random,
+			message: {
+				error: false,
+				text: 'Tell us a little about yourself.',
+				default: 'Tell us a little about yourself.',
+			},
+		},
+	});
+	const [modalMessage, setModalMessage] = useState('');
+
+	const suggestionClickHandler = (e, i, newestType) => {
+		let newValue = inputs[newestType].suggestions.array[i];
+		setInputs((prevState) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				value: newValue,
+			},
+		}));
+	};
+
+	const handleFocus = (event, newestType) => {
+		//animation
+		if (
+			newestType === 'type' ||
+			newestType === 'activity' ||
+			newestType === 'instrument'
+		) {
+			//show drop down menu
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					animateUp: true,
+					touched: true,
+					suggestions: {
+						...prevState[newestType].suggestions,
+						loading: false,
+						show: true,
+					},
+				},
+			}));
+		} else {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					animateUp: true,
+					touched: true,
+				},
+			}));
+		}
+	};
+
+	const handleBlur = (e, newestType) => {
+		//animation & output error if empty
+		let targetEmpty =
+			inputs[newestType].touched && inputs[newestType].value.length === 0
+				? true
+				: false;
+
+		//hide drop down menu
+		if (
+			newestType === 'type' ||
+			newestType === 'activity' ||
+			newestType === 'instrument'
+		) {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					//animation
+					animateUp: targetEmpty ? false : true,
+					suggestions: {
+						...prevState[newestType].suggestions,
+						loading: false,
+						show: false,
+					},
+				},
+			}));
+		} else {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					//animation
+					animateUp: targetEmpty ? false : true,
+				},
+			}));
+		}
+	};
+
+	const handleChange = (event, newestType) => {
+		let targetValue = event.target.value;
+		let targetEmpty = targetValue.length === 0 ? true : false;
+
+		//validate inputs
+
+		//update state for all inputs
+		Object.keys(inputs).forEach((inputType) => {
+			setInputs((prevState) => ({
+				...prevState,
+				[inputType]: {
+					...prevState[inputType],
+
+					//update generic values
+					value:
+						inputType === newestType ? targetValue : prevState[inputType].value,
+					empty:
+						inputType === newestType ? targetEmpty : prevState[inputType].empty,
+					//update errors: If no error, set to empty
+					/*  message: {
+            ...prevState[inputType].message,
+            error: errors[inputType] ? true : false,
+            text: errors[inputType]
+              ? errors[inputType]
+              : prevState[inputType].message.default,
+          }, */
+				},
+			}));
+		});
+	};
+
+	const submitHandler = (event) => {
+		//prevent default form submission
+		event.preventDefault();
+
+		//check for errors
+
+		//only update information if new information has been provided
+		let newInfoFromState = {};
+		if (inputs.type.value) newInfoFromState.type = inputs.type.value;
+		if (inputs.activity.value)
+			newInfoFromState.activity = inputs.activity.value;
+		if (inputs.instrument.value)
+			newInfoFromState.instrument = inputs.instrument.value;
+		if (inputs.website.value) newInfoFromState.website = inputs.website.value;
+		if (inputs.bio.value) newInfoFromState.bio = inputs.bio.value;
+
+		//update profile information of user
+		db.collection('users')
+			.doc(user.uid)
+			.set(newInfoFromState, { merge: true })
+			.then(() => {
+				console.log('Document successfully written!');
+				setModalMessage('Your settings have been successfully updated!');
+			})
+			.catch((error) => {
+				console.error(error);
+				setModalMessage('Server error. Please try again later.');
+			});
 	};
 
 	return (
@@ -33,34 +271,72 @@ export default (props) => {
 					{(user.state || '') + ', '}
 					{user.country || ''}
 				</p>
-
-				{/* Type */}
-				<p>{user.type ? capitalizeFirstLetter(user.type) : ''}</p>
-
-				{/* Activity */}
-				<p>{user.activity || ''}</p>
-
-				{/* Instrument */}
-				<p>{user.instrument || ''}</p>
-
-				{/* Website */}
-				<p>{user.website || ''}</p>
-
-				{/* Bio */}
-				<p>{user.bio || ''}</p>
-
-				{/* Date Joined */}
-				{user.createdAt ? (
-					<p>
-						Joined{' '}
-						{new Date(user.createdAt)
-							.toDateString()
-							.split(' ')
-							.slice(1)
-							.join(' ')}
-					</p>
-				) : null}
 			</div>
+			<form onSubmit={submitHandler}>
+				<Select
+					type='text'
+					customType='type'
+					handleFocus={(e) => handleFocus(e, 'type')}
+					handleBlur={(e) => handleBlur(e, 'type')}
+					label={'Individual/Ensemble'}
+					inputs={inputs}
+					suggestionClickHandler={suggestionClickHandler}
+				/>
+				<Select
+					type='text'
+					customType='activity'
+					handleFocus={(e) => handleFocus(e, 'activity')}
+					handleBlur={(e) => handleBlur(e, 'activity')}
+					label={'Musical Activity'}
+					inputs={inputs}
+					suggestionClickHandler={suggestionClickHandler}
+				/>
+				<Select
+					type='text'
+					customType='instrument'
+					handleFocus={(e) => handleFocus(e, 'instrument')}
+					handleBlur={(e) => handleBlur(e, 'instrument')}
+					label={'Instrument'}
+					inputs={inputs}
+					suggestionClickHandler={suggestionClickHandler}
+				/>
+				<Input
+					type='text'
+					customType='website'
+					handleFocus={(e) => handleFocus(e, 'website')}
+					handleBlur={(e) => handleBlur(e, 'website')}
+					handleChange={(e) => handleChange(e, 'website')}
+					label={'Website'}
+					inputs={inputs}
+				/>
+				<Textarea
+					type='text'
+					customType='bio'
+					handleFocus={(e) => handleFocus(e, 'bio')}
+					handleBlur={(e) => handleBlur(e, 'bio')}
+					handleChange={(e) => handleChange(e, 'bio')}
+					label={'Short Bio'}
+					inputs={inputs}
+				/>
+				<Modal
+					message={modalMessage}
+					color={modalMessage ? 'black' : 'hidden'}
+				/>
+				<Button type='submit' onClick={submitHandler}>
+					Save
+				</Button>
+			</form>
+			{/* Date Joined */}
+			{user.createdAt ? (
+				<p className={styles.joinedAt}>
+					Joined:{' '}
+					{new Date(user.createdAt)
+						.toDateString()
+						.split(' ')
+						.slice(1)
+						.join(' ')}
+				</p>
+			) : null}
 		</>
 	);
 };
