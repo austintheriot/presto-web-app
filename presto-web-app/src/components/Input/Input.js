@@ -76,6 +76,8 @@ export default (props) => {
 			<SuggestionList
 				suggestions={props?.inputs[props.customType]?.suggestions || null}
 				suggestionClickHandler={props?.suggestionClickHandler || null}
+				show={props?.inputs[props.customType]?.suggestions?.show || false}
+				customType={props.customType}
 			/>
 			<p
 				className={

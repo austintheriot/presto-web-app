@@ -6,7 +6,7 @@ import 'firebase/firestore';
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
-import SelectInput from '../../components/SelectInput/SelectInput';
+import Select from '../../components/Select/Select';
 import Textarea from '../../components/Textarea/Textarea';
 import styles from './SignupProfile.module.css';
 import { useAuth } from '../../context/AuthProvider';
@@ -16,9 +16,15 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 export default function Login(props) {
 	let user = useAuth();
+
 	const [inputs, setInputs] = useState({
 		activity: {
 			label: 'Musical Activity',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: ['Performer', 'Teacher', 'Composer', 'Arranger', 'Conductor'],
+			},
 			value: '',
 			animateUp: false,
 			empty: true,
@@ -31,6 +37,11 @@ export default function Login(props) {
 		},
 		instrument: {
 			label: 'Instrument',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: ['Piano', 'Flute', 'Guitar', 'Soprano'],
+			},
 			value: '',
 			animateUp: false,
 			empty: true,
@@ -41,8 +52,8 @@ export default function Login(props) {
 				default: 'i.e. Piano, Violin, Soprano, etc.',
 			},
 		},
-		websites: {
-			label: 'Website(s)',
+		website: {
+			label: 'Website',
 			value: '',
 			animateUp: false,
 			empty: true,
@@ -69,33 +80,78 @@ export default function Login(props) {
 	const [modalMessage, setModalMessage] = useState('');
 	const [submitted, setSubmitted] = useState(false);
 
-	const handleFocus = (event, newestType) => {
-		//animation
+	const suggestionClickHandler = (e, i, newestType) => {
+		let newValue = inputs[newestType].suggestions.array[i];
 		setInputs((prevState) => ({
 			...prevState,
 			[newestType]: {
 				...prevState[newestType],
-				animateUp: true,
-				touched: true,
+				value: newValue,
 			},
 		}));
 	};
 
-	const handleBlur = (event, newestType) => {
+	const handleFocus = (event, newestType) => {
+		//animation
+		if (newestType === 'activity' || newestType === 'instrument') {
+			//show drop down menu
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					animateUp: true,
+					touched: true,
+					suggestions: {
+						...prevState[newestType].suggestions,
+						loading: false,
+						show: true,
+					},
+				},
+			}));
+		} else {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					animateUp: true,
+					touched: true,
+				},
+			}));
+		}
+	};
+
+	const handleBlur = (e, newestType) => {
 		//animation & output error if empty
 		let targetEmpty =
 			inputs[newestType].touched && inputs[newestType].value.length === 0
 				? true
 				: false;
 
-		setInputs((prevState) => ({
-			...prevState,
-			[newestType]: {
-				...prevState[newestType],
-				//animation
-				animateUp: targetEmpty ? false : true,
-			},
-		}));
+		//hide drop down menu
+		if (newestType === 'activity' || newestType === 'instrument') {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					//animation
+					animateUp: targetEmpty ? false : true,
+					suggestions: {
+						...prevState[newestType].suggestions,
+						loading: false,
+						show: false,
+					},
+				},
+			}));
+		} else {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					//animation
+					animateUp: targetEmpty ? false : true,
+				},
+			}));
+		}
 	};
 
 	const handleChange = (event, newestType) => {
@@ -135,27 +191,30 @@ export default function Login(props) {
 
 		//check for errors
 
-		//update name and username of user
-		// firebase
-		//   .firestore()
-		//   .collection('users')
-		//   .doc(user.uid)
-		//   .set(
-		//     {
-		//       name: inputs.name.value,
-		//       type: radioValue,
-		//     },
-		//     { merge: true }
-		//   )
-		//   .then(() => {
-		//     console.log('Document successfully written!');
-		//     //redirect on successful submission
-		//     setSubmitted(true);
-		//   })
-		//   .catch((error) => {
-		//     console.error(error);
-		//     setModalMessage('Server error. Please try again later.');
-		//   });
+		//only update information if new information has been provided
+		let newInfoFromState = {};
+		if (inputs.activity.value)
+			newInfoFromState.activity = inputs.activity.value;
+		if (inputs.instrument.value)
+			newInfoFromState.instrument = inputs.instrument.value;
+		if (inputs.website.value) newInfoFromState.website = inputs.website.value;
+		if (inputs.bio.value) newInfoFromState.bio = inputs.bio.value;
+
+		//update profile information of user
+		firebase
+			.firestore()
+			.collection('users')
+			.doc(user.uid)
+			.set(newInfoFromState, { merge: true })
+			.then(() => {
+				console.log('Document successfully written!');
+				//redirect on successful submission
+				setSubmitted(true);
+			})
+			.catch((error) => {
+				console.error(error);
+				setModalMessage('Server error. Please try again later.');
+			});
 	};
 
 	//top modal:
@@ -167,7 +226,7 @@ export default function Login(props) {
 			<div className={styles.SkipDiv}>
 				<Link to='/home'>Skip</Link>
 			</div>
-			{submitted ? <Redirect to={'/signup/location'} /> : null}
+			{submitted ? <Redirect to={'/home'} /> : null}
 			{infoMessage ? <Modal message={infoMessage} color='black' /> : null}
 			<ProgressBar
 				signup='complete'
@@ -177,31 +236,31 @@ export default function Login(props) {
 			/>
 			<h1 className={styles.title}>Profile</h1>
 			<form onSubmit={submitHandler}>
-				<Input
+				<Select
 					type='text'
 					customType='activity'
 					handleFocus={(e) => handleFocus(e, 'activity')}
 					handleBlur={(e) => handleBlur(e, 'activity')}
-					handleChange={(e) => handleChange(e, 'activity')}
 					label={'Musical Activity'}
 					inputs={inputs}
+					suggestionClickHandler={suggestionClickHandler}
 				/>
-				<Input
+				<Select
 					type='text'
 					customType='instrument'
 					handleFocus={(e) => handleFocus(e, 'instrument')}
 					handleBlur={(e) => handleBlur(e, 'instrument')}
-					handleChange={(e) => handleChange(e, 'instrument')}
 					label={'Instrument'}
 					inputs={inputs}
+					suggestionClickHandler={suggestionClickHandler}
 				/>
 				<Input
 					type='text'
-					customType='websites'
-					handleFocus={(e) => handleFocus(e, 'websites')}
-					handleBlur={(e) => handleBlur(e, 'websites')}
-					handleChange={(e) => handleChange(e, 'websites')}
-					label={'Website(s)'}
+					customType='website'
+					handleFocus={(e) => handleFocus(e, 'website')}
+					handleBlur={(e) => handleBlur(e, 'website')}
+					handleChange={(e) => handleChange(e, 'website')}
+					label={'Website'}
 					inputs={inputs}
 				/>
 				<Textarea
@@ -216,7 +275,7 @@ export default function Login(props) {
 
 				<Modal message={modalMessage} color='black' />
 				<div className={styles.buttonsDiv}>
-					<Link to='/' className={styles.linkLeft}>
+					<Link to='/signup/location' className={styles.linkLeft}>
 						<img
 							className={styles.linkLeftImg}
 							src={require('../../assets/images/arrow-left.svg')}

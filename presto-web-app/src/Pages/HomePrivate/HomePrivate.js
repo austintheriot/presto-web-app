@@ -1,9 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import styles from './HomePrivate.module.css';
-import Logout from '../../components/Logout';
 import Nav from '../../components/Nav/Nav';
-import { Link } from 'react-router-dom';
 
 export default (props) => {
 	let user = useAuth();

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Textarea.module.css';
 import SuggestionList from '../SuggestionList/SuggestionList';
 

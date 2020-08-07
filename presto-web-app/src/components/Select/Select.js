@@ -1,29 +1,11 @@
-import React, { useState } from 'react';
-import styles from './SelectInput.module.css';
+import React from 'react';
+import styles from './Select.module.css';
 import SuggestionList from '../SuggestionList/SuggestionList';
 
 export default (props) => {
-	const [state, setState] = useState({
-		innerType: 'password',
-	});
-
-	const togglePasswordVisibility = () => {
-		setState((prevState) => ({
-			innerType: prevState.innerType === 'password' ? 'text' : 'password',
-		}));
-	};
-
 	return (
 		<>
-			<div className={styles.div}>
-				{props?.customType === 'password' ? (
-					<img
-						className={styles.eye}
-						alt='show password'
-						src={require('../../assets/images/eye.svg')}
-						onClick={togglePasswordVisibility}
-					/>
-				) : null}
+			<div className={styles.labelDiv}>
 				<label
 					htmlFor={props.label}
 					className={[
@@ -66,16 +48,17 @@ export default (props) => {
 					props?.readOnly ? styles.inactiveInput : '',
 				].join(' ')}
 				value={props?.inputs[props.customType]?.value || ''}
-				type={
-					props?.type === 'password' ? state.innerType : props?.type || 'text'
-				}
+				type={props?.type || 'text'}
 				onBlur={(e) => props.handleBlur(e, props.customType)}
 				onFocus={(e) => props.handleFocus(e, props.customType)}
-				onChange={(e) => props.handleChange(e, props.customType)}
+				//probably unnecessary, since it wouldn't update the state regardless, but just be sure...
+				onChange={(e) => e.preventDefault()}
 			/>
 			<SuggestionList
 				suggestions={props?.inputs[props.customType]?.suggestions || null}
 				suggestionClickHandler={props?.suggestionClickHandler || null}
+				show={props?.inputs[props.customType]?.suggestions?.show || false}
+				customType={props.customType}
 			/>
 			<p
 				className={

@@ -13,258 +13,258 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Login(props) {
-  let user = useAuth();
-  const [inputs, setInputs] = useState({
-    name: {
-      label: 'Full Name',
-      value: '',
-      animateUp: false,
-      empty: true,
-      touched: false,
-      message: {
-        error: false,
-        text: 'i.e. First Last',
-        default: 'i.e. First Last',
-      },
-    },
-  });
-  const [individualRadioChecked, setIndividualRadioChecked] = useState(true);
-  const [ensembleRadioChecked, setEnsembleRadioChecked] = useState(false);
-  const [radioValue, setRadioValue] = useState('individual');
-  const [modalMessage, setModalMessage] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+	let user = useAuth();
+	const [inputs, setInputs] = useState({
+		name: {
+			label: 'Full Name',
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			message: {
+				error: false,
+				text: 'i.e. First Last',
+				default: 'i.e. First Last',
+			},
+		},
+	});
+	const [individualRadioChecked, setIndividualRadioChecked] = useState(true);
+	const [ensembleRadioChecked, setEnsembleRadioChecked] = useState(false);
+	const [radioValue, setRadioValue] = useState('individual');
+	const [modalMessage, setModalMessage] = useState('');
+	const [submitted, setSubmitted] = useState(false);
 
-  const handleButtonOrRadioClicked = (e, type) => {
-    if (type === 'individual') {
-      setIndividualRadioChecked(true);
-      setEnsembleRadioChecked(false);
-    } else if (type === 'ensemble') {
-      setIndividualRadioChecked(false);
-      setEnsembleRadioChecked(true);
-    }
-  };
+	const handleButtonOrRadioClicked = (e, type) => {
+		if (type === 'individual') {
+			setIndividualRadioChecked(true);
+			setEnsembleRadioChecked(false);
+			setRadioValue('individual');
+		} else if (type === 'ensemble') {
+			setIndividualRadioChecked(false);
+			setEnsembleRadioChecked(true);
+			setRadioValue('ensemble');
+		}
+	};
 
-  const radioButtonChanged = (e, type) => {
-    if (type === 'ensemble') {
-      setInputs((prevState) => ({
-        name: {
-          ...prevState.name,
-          label: 'Ensemble Name',
-          message: {
-            ...prevState.name.message,
-            text: 'i.e. Ninth Bluebird',
-            default: 'i.e. Ninth Bluebird',
-          },
-        },
-      }));
-    } else if (type === 'individual') {
-      setInputs((prevState) => ({
-        name: {
-          ...prevState.name,
-          label: 'Full Name',
-          message: {
-            ...prevState.name.message,
-            text: 'i.e. First Last',
-            default: 'i.e. First Last',
-          },
-        },
-      }));
-    }
-    setRadioValue(type);
-  };
+	const radioButtonChanged = (e, type) => {
+		if (type === 'ensemble') {
+			setInputs((prevState) => ({
+				name: {
+					...prevState.name,
+					label: 'Ensemble Name',
+					message: {
+						...prevState.name.message,
+						text: 'i.e. Ninth Bluebird',
+						default: 'i.e. Ninth Bluebird',
+					},
+				},
+			}));
+		} else if (type === 'individual') {
+			setInputs((prevState) => ({
+				name: {
+					...prevState.name,
+					label: 'Full Name',
+					message: {
+						...prevState.name.message,
+						text: 'i.e. First Last',
+						default: 'i.e. First Last',
+					},
+				},
+			}));
+		}
+		setRadioValue(type);
+	};
 
-  const handleFocus = (event, newestType) => {
-    //animation
-    setInputs((prevState) => ({
-      ...prevState,
-      [newestType]: {
-        ...prevState[newestType],
-        animateUp: true,
-        touched: true,
-      },
-    }));
-  };
+	const handleFocus = (event, newestType) => {
+		//animation
+		setInputs((prevState) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				animateUp: true,
+				touched: true,
+			},
+		}));
+	};
 
-  const handleBlur = (event, newestType) => {
-    //animation & output error if empty
-    let targetEmpty =
-      inputs[newestType].touched && inputs[newestType].value.length === 0
-        ? true
-        : false;
+	const handleBlur = (event, newestType) => {
+		//animation & output error if empty
+		let targetEmpty =
+			inputs[newestType].touched && inputs[newestType].value.length === 0
+				? true
+				: false;
 
-    setInputs((prevState) => ({
-      ...prevState,
-      [newestType]: {
-        ...prevState[newestType],
-        //animation
-        animateUp: targetEmpty ? false : true,
-      },
-    }));
-  };
+		setInputs((prevState) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				//animation
+				animateUp: targetEmpty ? false : true,
+			},
+		}));
+	};
 
-  const handleChange = (event, newestType) => {
-    let targetValue = event.target.value;
-    let targetEmpty = targetValue.length === 0 ? true : false;
+	const handleChange = (event, newestType) => {
+		let targetValue = event.target.value;
+		let targetEmpty = targetValue.length === 0 ? true : false;
 
-    //validate username
-    let errors = {
-      name: '',
-      username: '',
-    };
+		//validate username
+		let errors = {
+			name: '',
+			username: '',
+		};
 
-    let newName = newestType === 'name' ? targetValue : inputs.name.value;
-    if (!newName.match(/^[a-z-' ]*$/i)) {
-      errors.name = `Only letters, ' or - allowed`;
-    }
+		let newName = newestType === 'name' ? targetValue : inputs.name.value;
+		if (!newName.match(/^[a-z-' ]*$/i)) {
+			errors.name = `Only letters, ' or - allowed`;
+		}
 
-    //update state for all inputs
-    Object.keys(inputs).forEach((inputType) => {
-      setInputs((prevState) => ({
-        ...prevState,
-        [inputType]: {
-          ...prevState[inputType],
+		//update state for all inputs
+		Object.keys(inputs).forEach((inputType) => {
+			setInputs((prevState) => ({
+				...prevState,
+				[inputType]: {
+					...prevState[inputType],
 
-          //update generic values
-          value:
-            inputType === newestType ? targetValue : prevState[inputType].value,
-          empty:
-            inputType === newestType ? targetEmpty : prevState[inputType].empty,
-          //update errors: If no error, set to empty
-          message: {
-            ...prevState[inputType].message,
-            error: errors[inputType] ? true : false,
-            text: errors[inputType]
-              ? errors[inputType]
-              : prevState[inputType].message.default,
-          },
-        },
-      }));
-    });
-  };
+					//update generic values
+					value:
+						inputType === newestType ? targetValue : prevState[inputType].value,
+					empty:
+						inputType === newestType ? targetEmpty : prevState[inputType].empty,
+					//update errors: If no error, set to empty
+					message: {
+						...prevState[inputType].message,
+						error: errors[inputType] ? true : false,
+						text: errors[inputType]
+							? errors[inputType]
+							: prevState[inputType].message.default,
+					},
+				},
+			}));
+		});
+	};
 
-  const submitHandler = (event) => {
-    //prevent default form submission
-    event.preventDefault();
+	const submitHandler = (event) => {
+		//prevent default form submission
+		event.preventDefault();
 
-    let anyErrors = false;
-    if (!inputs.name.value.match(/^[a-z-' ]*$/i)) {
-      anyErrors = true;
-    }
-    if (anyErrors) {
-      setModalMessage('Please fix any errors before submitting');
-      return;
-    }
+		let anyErrors = false;
+		if (!inputs.name.value.match(/^[a-z-' ]*$/i)) {
+			anyErrors = true;
+		}
+		if (anyErrors) {
+			setModalMessage('Please fix any errors before submitting');
+			return;
+		}
 
-    //update name and username of user
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(user.uid)
-      .set(
-        {
-          name: inputs.name.value,
-          type: radioValue,
-        },
-        { merge: true }
-      )
-      .then(() => {
-        console.log('Document successfully written!');
-        //redirect on successful submission
-        setSubmitted(true);
-      })
-      .catch((error) => {
-        console.error(error);
-        setModalMessage('Server error. Please try again later.');
-      });
-  };
+		//only update name if one is given
+		let newInfoFromState = { type: radioValue };
+		if (inputs.name.value) newInfoFromState.name = inputs.name.value;
 
-  //top modal:
-  let infoMessage = props.history?.location?.state?.infoMessage;
+		//update name and username of user
+		firebase
+			.firestore()
+			.collection('users')
+			.doc(user.uid)
+			.set(newInfoFromState, { merge: true })
+			.then(() => {
+				console.log('Document successfully written!');
+				//redirect on successful submission
+				setSubmitted(true);
+			})
+			.catch((error) => {
+				console.error(error);
+				setModalMessage('Server error. Please try again later.');
+			});
+	};
 
-  return (
-    //display modal message if redirected from another page requiring authentication:
-    <>
-      <div className={styles.SkipDiv}>
-        <Link to='/signup/location'>Skip</Link>
-      </div>
-      {submitted ? <Redirect to={'/signup/location'} /> : null}
-      <ProgressBar signup='complete' personal='inProgress' />
-      {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
-      <h1 className={styles.title}>Thanks for Signing up!</h1>
-      <p className={styles.subtitle}>
-        Add some info about yourself. This information is public and allows
-        others to find you easier (you can edit this later).
-      </p>
-      <form onSubmit={submitHandler}>
-        <p className={styles.radioTitle}>I am registering as:</p>
-        <div className={styles.radioGroup}>
-          <input
-            className={styles.radioInput}
-            name='type'
-            id='individual'
-            type='radio'
-            checked={individualRadioChecked}
-            onChange={(e) => radioButtonChanged(e, 'individual')}
-            onClick={(e) => handleButtonOrRadioClicked(e, 'individual')}
-          />
-          <label
-            className={styles.radioLabel}
-            htmlFor='indivdual'
-            onClick={(e) => handleButtonOrRadioClicked(e, 'individual')}>
-            An individual
-          </label>
-        </div>
-        <div className={styles.radioGroup}>
-          <input
-            className={styles.radioInput}
-            name='type'
-            id='ensemble'
-            type='radio'
-            checked={ensembleRadioChecked}
-            onChange={(e) => radioButtonChanged(e, 'ensemble')}
-            onClick={(e) => handleButtonOrRadioClicked(e, 'ensemble')}
-          />
-          <label
-            className={styles.radioLabel}
-            htmlFor='ensemble'
-            onClick={(e) => handleButtonOrRadioClicked(e, 'ensemble')}>
-            An ensemble
-          </label>
-        </div>
+	//top modal:
+	let infoMessage = props.history?.location?.state?.infoMessage;
 
-        <Input
-          type='text'
-          customType='name'
-          handleFocus={(e) => handleFocus(e, 'name')}
-          handleBlur={(e) => handleBlur(e, 'name')}
-          handleChange={(e) => handleChange(e, 'name')}
-          label={inputs.name.label}
-          inputs={inputs}
-        />
+	return (
+		//display modal message if redirected from another page requiring authentication:
+		<>
+			<div className={styles.SkipDiv}>
+				<Link to='/signup/location'>Skip</Link>
+			</div>
+			{submitted ? <Redirect to={'/signup/location'} /> : null}
+			<ProgressBar signup='complete' personal='inProgress' />
+			{infoMessage ? <Modal message={infoMessage} color='black' /> : null}
+			<h1 className={styles.title}>Thanks for Signing up!</h1>
+			<p className={styles.subtitle}>
+				Add some info about yourself. This information is public and allows
+				others to find you easier (you can edit this later).
+			</p>
+			<form onSubmit={submitHandler}>
+				<p className={styles.radioTitle}>I am registering as:</p>
+				<div className={styles.radioGroup}>
+					<input
+						className={styles.radioInput}
+						name='type'
+						id='individual'
+						type='radio'
+						checked={individualRadioChecked}
+						onChange={(e) => radioButtonChanged(e, 'individual')}
+						onClick={(e) => handleButtonOrRadioClicked(e, 'individual')}
+					/>
+					<label
+						className={styles.radioLabel}
+						htmlFor='indivdual'
+						onClick={(e) => handleButtonOrRadioClicked(e, 'individual')}>
+						An individual
+					</label>
+				</div>
+				<div className={styles.radioGroup}>
+					<input
+						className={styles.radioInput}
+						name='type'
+						id='ensemble'
+						type='radio'
+						checked={ensembleRadioChecked}
+						onChange={(e) => radioButtonChanged(e, 'ensemble')}
+						onClick={(e) => handleButtonOrRadioClicked(e, 'ensemble')}
+					/>
+					<label
+						className={styles.radioLabel}
+						htmlFor='ensemble'
+						onClick={(e) => handleButtonOrRadioClicked(e, 'ensemble')}>
+						An ensemble
+					</label>
+				</div>
 
-        <Modal message={modalMessage} color='black' />
-        <div className={styles.buttonsDiv}>
-          <Link to='/' className={styles.linkLeft}>
-            <img
-              className={styles.linkLeftImg}
-              src={require('../../assets/images/arrow-left.svg')}
-              alt='back'
-            />
-          </Link>
+				<Input
+					type='text'
+					customType='name'
+					handleFocus={(e) => handleFocus(e, 'name')}
+					handleBlur={(e) => handleBlur(e, 'name')}
+					handleChange={(e) => handleChange(e, 'name')}
+					label={inputs.name.label}
+					inputs={inputs}
+				/>
 
-          <button
-            className={styles.linkRight}
-            type='submit'
-            onClick={submitHandler}>
-            <img
-              className={styles.linkRightImg}
-              src={require('../../assets/images/arrow-right.svg')}
-              alt='continue'
-            />
-          </button>
-        </div>
-      </form>
-      <div className='spacerMedium'></div>
-    </>
-  );
+				<Modal message={modalMessage} color='black' />
+				<div className={styles.buttonsDiv}>
+					<Link to='/' className={styles.linkLeft}>
+						<img
+							className={styles.linkLeftImg}
+							src={require('../../assets/images/arrow-left.svg')}
+							alt='back'
+						/>
+					</Link>
+
+					<button
+						className={styles.linkRight}
+						type='submit'
+						onClick={submitHandler}>
+						<img
+							className={styles.linkRightImg}
+							src={require('../../assets/images/arrow-right.svg')}
+							alt='continue'
+						/>
+					</button>
+				</div>
+			</form>
+			<div className='spacerMedium'></div>
+		</>
+	);
 }

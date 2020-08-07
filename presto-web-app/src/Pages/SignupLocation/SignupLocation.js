@@ -25,6 +25,7 @@ export default function Login(props) {
 			suggestions: {
 				loading: false,
 				array: null,
+				show: false,
 			},
 			message: {
 				error: false,
@@ -101,10 +102,6 @@ export default function Login(props) {
 	const [submitted, setSubmitted] = useState(false);
 	const [timerId, setTimerId] = useState(null);
 
-	React.useEffect(() => {
-		// console.log(inputs);
-	});
-
 	const handleFocus = (event, newestType) => {
 		//animation
 		setInputs((prevState) => ({
@@ -165,7 +162,6 @@ export default function Login(props) {
 		});
 
 		if (newestType === 'location' && targetValue) {
-			console.log('Loading autocomplete suggestions...');
 			let requestDelay = 500;
 			clearTimeout(timerId);
 			setTimerId(
@@ -182,6 +178,7 @@ export default function Login(props) {
 					suggestions: {
 						loading: true,
 						array: false,
+						show: true,
 					},
 				},
 			}));
@@ -189,8 +186,6 @@ export default function Login(props) {
 	};
 
 	const sendAutoCompleteRequest = (locationInputValue) => {
-		console.log('sending request for: ', locationInputValue);
-
 		let key = geoapifyKey;
 		let requestUrl = `https://api.geoapify.com/v1/geocode/autocomplete?text=${locationInputValue}&limit=5&apiKey=${key}`;
 		var xhr = new XMLHttpRequest();
@@ -236,6 +231,7 @@ export default function Login(props) {
 						...prevState.location,
 						suggestions: {
 							loading: false,
+							show: true,
 							array: collectedDataArrayFormatted,
 						},
 					},
@@ -245,17 +241,22 @@ export default function Login(props) {
 	};
 
 	const suggestionClickHandler = (e, i) => {
-		console.log(i, suggestions[i]);
 		let selectedLocation = suggestions[i];
+
 		Object.keys(inputs).forEach((inputType) => {
+			console.log(selectedLocation[inputType]);
 			setInputs((prevState) => ({
 				...prevState,
 				[inputType]: {
 					...prevState[inputType],
-					animateUp: true,
+					animateUp: !!selectedLocation[inputType],
 					value: selectedLocation[inputType] || '',
-					empty: false,
-					suggestions: null,
+					empty: !!selectedLocation[inputType],
+					suggestions: {
+						...prevState[inputType].suggestions,
+						loading: false,
+						show: false,
+					},
 				},
 			}));
 		});
@@ -308,10 +309,10 @@ export default function Login(props) {
 							...prevState,
 							[inputType]: {
 								...prevState[inputType],
-								animateUp: true,
+								animateUp: !!locationInfoObject[inputType],
 								//update generic values -- make sure value has a string
 								value: locationInfoObject[inputType] || '',
-								empty: false,
+								empty: !!locationInfoObject[inputType],
 								//update errors: If no error, set to empty
 								/* message: {
                   ...prevState[inputType].message,
@@ -348,30 +349,36 @@ export default function Login(props) {
 		//prevent default form submission
 		event.preventDefault();
 
-		//update location of user
-		firebase
-			.firestore()
-			.collection('users')
-			.doc(user.uid)
-			.set(
-				{
-					city: inputs.city.value,
-					county: inputs.county.value,
-					state: inputs.state.value,
-					zip: inputs.zip.value,
-					country: inputs.country.value,
-				},
-				{ merge: true }
-			)
-			.then(() => {
-				console.log('Document successfully written!');
-				//redirect on successful submission
-				setSubmitted(true);
-			})
-			.catch((error) => {
-				console.error(error);
-				setModalMessage('Server error. Please try again later.');
-			});
+		//if any one of the inputs are valid, update all location data in database
+		//(you can't lingering bad location info hanging around. I.E. Lake Charles, Texas, USA)
+		if (Object.values(inputs).find((el) => el.value)) {
+			//update location of user
+			firebase
+				.firestore()
+				.collection('users')
+				.doc(user.uid)
+				.set(
+					{
+						city: inputs.city.value,
+						county: inputs.county.value,
+						state: inputs.state.value,
+						zip: inputs.zip.value,
+						country: inputs.country.value,
+					},
+					{ merge: true }
+				)
+				.then(() => {
+					console.log('Document successfully written!');
+					//redirect on successful submission
+					setSubmitted(true);
+				})
+				.catch((error) => {
+					console.error(error);
+					setModalMessage('Server error. Please try again later.');
+				});
+		} else {
+			setSubmitted(true);
+		}
 	};
 
 	//top modal:
@@ -470,7 +477,7 @@ export default function Login(props) {
 				</fieldset>
 
 				<div className={styles.buttonsDiv}>
-					<Link to='/personal' className={styles.linkLeft}>
+					<Link to='/signup/personal' className={styles.linkLeft}>
 						<img
 							className={styles.linkLeftImg}
 							src={require('../../assets/images/arrow-left.svg')}
