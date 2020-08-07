@@ -1,37 +1,42 @@
 .ListContainer {
-  position: relative;
-  height: 0;
-  width: 50%;
-  min-width: 250px;
-  max-width: 400px;
-  margin: 0 auto;
+	position: relative;
+	height: max-content;
+	height: 0;
+	width: 50%;
+	min-width: 250px;
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.hide {
+	display: none;
 }
 
 .ul {
-  position: absolute;
-  width: 100%;
-  min-width: 250px;
-  max-width: 400px;
-  background-color: green;
-  z-index: 5;
-  margin: 0;
-  padding: 0;
-  line-height: 100%;
-  border-radius: 0 0 10px 10px;
-  overflow: hidden;
-  background-color: white;
-  box-shadow: var(--shadow);
+	position: absolute;
+	width: 100%;
+	min-width: 250px;
+	max-width: 400px;
+	max-height: 9rem;
+	overflow-y: scroll;
+	z-index: 5;
+	margin: 0;
+	padding: 0;
+	line-height: 100%;
+	border-radius: 0 0 10px 10px;
+	background-color: white;
+	box-shadow: var(--shadow);
 }
 
 .li {
-  position: relative;
-  width: 100%;
-  min-width: 250px;
-  max-width: 400px;
-  padding: 1rem 0 1rem 1rem;
-  cursor: pointer;
+	position: relative;
+	width: 100%;
+	min-width: 250px;
+	max-width: 400px;
+	padding: 1rem 0 1rem 1rem;
+	cursor: pointer;
 }
 
 .li:hover {
-  background-color: #eee;
+	background-color: #eee;
 }
