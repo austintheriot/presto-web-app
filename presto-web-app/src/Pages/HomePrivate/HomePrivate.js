@@ -21,10 +21,17 @@ export default (props) => {
 			</div>
 			{user.firstName || true ? (
 				<>
-					<p className={styles.welcome}>Welcome,</p>
-					<h1 className={styles.title}>
-						{user.isAnonymous ? 'Guest' : user.firstName || 'Firstname'}
-					</h1>
+					{user.isAnonymous ? (
+						<>
+							<p className={styles.welcome}>Welcome,</p>
+							<h1 className={styles.title}>Guest</h1>{' '}
+						</>
+					) : (
+						<>
+							<p className={styles.welcome}></p>
+							<h1 className={styles.title}>Welcome</h1>
+						</>
+					)}
 				</>
 			) : (
 				<h1>Welcome</h1>
