@@ -45,11 +45,12 @@
 	background-color: #efefef;
 }
 
-.input {
+.textarea {
 	box-sizing: border-box;
 	position: relative;
 	display: block;
-	height: 3rem;
+	height: 10rem;
+	resize: none;
 	box-shadow: none;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
@@ -62,19 +63,19 @@
 	margin: 0 auto;
 	border-radius: 5px;
 	max-width: 400px;
-	padding: 0 2rem 0 1rem;
+	padding: 0.5rem 1rem;
 	font-size: 16px;
 }
 
-.colorInput {
+.colorTextarea {
 	border: 1px solid #60399dff;
 }
 
-.redInput {
+.redTextarea {
 	border: 2px solid red;
 }
 
-.inactiveInput {
+.inactiveTextarea {
 	border-color: #adadad;
 	background-color: #efefef;
 	pointer-events: none;

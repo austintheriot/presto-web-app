@@ -1,240 +1,313 @@
 import React, { useState } from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/analytics';
-import 'firebase/auth';
-import 'firebase/firestore';
+import { db } from '../../util/config';
+
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
+import Select from '../../components/Select/Select';
+import Textarea from '../../components/Textarea/Textarea';
 import styles from './SignupProfile.module.css';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../util/AuthProvider';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
+import InstrumentArray from '../../util/InstrumentArray';
 
 //redirect with AuthContext once setInputs permeates down to component
 
+import arrowLeft from '../../assets/images/arrow-left.svg';
+import arrowRight from '../../assets/images/arrow-left.svg';
+
 export default function Login(props) {
-  let user = useAuth();
-  const [inputs, setInputs] = useState({
-    activities: {
-      label: 'Musical Activities',
-      value: '',
-      animateUp: false,
-      empty: true,
-      touched: false,
-      message: {
-        error: false,
-        text: 'i.e. Performer, Composer, Teacher, etc.',
-        default: 'i.e. Performer, Composer, Teacher, etc.',
-      },
-    },
-    instruments: {
-      label: 'Instrument(s)',
-      value: '',
-      animateUp: false,
-      empty: true,
-      touched: false,
-      message: {
-        error: false,
-        text: 'i.e. Piano, Violin, Soprano, etc.',
-        default: 'i.e. Piano, Violin, Soprano, etc.',
-      },
-    },
-    websites: {
-      label: 'Website(s)',
-      value: '',
-      animateUp: false,
-      empty: true,
-      touched: false,
-      message: {
-        error: false,
-        text: 'Please separate entries with commas.',
-        default: 'Please separate entries with commas.',
-      },
-    },
-    bio: {
-      label: 'Short Bio',
-      value: '',
-      animateUp: false,
-      empty: true,
-      touched: false,
-      message: {
-        error: false,
-        text: 'Tell us a little about yourself.',
-        default: 'Tell us a little about yourself.',
-      },
-    },
-  });
-  const [modalMessage, setModalMessage] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+	let user = useAuth();
 
-  const handleFocus = (event, newestType) => {
-    //animation
-    setInputs((prevState) => ({
-      ...prevState,
-      [newestType]: {
-        ...prevState[newestType],
-        animateUp: true,
-        touched: true,
-      },
-    }));
-  };
+	const [inputs, setInputs] = useState({
+		activity: {
+			label: 'Musical Activity',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [
+					'Performer',
+					'Teacher',
+					'Composer',
+					'Arranger',
+					'Conductor',
+					'Therapist',
+					'Curator',
+					'Producer',
+					'Publicist',
+					'Editor',
+					'Copyist',
+					'Engraver',
+					'Worship Leader',
+					'Engineer',
+					'Other',
+				],
+			},
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			message: {
+				error: false,
+				text: 'i.e. Performer, Composer, Teacher, etc.',
+				default: 'i.e. Performer, Composer, Teacher, etc.',
+			},
+		},
+		instrument: {
+			label: 'Instrument/Voice Type',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: InstrumentArray,
+			},
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			message: {
+				error: false,
+				text: 'i.e. Piano, Violin, Soprano, etc.',
+				default: 'i.e. Piano, Violin, Soprano, etc.',
+			},
+		},
+		website: {
+			label: 'Website',
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			message: {
+				error: false,
+				text: 'Link to your personal website.',
+				default: 'Link to your personal website.',
+			},
+		},
+		bio: {
+			label: 'Short Bio',
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			message: {
+				error: false,
+				text: 'Tell us a little about yourself.',
+				default: 'Tell us a little about yourself.',
+			},
+		},
+	});
+	const [modalMessage, setModalMessage] = useState('');
+	const [submitted, setSubmitted] = useState(false);
 
-  const handleBlur = (event, newestType) => {
-    //animation & output error if empty
-    let targetEmpty =
-      inputs[newestType].touched && inputs[newestType].value.length === 0
-        ? true
-        : false;
+	const suggestionClickHandler = (e, i, newestType) => {
+		let newValue = inputs[newestType].suggestions.array[i];
+		setInputs((prevState) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				value: newValue,
+			},
+		}));
+	};
 
-    setInputs((prevState) => ({
-      ...prevState,
-      [newestType]: {
-        ...prevState[newestType],
-        //animation
-        animateUp: targetEmpty ? false : true,
-      },
-    }));
-  };
+	const handleFocus = (event, newestType) => {
+		//animation
+		if (newestType === 'activity' || newestType === 'instrument') {
+			//show drop down menu
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					animateUp: true,
+					touched: true,
+					suggestions: {
+						...prevState[newestType].suggestions,
+						loading: false,
+						show: true,
+					},
+				},
+			}));
+		} else {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					animateUp: true,
+					touched: true,
+				},
+			}));
+		}
+	};
 
-  const handleChange = (event, newestType) => {
-    let targetValue = event.target.value;
-    let targetEmpty = targetValue.length === 0 ? true : false;
+	const handleBlur = (e, newestType) => {
+		//animation & output error if empty
+		let targetEmpty =
+			inputs[newestType].touched && inputs[newestType].value.length === 0
+				? true
+				: false;
 
-    //validate inputs
+		//hide drop down menu
+		if (newestType === 'activity' || newestType === 'instrument') {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					//animation
+					animateUp: targetEmpty ? false : true,
+					suggestions: {
+						...prevState[newestType].suggestions,
+						loading: false,
+						show: false,
+					},
+				},
+			}));
+		} else {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					//animation
+					animateUp: targetEmpty ? false : true,
+				},
+			}));
+		}
+	};
 
-    //update state for all inputs
-    Object.keys(inputs).forEach((inputType) => {
-      setInputs((prevState) => ({
-        ...prevState,
-        [inputType]: {
-          ...prevState[inputType],
+	const handleChange = (event, newestType) => {
+		let targetValue = event.target.value;
+		let targetEmpty = targetValue.length === 0 ? true : false;
 
-          //update generic values
-          value:
-            inputType === newestType ? targetValue : prevState[inputType].value,
-          empty:
-            inputType === newestType ? targetEmpty : prevState[inputType].empty,
-          //update errors: If no error, set to empty
-          /*  message: {
+		//validate inputs
+
+		//update state for all inputs
+		Object.keys(inputs).forEach((inputType) => {
+			setInputs((prevState) => ({
+				...prevState,
+				[inputType]: {
+					...prevState[inputType],
+
+					//update generic values
+					value:
+						inputType === newestType ? targetValue : prevState[inputType].value,
+					empty:
+						inputType === newestType ? targetEmpty : prevState[inputType].empty,
+					//update errors: If no error, set to empty
+					/*  message: {
             ...prevState[inputType].message,
             error: errors[inputType] ? true : false,
             text: errors[inputType]
               ? errors[inputType]
               : prevState[inputType].message.default,
           }, */
-        },
-      }));
-    });
-  };
+				},
+			}));
+		});
+	};
 
-  const submitHandler = (event) => {
-    //prevent default form submission
-    event.preventDefault();
+	const submitHandler = (event) => {
+		//prevent default form submission
+		event.preventDefault();
 
-    //check for errors
+		//check for errors
 
-    //update name and username of user
-    // firebase
-    //   .firestore()
-    //   .collection('users')
-    //   .doc(user.uid)
-    //   .set(
-    //     {
-    //       name: inputs.name.value,
-    //       type: radioValue,
-    //     },
-    //     { merge: true }
-    //   )
-    //   .then(() => {
-    //     console.log('Document successfully written!');
-    //     //redirect on successful submission
-    //     setSubmitted(true);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     setModalMessage('Server error. Please try again later.');
-    //   });
-  };
+		//only update information if new information has been provided
+		let newInfoFromState = {};
+		if (inputs.activity.value)
+			newInfoFromState.activity = inputs.activity.value;
+		if (inputs.instrument.value)
+			newInfoFromState.instrument = inputs.instrument.value;
+		if (inputs.website.value) newInfoFromState.website = inputs.website.value;
+		if (inputs.bio.value) newInfoFromState.bio = inputs.bio.value;
 
-  //top modal:
-  let infoMessage = props.history?.location?.state?.infoMessage;
+		//update profile information of user
+		db.collection('users')
+			.doc(user.uid)
+			.set(newInfoFromState, { merge: true })
+			.then(() => {
+				console.log('Document successfully written!');
+				//redirect on successful submission
+				setSubmitted(true);
+			})
+			.catch((error) => {
+				console.error(error);
+				setModalMessage('Server error. Please try again later.');
+			});
+	};
 
-  return (
-    //display modal message if redirected from another page requiring authentication:
-    <>
-      <div className={styles.SkipDiv}>
-        <Link to='/home'>Skip</Link>
-      </div>
-      {submitted ? <Redirect to={'/signup/location'} /> : null}
-      {infoMessage ? <Modal message={infoMessage} color='black' /> : null}
-      <ProgressBar
-        signup='complete'
-        personal='complete'
-        location='complete'
-        profile='inProgress'
-      />
-      <h1 className={styles.title}>Profile</h1>
-      <form onSubmit={submitHandler}>
-        <Input
-          type='text'
-          customType='activities'
-          handleFocus={(e) => handleFocus(e, 'activities')}
-          handleBlur={(e) => handleBlur(e, 'activities')}
-          handleChange={(e) => handleChange(e, 'activities')}
-          label={'Musical Activities'}
-          inputs={inputs}
-        />
-        <Input
-          type='text'
-          customType='instruments'
-          handleFocus={(e) => handleFocus(e, 'instruments')}
-          handleBlur={(e) => handleBlur(e, 'instruments')}
-          handleChange={(e) => handleChange(e, 'instruments')}
-          label={'Instrument(s)'}
-          inputs={inputs}
-        />
-        <Input
-          type='text'
-          customType='websites'
-          handleFocus={(e) => handleFocus(e, 'websites')}
-          handleBlur={(e) => handleBlur(e, 'websites')}
-          handleChange={(e) => handleChange(e, 'websites')}
-          label={'Website(s)'}
-          inputs={inputs}
-        />
-        <Input
-          type='text'
-          customType='bio'
-          handleFocus={(e) => handleFocus(e, 'bio')}
-          handleBlur={(e) => handleBlur(e, 'bio')}
-          handleChange={(e) => handleChange(e, 'bio')}
-          label={'Short Bio'}
-          inputs={inputs}
-        />
+	//top modal:
+	let infoMessage = props.history?.location?.state?.infoMessage;
 
-        <Modal message={modalMessage} color='black' />
-        <div className={styles.buttonsDiv}>
-          <Link to='/' className={styles.linkLeft}>
-            <img
-              className={styles.linkLeftImg}
-              src={require('../../assets/images/arrow-left.svg')}
-              alt='back'
-            />
-          </Link>
+	return (
+		//display modal message if redirected from another page requiring authentication:
+		<>
+			<div className={styles.SkipDiv}>
+				<Link to='/home'>Skip</Link>
+			</div>
+			{submitted ? <Redirect to={'/home'} /> : null}
+			{infoMessage ? <Modal message={infoMessage} color='black' /> : null}
+			<ProgressBar
+				signup='complete'
+				personal='complete'
+				location='complete'
+				profile='inProgress'
+			/>
+			<h1 className={styles.title}>Profile</h1>
+			<form onSubmit={submitHandler}>
+				<Select
+					type='text'
+					customType='activity'
+					handleFocus={(e) => handleFocus(e, 'activity')}
+					handleBlur={(e) => handleBlur(e, 'activity')}
+					label={'Musical Activity'}
+					inputs={inputs}
+					suggestionClickHandler={suggestionClickHandler}
+				/>
+				<Select
+					type='text'
+					customType='instrument'
+					handleFocus={(e) => handleFocus(e, 'instrument')}
+					handleBlur={(e) => handleBlur(e, 'instrument')}
+					label={'Instrument'}
+					inputs={inputs}
+					suggestionClickHandler={suggestionClickHandler}
+				/>
+				<Input
+					type='text'
+					customType='website'
+					handleFocus={(e) => handleFocus(e, 'website')}
+					handleBlur={(e) => handleBlur(e, 'website')}
+					handleChange={(e) => handleChange(e, 'website')}
+					label={'Website'}
+					inputs={inputs}
+				/>
+				<Textarea
+					type='text'
+					customType='bio'
+					handleFocus={(e) => handleFocus(e, 'bio')}
+					handleBlur={(e) => handleBlur(e, 'bio')}
+					handleChange={(e) => handleChange(e, 'bio')}
+					label={'Short Bio'}
+					inputs={inputs}
+				/>
 
-          <button
-            className={styles.linkRight}
-            type='submit'
-            onClick={submitHandler}>
-            <img
-              className={styles.linkRightImg}
-              src={require('../../assets/images/arrow-right.svg')}
-              alt='continue'
-            />
-          </button>
-        </div>
-      </form>
-      <div className='spacerMedium'></div>
-    </>
-  );
+				<Modal message={modalMessage} color='black' />
+				<div className={styles.buttonsDiv}>
+					<Link to='/signup-location' className={styles.linkLeft}>
+						<img className={styles.linkLeftImg} src={arrowLeft} alt='back' />
+					</Link>
+
+					<button
+						className={styles.linkRight}
+						type='submit'
+						onClick={submitHandler}>
+						<img
+							className={styles.linkRightImg}
+							src={arrowRight}
+							alt='continue'
+						/>
+					</button>
+				</div>
+			</form>
+			<div className='spacerMedium'></div>
+		</>
+	);
 }

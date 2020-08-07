@@ -1,0 +1,39 @@
+/* Wavy element */
+.waveDiv {
+	position: absolute;
+	z-index: -5;
+	height: 200px;
+	width: 100%;
+	overflow: hidden;
+	top: 0;
+}
+
+@media (min-width: 800px) {
+	.waveDiv {
+		top: 50px;
+	}
+}
+
+.waveSvg {
+	height: 100%;
+	width: 100%;
+}
+
+.wavePath {
+	stroke: none;
+	fill: var(--pop-color);
+}
+
+.title {
+	margin: 2rem auto 100px;
+	color: white;
+}
+
+.wrapper p,
+.wrapper div {
+	margin: 2rem auto;
+}
+
+.joinedAt {
+	margin: 3rem auto 5rem auto;
+}

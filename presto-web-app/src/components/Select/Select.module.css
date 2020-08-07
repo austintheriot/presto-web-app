@@ -1,4 +1,4 @@
-.div {
+.labelDiv {
 	box-sizing: border-box;
 	position: relative;
 	display: block;
@@ -64,9 +64,12 @@
 	max-width: 400px;
 	padding: 0 2rem 0 1rem;
 	font-size: 16px;
+	cursor: pointer;
+	caret-color: transparent;
 }
 
-.colorInput {
+.colorInput,
+.input:hover {
 	border: 1px solid #60399dff;
 }
 
@@ -102,13 +105,4 @@
 .redMessage {
 	composes: message;
 	color: red;
-}
-
-.eye {
-	position: absolute;
-	width: 1.2rem;
-	right: 0.5rem;
-	top: 2.1rem;
-	cursor: pointer;
-	z-index: 1;
 }
