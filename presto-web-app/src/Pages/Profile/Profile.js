@@ -25,7 +25,7 @@ export default (props) => {
 			value: user.type || '',
 			animateUp: user.type,
 			empty: !user.type,
-			touched: true,
+			touched: false,
 			message: {
 				error: false,
 				text: '',
@@ -58,6 +58,7 @@ export default (props) => {
 			value: user.activity || '',
 			animateUp: user.activity,
 			empty: !user.activity,
+			touched: false,
 			message: {
 				error: false,
 				text: 'i.e. Performer, Composer, Teacher, etc.',
@@ -74,6 +75,7 @@ export default (props) => {
 			value: user.instrument || '',
 			animateUp: user.instrument,
 			empty: !user.instrument,
+			touched: false,
 			message: {
 				error: false,
 				text: 'i.e. Piano, Violin, Soprano, etc.',
@@ -85,6 +87,7 @@ export default (props) => {
 			value: user.website || '',
 			animateUp: user.website,
 			empty: !user.website,
+			touched: false,
 			message: {
 				error: false,
 				text: 'Link to your personal website.',
@@ -96,6 +99,7 @@ export default (props) => {
 			value: user.random || '',
 			animateUp: user.random,
 			empty: !user.random,
+			touched: false,
 			message: {
 				error: false,
 				text: 'Tell us a little about yourself.',
@@ -226,20 +230,36 @@ export default (props) => {
 
 		//only update information if new information has been provided
 		let newInfoFromState = {};
-		if (inputs.type.value) newInfoFromState.type = inputs.type.value;
-		if (inputs.activity.value)
+		if (inputs.type.touched) newInfoFromState.type = inputs.type.value;
+		if (inputs.activity.touched)
 			newInfoFromState.activity = inputs.activity.value;
-		if (inputs.instrument.value)
+		if (inputs.instrument.touched)
 			newInfoFromState.instrument = inputs.instrument.value;
-		if (inputs.website.value) newInfoFromState.website = inputs.website.value;
-		if (inputs.bio.value) newInfoFromState.bio = inputs.bio.value;
+		if (inputs.website.touched) newInfoFromState.website = inputs.website.value;
+		if (inputs.bio.touched) newInfoFromState.bio = inputs.bio.value;
+
+		if (Object.keys(newInfoFromState).length === 0) {
+			return setModalMessage('No new settings to update.');
+		}
 
 		//update profile information of user
+		setModalMessage('Saving...');
 		db.collection('users')
 			.doc(user.uid)
 			.set(newInfoFromState, { merge: true })
 			.then(() => {
 				console.log('Document successfully written!');
+
+				//reset "touched" value of inputs so save isn't triggered again if attempted
+				Object.keys(inputs).forEach((inputType) => {
+					setInputs((prevState) => ({
+						...prevState,
+						[inputType]: {
+							...prevState[inputType],
+							touched: false,
+						},
+					}));
+				});
 				setModalMessage('Your settings have been successfully updated!');
 			})
 			.catch((error) => {
