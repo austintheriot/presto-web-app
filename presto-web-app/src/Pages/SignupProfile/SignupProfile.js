@@ -15,6 +15,9 @@ import InstrumentArray from './InstrumentArray';
 
 //redirect with AuthContext once setInputs permeates down to component
 
+import arrowLeft from '../../assets/images/arrow-left.svg';
+import arrowRight from '../../assets/images/arrow-left.svg';
+
 export default function Login(props) {
 	let user = useAuth();
 
@@ -293,11 +296,7 @@ export default function Login(props) {
 				<Modal message={modalMessage} color='black' />
 				<div className={styles.buttonsDiv}>
 					<Link to='/signup-location' className={styles.linkLeft}>
-						<img
-							className={styles.linkLeftImg}
-							src={require('../../assets/images/arrow-left.svg')}
-							alt='back'
-						/>
+						<img className={styles.linkLeftImg} src={arrowLeft} alt='back' />
 					</Link>
 
 					<button
@@ -306,7 +305,7 @@ export default function Login(props) {
 						onClick={submitHandler}>
 						<img
 							className={styles.linkRightImg}
-							src={require('../../assets/images/arrow-right.svg')}
+							src={arrowRight}
 							alt='continue'
 						/>
 					</button>

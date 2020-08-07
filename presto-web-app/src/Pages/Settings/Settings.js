@@ -2,12 +2,11 @@ import React from 'react';
 import Nav from '../../components/Nav/Nav';
 import styles from './Settings.module.css';
 import Button from '../../components/Button/Button';
-import Logout from '../../components/Logout';
 import logoutFunction from '../../util/logout';
 
 //images
 import logout from '../../assets/images/logout.svg';
-import notifications from '../../assets/images/notifications.svg';
+/* import notifications from '../../assets/images/notifications.svg'; */
 
 export default (props) => {
 	return (

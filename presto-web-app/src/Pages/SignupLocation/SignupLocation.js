@@ -12,6 +12,9 @@ import geoapifyKey from '../../util/geoapifyKey';
 import styles from './SignupLocation.module.css';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
+import arrowLeft from '../../assets/images/arrow-left.svg';
+import arrowRight from '../../assets/images/arrow-right.svg';
+
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Login(props) {
@@ -478,11 +481,7 @@ export default function Login(props) {
 
 				<div className={styles.buttonsDiv}>
 					<Link to='/signup-personal' className={styles.linkLeft}>
-						<img
-							className={styles.linkLeftImg}
-							src={require('../../assets/images/arrow-left.svg')}
-							alt='back'
-						/>
+						<img className={styles.linkLeftImg} src={arrowLeft} alt='back' />
 					</Link>
 
 					<button
@@ -491,7 +490,7 @@ export default function Login(props) {
 						onClick={submitHandler}>
 						<img
 							className={styles.linkRightImg}
-							src={require('../../assets/images/arrow-right.svg')}
+							src={arrowRight}
 							alt='continue'
 						/>
 					</button>

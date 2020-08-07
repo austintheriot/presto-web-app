@@ -2,6 +2,13 @@ import React from 'react';
 import styles from './Nav.module.css';
 import { Link } from 'react-router-dom';
 
+//images:
+import home from '../../assets/images/home.svg';
+import posts from '../../assets/images/posts.svg';
+import notifications from '../../assets/images/notifications.svg';
+import profile from '../../assets/images/profile.svg';
+import settings from '../../assets/images/settings.svg';
+
 export default (props) => {
 	return (
 		<>
@@ -10,22 +17,14 @@ export default (props) => {
 					<li className={styles.li}>
 						<Link to='/home'>
 							<button className={styles.home} data-info='Home'>
-								<img
-									className={styles.img}
-									src={require('../../assets/images/home.svg')}
-									alt='home'
-								/>
+								<img className={styles.img} src={home} alt='home' />
 							</button>
 						</Link>
 					</li>
 					<li className={styles.li}>
 						<Link to='/posts'>
 							<button className={styles.button} data-info='Posts'>
-								<img
-									className={styles.img}
-									src={require('../../assets/images/posts.svg')}
-									alt='posts'
-								/>
+								<img className={styles.img} src={posts} alt='posts' />
 							</button>
 						</Link>
 					</li>
@@ -33,7 +32,7 @@ export default (props) => {
 						<button className={styles.button} data-info='Notifications'>
 							<img
 								className={styles.img}
-								src={require('../../assets/images/notifications.svg')}
+								src={notifications}
 								alt='notifications'
 							/>
 						</button>
@@ -41,22 +40,14 @@ export default (props) => {
 					<li className={styles.li}>
 						<Link to='/profile'>
 							<button className={styles.button} data-info='Profile'>
-								<img
-									className={styles.img}
-									src={require('../../assets/images/profile.svg')}
-									alt='profile'
-								/>
+								<img className={styles.img} src={profile} alt='profile' />
 							</button>
 						</Link>
 					</li>
 					<li className={styles.li}>
 						<Link to='settings'>
 							<button className={styles.button} data-info='Settings'>
-								<img
-									className={styles.img}
-									src={require('../../assets/images/settings.svg')}
-									alt='settings'
-								/>
+								<img className={styles.img} src={settings} alt='settings' />
 							</button>
 						</Link>
 					</li>
