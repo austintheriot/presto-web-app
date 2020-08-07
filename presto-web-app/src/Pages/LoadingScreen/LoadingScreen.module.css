@@ -11,7 +11,7 @@
 	position: relative;
 	margin: 2rem auto;
 	height: 2px;
-	width: 250px;
+	width: 200px;
 	background-color: #eee;
 	overflow: hidden;
 }
@@ -20,20 +20,20 @@
 	position: absolute;
 	left: 50%;
 	content: '';
-	width: 50px;
+	width: 100px;
 	height: 100%;
 	background-color: var(--pop-color);
-	animation: leftToRight 2s linear 0s infinite;
+	animation: leftToRight 2s ease-in-out 0s infinite;
 }
 
 @keyframes leftToRight {
 	0% {
-		transform: translateX(-150px);
+		transform: translateX(calc(-50% - 125px));
 	}
 	50% {
-		transform: translateX(0);
+		transform: translateX(calc(-50% + 125px));
 	}
 	100% {
-		transform: translateX(150px);
+		transform: translateX(calc(-50% - 125px));
 	}
 }

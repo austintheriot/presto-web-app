@@ -94,7 +94,7 @@ function App() {
 
 						let allUserInfo = {
 							authenticated: true,
-							init: true,
+							/* init: true, */
 							email,
 							uid,
 							displayName,
