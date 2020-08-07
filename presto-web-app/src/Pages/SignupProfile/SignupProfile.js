@@ -77,8 +77,8 @@ export default function Login(props) {
 			touched: false,
 			message: {
 				error: false,
-				text: 'Please separate entries with commas.',
-				default: 'Please separate entries with commas.',
+				text: 'Link to your personal website.',
+				default: 'Link to your personal website.',
 			},
 		},
 		bio: {

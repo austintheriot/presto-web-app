@@ -173,7 +173,7 @@ export default function Login(props) {
 				setSubmitted(true);
 			})
 			.catch((error) => {
-				console.error(error);
+				console.log('[SignupPersonal]: Submit handler catch block:', error);
 				setModalMessage('Server error. Please try again later.');
 			});
 	};

@@ -156,7 +156,6 @@ export default function Signup(props) {
 					method: 'Email & Password',
 				});
 				setSignedUpUser(data.user);
-				console.log('[Signup] user:', data.user);
 			})
 			.catch((error) => {
 				if (error.code === 'auth/email-already-in-use')
