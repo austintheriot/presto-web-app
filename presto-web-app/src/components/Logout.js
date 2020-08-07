@@ -1,24 +1,23 @@
 import React from 'react';
-import * as firebase from 'firebase/app';
+import { auth } from '../util/config';
 import 'firebase/auth';
 import { Link } from 'react-router-dom';
 
 export default () => {
-  const signout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        console.log('[Logout]: User successfully signed out');
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  };
+	const logout = () => {
+		auth
+			.signOut()
+			.then(() => {
+				console.log('[Logout]: User successfully signed out');
+			})
+			.catch((error) => {
+				console.error(error.message);
+			});
+	};
 
-  return (
-    <Link to='/' onClick={signout}>
-      Log Out
-    </Link>
-  );
+	return (
+		<Link to='/' onClick={logout}>
+			Log Out
+		</Link>
+	);
 };

@@ -186,7 +186,7 @@ export default function Signup(props) {
 				.set(
 					{
 						email: signedUpUser.email,
-						timeCreated: new Date().toISOString(),
+						createdAt: new Date().toISOString(),
 					},
 					{ merge: true }
 				)

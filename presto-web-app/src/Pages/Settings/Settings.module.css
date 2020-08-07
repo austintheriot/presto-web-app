@@ -1,0 +1,28 @@
+.title {
+	width: 90%;
+	min-width: 300px;
+	margin: 2rem auto;
+}
+
+.wrapper img {
+	display: inline-block;
+	cursor: pointer;
+	margin-right: 2rem;
+	width: 1.5rem;
+}
+
+.wrapper div {
+	width: 90%;
+	min-width: 250px;
+	max-width: max-content;
+	margin: 2rem auto;
+	display: flex;
+	flex: none;
+}
+
+.wrapper p {
+	display: inline-block;
+	text-align: left;
+	width: max-content;
+	cursor: pointer;
+}
