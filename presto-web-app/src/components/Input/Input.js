@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styles from './Input.module.css';
 import SuggestionList from '../SuggestionList/SuggestionList';
 
+import eye from '../../assets/images/eye.svg';
+
 export default (props) => {
 	const [state, setState] = useState({
 		innerType: 'password',
@@ -20,7 +22,7 @@ export default (props) => {
 					<img
 						className={styles.eye}
 						alt='show password'
-						src={require('../../assets/images/eye.svg')}
+						src={eye}
 						onClick={togglePasswordVisibility}
 					/>
 				) : null}

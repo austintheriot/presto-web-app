@@ -7,6 +7,9 @@ import { useAuth } from '../../util/AuthProvider';
 import Input from '../../components/Input/Input';
 import styles from './Signup.module.css';
 
+import home from '../../assets/images/home.svg';
+import arrowRight from '../../assets/images/arrow-right.svg';
+
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Signup(props) {
@@ -257,11 +260,7 @@ export default function Signup(props) {
 				<Modal message={modalMessage} color='black' />
 				<div className={styles.buttonsDiv}>
 					<Link to='/' className={styles.linkLeft}>
-						<img
-							className={styles.linkLeftImg}
-							src={require('../../assets/images/home.svg')}
-							alt='back'
-						/>
+						<img className={styles.linkLeftImg} src={home} alt='back' />
 					</Link>
 
 					<button
@@ -270,7 +269,7 @@ export default function Signup(props) {
 						onClick={submitHandler}>
 						<img
 							className={styles.linkRightImg}
-							src={require('../../assets/images/arrow-right.svg')}
+							src={arrowRight}
 							alt='sign up'
 						/>
 					</button>
