@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/analytics';
-import 'firebase/auth';
-import 'firebase/firestore';
+import { db } from '../../util/config';
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
@@ -356,9 +353,7 @@ export default function Login(props) {
 		//(you can't lingering bad location info hanging around. I.E. Lake Charles, Texas, USA)
 		if (Object.values(inputs).find((el) => el.value)) {
 			//update location of user
-			firebase
-				.firestore()
-				.collection('users')
+			db.collection('users')
 				.doc(user.uid)
 				.set(
 					{

@@ -1,11 +1,9 @@
 import React from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+import { auth } from '../util/config';
 import { Redirect } from 'react-router-dom';
 
 export default () => {
-	firebase
-		.auth()
+	auth
 		.signOut()
 		.then(() => {
 			console.log('[LogoutByRender]: User successfully signed out');

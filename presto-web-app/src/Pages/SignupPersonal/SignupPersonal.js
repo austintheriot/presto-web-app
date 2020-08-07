@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/analytics';
-import 'firebase/auth';
-import 'firebase/firestore';
+import { db } from '../../util/config';
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
@@ -165,9 +162,7 @@ export default function Login(props) {
 		if (inputs.name.value) newInfoFromState.name = inputs.name.value;
 
 		//update name and username of user
-		firebase
-			.firestore()
-			.collection('users')
+		db.collection('users')
 			.doc(user.uid)
 			.set(newInfoFromState, { merge: true })
 			.then(() => {

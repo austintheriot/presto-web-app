@@ -1,6 +1,5 @@
 import React from 'react';
 import { auth } from '../util/config';
-import 'firebase/auth';
 import { Link } from 'react-router-dom';
 
 export default () => {
