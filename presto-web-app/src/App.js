@@ -78,8 +78,8 @@ function App() {
 					.firestore()
 					.collection('users')
 					.doc(user.uid)
-					.get()
-					.then((doc) => {
+					//subscribe to data changes in real time and push automatically
+					.onSnapshot((doc) => {
 						console.log('[App]: database data fetched');
 						//update user data on the client side with authentication & database data
 						//only show full screen once user info has been successfully retrieved
@@ -138,9 +138,6 @@ function App() {
 						}
 						console.log('[App]: initializing app and user data');
 						setUser(userInfo);
-					})
-					.catch((err) => {
-						console.error(err);
 					});
 			} else {
 				//replace all user data with empty object
