@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+import { auth, analytics } from '../../util/config';
 import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import { useAuth } from '../../context/AuthProvider';
@@ -20,11 +19,10 @@ const Home = (props) => {
 	const [signedInAnonymously, setSignedInAnonymously] = useState(false);
 
 	const signInAnonymously = () => {
-		firebase
-			.auth()
+		auth
 			.signInAnonymously()
 			.then(() => {
-				firebase.analytics().logEvent('login', {
+				analytics.logEvent('login', {
 					method: 'Anonymous',
 				});
 				setSignedInAnonymously(true);

@@ -4,15 +4,15 @@ import 'firebase/auth';
 import { Redirect } from 'react-router-dom';
 
 export default () => {
-  firebase
-    .auth()
-    .signOut()
-    .then(() => {
-      console.log('[LogoutByRender]: User successfully signed out');
-    })
-    .catch((error) => {
-      console.error(error.message);
-    });
+	firebase
+		.auth()
+		.signOut()
+		.then(() => {
+			console.log('[LogoutByRender]: User successfully signed out');
+		})
+		.catch((error) => {
+			console.error(error.message);
+		});
 
-  return <Redirect to='/' />;
+	return <Redirect to='/' />;
 };

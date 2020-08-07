@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+import { db, auth, analytics } from '../../util/config';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../util/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
@@ -148,11 +147,10 @@ export default function Signup(props) {
 	};
 
 	const signup = () => {
-		firebase
-			.auth()
+		auth
 			.createUserWithEmailAndPassword(inputs.email.value, inputs.password.value)
 			.then((data) => {
-				firebase.analytics().logEvent('sign_up', {
+				analytics.logEvent('sign_up', {
 					method: 'Email & Password',
 				});
 				setSignedUpUser(data.user);
@@ -183,9 +181,7 @@ export default function Signup(props) {
 				'[Sign Up] adding user email & timeCreated to user document:'
 			);
 			// Add a new document in collection "cities"
-			firebase
-				.firestore()
-				.collection('users')
+			db.collection('users')
 				.doc(signedUpUser.uid)
 				.set(
 					{
