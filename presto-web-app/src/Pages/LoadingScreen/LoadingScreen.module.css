@@ -1,65 +1,39 @@
 .Logo {
-  position: absolute;
-  display: block;
-  top: 35%;
-  left: 50%;
-  min-height: 200px;
-  transform: translate(-50%, -50%);
+	display: block;
+	left: 50%;
+	height: 150px;
+	width: auto;
+	margin: 0 auto;
+	margin-top: 25vh;
 }
 
-.LoadingText {
-  position: absolute;
-  top: calc(35% + 150px);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--pop-color);
-  text-align: center;
+.loadingBar {
+	position: relative;
+	margin: 2rem auto;
+	height: 2px;
+	width: 250px;
+	background-color: #eee;
+	overflow: hidden;
 }
 
-.LoadingImg1,
-.LoadingImg2 {
-  position: absolute;
-  display: block;
-  min-height: 200px;
-  top: 35%;
-  left: 50%;
-  transform-origin: center center;
+.loadingBar:before {
+	position: absolute;
+	left: 50%;
+	content: '';
+	width: 50px;
+	height: 100%;
+	background-color: var(--pop-color);
+	animation: leftToRight 2s linear 0s infinite;
 }
 
-.LoadingImg1 {
-  animation: spin1 7s linear 0s infinite;
-}
-
-@keyframes spin1 {
-  0% {
-    transform: translate(-50%, -50%) rotate(0) scale(1.3);
-    opacity: 0.75;
-  }
-  50% {
-    transform: translate(-50%, -50%) rotate(180deg) scale(1.4);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg) scale(1.3);
-    opacity: 0.75;
-  }
-}
-
-.LoadingImg2 {
-  animation: spin2 5s linear 0s infinite;
-}
-
-@keyframes spin2 {
-  0% {
-    transform: translate(-50%, -50%) rotate(0) scale(1.1);
-    opacity: 1;
-  }
-  50% {
-    transform: translate(-50%, -50%) rotate(-180deg) scale(1.1);
-    opacity: 0.75;
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(-360deg) scale(1.1);
-    opacity: 1;
-  }
+@keyframes leftToRight {
+	0% {
+		transform: translateX(-150px);
+	}
+	50% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(150px);
+	}
 }

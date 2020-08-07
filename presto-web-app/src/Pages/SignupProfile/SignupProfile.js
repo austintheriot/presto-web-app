@@ -11,15 +11,12 @@ import Textarea from '../../components/Textarea/Textarea';
 import styles from './SignupProfile.module.css';
 import { useAuth } from '../../context/AuthProvider';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
+import InstrumentArray from './InstrumentArray';
 
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Login(props) {
 	let user = useAuth();
-
-	React.useEffect(() => {
-		console.log('rendering...');
-	});
 
 	const [inputs, setInputs] = useState({
 		activity: {
@@ -27,7 +24,23 @@ export default function Login(props) {
 			suggestions: {
 				loading: false,
 				show: false,
-				array: ['Performer', 'Teacher', 'Composer', 'Arranger', 'Conductor'],
+				array: [
+					'Performer',
+					'Teacher',
+					'Composer',
+					'Arranger',
+					'Conductor',
+					'Therapist',
+					'Curator',
+					'Producer',
+					'Publicist',
+					'Editor',
+					'Copyist',
+					'Engraver',
+					'Worship Leader',
+					'Engineer',
+					'Other',
+				],
 			},
 			value: '',
 			animateUp: false,
@@ -40,11 +53,11 @@ export default function Login(props) {
 			},
 		},
 		instrument: {
-			label: 'Instrument',
+			label: 'Instrument/Voice Type',
 			suggestions: {
 				loading: false,
 				show: false,
-				array: ['Piano', 'Flute', 'Guitar', 'Soprano'],
+				array: InstrumentArray,
 			},
 			value: '',
 			animateUp: false,

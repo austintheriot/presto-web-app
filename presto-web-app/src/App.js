@@ -46,12 +46,12 @@ import "firebase/remote-config"; */
 function App() {
 	const [user, setUser] = useState(false);
 
-	/* 	const fakeDelay = (delayTime) => {
+	const fakeDelay = (delayTime) => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => resolve(), delayTime);
 		});
-  }; */
-	/* fakeDelay(5000).then(() => {}) */
+	};
+	fakeDelay(5000).then(() => {});
 
 	useEffect(() => {
 		authListener();
