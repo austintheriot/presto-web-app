@@ -1,0 +1,137 @@
+/* Wrapper to add some padding */
+.wrapper {
+	width: 90%;
+	min-width: 300px;
+	max-width: 600px;
+	margin: 2rem auto;
+	box-shadow: var(--shadow);
+	border-radius: 20px;
+	padding: 1.5rem;
+}
+
+.article {
+	margin: 0 auto;
+	width: 100%;
+	max-width: 600px;
+
+	display: grid;
+	/* rows / columns */
+	grid-template-columns: 1fr;
+	grid-template-rows: 2fr minmax(100px, max-content) 1fr;
+	grid-template-areas:
+		'header'
+		'body'
+		'footer';
+	place-items: center; /* align justify */
+
+	header {
+		grid-area: header;
+
+		width: 100%;
+		height: max-content;
+
+		display: grid;
+		grid: repeat(3, 1fr) / 60px repeat(4, 1fr);
+		grid-template-areas:
+			'profilePic name name name activity'
+			'profilePic time time time activity'
+			'profilePic time time time activity';
+		place-items: start;
+	}
+
+	main {
+		grid-area: body;
+		align-self: flex-start;
+
+		width: 100%;
+		height: max-content;
+	}
+
+	main p {
+		text-align: left;
+		width: 100%;
+	}
+
+	footer {
+		grid-area: footer;
+
+		display: grid;
+		grid: 1fr / repeat(7, 1fr);
+		grid-template-areas: 'likes  likes comments comments comments icons  icons';
+		place-items: end start;
+
+		width: 100%;
+		height: 100%;
+		min-height: 1rem;
+	}
+
+	.profilePic {
+		grid-area: profilePic;
+
+		height: 50px;
+		width: 50px;
+		border: 1px solid #ccc;
+		border-radius: 18px;
+	}
+
+	.name {
+		grid-area: name;
+
+		width: 100%;
+		font-size: 1rem;
+		text-align: left;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	time {
+		grid-area: time;
+		font-size: 0.75rem;
+	}
+
+	.activity {
+		grid-area: activity;
+		font-size: 0.75rem;
+		justify-self: self-end;
+	}
+
+	.body {
+		grid-area: body;
+	}
+
+	.likes {
+		grid-area: likes;
+		width: 100%;
+		height: max-content;
+		text-align: left;
+
+		img {
+			width: 0.75rem;
+			margin-right: 0.25rem;
+		}
+	}
+
+	.comments {
+		grid-area: comments;
+		width: 100%;
+		height: max-content;
+		text-align: left;
+
+		img {
+			width: 0.7rem;
+			margin-right: 0.25rem;
+		}
+	}
+
+	.icons {
+		grid-area: icons;
+		justify-self: self-end;
+		width: 100%;
+		height: max-content;
+
+		display: flex;
+		flex: none;
+		justify-content: space-evenly;
+	}
+}
