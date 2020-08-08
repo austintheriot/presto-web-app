@@ -15,8 +15,8 @@ html {
 	--yellow: rgba(232, 221, 181, 1);
 	--red: rgba(251, 195, 196, 1);
 	--gray: rgba(219, 219, 219, 1);
-	--shadow: 0px 10px 20px 0 rgba(0, 0, 0, 0.15),
-		0px 2px 5px 0 rgba(0, 0, 0, 0.1);
+	--shadow: 0px 10px 30px 0 rgba(0, 0, 0, 0.12),
+		0px 1px 5px 0 rgba(0, 0, 0, 0.1);
 
 	--h1: 4rem;
 	--h2: 3rem;
