@@ -67,12 +67,18 @@
 	font-size: 16px;
 }
 
-.colorInput {
+.input:hover {
+	border: 1px solid #555;
+}
+
+.colorInput,
+.colorInput:hover {
 	border: 1px solid #60399dff;
 }
 
-.redInput {
-	border: 2px solid red;
+.redInput,
+.redInput:hover {
+	border: 1px solid red;
 }
 
 .inactiveInput {
