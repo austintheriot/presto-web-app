@@ -53,6 +53,7 @@
 	box-shadow: none;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
+	-webkit-appearance: none;
 	outline: none;
 	background-color: transparent;
 	border: 1px solid #bbb;
