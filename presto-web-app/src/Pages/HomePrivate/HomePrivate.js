@@ -4,7 +4,7 @@ import styles from './HomePrivate.module.css';
 import Nav from '../../components/Nav/Nav';
 
 export default (props) => {
-	let user = useAuth();
+	let [user] = useAuth();
 
 	return (
 		<>

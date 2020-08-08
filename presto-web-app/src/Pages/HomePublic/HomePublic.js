@@ -14,7 +14,7 @@ import home3 from '../../assets/images/home4.svg';
 import home4 from '../../assets/images/home5.svg';
 
 const Home = (props) => {
-	let { authenticated } = useAuth();
+	let [{ authenticated }] = useAuth();
 	const [modalMessage, setModalMessage] = useState('');
 	const [signedInAnonymously, setSignedInAnonymously] = useState(false);
 

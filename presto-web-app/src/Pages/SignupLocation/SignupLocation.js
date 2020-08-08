@@ -15,7 +15,7 @@ import arrowRight from '../../assets/images/arrow-right.svg';
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Login(props) {
-	let user = useAuth();
+	let [user] = useAuth();
 	const [inputs, setInputs] = useState({
 		location: {
 			value: '',
