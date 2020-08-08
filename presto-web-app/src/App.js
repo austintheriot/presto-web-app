@@ -49,7 +49,7 @@ function App() {
 	}, []);
 
 	return (
-		<AuthContext.Provider value={user}>
+		<AuthContext.Provider value={[user, setUser]}>
 			<Router>
 				<div className='App'>
 					{user.init ? (

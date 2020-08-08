@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from '../util/AuthProvider';
 
 export default ({ component: Component, ...rest }) => {
-	const user = useAuth();
+	const [user] = useAuth();
 	return (
 		// Show the component only when the user is logged in
 		// Otherwise, redirect the user to /login page

@@ -12,7 +12,7 @@ import Textarea from '../../components/Textarea/Textarea';
 import Modal from '../../components/Modal/Modal';
 
 export default (props) => {
-	const user = useAuth();
+	const [user] = useAuth();
 
 	const [inputs, setInputs] = useState({
 		type: {
@@ -96,9 +96,9 @@ export default (props) => {
 		},
 		bio: {
 			label: 'Short Bio',
-			value: user.random || '',
-			animateUp: user.random,
-			empty: !user.random,
+			value: user.bio || '',
+			animateUp: user.bio,
+			empty: !user.bio,
 			touched: false,
 			message: {
 				error: false,
@@ -108,6 +108,10 @@ export default (props) => {
 		},
 	});
 	const [modalMessage, setModalMessage] = useState('');
+
+	React.useEffect(() => {
+		console.log('[Profile]: User:', user);
+	});
 
 	const suggestionClickHandler = (e, i, newestType) => {
 		let newValue = inputs[newestType].suggestions.array[i];
