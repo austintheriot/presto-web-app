@@ -151,6 +151,29 @@
 
 		display: flex;
 		flex: none;
-		justify-content: space-evenly;
+		justify-content: space-around;
+
+		button,
+		a {
+			display: block;
+			background-color: transparent;
+			border: none;
+			outline: none;
+			box-shadow: none;
+			height: max-content;
+			width: max-content;
+			cursor: pointer;
+			margin: 0;
+			padding: 0;
+			position: relative;
+			align-self: center;
+		}
+
+		img {
+			display: block;
+			padding: 0;
+			margin: 0;
+			height: 1.5rem;
+		}
 	}
 }

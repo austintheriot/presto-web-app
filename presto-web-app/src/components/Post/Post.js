@@ -60,19 +60,23 @@ export default ({
 					</Link>
 					<div className={styles.icons}>
 						{/* LIKE BUTTON */}
-						{likes.includes(user.uid) ? (
-							<img alt='likes' src={heartFull}></img>
-						) : (
-							<img alt='likes' src={heartEmpty}></img>
-						)}
+						<button>
+							{likes.includes(user.uid) ? (
+								<img alt='likes' src={heartFull}></img>
+							) : (
+								<img alt='likes' src={heartEmpty}></img>
+							)}
+						</button>
 
 						{/* COMMENT BUTTON */}
 						<Link to={`posts/${id}`} className={styles.Link}>
-							{comments.map((el) => el.uid).includes(user.uid) ? (
-								<img alt='likes' src={commentFull}></img>
-							) : (
-								<img alt='likes' src={commentEmpty}></img>
-							)}
+							<button>
+								{comments.map((el) => el.uid).includes(user.uid) ? (
+									<img alt='comments' src={commentFull}></img>
+								) : (
+									<img alt='comments' src={commentEmpty}></img>
+								)}
+							</button>
 						</Link>
 					</div>
 				</footer>
