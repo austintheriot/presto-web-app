@@ -183,7 +183,7 @@ export default function Signup(props) {
 		console.log('[Sign Up] will redirect to: ', redirect, ' when finished');
 	}
 
-	const createDocumentAndRedirectHome = () => {
+	const redirectAfterAnonymousSignIn = () => {
 		if (authenticated && signedInAnonymously) {
 			console.log('[Signup] redirecting home...');
 			return <Redirect to={'/home'} />;
@@ -192,7 +192,7 @@ export default function Signup(props) {
 		}
 	};
 
-	const createDocumentAndRedirect = () => {
+	const redirectAfterSignUp = () => {
 		if (authenticated && signedUpUser) {
 			console.log(
 				'[Sign Up] adding user email & timeCreated to user document:'
@@ -222,7 +222,7 @@ export default function Signup(props) {
 		}
 	};
 
-	const redirectWithoutCreatingDocument = () => {
+	const redirectAlreadySignedUp = () => {
 		if (authenticated && !signedInAnonymously && !signedUpUser) {
 			console.log('[Signup] redirecting without creating document...');
 			return (
@@ -257,9 +257,9 @@ export default function Signup(props) {
 				</button>
 			</div>
 
-			{createDocumentAndRedirectHome()}
-			{createDocumentAndRedirect()}
-			{redirectWithoutCreatingDocument()}
+			{redirectAfterAnonymousSignIn()}
+			{redirectAfterSignUp()}
+			{redirectAlreadySignedUp()}
 
 			<h1 className={styles.title}>Sign Up</h1>
 			{infoMessage ? <Modal message={infoMessage} color='black' /> : null}
