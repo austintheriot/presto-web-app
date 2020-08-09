@@ -6,35 +6,3 @@
 	display: none;
 	width: 100px;
 }
-
-/* Wavy element */
-.waveDiv {
-	position: absolute;
-	z-index: -5;
-	height: 200px;
-	width: 100%;
-	overflow: hidden;
-}
-
-.waveSvg {
-	height: 100%;
-	width: 100%;
-}
-
-.wavePath {
-	stroke: none;
-	fill: var(--pop-color);
-}
-
-.img1 {
-	position: relative;
-	display: block;
-	width: 30vw;
-	min-width: 250px;
-	margin: 0 auto;
-	left: -2%;
-}
-
-.title {
-	color: white;
-}
