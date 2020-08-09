@@ -276,16 +276,7 @@ export default (props) => {
 	return (
 		<>
 			<Nav />
-			<div className={styles.waveDiv}>
-				<svg
-					className={styles.waveSvg}
-					viewBox='0 0 500 150'
-					preserveAspectRatio='none'>
-					<path
-						className={styles.wavePath}
-						d='M-1.98,96.22 C113.71,115.95 291.20,128.77 504.22,90.28 L505.35,-5.43 L0.00,0.00 Z'></path>
-				</svg>
-			</div>
+
 			<div className={styles.wrapper}>
 				{/* User Name */}
 				<h1 className={styles.title}>Profile</h1>
