@@ -5,7 +5,8 @@ import returnInputErrors from '../../util/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
 import { useAuth } from '../../util/AuthProvider';
 import Input from '../../components/Input/Input';
-import styles from './Login.module.css';
+import styles from './Login.module.scss';
+import signInAnonymously from '../../util/signInAnonymously';
 
 import home from '../../assets/images/home.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
@@ -199,7 +200,11 @@ export default function Login(props) {
 		<>
 			<div className={styles.SignupDiv}>
 				<Link to='/signup'>Sign Up</Link>
+				<button onClick={() => signInAnonymously(setModalMessage)}>
+					I'm a guest
+				</button>
 			</div>
+
 			{authenticated ? <Redirect to={redirect} /> : null}
 
 			<h1 className={styles.title}>Log In</h1>
