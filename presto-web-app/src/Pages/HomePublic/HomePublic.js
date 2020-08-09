@@ -42,6 +42,9 @@ const Home = (props) => {
 						{
 							name: 'Guest',
 							createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+							city: 'Austin',
+							state: 'Texas',
+							country: 'United States',
 						},
 						{ merge: true }
 					)
