@@ -14,21 +14,27 @@ export default (props) => {
 		let searchKey = searchQueries.find((key) => user[key]) || 'country'; //find the most specific location that is defined. Default to country.
 		let searchValue = user[searchKey] || 'United States'; //define the corresponding search value. Default to United States.
 		setLocation(searchValue);
-		console.log('Searching for: ', searchKey, searchValue);
+		console.log(
+			'[Posts]: Searching database for posts where: ',
+			searchKey,
+			'== ',
+			searchValue
+		);
 		db.collection('posts')
-
 			.where(searchKey, '==', searchValue)
 			/* .orderBy('createdAt', 'desc') //create index to do this */
 			.limit(20)
 			.onSnapshot(
 				(querySnapshot) => {
-					console.log('snapshotting...');
+					console.log('[Posts]: Posts received from database.');
 					var posts = [];
 					querySnapshot.forEach((doc) => {
 						let post = { id: doc['id'], ...doc.data() };
 						posts.push(post);
-						console.log(post);
 					});
+					console.log(
+						'[Posts]: Setting global posts with posts from database.'
+					);
 					setPosts(posts);
 				},
 				(error) => {
@@ -40,6 +46,7 @@ export default (props) => {
 	useEffect(() => {
 		//only call new posts if posts is null
 		if (!posts) {
+			console.log('[Posts]: Calling fetchposts().');
 			fetchPosts();
 		}
 	}, []);
