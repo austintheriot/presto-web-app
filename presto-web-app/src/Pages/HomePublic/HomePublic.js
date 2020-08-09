@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { auth, analytics } from '../../util/config';
+import * as firebase from 'firebase/app';
+import 'firebase/firebase-firestore';
+import { auth, analytics, db } from '../../util/config';
 import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import { useAuth } from '../../util/AuthProvider';
@@ -22,10 +24,27 @@ const Home = (props) => {
 	const signInAnonymously = () => {
 		auth
 			.signInAnonymously()
-			.then(() => {
+			.then((data) => {
 				analytics.logEvent('login', {
 					method: 'Anonymous',
 				});
+				// Add a new document in collection "users"
+				db.collection('users')
+					.doc(data.user.uid)
+					.set(
+						{
+							name: 'Guest',
+							createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+						},
+						{ merge: true }
+					)
+					.then(() => {
+						console.log('Document successfully written!');
+					})
+					.catch(function (error) {
+						console.error('Error writing document: ', error);
+					});
+				//redirect to home
 				setSignedInAnonymously(true);
 			})
 			.catch(function (error) {
@@ -71,7 +90,7 @@ const Home = (props) => {
 
 	return (
 		<>
-			{signedInAnonymously ? <Redirect to='/home' /> : null}
+			{signedInAnonymously && authenticated ? <Redirect to='/home' /> : null}{' '}
 			<div className={styles.waveDiv}>
 				<svg
 					className={styles.waveSvg}

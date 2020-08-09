@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import * as firebase from 'firebase/app';
+import 'firebase/firebase-firestore';
 import { db, auth, analytics } from '../../util/config';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../util/returnInputErrors';
@@ -184,13 +186,13 @@ export default function Signup(props) {
 			console.log(
 				'[Sign Up] adding user email & timeCreated to user document:'
 			);
-			// Add a new document in collection "cities"
+			// Add a new document in collection "users"
 			db.collection('users')
 				.doc(signedUpUser.uid)
 				.set(
 					{
 						email: signedUpUser.email,
-						createdAt: new Date().toISOString(),
+						createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 					},
 					{ merge: true }
 				)

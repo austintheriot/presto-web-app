@@ -11,10 +11,11 @@ export default (props) => {
 	const { user, posts, setPosts } = useAuth();
 	const [location, setLocation] = useState('');
 
+	let searchQueries = ['city', 'state', 'country']; //location terms to look for in user info
+	let searchKey = searchQueries.find((key) => user[key]) || 'country'; //find the most specific location that is defined. Default to country.
+	let searchValue = user[searchKey] || 'United States'; //define the corresponding search value. Default to United States.
+
 	const fetchPosts = () => {
-		let searchQueries = ['city', 'county', 'state', 'country']; //location terms to look for in user info
-		let searchKey = searchQueries.find((key) => user[key]) || 'country'; //find the most specific location that is defined. Default to country.
-		let searchValue = user[searchKey] || 'United States'; //define the corresponding search value. Default to United States.
 		setLocation(searchValue);
 		console.log(
 			'[Posts]: Searching database for posts where: ',
@@ -71,7 +72,7 @@ export default (props) => {
 				<>
 					<div className={styles.locationDiv}>
 						<img src={locationIcon} alt='location' />{' '}
-						<address>{location}</address>
+						<address>{location || searchValue}:</address>
 					</div>
 					{postList}
 				</>

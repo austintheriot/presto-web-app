@@ -27,6 +27,7 @@ export default ({
 }) => {
 	const { user } = useAuth();
 
+	console.log(createdAt);
 	return (
 		<div className={styles.wrapper}>
 			<article className={styles.article}>
@@ -38,7 +39,9 @@ export default ({
 					{/* NAME */}
 					<h1 className={styles.name}>{name}</h1>
 					{/* TIME */}
-					<time>{new Date(createdAt).toLocaleString()}</time>
+					<time dateTime={createdAt.toDate()}>
+						{createdAt.toDate().toLocaleString()}
+					</time>
 					<p className={styles.activity}>{activity}</p>
 				</header>
 				{/* BODY */}
