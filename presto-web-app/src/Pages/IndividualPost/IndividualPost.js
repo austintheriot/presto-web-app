@@ -6,6 +6,7 @@ import { db } from '../../util/config';
 import Post from '../../components/Post/Post';
 import Nav from '../../components/Nav/Nav';
 import { useAuth } from '../../util/AuthProvider';
+import Comments from '../../components/Comments/Comments';
 
 export default (props) => {
 	const [post, setPost] = useState({ init: false, valid: false });
@@ -58,7 +59,10 @@ export default (props) => {
 					<p>Loading post...</p>
 				) : //Once post is initialized, is it valid?
 				post.valid ? (
-					<Post {...post} />
+					<>
+						<Post {...post} />
+						<Comments {...post} />
+					</>
 				) : (
 					//Once post is initialized, if it's not valid, show post not found.
 					<p className={styles.errorMessage}>

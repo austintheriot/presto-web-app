@@ -66,7 +66,7 @@ const Home = (props) => {
 		return (
 			<>
 				{user.authenticated ? (
-					<Link to='/home' className={styles.Link}>
+					<Link to='/posts' className={styles.Link}>
 						<Button>
 							<p>Enter</p>
 						</Button>
@@ -99,7 +99,7 @@ const Home = (props) => {
 	return (
 		<>
 			{signedInAnonymously && user.authenticated ? (
-				<Redirect to='/home' />
+				<Redirect to='/posts' />
 			) : null}{' '}
 			<div className={styles.waveDiv}>
 				<svg

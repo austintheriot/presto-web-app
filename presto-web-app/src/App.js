@@ -76,7 +76,6 @@ function App() {
 									path='/signup-profile'
 									component={SignupProfile}
 								/>
-								<PrivateRoute exact path='/home' component={HomePrivate} />
 								<PrivateRoute exact path='/posts' component={Posts} />
 								<PrivateRoute path='/posts/*' component={IndividualPost} />
 								<PrivateRoute exact path='/profile' component={Profile} />

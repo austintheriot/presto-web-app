@@ -15,27 +15,11 @@ export default (props) => {
 			<nav className={styles.nav}>
 				<ul className={styles.ul}>
 					<li className={styles.li}>
-						<Link to='/home'>
-							<button className={styles.home} data-info='Home'>
-								<img className={styles.img} src={home} alt='home' />
-							</button>
-						</Link>
-					</li>
-					<li className={styles.li}>
 						<Link to='/posts'>
 							<button className={styles.button} data-info='Posts'>
 								<img className={styles.img} src={posts} alt='posts' />
 							</button>
 						</Link>
-					</li>
-					<li className={styles.li}>
-						<button className={styles.button} data-info='Notifications'>
-							<img
-								className={styles.img}
-								src={notifications}
-								alt='notifications'
-							/>
-						</button>
 					</li>
 					<li className={styles.li}>
 						<Link to='/profile'>

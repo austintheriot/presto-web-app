@@ -36,7 +36,7 @@ export default ({
 						<img alt='profile picture' src={profilePic} />
 					</div>
 					{/* NAME */}
-					<h1 className={styles.name}>{name}</h1>
+					<h2 className={styles.name}>{name}</h2>
 					{/* TIME */}
 					<time dateTime={createdAt.toDate()}>
 						{createdAt.toDate().toLocaleString()}
