@@ -4,6 +4,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
 import { db } from '../../util/config';
 import Post from '../../components/Post/Post';
+import Nav from '../../components/Nav/Nav';
 import { useAuth } from '../../util/AuthProvider';
 
 export default (props) => {
@@ -50,7 +51,7 @@ export default (props) => {
 
 	return (
 		<>
-			<h1>Individual Post Page</h1>
+			<Nav />
 			{
 				//Post initialized yet?
 				!post.init ? (

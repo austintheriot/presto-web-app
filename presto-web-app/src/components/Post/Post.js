@@ -20,6 +20,7 @@ export default ({
 	createdAt,
 	likes,
 	name,
+	profilePic = 'https://images.pexels.com/photos/922376/pexels-photo-922376.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
 	state,
 	uid,
 	zip,
@@ -31,7 +32,9 @@ export default ({
 			<article className={styles.article}>
 				<header>
 					{/* PROFILE PIC*/}
-					<div className={styles.profilePic}></div>
+					<div className={styles.profilePic}>
+						<img alt='profile picture' src={profilePic} />
+					</div>
 					{/* NAME */}
 					<h1 className={styles.name}>{name}</h1>
 					{/* TIME */}
