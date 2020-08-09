@@ -27,7 +27,6 @@ export default ({
 }) => {
 	const { user } = useAuth();
 
-	console.log(createdAt);
 	return (
 		<div className={styles.wrapper}>
 			<article className={styles.article}>

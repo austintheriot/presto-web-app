@@ -17,7 +17,6 @@ import home4 from '../../assets/images/home5.svg';
 
 const Home = (props) => {
 	let { user } = useAuth();
-	let { authenticated } = user;
 	const [modalMessage, setModalMessage] = useState('');
 	const [signedInAnonymously, setSignedInAnonymously] = useState(false);
 
@@ -28,6 +27,14 @@ const Home = (props) => {
 				analytics.logEvent('login', {
 					method: 'Anonymous',
 				});
+
+				//no need to update user immediately, since local
+				//user date will be updated by the authListener in App.js
+				//when it detects a change in user authentication
+
+				//redirect to home
+				setSignedInAnonymously(true);
+
 				// Add a new document in collection "users"
 				db.collection('users')
 					.doc(data.user.uid)
@@ -44,8 +51,6 @@ const Home = (props) => {
 					.catch(function (error) {
 						console.error('Error writing document: ', error);
 					});
-				//redirect to home
-				setSignedInAnonymously(true);
 			})
 			.catch(function (error) {
 				console.error(error.code, error.message);
@@ -57,7 +62,7 @@ const Home = (props) => {
 	const LoginButtons = () => {
 		return (
 			<>
-				{authenticated ? (
+				{user.authenticated ? (
 					<Link to='/home' className={styles.Link}>
 						<Button>
 							<p>Enter</p>
@@ -90,7 +95,9 @@ const Home = (props) => {
 
 	return (
 		<>
-			{signedInAnonymously && authenticated ? <Redirect to='/home' /> : null}{' '}
+			{signedInAnonymously && user.authenticated ? (
+				<Redirect to='/home' />
+			) : null}{' '}
 			<div className={styles.waveDiv}>
 				<svg
 					className={styles.waveSvg}
@@ -101,7 +108,7 @@ const Home = (props) => {
 						d='M-6.53,64.46 C153.95,107.76 271.39,57.56 503.23,153.04 L499.74,-0.00 L0.00,-0.00 Z'></path>
 				</svg>
 			</div>
-			{authenticated ? (
+			{user.authenticated ? (
 				<div className={styles.LogoutDiv}>
 					<Logout />
 				</div>

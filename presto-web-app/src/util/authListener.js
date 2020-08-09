@@ -81,6 +81,7 @@ export default (setUser) => {
 							};
 						}
 						console.log('[App]: initializing app and user data');
+						console.log(userInfo);
 						setUser(userInfo);
 					},
 					//if error occurs while trying to fetch user data (logged out, etc.)
