@@ -7,7 +7,8 @@ import returnInputErrors from '../../util/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
 import { useAuth } from '../../util/AuthProvider';
 import Input from '../../components/Input/Input';
-import styles from './Signup.module.css';
+import styles from './Signup.module.scss';
+import signInAnonymously from '../../util/signInAnonymously';
 
 import home from '../../assets/images/home.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
@@ -41,6 +42,7 @@ export default function Signup(props) {
 	});
 	const [modalMessage, setModalMessage] = useState('');
 	const [signedUpUser, setSignedUpUser] = useState(null);
+	const [signedInAnonymously, setSignedInAnonymously] = useState(null);
 
 	const handleFocus = (event, newestType) => {
 		//animation
@@ -181,6 +183,15 @@ export default function Signup(props) {
 		console.log('[Sign Up] will redirect to: ', redirect, ' when finished');
 	}
 
+	const createDocumentAndRedirectHome = () => {
+		if (authenticated && signedInAnonymously) {
+			console.log('[Signup] redirecting home...');
+			return <Redirect to={'/home'} />;
+		} else {
+			return null;
+		}
+	};
+
 	const createDocumentAndRedirect = () => {
 		if (authenticated && signedUpUser) {
 			console.log(
@@ -212,7 +223,7 @@ export default function Signup(props) {
 	};
 
 	const redirectWithoutCreatingDocument = () => {
-		if (authenticated && !signedUpUser) {
+		if (authenticated && !signedInAnonymously && !signedUpUser) {
 			console.log('[Signup] redirecting without creating document...');
 			return (
 				<Redirect
@@ -237,8 +248,16 @@ export default function Signup(props) {
 		<>
 			<div className={styles.LoginDiv}>
 				<Link to='/login'>Log In</Link>
+				<button
+					onClick={() => {
+						setSignedInAnonymously(true);
+						signInAnonymously(setModalMessage);
+					}}>
+					I'm a guest
+				</button>
 			</div>
 
+			{createDocumentAndRedirectHome()}
 			{createDocumentAndRedirect()}
 			{redirectWithoutCreatingDocument()}
 

@@ -1,24 +1,33 @@
 .title {
-	width: max-content;
-	margin: 0 auto;
 	margin-top: 5rem;
 }
 
-.SignupDiv {
+.LoginDiv {
 	position: absolute;
 	text-align: right;
 	top: 0.5rem;
 	right: 1rem;
+
+	button {
+		display: block;
+		font-size: 1rem;
+		font-weight: 300;
+		text-decoration: underline;
+		background-color: transparent;
+		border: none;
+		outline: none;
+		cursor: pointer;
+	}
 }
 
 @media (min-width: 800px) {
-	.SignupDiv {
+	.LoginDiv {
 		top: 1em;
 		right: 2rem;
 	}
 }
 
-.SignupDiv a {
+.LoginDiv a {
 	color: black;
 }
 
