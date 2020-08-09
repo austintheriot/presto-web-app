@@ -283,7 +283,7 @@ export default (props) => {
 			</div>
 			<div className={styles.wrapper}>
 				{/* User Name */}
-				<h1 className={styles.title}>{user.name || 'Profile'}</h1>
+				<h1 className={styles.title}>Profile</h1>
 
 				{/* Location */}
 				<p>
