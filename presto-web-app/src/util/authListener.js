@@ -2,7 +2,7 @@ import { auth, db } from '../util/config';
 
 export default (setUser) => {
 	let userInfo;
-
+	console.log('[App]: checking user authentication');
 	auth.onAuthStateChanged((user) => {
 		if (user) {
 			console.log('[App]: user logged in');

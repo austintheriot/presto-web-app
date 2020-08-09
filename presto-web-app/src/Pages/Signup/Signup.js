@@ -13,7 +13,8 @@ import arrowRight from '../../assets/images/arrow-right.svg';
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Signup(props) {
-	let [{ authenticated }] = useAuth();
+	let { user } = useAuth();
+	let { authenticated } = user;
 	const [inputs, setInputs] = useState({
 		email: {
 			value: '',

@@ -32,6 +32,7 @@ import './App.css';
 
 function App() {
 	const [user, setUser] = useState(false);
+	const [posts, setPosts] = useState(null); //cached posts to prevent unecessary calls to database
 
 	/* 	const fakeDelay = (delayTime) => {
 		return new Promise((resolve, reject) => {
@@ -49,7 +50,7 @@ function App() {
 	}, []);
 
 	return (
-		<AuthContext.Provider value={[user, setUser]}>
+		<AuthContext.Provider value={{ user, setUser, posts, setPosts }}>
 			<Router>
 				<div className='App'>
 					{user.init ? (

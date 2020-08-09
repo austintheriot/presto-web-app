@@ -183,7 +183,8 @@ export default function Login(props) {
 			});
 	};
 
-	let [{ authenticated }] = useAuth();
+	let { user } = useAuth();
+	let { authenticated } = user;
 	let redirect = '/home';
 	if (props.history?.location?.state?.redirect) {
 		redirect = props.history?.location?.state?.redirect;
