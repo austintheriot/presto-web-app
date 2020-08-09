@@ -268,6 +268,11 @@ export default (props) => {
 			});
 	};
 
+	let dateArray = user.createdAt.toDate().toDateString().split(' ');
+	let formattedDate = [dateArray[1], dateArray[2] + ',', dateArray[3]].join(
+		' '
+	);
+
 	return (
 		<>
 			<Nav />
@@ -348,14 +353,7 @@ export default (props) => {
 			</form>
 			{/* Date Joined */}
 			{user.createdAt ? (
-				<p className={styles.joinedAt}>
-					Joined:{' '}
-					{new Date(user.createdAt)
-						.toDateString()
-						.split(' ')
-						.slice(1)
-						.join(' ')}
-				</p>
+				<p className={styles.joinedAt}>Joined: {formattedDate}</p>
 			) : null}
 		</>
 	);
