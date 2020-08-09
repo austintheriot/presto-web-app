@@ -23,7 +23,7 @@ export default (props) => {
 				(querySnapshot) => {
 					console.log('[IndividualPost]: Post data recieved');
 					//if URL leads to a valid post:
-					if (!querySnapshot.isEmpty) {
+					if (!querySnapshot.empty) {
 						querySnapshot.forEach((doc) => {
 							console.log('[IndividualPost]: setting post with doc.data()');
 							let post = { init: true, valid: true, ...doc.data() };
@@ -56,7 +56,7 @@ export default (props) => {
 			{
 				//Post initialized yet?
 				!post.init ? (
-					<p>Loading post...</p>
+					<p className={styles.message}>Loading post...</p>
 				) : //Once post is initialized, is it valid?
 				post.valid ? (
 					<>
@@ -65,9 +65,7 @@ export default (props) => {
 					</>
 				) : (
 					//Once post is initialized, if it's not valid, show post not found.
-					<p className={styles.errorMessage}>
-						Sorry, no post found at this URL.
-					</p>
+					<p className={styles.message}>Sorry, no post found at this URL.</p>
 				)
 			}
 		</>

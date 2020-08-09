@@ -29,6 +29,7 @@ import { AuthContext } from './util/AuthProvider';
 
 //styling
 import './App.css';
+import IndividualProfile from './Pages/Individual Profile/IndividualProfile';
 
 function App() {
 	const [user, setUser] = useState(false);
@@ -78,6 +79,7 @@ function App() {
 								<PrivateRoute exact path='/posts' component={Posts} />
 								<PrivateRoute path='/posts/*' component={IndividualPost} />
 								<PrivateRoute exact path='/profile' component={Profile} />
+								<PrivateRoute path='/profile/*' component={IndividualProfile} />
 								<PrivateRoute exact path='/settings' component={Settings} />
 								<Route path='*' component={HomePublic} />
 							</Switch>
