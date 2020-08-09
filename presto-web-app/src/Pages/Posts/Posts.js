@@ -3,6 +3,7 @@ import Nav from '../../components/Nav/Nav';
 import Post from '../../components/Post/Post';
 import { db } from '../../util/config';
 import { useAuth } from '../../util/AuthProvider';
+import { Link } from 'react-router-dom';
 
 export default (props) => {
 	const { user, posts, setPosts } = useAuth();
@@ -15,17 +16,25 @@ export default (props) => {
 		setLocation(searchValue);
 		console.log('Searching for: ', searchKey, searchValue);
 		db.collection('posts')
-			/* .orderBy('createdAt', 'desc') //create index to do this */
-			/* .limit(20) */
-			.where(searchKey, '==', searchValue)
 
-			.onSnapshot((querySnapshot) => {
-				var posts = [];
-				querySnapshot.forEach((doc) => {
-					posts.push(doc.data());
-				});
-				setPosts(posts);
-			});
+			.where(searchKey, '==', searchValue)
+			/* .orderBy('createdAt', 'desc') //create index to do this */
+			.limit(20)
+			.onSnapshot(
+				(querySnapshot) => {
+					console.log('snapshotting...');
+					var posts = [];
+					querySnapshot.forEach((doc) => {
+						let post = { id: doc['id'], ...doc.data() };
+						posts.push(post);
+						console.log(post);
+					});
+					setPosts(posts);
+				},
+				(error) => {
+					console.error(error);
+				}
+			);
 	};
 
 	useEffect(() => {
@@ -48,6 +57,7 @@ export default (props) => {
 	return (
 		<>
 			<Nav />
+			<Link to='posts/ZAXSLpUeO9ylM0aqtq15'>Go to Post</Link>
 			<h1>Posts</h1>
 			{postList ? (
 				<>

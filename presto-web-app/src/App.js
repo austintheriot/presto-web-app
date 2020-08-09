@@ -11,6 +11,7 @@ import SignupLocation from './Pages/SignupLocation/SignupLocation';
 import SignupProfile from './Pages/SignupProfile/SignupProfile';
 import LogoutByRender from './components/LogoutByRender';
 import Posts from './Pages/Posts/Posts';
+import IndividualPost from './Pages/IndividualPost/IndividualPost';
 import Profile from './Pages/Profile/Profile';
 import Settings from './Pages/Settings/Settings';
 
@@ -77,6 +78,7 @@ function App() {
 								/>
 								<PrivateRoute exact path='/home' component={HomePrivate} />
 								<PrivateRoute exact path='/posts' component={Posts} />
+								<PrivateRoute path='/posts/*' component={IndividualPost} />
 								<PrivateRoute exact path='/profile' component={Profile} />
 								<PrivateRoute exact path='/settings' component={Settings} />
 								<Route path='*' component={HomePublic} />
