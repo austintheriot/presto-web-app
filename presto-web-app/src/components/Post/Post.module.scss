@@ -1,4 +1,9 @@
 /* Wrapper to add some padding */
+
+.Link {
+	text-decoration: none;
+}
+
 .wrapper {
 	width: 90%;
 	min-width: 300px;
@@ -120,7 +125,7 @@
 
 	.comments {
 		grid-area: comments;
-		width: 100%;
+		width: max-content;
 		height: max-content;
 		text-align: left;
 
