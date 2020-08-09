@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 //pages
 import LoadingScreen from './Pages/LoadingScreen/LoadingScreen';
 import HomePublic from './Pages/HomePublic/HomePublic';
-import HomePrivate from './Pages/HomePrivate/HomePrivate';
 import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
 import SignupPersonal from './Pages/SignupPersonal/SignupPersonal';
