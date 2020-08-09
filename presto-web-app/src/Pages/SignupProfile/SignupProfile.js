@@ -17,7 +17,7 @@ import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-left.svg';
 
 export default function Login(props) {
-	let [user] = useAuth();
+	let { user } = useAuth();
 
 	const [inputs, setInputs] = useState({
 		activity: {

@@ -31,11 +31,12 @@
 		height: max-content;
 
 		display: grid;
-		grid: repeat(3, 1fr) / 60px repeat(4, 1fr);
+		/* 2 middle sections required here to prevent mobile spacing bug */
+		grid: repeat(3, 1fr) / 60px repeat(2, 1fr) 75px;
 		grid-template-areas:
-			'profilePic name name name activity'
-			'profilePic time time time activity'
-			'profilePic time time time activity';
+			'profilePic name name activity'
+			'profilePic time time activity'
+			'profilePic time time activity';
 		place-items: start;
 	}
 
@@ -57,7 +58,7 @@
 
 		display: grid;
 		grid: 1fr / repeat(7, 1fr);
-		grid-template-areas: 'likes  likes comments comments comments icons  icons';
+		grid-template-areas: 'likes  likes comments comments comments icons icons';
 		place-items: end start;
 
 		width: 100%;
@@ -93,7 +94,12 @@
 	.activity {
 		grid-area: activity;
 		font-size: 0.75rem;
+		text-align: right;
 		justify-self: self-end;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.body {
