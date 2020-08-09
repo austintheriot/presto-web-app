@@ -58,7 +58,6 @@ export default ({
 					</Link>
 					<div className={styles.icons}>
 						{/* LIKE BUTTON */}
-
 						{likes.includes(user.uid) ? (
 							<img alt='likes' src={heartFull}></img>
 						) : (
