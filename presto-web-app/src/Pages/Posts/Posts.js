@@ -3,7 +3,9 @@ import Nav from '../../components/Nav/Nav';
 import Post from '../../components/Post/Post';
 import { db } from '../../util/config';
 import { useAuth } from '../../util/AuthProvider';
-import { Link } from 'react-router-dom';
+import styles from './Posts.module.scss';
+
+import locationIcon from '../../assets/images/location.svg';
 
 export default (props) => {
 	const { user, posts, setPosts } = useAuth();
@@ -64,11 +66,13 @@ export default (props) => {
 	return (
 		<>
 			<Nav />
-			<Link to='posts/ZAXSLpUeO9ylM0aqtq15'>Go to Post</Link>
-			<h1>Posts</h1>
+			<h1 className={styles.title}>Posts</h1>
 			{postList ? (
 				<>
-					<p>Showing posts from {location}</p>
+					<div className={styles.locationDiv}>
+						<img src={locationIcon} alt='location' />{' '}
+						<address>{location}</address>
+					</div>
 					{postList}
 				</>
 			) : (

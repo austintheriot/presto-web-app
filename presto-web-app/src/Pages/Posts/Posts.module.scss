@@ -1,0 +1,22 @@
+.locationDiv {
+	width: 90%;
+	min-width: 300px;
+	max-width: 600px;
+	height: 4rem;
+	padding: 0.5rem;
+	margin: 2rem auto;
+	border-radius: 20px;
+	box-shadow: var(--shadow);
+	text-align: center;
+
+	img {
+		display: inline-block;
+		height: 1rem;
+	}
+	address {
+		font-size: 2rem;
+		display: inline-block;
+		font-style: normal;
+		margin: 0 1rem;
+	}
+}
