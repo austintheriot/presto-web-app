@@ -225,10 +225,6 @@ export default function Login(props) {
 				/>
 				<Modal message={modalMessage} color='black' />
 				<div className={styles.buttonsDiv}>
-					<Link to='/' className={styles.linkLeft}>
-						<img className={styles.linkLeftImg} src={home} alt='back' />
-					</Link>
-
 					<button
 						className={styles.linkRight}
 						type='submit'
@@ -239,6 +235,10 @@ export default function Login(props) {
 							alt='log in'
 						/>
 					</button>
+
+					<Link to='/' className={styles.linkLeft}>
+						<img className={styles.linkLeftImg} src={home} alt='back' />
+					</Link>
 				</div>
 			</form>
 		</>
