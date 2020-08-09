@@ -186,7 +186,7 @@ export default function Signup(props) {
 	const redirectAfterAnonymousSignIn = () => {
 		if (authenticated && signedInAnonymously) {
 			console.log('[Signup] redirecting home...');
-			return <Redirect to={'/home'} />;
+			return <Redirect to={'/posts'} />;
 		} else {
 			return null;
 		}

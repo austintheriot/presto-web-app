@@ -240,9 +240,9 @@ export default function Login(props) {
 		//display modal message if redirected from another page requiring authentication:
 		<>
 			<div className={styles.SkipDiv}>
-				<Link to='/home'>Skip</Link>
+				<Link to='/posts'>Skip</Link>
 			</div>
-			{submitted ? <Redirect to={'/home'} /> : null}
+			{submitted ? <Redirect to={'/posts'} /> : null}
 			{infoMessage ? <Modal message={infoMessage} color='black' /> : null}
 			<ProgressBar
 				signup='complete'

@@ -12,7 +12,7 @@ export default (props) => {
 	return (
 		<>
 			<Nav />
-			<h1 className={styles.title}>Account Settings</h1>
+			<h1 className={styles.title}>Settings</h1>
 			<Button>Save</Button>
 			{/* LOG OUT */}
 			<div className={styles.wrapper}>
