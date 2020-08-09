@@ -193,6 +193,9 @@ export default function Signup(props) {
 					{
 						email: signedUpUser.email,
 						createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+						city: 'Austin',
+						state: 'Texas',
+						country: 'United States',
 					},
 					{ merge: true }
 				)
