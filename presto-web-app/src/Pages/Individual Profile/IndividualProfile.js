@@ -118,7 +118,6 @@ export default (props) => {
 						<a
 							href={profile.website}
 							target='_blank'
-							rel='noreferrer noopener'
 							className={styles.websiteIcon}>
 							<img
 								src={websiteIcon}
@@ -129,7 +128,6 @@ export default (props) => {
 						<a
 							href={profile.website}
 							target='_blank'
-							rel='noreferrer noopener'
 							className={styles.website}>
 							{profile.website}
 						</a>

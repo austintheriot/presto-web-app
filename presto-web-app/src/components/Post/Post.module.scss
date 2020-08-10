@@ -4,6 +4,9 @@
 	text-decoration: none;
 	color: black;
 }
+.Link:visited {
+	color: black;
+}
 
 .wrapper {
 	width: 90%;
@@ -101,18 +104,19 @@
 		text-overflow: ellipsis;
 	}
 
+	.timeLink,
 	time {
 		grid-area: time;
 		font-size: 0.75rem;
 	}
-
+	.activityLink,
 	.activity {
 		grid-area: activity;
 		font-size: 0.75rem;
 		text-align: right;
 		justify-self: self-end;
-		height: 100%;
-		width: 100%;
+		height: max-content;
+		width: max-content;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}

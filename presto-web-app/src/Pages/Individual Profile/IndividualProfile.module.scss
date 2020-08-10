@@ -28,6 +28,7 @@
 		height: 1rem;
 		align-self: flex-start;
 	}
+
 	p,
 	a {
 		width: 100%;
@@ -64,13 +65,19 @@
 			height: 2rem;
 		}
 	}
+
 	.websiteIcon {
 		grid-area: websiteIcon;
 	}
+
 	.wesbite {
 		grid-area: website;
 		color: black;
 	}
+	.website:visited {
+		color: black;
+	}
+
 	.bioIcon {
 		grid-area: bioIcon;
 	}
