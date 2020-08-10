@@ -1,6 +1,6 @@
 .locationDiv {
-	width: 90%;
-	min-width: 300px;
+	width: max-content;
+	min-width: 250px;
 	max-width: 600px;
 	height: 4rem;
 	padding: 0.5rem;
@@ -11,7 +11,7 @@
 
 	img {
 		display: inline-block;
-		height: 1rem;
+		height: 1.5rem;
 	}
 	address {
 		font-size: 2rem;
