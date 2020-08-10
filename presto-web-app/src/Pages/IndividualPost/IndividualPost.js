@@ -11,7 +11,7 @@ import Comments from '../../components/Comments/Comments';
 export default (props) => {
 	const [post, setPost] = useState({ init: false, valid: false });
 
-	let postID = window.location.pathname.split('/posts/')[1];
+	let postID = window.location.pathname.split('/post/')[1];
 	const fetchPost = () => {
 		console.log(
 			'[Individual Post]: Searching database for doc with ID of: ',

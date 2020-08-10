@@ -43,7 +43,7 @@ export default ({
 					</Link>
 					{/* TIME */}
 					<Link
-						to={`posts/${id}`}
+						to={`post/${id}`}
 						className={[styles.Link, styles.timeLink].join(' ')}>
 						<time dateTime={createdAt.toDate()}>
 							{createdAt.toDate().toLocaleString()}
@@ -62,14 +62,14 @@ export default ({
 				</main>
 				<footer>
 					{/* NUMBER OF LIKES */}
-					<Link to={`posts/${id}`} className={styles.Link}>
+					<Link to={`post/${id}`} className={styles.Link}>
 						<p className={styles.likes}>
 							<img alt='likes' src={heartFull}></img> {likes.length} likes
 						</p>
 					</Link>
 					{/* NUMBER OF COMMENTS */}
 					<Link
-						to={`posts/${id}`}
+						to={`post/${id}`}
 						className={[styles.Link, styles.comments].join(' ')}>
 						<img alt='likes' src={commentFull}></img> {comments.length} comments
 					</Link>
@@ -84,7 +84,7 @@ export default ({
 						</button>
 
 						{/* COMMENT BUTTON */}
-						<Link to={`posts/${id}`} className={styles.Link}>
+						<Link to={`post/${id}`} className={styles.Link}>
 							<button>
 								{comments.map((el) => el.uid).includes(user.uid) ? (
 									<img alt='comments' src={commentFull}></img>
