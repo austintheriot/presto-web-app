@@ -33,15 +33,28 @@ export default ({
 				<header>
 					{/* PROFILE PIC*/}
 					<div className={styles.profilePic}>
-						<img alt='profile picture' src={profilePic} />
+						<Link to={`profile/${uid}`} className={styles.Link}>
+							<img alt='profile picture' src={profilePic} />
+						</Link>
 					</div>
 					{/* NAME */}
-					<h2 className={styles.name}>{name}</h2>
+					<Link to={`profile/${uid}`} className={styles.Link}>
+						<h2 className={styles.name}>{name}</h2>
+					</Link>
 					{/* TIME */}
-					<time dateTime={createdAt.toDate()}>
-						{createdAt.toDate().toLocaleString()}
-					</time>
-					<p className={styles.activity}>{activity}</p>
+					<Link
+						to={`posts/${id}`}
+						className={[styles.Link, styles.timeLink].join(' ')}>
+						<time dateTime={createdAt.toDate()}>
+							{createdAt.toDate().toLocaleString()}
+						</time>
+					</Link>
+					{/* ACTIVITY */}
+					<Link
+						to={`profile/${uid}`}
+						className={[styles.Link, styles.activityLink].join(' ')}>
+						<p className={styles.activity}>{activity}</p>
+					</Link>
 				</header>
 				{/* BODY */}
 				<main className={styles.body}>
@@ -49,9 +62,11 @@ export default ({
 				</main>
 				<footer>
 					{/* NUMBER OF LIKES */}
-					<p className={styles.likes}>
-						<img alt='likes' src={heartFull}></img> {likes.length} likes
-					</p>
+					<Link to={`posts/${id}`} className={styles.Link}>
+						<p className={styles.likes}>
+							<img alt='likes' src={heartFull}></img> {likes.length} likes
+						</p>
+					</Link>
 					{/* NUMBER OF COMMENTS */}
 					<Link
 						to={`posts/${id}`}
