@@ -40,7 +40,7 @@ export default (props) => {
 							console.log(
 								'[IndividualProfile]: setting profile with doc.data()'
 							);
-							let profile = { id: doc['id'], ...doc.data() };
+							let profile = { uid: doc['id'], ...doc.data() };
 							setProfile({
 								profile,
 								status: 'success', //idle, loading, success, falied
