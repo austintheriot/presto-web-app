@@ -17,6 +17,10 @@ export default (props) => {
 
 	const fetchPosts = () => {
 		setLocation(searchValue);
+		setPosts((prevState) => ({
+			...prevState, //keep any posts or error messages already there, show loading screen
+			status: 'loading', //idle, loading, complete, failed
+		}));
 		console.log(
 			'[Posts]: Searching database for posts where: ',
 			searchKey,
@@ -29,46 +33,65 @@ export default (props) => {
 			.limit(20)
 			.onSnapshot(
 				(querySnapshot) => {
-					console.log('[Posts]: Posts received from database.');
-					var posts = [];
-					querySnapshot.forEach((doc) => {
-						let post = { id: doc['id'], ...doc.data() };
-						posts.push(post);
-					});
-					console.log(
-						'[Posts]: Setting global posts with posts from database.'
-					);
-					setPosts(posts);
+					if (!querySnapshot.empty) {
+						console.log('[Posts]: Posts received from database.');
+						let posts = [];
+						querySnapshot.forEach((doc) => {
+							let post = { id: doc['id'], ...doc.data() }; //store doc id from database with the information it contains
+							posts.push(post);
+						});
+						console.log(
+							'[Posts]: Setting global posts with posts from database.'
+						);
+						setPosts((prevState) => ({
+							posts,
+							status: 'complete', //idle, loading, complete, falied
+							error: null,
+						}));
+					} else {
+						console.log('[Posts]: No posts found. Displaying message instead.');
+						setPosts((prevState) => ({
+							...prevState, //keep any posts already loaded, show error
+							status: 'failed', //idle, loading, complete, failed
+							error:
+								'No posts found in your area. Try posting something to get people in your area talking!',
+						}));
+					}
 				},
 				(error) => {
+					console.log(
+						'[Posts]: Error occured. Displaying error message to user.'
+					);
 					console.error(error);
+					setPosts((prevState) => ({
+						...prevState, //keep any posts already loaded, show error
+						status: 'failed', //idle, loading, complete, falied
+						error: 'Sorry, there was an error. Please try again later.',
+					}));
 				}
 			);
 	};
 
 	useEffect(() => {
-		//only call new posts if posts is null
-		if (!posts) {
+		//only call new posts if posts haven't been loaded yet
+		if (posts.status === 'idle') {
 			console.log('[Posts]: Calling fetchposts().');
 			fetchPosts();
 		}
 	}, []);
 
 	let postList = null;
-	if (posts?.length === 0) {
-		return <p>No posts found in your area. </p>;
-	}
-	if (posts?.length > 0) {
-		postList = posts.map((el, i) => {
-			return <Post key={el.body || i} {...el} />;
-		});
-	}
+	postList = posts.posts.map((el, i) => {
+		return <Post key={el.body || i} {...el} />;
+	});
 
 	return (
 		<>
 			<Nav />
 			<h1 className={styles.title}>Posts</h1>
-			{postList ? (
+			{posts.status === 'idle' ? null : posts.status === 'loading' ? (
+				<p>Loading posts...</p>
+			) : posts.status === 'complete' ? (
 				<>
 					<div className={styles.locationDiv}>
 						<img src={locationIcon} alt='location' />{' '}
@@ -76,9 +99,9 @@ export default (props) => {
 					</div>
 					{postList}
 				</>
-			) : (
-				<p>Loading posts...</p>
-			)}
+			) : posts.status === 'failed' ? (
+				<p>{posts.error}</p>
+			) : null}
 			<div className='spacerLarge'></div>
 		</>
 	);
