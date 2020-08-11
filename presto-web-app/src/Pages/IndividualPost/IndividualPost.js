@@ -21,6 +21,10 @@ export default (props) => {
 			'[Individual Post]: Searching database for doc with ID of: ',
 			postID
 		);
+		setPost((prevState) => ({
+			...prevState, //keep any info or error messages already there, show loading screen
+			status: 'loading', //idle, loading, complete, failed
+		}));
 		db.collection('posts')
 			.where(firebase.firestore.FieldPath.documentId(), '==', postID)
 			.onSnapshot(
