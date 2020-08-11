@@ -33,17 +33,17 @@ export default ({
 				<header>
 					{/* PROFILE PIC*/}
 					<div className={styles.profilePic}>
-						<Link to={`profile/${uid}`} className={styles.Link}>
-							<img alt='profile' src={profilePic} />
+						<Link to={`/profile/${uid}`} className={styles.Link}>
+							<img alt='/profile' src={profilePic} />
 						</Link>
 					</div>
 					{/* NAME */}
-					<Link to={`profile/${uid}`} className={styles.Link}>
+					<Link to={`/profile/${uid}`} className={styles.Link}>
 						<h2 className={styles.name}>{name}</h2>
 					</Link>
 					{/* TIME */}
 					<Link
-						to={`post/${id}`}
+						to={`/post/${id}`}
 						className={[styles.Link, styles.timeLink].join(' ')}>
 						<time dateTime={createdAt.toDate()}>
 							{createdAt.toDate().toLocaleString()}
@@ -51,7 +51,7 @@ export default ({
 					</Link>
 					{/* ACTIVITY */}
 					<Link
-						to={`profile/${uid}`}
+						to={`/profile/${uid}`}
 						className={[styles.Link, styles.activityLink].join(' ')}>
 						<p className={styles.activity}>{activity}</p>
 					</Link>
@@ -62,14 +62,14 @@ export default ({
 				</main>
 				<footer>
 					{/* NUMBER OF LIKES */}
-					<Link to={`post/${id}`} className={styles.Link}>
+					<Link to={`/post/${id}`} className={styles.Link}>
 						<p className={styles.likes}>
 							<img alt='likes' src={heartFull}></img> {likes.length} likes
 						</p>
 					</Link>
 					{/* NUMBER OF COMMENTS */}
 					<Link
-						to={`post/${id}`}
+						to={`/post/${id}`}
 						className={[styles.Link, styles.comments].join(' ')}>
 						<img alt='likes' src={commentFull}></img> {comments.length} comments
 					</Link>
@@ -84,7 +84,7 @@ export default ({
 						</button>
 
 						{/* COMMENT BUTTON */}
-						<Link to={`post/${id}`} className={styles.Link}>
+						<Link to={`/post/${id}`} className={styles.Link}>
 							<button>
 								{comments.map((el) => el.uid).includes(user.uid) ? (
 									<img alt='comments' src={commentFull}></img>

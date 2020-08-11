@@ -78,7 +78,9 @@ export default (props) => {
 	};
 
 	useEffect(() => {
-		fetchProfile();
+		if (profile.status === 'idle') {
+			fetchProfile();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
