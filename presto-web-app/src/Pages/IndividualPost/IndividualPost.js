@@ -11,7 +11,7 @@ import Comments from '../../components/Comments/Comments';
 export default (props) => {
 	const [post, setPost] = useState({
 		post: [],
-		status: 'idle', //idle, loading, complete, falied
+		status: 'idle', //idle, loading, success, falied
 		error: null,
 	});
 
@@ -37,7 +37,7 @@ export default (props) => {
 							let post = { id: doc['id'], ...doc.data() };
 							setPost({
 								post,
-								status: 'complete', //idle, loading, complete, falied
+								status: 'success', //idle, loading, success, falied
 								error: null,
 							});
 						});
@@ -64,7 +64,7 @@ export default (props) => {
 					console.error(error);
 					setPost((prevState) => ({
 						...prevState, //keep any posts already loaded, show error
-						status: 'failed', //idle, loading, complete, falied
+						status: 'failed', //idle, loading, success, falied
 						error: 'Sorry, there was an error. Please try again later.',
 					}));
 				}
@@ -73,6 +73,7 @@ export default (props) => {
 
 	useEffect(() => {
 		fetchPost();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -80,7 +81,7 @@ export default (props) => {
 			<Nav />
 			{post.status === 'idle' ? null : post.status === 'loading ' ? (
 				<p className={styles.message}>Loading post...</p>
-			) : post.status === 'complete' ? (
+			) : post.status === 'success' ? (
 				<>
 					<Post {...post.post} />
 					<Comments {...post.post} />

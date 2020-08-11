@@ -35,7 +35,7 @@ function App() {
 	const [user, setUser] = useState(false);
 	const [posts, setPosts] = useState({
 		posts: [],
-		status: 'idle', //idle, loading, complete, falied
+		status: 'idle', //idle, loading, success, falied
 		error: null,
 	});
 

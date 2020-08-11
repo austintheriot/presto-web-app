@@ -45,7 +45,7 @@ export default (props) => {
 						);
 						setPosts((prevState) => ({
 							posts,
-							status: 'complete', //idle, loading, complete, falied
+							status: 'success', //idle, loading, success, falied
 							error: null,
 						}));
 					} else {
@@ -65,7 +65,7 @@ export default (props) => {
 					console.error(error);
 					setPosts((prevState) => ({
 						...prevState, //keep any posts already loaded, show error
-						status: 'failed', //idle, loading, complete, falied
+						status: 'failed', //idle, loading, success, falied
 						error: 'Sorry, there was an error. Please try again later.',
 					}));
 				}
@@ -78,6 +78,7 @@ export default (props) => {
 			console.log('[Posts]: Calling fetchposts().');
 			fetchPosts();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	let postList = null;
@@ -91,7 +92,7 @@ export default (props) => {
 			<h1 className={styles.title}>Posts</h1>
 			{posts.status === 'idle' ? null : posts.status === 'loading' ? (
 				<p>Loading posts...</p>
-			) : posts.status === 'complete' ? (
+			) : posts.status === 'success' ? (
 				<>
 					<div className={styles.locationDiv}>
 						<img src={locationIcon} alt='location' />{' '}
