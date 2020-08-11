@@ -34,7 +34,7 @@ export default ({
 					{/* PROFILE PIC*/}
 					<div className={styles.profilePic}>
 						<Link to={`profile/${uid}`} className={styles.Link}>
-							<img alt='profile picture' src={profilePic} />
+							<img alt='profile' src={profilePic} />
 						</Link>
 					</div>
 					{/* NAME */}

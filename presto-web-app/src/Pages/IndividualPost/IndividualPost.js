@@ -9,7 +9,11 @@ import { useAuth } from '../../util/AuthProvider';
 import Comments from '../../components/Comments/Comments';
 
 export default (props) => {
-	const [post, setPost] = useState({ init: false, valid: false });
+	const [post, setPost] = useState({
+		post: [],
+		status: 'idle', //idle, loading, complete, falied
+		error: null,
+	});
 
 	let postID = window.location.pathname.split('/post/')[1];
 	const fetchPost = () => {
@@ -26,22 +30,39 @@ export default (props) => {
 					if (!querySnapshot.empty) {
 						querySnapshot.forEach((doc) => {
 							console.log('[IndividualPost]: setting post with doc.data()');
-							let post = { init: true, valid: true, ...doc.data() };
-							setPost(post);
+							let post = { ...doc.data() };
+							setPost({
+								post,
+								status: 'complete', //idle, loading, complete, falied
+								error: null,
+							});
 						});
 					}
 
 					//else if URL does not lead to a valid post:
 					else {
-						console.log('[IndividualPost]: Setting post as invalid');
-						setPost({ init: true, valid: false });
+						console.log(
+							'[IndividualPost]: No posts found. Displaying message instead.'
+						);
+						setPost((prevState) => ({
+							...prevState, //keep any posts already loaded, show error
+							status: 'failed', //idle, loading, complete, failed
+							error: 'No post found at this URL',
+						}));
 					}
 				},
 
 				//if an error occurs:
 				(error) => {
+					console.log(
+						'[Posts]: Error occured. Displaying error message to user.'
+					);
 					console.error(error);
-					setPost({ init: true, valid: false });
+					setPost((prevState) => ({
+						...prevState, //keep any posts already loaded, show error
+						status: 'failed', //idle, loading, complete, falied
+						error: 'Sorry, there was an error. Please try again later.',
+					}));
 				}
 			);
 	};
@@ -53,21 +74,18 @@ export default (props) => {
 	return (
 		<>
 			<Nav />
-			{
-				//Post initialized yet?
-				!post.init ? (
-					<p className={styles.message}>Loading post...</p>
-				) : //Once post is initialized, is it valid?
-				post.valid ? (
-					<>
-						<Post {...post} />
-						<Comments {...post} />
-					</>
-				) : (
-					//Once post is initialized, if it's not valid, show post not found.
-					<p className={styles.message}>Sorry, no post found at this URL.</p>
-				)
-			}
+			{post.status === 'idle' ? null : post.status === 'loading ' ? (
+				<p className={styles.message}>Loading post...</p>
+			) : post.status === 'complete' ? (
+				<>
+					<Post {...post.post} />
+					<Comments {...post.post} />
+				</>
+			) : post.status === 'failed' ? (
+				<p className={styles.message}>{post.error}</p>
+			) : (
+				<p className={styles.message}>Sorry, there was an error.</p>
+			)}
 		</>
 	);
 };

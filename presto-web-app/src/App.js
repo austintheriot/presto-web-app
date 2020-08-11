@@ -33,7 +33,11 @@ import IndividualProfile from './Pages/Individual Profile/IndividualProfile';
 
 function App() {
 	const [user, setUser] = useState(false);
-	const [posts, setPosts] = useState(null); //cached posts to prevent unecessary calls to database
+	const [posts, setPosts] = useState({
+		posts: [],
+		status: 'idle', //idle, loading, complete, falied
+		error: null,
+	});
 
 	/* 	const fakeDelay = (delayTime) => {
 		return new Promise((resolve, reject) => {
