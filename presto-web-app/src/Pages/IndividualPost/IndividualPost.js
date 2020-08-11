@@ -34,7 +34,7 @@ export default (props) => {
 					if (!querySnapshot.empty) {
 						querySnapshot.forEach((doc) => {
 							console.log('[IndividualPost]: setting post with doc.data()');
-							let post = { ...doc.data() };
+							let post = { id: doc['id'], ...doc.data() };
 							setPost({
 								post,
 								status: 'complete', //idle, loading, complete, falied
