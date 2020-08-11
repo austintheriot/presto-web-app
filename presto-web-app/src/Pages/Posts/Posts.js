@@ -81,11 +81,6 @@ export default (props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	let postList = null;
-	postList = posts.posts.map((el, i) => {
-		return <Post key={el.body || i} {...el} />;
-	});
-
 	return (
 		<>
 			<Nav />
@@ -98,7 +93,9 @@ export default (props) => {
 						<img src={locationIcon} alt='location' />{' '}
 						<address>{location || searchValue}:</address>
 					</div>
-					{postList}
+					{posts.posts.map((el, i) => {
+						return <Post key={el.body || i} {...el} />;
+					})}
 				</>
 			) : posts.status === 'failed' ? (
 				<p>{posts.error}</p>
