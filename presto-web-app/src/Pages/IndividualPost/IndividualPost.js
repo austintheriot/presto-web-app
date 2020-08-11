@@ -59,7 +59,7 @@ export default (props) => {
 				//if an error occurs:
 				(error) => {
 					console.log(
-						'[Posts]: Error occured. Displaying error message to user.'
+						'[IndividualPost]: Error occured. Displaying error message to user.'
 					);
 					console.error(error);
 					setPost((prevState) => ({
