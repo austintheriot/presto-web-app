@@ -72,7 +72,9 @@ export default (props) => {
 	};
 
 	useEffect(() => {
-		fetchPost();
+		if (post.status === 'idle') {
+			fetchPost();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
