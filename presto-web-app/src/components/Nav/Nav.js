@@ -29,7 +29,7 @@ export default (props) => {
 						</Link>
 					</li>
 					<li className={styles.li}>
-						<Link to='settings'>
+						<Link to='/settings'>
 							<button className={styles.button} data-info='Settings'>
 								<img className={styles.img} src={settings} alt='settings' />
 							</button>
