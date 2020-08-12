@@ -12,8 +12,31 @@ import joinedIcon from '../../assets/images/calendar.svg';
 import activityIcon from '../../assets/images/activity.svg';
 import instrumentIcon from '../../assets/images/instrument.svg';
 
-export default (props) => {
-	const [profile, setProfile] = useState({
+type Timestamp = firebase.firestore.Timestamp;
+
+interface State {
+	profile: {
+		uid?: string;
+		profilePic?: string;
+		activity?: string;
+		bio?: string;
+		city?: string;
+		country?: string;
+		county?: string;
+		instrument?: string;
+		name?: string;
+		state?: string;
+		type?: string;
+		website?: string;
+		zip?: string;
+		createdAt?: Timestamp;
+	};
+	status: string;
+	error: string | null;
+}
+
+export default () => {
+	const [profile, setProfile] = useState<State>({
 		profile: {},
 		status: 'idle', //idle, loading, success, failed
 		error: null,
@@ -54,8 +77,8 @@ export default (props) => {
 						console.log(
 							'[IndividualProfile]: No profile found. Displaying message instead.'
 						);
-						setProfile((prevState) => ({
-							...prevState, //keep any profile already loaded, show error
+						setProfile(() => ({
+							profile: {}, //keep any profile already loaded, show error
 							status: 'failed', //idle, loading, complete, failed
 							error: 'No profile found at this URL',
 						}));
@@ -85,7 +108,7 @@ export default (props) => {
 	}, []);
 
 	let formattedDate;
-	if (profile.status === 'success') {
+	if (profile.status === 'success' && profile.profile.createdAt) {
 		let dateArray = profile.profile.createdAt
 			.toDate()
 			.toDateString()
