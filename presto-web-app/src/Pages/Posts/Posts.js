@@ -49,7 +49,7 @@ export default (props) => {
 							posts.push(post);
 						});
 						console.log(
-							'[Posts]: Setting global posts with posts from database.'
+							'[Posts]: Setting posts state with posts from database.'
 						);
 						setPosts({
 							posts,
