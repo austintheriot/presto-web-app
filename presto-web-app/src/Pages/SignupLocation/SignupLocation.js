@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { db } from '../../util/config';
+import { db } from '../../app/config';
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
-import geoapifyKey from '../../util/geoapifyKey';
+import geoapifyKey from '../../app/geoapifyKey';
 import styles from './SignupLocation.module.scss';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../util/userSlice';
+import { selectUser } from '../../app/userSlice';
 
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';

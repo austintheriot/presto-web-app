@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './IndividualPost.module.scss';
 import * as firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
-import { db } from '../../util/config';
+import { db } from '../../app/config';
 import Post, { PostType } from '../../components/Post/Post';
 import Nav from '../../components/Nav/Nav';
 import Comments from '../../components/Comments/Comments';

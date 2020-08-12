@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser, establishAuthentication } from './util/userSlice';
+import { selectUser, establishAuthentication } from './app/userSlice';
 
 //pages
 import LoadingScreen from './Pages/LoadingScreen/LoadingScreen';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
-import { auth, analytics, db } from '../../util/config';
+import { auth, analytics, db } from '../../app/config';
 import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import styles from './HomePublic.module.scss';
@@ -9,7 +9,7 @@ import Logout from '../../components/Logout';
 import Modal from '../../components/Modal/Modal';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../util/userSlice';
+import { selectUser } from '../../app/userSlice';
 
 //images
 import home1 from '../../assets/images/home1.svg';

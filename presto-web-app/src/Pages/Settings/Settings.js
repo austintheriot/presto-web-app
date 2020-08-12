@@ -2,7 +2,7 @@ import React from 'react';
 import Nav from '../../components/Nav/Nav';
 import styles from './Settings.module.scss';
 import Button from '../../components/Button/Button';
-import logoutFunction from '../../util/logout';
+import logoutFunction from '../../app/logout';
 
 //images
 import logout from '../../assets/images/logout.svg';

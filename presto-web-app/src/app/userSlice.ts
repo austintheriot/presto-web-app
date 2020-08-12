@@ -98,7 +98,10 @@ export const establishAuthentication = () => (
 								createdAt = '',
 							} = doc.data();
 							//convert timestamp to string after value has been extracted
-							createdAt = createdAt.toDate().toLocaleString();
+							//weird bug here where createdAt is sometimes registerd as null
+							if (createdAt) {
+								createdAt = createdAt.toDate().toLocaleString();
+							}
 
 							userData = {
 								authenticated: true,
