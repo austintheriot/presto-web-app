@@ -17,7 +17,7 @@ import home2 from '../../assets/images/home2.svg';
 import home3 from '../../assets/images/home4.svg';
 import home4 from '../../assets/images/home5.svg';
 
-const Home = (props) => {
+const Home = (props: { modalMessage: string }) => {
 	const user = useSelector(selectUser);
 	const [modalMessage, setModalMessage] = useState('');
 	const [signedInAnonymously, setSignedInAnonymously] = useState(false);
@@ -36,26 +36,27 @@ const Home = (props) => {
 
 				//redirect to home
 				setSignedInAnonymously(true);
-
-				// Add a new document in collection "users"
-				db.collection('users')
-					.doc(data.user.uid)
-					.set(
-						{
-							name: 'Guest',
-							createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-							city: 'Austin',
-							state: 'Texas',
-							country: 'United States',
-						},
-						{ merge: true }
-					)
-					.then(() => {
-						console.log('Document successfully written!');
-					})
-					.catch(function (error) {
-						console.error('Error writing document: ', error);
-					});
+				if (data?.user?.uid) {
+					//if uid is defined: Add a new document in collection "users"
+					db.collection('users')
+						.doc(data!.user!.uid)
+						.set(
+							{
+								name: 'Guest',
+								createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+								city: 'Austin',
+								state: 'Texas',
+								country: 'United States',
+							},
+							{ merge: true }
+						)
+						.then(() => {
+							console.log('Document successfully written!');
+						})
+						.catch(function (error) {
+							console.error('Error writing document: ', error);
+						});
+				}
 			})
 			.catch(function (error) {
 				console.error(error.code, error.message);
