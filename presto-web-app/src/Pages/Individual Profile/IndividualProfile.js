@@ -65,14 +65,14 @@ export default (props) => {
 				//if an error occurs:
 				(error) => {
 					console.log(
-						'[IndividualProfile]: Error occured. Displaying error message to user.'
+						'[IndividualProfile]: Error occured. Displaying error message to user. (User probably logged out)'
 					);
-					console.error(error);
+					/* console.error(error);
 					setProfile((prevState) => ({
 						...prevState, //keep any data already loaded, show error
 						status: 'failed', //idle, loading, success, falied
 						error: 'Sorry, there was an error. Please try again later.',
-					}));
+					})); */
 				}
 			);
 	};
