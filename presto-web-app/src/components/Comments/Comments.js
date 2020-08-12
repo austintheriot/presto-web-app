@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './Comments.module.scss';
 import Comment from '../Comment/Comment';
 
 export default ({ comments }) => {
