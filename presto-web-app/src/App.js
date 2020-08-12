@@ -34,10 +34,7 @@ function App() {
 	const user = useSelector(selectUser);
 
 	useEffect(() => {
-		const promise = dispatch(establishAuthentication());
-		return () => {
-			promise.abort();
-		};
+		dispatch(establishAuthentication());
 	}, [dispatch]);
 
 	return (
