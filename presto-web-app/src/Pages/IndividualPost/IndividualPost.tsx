@@ -3,14 +3,20 @@ import styles from './IndividualPost.module.scss';
 import * as firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
 import { db } from '../../util/config';
-import Post from '../../components/Post/Post';
+import Post, { PostType } from '../../components/Post/Post';
 import Nav from '../../components/Nav/Nav';
 import Comments from '../../components/Comments/Comments';
 
-export default (props) => {
-	const [post, setPost] = useState({
-		post: [],
-		status: 'idle', //idle, loading, success, falied
+interface State {
+	post: PostType;
+	status: 'idle' | 'loading' | 'success' | 'failed';
+	error: string | null;
+}
+
+export default () => {
+	const [post, setPost] = useState<State>({
+		post: {},
+		status: 'idle',
 		error: null,
 	});
 
@@ -80,7 +86,7 @@ export default (props) => {
 	return (
 		<>
 			<Nav />
-			{post.status === 'idle' ? null : post.status === 'loading ' ? (
+			{post.status === 'idle' ? null : post.status === 'loading' ? (
 				<p className={styles.message}>Loading post...</p>
 			) : post.status === 'success' ? (
 				<>

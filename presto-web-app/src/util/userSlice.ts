@@ -1,29 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { auth, db } from './config';
 
-export const userSlice = createSlice({
-	name: 'user',
-	initialState: {
-		user: null,
-		status: 'idle',
-		error: null, //idle, loading, success, failed
-	},
-	reducers: {
-		updateUser: (state, action) => {
-			state.user = action.payload;
-		},
-	},
-});
-
 interface ReduxPayload {
 	//necessary for initializing app (loading screen etc.):
 	authenticated: boolean;
 	init: boolean;
 	status: string;
 	error: string | null;
+	uid: string | ''; //necessary to be declared as a string, regardless of if that string is empty or not
 
 	//optional ata received after auth and database requests:
-	uid?: string;
 	email?: string;
 	displayName?: string;
 	emailVerified?: false;
@@ -43,6 +29,21 @@ interface ReduxPayload {
 	createdAt?: string;
 }
 
+export const userSlice = createSlice({
+	name: 'user',
+	initialState: {
+		user: null,
+		status: 'idle',
+		error: null, //idle, loading, success, failed
+		uid: '',
+	},
+	reducers: {
+		updateUser: (state, action) => {
+			state.user = action.payload;
+		},
+	},
+});
+
 //thunk for asynchronously establishing if the user is logged in or not
 //& also listening to changes in user authentication
 export const establishAuthentication = () => (
@@ -55,6 +56,7 @@ export const establishAuthentication = () => (
 		init: false,
 		status: 'idle',
 		error: null,
+		uid: '',
 	};
 	dispatch(updateUser(userData));
 	auth.onAuthStateChanged((user: any) => {
