@@ -17,7 +17,7 @@ export const userSlice = createSlice({
 
 //thunk for asynchronously establishing if the user is logged in or not
 //& also listening to changes in user authentication
-export const establishAuthentication = () => (dispatch) => {
+export const establishAuthentication = () => (dispatch, getState) => {
 	console.log('[App]: checking user authentication');
 	let payload = { user: null, status: 'loading', error: null };
 	dispatch(updateUser(payload));
@@ -119,7 +119,7 @@ export const establishAuthentication = () => (dispatch) => {
 					//if error occurs while trying to fetch user data (logged out, etc.)
 					() => {
 						console.log(
-							'[App.js db catch block]: Error subscribing to changes in user data; unsubscribing from further changes.'
+							`[App.js db catch block]: Error subscribing to changes in user data; unsubscribing from further changes. (User probably logged out)`
 						);
 						let payload = {
 							init: true,
@@ -131,9 +131,17 @@ export const establishAuthentication = () => (dispatch) => {
 					}
 				);
 		} else {
+			console.log(
+				'[App.js db catch block]: Error subscribing to changes in user data; unsubscribing from further changes. (User probably logged out)'
+			);
 			//replace all user data with empty object
 			//BUT still tell app that everything is initialized
-			let payload = { init: true, authenticated: false };
+			let payload = {
+				init: true,
+				authenticated: false,
+				status: 'failed',
+				error: 'Server error. Please try again later.',
+			};
 			dispatch(updateUser(payload));
 		}
 	});

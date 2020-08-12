@@ -51,15 +51,15 @@ export default (props) => {
 						console.log(
 							'[Posts]: Setting global posts with posts from database.'
 						);
-						setPosts((prevState) => ({
+						setPosts({
 							posts,
 							status: 'success', //idle, loading, success, falied
 							error: null,
-						}));
+						});
 					} else {
 						console.log('[Posts]: No posts found. Displaying message instead.');
 						setPosts((prevState) => ({
-							...prevState, //keep any posts already loaded, show error
+							posts: [],
 							status: 'failed', //idle, loading, complete, failed
 							error:
 								'No posts found in your area. Try posting something to get people in your area talking!',
@@ -68,14 +68,16 @@ export default (props) => {
 				},
 				(error) => {
 					console.log(
-						'[Posts]: Error occured. Displaying error message to user.'
+						'[Posts]: Error occured in reading from database. User probably logged out.'
 					);
-					console.error(error);
-					setPosts((prevState) => ({
-						...prevState, //keep any posts already loaded, show error
+					//This causes a memory leak: (trying to update state on unmounted components
+					//after being redirected to Login page):
+					/* console.error(error); */
+					/* setPosts((prevState) => ({
+						posts: [],
 						status: 'failed', //idle, loading, success, falied
 						error: 'Sorry, there was an error. Please try again later.',
-					}));
+					})); */
 				}
 			);
 	};
