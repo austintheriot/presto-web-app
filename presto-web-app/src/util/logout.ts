@@ -1,4 +1,4 @@
-import { auth } from '../util/config';
+import { auth } from './config';
 
 import { updateUser } from './userSlice';
 import store from './store';

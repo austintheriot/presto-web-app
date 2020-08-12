@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
 import { auth, analytics, db } from './config';
 
-export default (setModalMessage) => {
+export default (setModalMessage: Function): void => {
 	auth
 		.signInAnonymously()
 		.then((data) => {
@@ -16,7 +16,7 @@ export default (setModalMessage) => {
 
 			// Add a new document in collection "users"
 			db.collection('users')
-				.doc(data.user.uid)
+				.doc(data!.user!.uid)
 				.set(
 					{
 						name: 'Guest',

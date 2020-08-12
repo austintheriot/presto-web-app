@@ -15,33 +15,59 @@ export const userSlice = createSlice({
 	},
 });
 
+interface ReduxPayload {
+	authenticated: boolean;
+	init: boolean;
+	status: string;
+	error?: string | null;
+	uid?: string;
+	email?: string;
+	displayName?: string;
+	emailVerified?: false;
+	photoUrl?: string;
+	isAnonymous?: false;
+	activity?: string;
+	bio?: string;
+	city?: string;
+	country?: string;
+	county?: string;
+	instrument?: string;
+	name?: string;
+	state?: string;
+	type?: string;
+	website?: string;
+	zip?: string;
+	createdAt?: string;
+}
+
 //thunk for asynchronously establishing if the user is logged in or not
 //& also listening to changes in user authentication
-export const establishAuthentication = () => (dispatch, getState) => {
+export const establishAuthentication = () => (
+	dispatch: Function,
+	getState: Function
+) => {
 	console.log('[App]: checking user authentication');
-	let payload = { user: null, status: 'loading', error: null };
-	dispatch(updateUser(payload));
-	auth.onAuthStateChanged((user) => {
+	let userData: ReduxPayload = {
+		authenticated: false,
+		init: false,
+		status: 'idle',
+		error: null,
+	};
+	dispatch(updateUser(userData));
+	auth.onAuthStateChanged((user: any) => {
 		if (user) {
 			console.log(
 				'[App]: authentication data received: user is currently logged in'
 			);
 			//extract data about user from authentication request
-			let {
-				email,
-				uid,
-				displayName,
-				emailVerified,
-				photoUrl,
-				isAnonymous,
-			} = user;
+			let { email, uid, displayName, emailVerified, isAnonymous } = user;
 			console.log('[App]: fetching user data from database');
 			//get user data from database
 			db.collection('users')
 				.doc(user.uid)
 				//subscribe to data changes in real time and push automatically to the rest of the app
 				.onSnapshot(
-					(doc) => {
+					(doc: any) => {
 						console.log('[App]: database data successfully received');
 						console.log('[App]: checking to see if received data is empty');
 						//update user data on the client side with authentication & database data
@@ -66,9 +92,10 @@ export const establishAuthentication = () => (dispatch, getState) => {
 								zip = '',
 								createdAt = '',
 							} = doc.data();
+							//convert timestamp to string after value has been extracted
 							createdAt = createdAt.toDate().toLocaleString();
 
-							payload = {
+							userData = {
 								authenticated: true,
 								init: true,
 								status: 'success',
@@ -77,7 +104,6 @@ export const establishAuthentication = () => (dispatch, getState) => {
 								uid,
 								displayName,
 								emailVerified,
-								photoUrl,
 								isAnonymous,
 								activity,
 								bio,
@@ -97,7 +123,7 @@ export const establishAuthentication = () => (dispatch, getState) => {
 								'[App]: data is empty; user document does not exist in database'
 							);
 							//if databse data for user does NOT exist, initialize data with auth data only:
-							payload = {
+							userData = {
 								authenticated: true,
 								status: 'success',
 								error: null,
@@ -106,28 +132,27 @@ export const establishAuthentication = () => (dispatch, getState) => {
 								uid,
 								displayName,
 								emailVerified,
-								photoUrl,
 								isAnonymous,
 							};
 						}
 						console.log(
 							'[App]: initializing app with user authentication data and user database data at the same time'
 						);
-						console.log('[App] user data: ', payload);
-						dispatch(updateUser(payload));
+						console.log('[App] user data: ', userData);
+						dispatch(updateUser(userData));
 					},
 					//if error occurs while trying to fetch user data (logged out, etc.)
 					() => {
 						console.log(
 							`[App.js db catch block]: Error subscribing to changes in user data; unsubscribing from further changes. (User probably logged out)`
 						);
-						let payload = {
+						let userData = {
 							init: true,
 							authenticated: false,
 							status: 'failed',
 							error: 'Server error. Please try again later.',
 						};
-						dispatch(updateUser(payload));
+						dispatch(updateUser(userData));
 					}
 				);
 		} else {
@@ -136,18 +161,24 @@ export const establishAuthentication = () => (dispatch, getState) => {
 			);
 			//replace all user data with empty object
 			//BUT still tell app that everything is initialized
-			let payload = {
+			let userData = {
 				init: true,
 				authenticated: false,
 				status: 'failed',
 				error: 'Server error. Please try again later.',
 			};
-			dispatch(updateUser(payload));
+			dispatch(updateUser(userData));
 		}
 	});
 };
 
-export const selectUser = (state) => state.user.user;
+interface UserSlice {
+	user: {
+		user: ReduxPayload;
+	};
+}
+
+export const selectUser = (state: UserSlice) => state.user.user;
 
 export const { updateUser } = userSlice.actions;
 
