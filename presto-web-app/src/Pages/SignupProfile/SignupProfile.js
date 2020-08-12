@@ -7,17 +7,18 @@ import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Textarea from '../../components/Textarea/Textarea';
 import styles from './SignupProfile.module.css';
-import { useAuth } from '../../util/AuthProvider';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import InstrumentArray from '../../util/InstrumentArray';
 
-//redirect with AuthContext once setInputs permeates down to component
+//redirect with once setInputs permeates down to component
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../util/userSlice';
 
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-left.svg';
 
 export default function Login(props) {
-	let { user } = useAuth();
+	const user = useSelector(selectUser);
 
 	const [inputs, setInputs] = useState({
 		activity: {

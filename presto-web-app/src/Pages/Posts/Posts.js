@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react';
 import Nav from '../../components/Nav/Nav';
 import Post from '../../components/Post/Post';
 import { db } from '../../util/config';
-import { useAuth } from '../../util/AuthProvider';
 import styles from './Posts.module.scss';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../util/userSlice';
 
 import locationIcon from '../../assets/images/location.svg';
 
 export default (props) => {
-	const { user, posts, setPosts } = useAuth();
+	const user = useSelector(selectUser);
+	const [posts, setPosts] = useState({
+		posts: [],
+		status: 'idle', //idle, loading, success, falied
+		error: null,
+	});
+
 	const [location, setLocation] = useState('');
 
 	let searchQueries = ['city', 'state', 'country']; //location terms to look for in user info

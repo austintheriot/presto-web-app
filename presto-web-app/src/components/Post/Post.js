@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './Post.module.scss';
-import { useAuth } from '../../util/AuthProvider';
 import { Link } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../util/userSlice';
 
 //images
 import heartEmpty from '../../assets/images/heartEmpty.svg';
@@ -25,7 +27,7 @@ export default ({
 	uid,
 	zip,
 }) => {
-	const { user } = useAuth();
+	const user = useSelector(selectUser);
 
 	return (
 		<div className={styles.wrapper}>

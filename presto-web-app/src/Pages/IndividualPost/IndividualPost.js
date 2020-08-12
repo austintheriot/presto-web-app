@@ -5,7 +5,6 @@ import 'firebase/firebase-firestore';
 import { db } from '../../util/config';
 import Post from '../../components/Post/Post';
 import Nav from '../../components/Nav/Nav';
-import { useAuth } from '../../util/AuthProvider';
 import Comments from '../../components/Comments/Comments';
 
 export default (props) => {
