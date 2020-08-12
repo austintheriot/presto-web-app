@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Input.module.css';
+import styles from './Input.module.scss';
 import SuggestionList from '../SuggestionList/SuggestionList';
 
 import eye from '../../assets/images/eye.svg';

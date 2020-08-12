@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Select.module.css';
+import styles from './Select.module.scss';
 import SuggestionList from '../SuggestionList/SuggestionList';
 
 export default (props) => {

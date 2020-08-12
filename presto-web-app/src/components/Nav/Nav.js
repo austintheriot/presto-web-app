@@ -1,11 +1,9 @@
 import React from 'react';
-import styles from './Nav.module.css';
+import styles from './Nav.module.scss';
 import { Link } from 'react-router-dom';
 
 //images:
-import home from '../../assets/images/home.svg';
 import posts from '../../assets/images/posts.svg';
-import notifications from '../../assets/images/notifications.svg';
 import profile from '../../assets/images/profile.svg';
 import settings from '../../assets/images/settings.svg';
 

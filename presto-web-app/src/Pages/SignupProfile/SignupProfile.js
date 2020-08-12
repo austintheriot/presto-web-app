@@ -6,7 +6,7 @@ import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Textarea from '../../components/Textarea/Textarea';
-import styles from './SignupProfile.module.css';
+import styles from './SignupProfile.module.scss';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import InstrumentArray from '../../util/InstrumentArray';
 

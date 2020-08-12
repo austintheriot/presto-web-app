@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Textarea.module.css';
+import styles from './Textarea.module.scss';
 import SuggestionList from '../SuggestionList/SuggestionList';
 
 export default (props) => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Nav from '../../components/Nav/Nav';
-import styles from './Profile.module.css';
+import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
 import InstrumentArray from '../../util/InstrumentArray';
 import { db } from '../../util/config';

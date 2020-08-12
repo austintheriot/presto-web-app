@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './LoadingScreen.module.css'; //local styles
+import styles from './LoadingScreen.module.scss'; //local styles
 
 import logo from '../../assets/images/logo.svg';
 
