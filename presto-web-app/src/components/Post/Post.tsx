@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
+import { TimestampType } from '../../util/config';
+import { CommentType } from '../Comment/Comment';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../util/userSlice';
@@ -10,6 +12,23 @@ import heartEmpty from '../../assets/images/heartEmpty.svg';
 import heartFull from '../../assets/images/heartFull.svg';
 import commentEmpty from '../../assets/images/commentEmpty.svg';
 import commentFull from '../../assets/images/commentFull.svg';
+
+export interface PostType {
+	id?: string;
+	activity?: string;
+	body?: string;
+	city?: string;
+	comments?: CommentType[];
+	country?: string;
+	county?: string;
+	createdAt?: TimestampType;
+	likes?: string[];
+	name?: string;
+	profilePic?: string;
+	state?: string;
+	uid?: string;
+	zip?: string;
+}
 
 export default ({
 	id,
@@ -26,7 +45,7 @@ export default ({
 	state,
 	uid,
 	zip,
-}) => {
+}: PostType) => {
 	const user = useSelector(selectUser);
 
 	return (
@@ -47,8 +66,8 @@ export default ({
 					<Link
 						to={`/post/${id}`}
 						className={[styles.Link, styles.timeLink].join(' ')}>
-						<time dateTime={createdAt.toDate()}>
-							{createdAt.toDate().toLocaleString()}
+						<time dateTime={createdAt!.toDate().toLocaleString()}>
+							{createdAt!.toDate().toLocaleString()}
 						</time>
 					</Link>
 					{/* ACTIVITY */}
@@ -66,19 +85,20 @@ export default ({
 					{/* NUMBER OF LIKES */}
 					<Link to={`/post/${id}`} className={styles.Link}>
 						<p className={styles.likes}>
-							<img alt='likes' src={heartFull}></img> {likes.length} likes
+							<img alt='likes' src={heartFull}></img> {likes!.length} likes
 						</p>
 					</Link>
 					{/* NUMBER OF COMMENTS */}
 					<Link
 						to={`/post/${id}`}
 						className={[styles.Link, styles.comments].join(' ')}>
-						<img alt='likes' src={commentFull}></img> {comments.length} comments
+						<img alt='likes' src={commentFull}></img> {comments!.length}{' '}
+						comments
 					</Link>
 					<div className={styles.icons}>
 						{/* LIKE BUTTON */}
 						<button>
-							{likes.includes(user.uid) ? (
+							{likes!.includes(user.uid) ? (
 								<img alt='likes' src={heartFull}></img>
 							) : (
 								<img alt='likes' src={heartEmpty}></img>
@@ -88,7 +108,7 @@ export default ({
 						{/* COMMENT BUTTON */}
 						<Link to={`/post/${id}`} className={styles.Link}>
 							<button>
-								{comments.map((el) => el.uid).includes(user.uid) ? (
+								{comments!.map((el) => el.uid).includes(user.uid) ? (
 									<img alt='comments' src={commentFull}></img>
 								) : (
 									<img alt='comments' src={commentEmpty}></img>
