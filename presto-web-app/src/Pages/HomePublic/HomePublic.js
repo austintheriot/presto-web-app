@@ -4,7 +4,7 @@ import 'firebase/firebase-firestore';
 import { auth, analytics, db } from '../../util/config';
 import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
-import styles from './HomePublic.module.css';
+import styles from './HomePublic.module.scss';
 import Logout from '../../components/Logout';
 import Modal from '../../components/Modal/Modal';
 

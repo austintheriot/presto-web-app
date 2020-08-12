@@ -1,20 +1,20 @@
 import React from 'react';
-import styles from './Button.module.css';
+import styles from './Button.module.scss';
 
 export default ({ ...props }) => {
-  let buttonStyle;
+	let buttonStyle;
 
-  switch (props.customstyle) {
-    case 'inverted':
-      buttonStyle = styles.inverted;
-      break;
-    default:
-      buttonStyle = styles.Button;
-  }
+	switch (props.customstyle) {
+		case 'inverted':
+			buttonStyle = styles.inverted;
+			break;
+		default:
+			buttonStyle = styles.Button;
+	}
 
-  return (
-    <button type='button' className={buttonStyle || styles.Button} {...props}>
-      {props.children || 'Button'}
-    </button>
-  );
+	return (
+		<button type='button' className={buttonStyle || styles.Button} {...props}>
+			{props.children || 'Button'}
+		</button>
+	);
 };

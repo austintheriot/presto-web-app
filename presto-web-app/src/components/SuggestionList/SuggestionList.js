@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './SuggestionList.module.css';
+import styles from './SuggestionList.module.scss';
 
 export default function SuggestionList({
 	suggestions,

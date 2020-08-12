@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ProgressBar.module.css';
+import styles from './ProgressBar.module.scss';
 import { Link } from 'react-router-dom';
 
 export default function ProgressBar(props) {

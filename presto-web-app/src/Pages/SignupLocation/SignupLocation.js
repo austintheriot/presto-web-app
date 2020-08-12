@@ -5,7 +5,7 @@ import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import geoapifyKey from '../../util/geoapifyKey';
-import styles from './SignupLocation.module.css';
+import styles from './SignupLocation.module.scss';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 import { useSelector } from 'react-redux';
