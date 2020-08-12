@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, SyntheticEvent } from 'react';
 import { db } from '../../util/config';
 
 import Modal from '../../components/Modal/Modal';
@@ -17,10 +17,47 @@ import { selectUser } from '../../util/userSlice';
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-left.svg';
 
-export default function Login(props) {
+interface History {
+	history?: {
+		location?: {
+			state?: {
+				infoMessage?: string;
+			};
+		};
+	};
+}
+
+interface InputName {
+	label: string;
+	value: string;
+	animateUp: boolean;
+	empty: boolean;
+	touched: boolean;
+	message: {
+		error: boolean;
+		text: string;
+		default: string;
+	};
+	suggestions: {
+		loading: boolean;
+		show: boolean;
+		array: string[];
+	};
+}
+
+interface Inputs {
+	activity: InputName;
+	instrument: InputName;
+	website: InputName;
+	bio: InputName;
+}
+
+type KeyOfInputs = keyof Inputs;
+
+export default function Login(props: History) {
 	const user = useSelector(selectUser);
 
-	const [inputs, setInputs] = useState({
+	const [inputs, setInputs] = useState<Inputs>({
 		activity: {
 			label: 'Musical Activity',
 			suggestions: {
@@ -73,6 +110,11 @@ export default function Login(props) {
 		},
 		website: {
 			label: 'Website',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
+			},
 			value: '',
 			animateUp: false,
 			empty: true,
@@ -85,6 +127,11 @@ export default function Login(props) {
 		},
 		bio: {
 			label: 'Short Bio',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
+			},
 			value: '',
 			animateUp: false,
 			empty: true,
@@ -99,9 +146,13 @@ export default function Login(props) {
 	const [modalMessage, setModalMessage] = useState('');
 	const [submitted, setSubmitted] = useState(false);
 
-	const suggestionClickHandler = (e, i, newestType) => {
+	const suggestionClickHandler = (
+		e: React.FormEvent<HTMLInputElement>,
+		i: number,
+		newestType: KeyOfInputs
+	) => {
 		let newValue = inputs[newestType].suggestions.array[i];
-		setInputs((prevState) => ({
+		setInputs((prevState: Inputs) => ({
 			...prevState,
 			[newestType]: {
 				...prevState[newestType],
@@ -110,11 +161,14 @@ export default function Login(props) {
 		}));
 	};
 
-	const handleFocus = (event, newestType) => {
+	const handleFocus = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
 		//animation
 		if (newestType === 'activity' || newestType === 'instrument') {
 			//show drop down menu
-			setInputs((prevState) => ({
+			setInputs((prevState: Inputs) => ({
 				...prevState,
 				[newestType]: {
 					...prevState[newestType],
@@ -128,7 +182,7 @@ export default function Login(props) {
 				},
 			}));
 		} else {
-			setInputs((prevState) => ({
+			setInputs((prevState: Inputs) => ({
 				...prevState,
 				[newestType]: {
 					...prevState[newestType],
@@ -139,7 +193,10 @@ export default function Login(props) {
 		}
 	};
 
-	const handleBlur = (e, newestType) => {
+	const handleBlur = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
 		//animation & output error if empty
 		let targetEmpty =
 			inputs[newestType].touched && inputs[newestType].value.length === 0
@@ -148,7 +205,7 @@ export default function Login(props) {
 
 		//hide drop down menu
 		if (newestType === 'activity' || newestType === 'instrument') {
-			setInputs((prevState) => ({
+			setInputs((prevState: Inputs) => ({
 				...prevState,
 				[newestType]: {
 					...prevState[newestType],
@@ -162,7 +219,7 @@ export default function Login(props) {
 				},
 			}));
 		} else {
-			setInputs((prevState) => ({
+			setInputs((prevState: Inputs) => ({
 				...prevState,
 				[newestType]: {
 					...prevState[newestType],
@@ -173,45 +230,38 @@ export default function Login(props) {
 		}
 	};
 
-	const handleChange = (event, newestType) => {
-		let targetValue = event.target.value;
+	const handleChange = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		let targetValue = e.currentTarget.value;
 		let targetEmpty = targetValue.length === 0 ? true : false;
 
-		//validate inputs
-
-		//update state for all inputs
-		Object.keys(inputs).forEach((inputType) => {
-			setInputs((prevState) => ({
-				...prevState,
-				[inputType]: {
-					...prevState[inputType],
-
-					//update generic values
-					value:
-						inputType === newestType ? targetValue : prevState[inputType].value,
-					empty:
-						inputType === newestType ? targetEmpty : prevState[inputType].empty,
-					//update errors: If no error, set to empty
-					/*  message: {
-            ...prevState[inputType].message,
-            error: errors[inputType] ? true : false,
-            text: errors[inputType]
-              ? errors[inputType]
-              : prevState[inputType].message.default,
-          }, */
-				},
-			}));
-		});
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				//animation
+				value: targetValue,
+				empty: targetEmpty,
+			},
+		}));
 	};
 
-	const submitHandler = (event) => {
-		//prevent default form submission
-		event.preventDefault();
+	const submitHandler = (e: SyntheticEvent) => {
+		//pre default form submission
+		e.preventDefault();
 
 		//check for errors
 
 		//only update information if new information has been provided
-		let newInfoFromState = {};
+		interface NewInfoFromState {
+			activity?: string;
+			instrument?: string;
+			website?: string;
+			bio?: string;
+		}
+		let newInfoFromState: NewInfoFromState = {};
 		if (inputs.activity.value)
 			newInfoFromState.activity = inputs.activity.value;
 		if (inputs.instrument.value)
@@ -256,8 +306,12 @@ export default function Login(props) {
 				<Select
 					type='text'
 					customType='activity'
-					handleFocus={(e) => handleFocus(e, 'activity')}
-					handleBlur={(e) => handleBlur(e, 'activity')}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'activity')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'activity')
+					}
 					label={'Musical Activity'}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
@@ -265,8 +319,12 @@ export default function Login(props) {
 				<Select
 					type='text'
 					customType='instrument'
-					handleFocus={(e) => handleFocus(e, 'instrument')}
-					handleBlur={(e) => handleBlur(e, 'instrument')}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'instrument')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'instrument')
+					}
 					label={'Instrument'}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
@@ -274,18 +332,30 @@ export default function Login(props) {
 				<Input
 					type='text'
 					customType='website'
-					handleFocus={(e) => handleFocus(e, 'website')}
-					handleBlur={(e) => handleBlur(e, 'website')}
-					handleChange={(e) => handleChange(e, 'website')}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'website')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'website')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'website')
+					}
 					label={'Website'}
 					inputs={inputs}
 				/>
 				<Textarea
 					type='text'
 					customType='bio'
-					handleFocus={(e) => handleFocus(e, 'bio')}
-					handleBlur={(e) => handleBlur(e, 'bio')}
-					handleChange={(e) => handleChange(e, 'bio')}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'bio')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'bio')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'bio')
+					}
 					label={'Short Bio'}
 					inputs={inputs}
 				/>
