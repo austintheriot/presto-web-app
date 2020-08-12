@@ -15,7 +15,7 @@ import instrumentIcon from '../../assets/images/instrument.svg';
 export default (props) => {
 	const [profile, setProfile] = useState({
 		profile: {},
-		status: 'idle', //idle, loading, success, falied
+		status: 'idle', //idle, loading, success, failed
 		error: null,
 	});
 
