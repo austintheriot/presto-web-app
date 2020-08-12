@@ -16,10 +16,13 @@ export const userSlice = createSlice({
 });
 
 interface ReduxPayload {
+	//necessary for initializing app (loading screen etc.):
 	authenticated: boolean;
 	init: boolean;
 	status: string;
-	error?: string | null;
+	error: string | null;
+
+	//optional ata received after auth and database requests:
 	uid?: string;
 	email?: string;
 	displayName?: string;
@@ -125,9 +128,9 @@ export const establishAuthentication = () => (
 							//if databse data for user does NOT exist, initialize data with auth data only:
 							userData = {
 								authenticated: true,
+								init: true,
 								status: 'success',
 								error: null,
-								init: true,
 								email,
 								uid,
 								displayName,
@@ -147,8 +150,8 @@ export const establishAuthentication = () => (
 							`[App.js db catch block]: Error subscribing to changes in user data; unsubscribing from further changes. (User probably logged out)`
 						);
 						let userData = {
-							init: true,
 							authenticated: false,
+							init: true,
 							status: 'failed',
 							error: 'Server error. Please try again later.',
 						};
