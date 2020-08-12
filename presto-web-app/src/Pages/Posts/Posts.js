@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Nav from '../../components/Nav/Nav';
 import Post from '../../components/Post/Post';
-import { db } from '../../util/config';
+import { db } from '../../app/config';
 import styles from './Posts.module.scss';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../util/userSlice';
+import { selectUser } from '../../app/userSlice';
 
 import locationIcon from '../../assets/images/location.svg';
 

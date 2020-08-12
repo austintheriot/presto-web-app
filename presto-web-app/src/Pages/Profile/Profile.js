@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import Nav from '../../components/Nav/Nav';
 import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
-import InstrumentArray from '../../util/InstrumentArray';
-import { db } from '../../util/config';
+import InstrumentArray from '../../app/InstrumentArray';
+import { db } from '../../app/config';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../util/userSlice';
+import { selectUser } from '../../app/userSlice';
 
 import Select from '../../components/Select/Select';
 import Input from '../../components/Input/Input';

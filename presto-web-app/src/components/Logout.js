@@ -1,9 +1,9 @@
 import React from 'react';
-import { auth } from '../util/config';
+import { auth } from '../app/config';
 import { Link } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
-import { updateUser } from '../util/userSlice';
+import { updateUser } from '../app/userSlice';
 
 export default () => {
 	const dispatch = useDispatch();

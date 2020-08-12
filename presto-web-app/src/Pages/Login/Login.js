@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { auth, analytics } from '../../util/config';
+import { auth, analytics } from '../../app/config';
 import Modal from '../../components/Modal/Modal';
-import returnInputErrors from '../../util/returnInputErrors';
+import returnInputErrors from '../../app/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import styles from './Login.module.scss';
-import signInAnonymously from '../../util/signInAnonymously';
+import signInAnonymously from '../../app/signInAnonymously';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../util/userSlice';
+import { selectUser } from '../../app/userSlice';
 
 import home from '../../assets/images/home.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';

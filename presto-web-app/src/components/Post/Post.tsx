@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
-import { TimestampType } from '../../util/config';
+import { TimestampType } from '../../app/config';
 import { CommentType } from '../Comment/Comment';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../util/userSlice';
+import { selectUser } from '../../app/userSlice';
 
 //images
 import heartEmpty from '../../assets/images/heartEmpty.svg';

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './IndividualProfile.module.scss';
 import * as firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
-import { db } from '../../util/config';
+import { db } from '../../app/config';
 import Nav from '../../components/Nav/Nav';
 
 import locationIcon from '../../assets/images/location.svg';

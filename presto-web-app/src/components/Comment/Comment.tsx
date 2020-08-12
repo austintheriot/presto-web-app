@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Comment.module.scss';
-import { TimestampType } from '../../util/config';
+import { TimestampType } from '../../app/config';
 
 export interface CommentType {
 	activity?: string;
