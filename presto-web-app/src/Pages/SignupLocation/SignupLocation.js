@@ -3,11 +3,13 @@ import { db } from '../../util/config';
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
-import { useAuth } from '../../util/AuthProvider';
 import Button from '../../components/Button/Button';
 import geoapifyKey from '../../util/geoapifyKey';
 import styles from './SignupLocation.module.css';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../util/userSlice';
 
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
@@ -15,7 +17,7 @@ import arrowRight from '../../assets/images/arrow-right.svg';
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Login(props) {
-	let { user } = useAuth();
+	const user = useSelector(selectUser);
 	const [inputs, setInputs] = useState({
 		location: {
 			value: '',

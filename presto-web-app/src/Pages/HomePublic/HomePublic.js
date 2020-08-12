@@ -4,10 +4,12 @@ import 'firebase/firebase-firestore';
 import { auth, analytics, db } from '../../util/config';
 import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
-import { useAuth } from '../../util/AuthProvider';
 import styles from './HomePublic.module.css';
 import Logout from '../../components/Logout';
 import Modal from '../../components/Modal/Modal';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../util/userSlice';
 
 //images
 import home1 from '../../assets/images/home1.svg';
@@ -16,7 +18,7 @@ import home3 from '../../assets/images/home4.svg';
 import home4 from '../../assets/images/home5.svg';
 
 const Home = (props) => {
-	let { user } = useAuth();
+	const user = useSelector(selectUser);
 	const [modalMessage, setModalMessage] = useState('');
 	const [signedInAnonymously, setSignedInAnonymously] = useState(false);
 

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Nav from '../../components/Nav/Nav';
 import styles from './Profile.module.css';
-import { useAuth } from '../../util/AuthProvider';
 import Button from '../../components/Button/Button';
 import InstrumentArray from '../../util/InstrumentArray';
 import { db } from '../../util/config';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../util/userSlice';
 
 import Select from '../../components/Select/Select';
 import Input from '../../components/Input/Input';
@@ -12,7 +14,7 @@ import Textarea from '../../components/Textarea/Textarea';
 import Modal from '../../components/Modal/Modal';
 
 export default (props) => {
-	const { user } = useAuth();
+	const user = useSelector(selectUser);
 
 	const [inputs, setInputs] = useState({
 		type: {
@@ -268,7 +270,7 @@ export default (props) => {
 			});
 	};
 
-	let dateArray = user.createdAt.toDate().toDateString().split(' ');
+	let dateArray = user.createdAt.split(' ');
 	let formattedDate = [dateArray[1], dateArray[2] + ',', dateArray[3]].join(
 		' '
 	);

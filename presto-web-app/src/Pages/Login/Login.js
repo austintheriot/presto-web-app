@@ -3,10 +3,12 @@ import { auth, analytics } from '../../util/config';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../util/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
-import { useAuth } from '../../util/AuthProvider';
 import Input from '../../components/Input/Input';
 import styles from './Login.module.scss';
 import signInAnonymously from '../../util/signInAnonymously';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../util/userSlice';
 
 import home from '../../assets/images/home.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
@@ -184,7 +186,7 @@ export default function Login(props) {
 			});
 	};
 
-	let { user } = useAuth();
+	const user = useSelector(selectUser);
 	let { authenticated } = user;
 	let redirect = '/posts';
 	if (props.history?.location?.state?.redirect) {

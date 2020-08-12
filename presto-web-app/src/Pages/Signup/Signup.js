@@ -5,10 +5,12 @@ import { db, auth, analytics } from '../../util/config';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../util/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
-import { useAuth } from '../../util/AuthProvider';
 import Input from '../../components/Input/Input';
 import styles from './Signup.module.scss';
 import signInAnonymously from '../../util/signInAnonymously';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../util/userSlice';
 
 import home from '../../assets/images/home.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
@@ -16,7 +18,7 @@ import arrowRight from '../../assets/images/arrow-right.svg';
 //redirect with AuthContext once setInputs permeates down to component
 
 export default function Signup(props) {
-	let { user } = useAuth();
+	const user = useSelector(selectUser);
 	let { authenticated } = user;
 	const [inputs, setInputs] = useState({
 		email: {
