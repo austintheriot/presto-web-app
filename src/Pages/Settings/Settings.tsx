@@ -8,7 +8,7 @@ import logoutFunction from '../../app/logout';
 import logout from '../../assets/images/logout.svg';
 /* import notifications from '../../assets/images/notifications.svg'; */
 
-export default (props) => {
+export default () => {
 	return (
 		<>
 			<Nav />

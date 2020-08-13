@@ -1,4 +1,5 @@
 import { TimestampType as ImportedTimestampType } from './config';
+import { User } from 'firebase';
 
 export interface InputType {
 	label: string;
@@ -26,6 +27,12 @@ export interface CommentType {
 	profilePic?: string;
 	uid?: string;
 }
+
+interface UserAuthenticated extends User {
+	authenticated?: boolean;
+}
+
+export type UserAuthenticationInfoType = UserAuthenticated | null;
 
 export interface ProfileType {
 	uid?: string;

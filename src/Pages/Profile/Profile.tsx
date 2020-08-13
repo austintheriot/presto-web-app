@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react';
+import React, { useState } from 'react';
 import Nav from '../../components/Nav/Nav';
 import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
@@ -326,7 +326,7 @@ export default () => {
 		}));
 	};
 
-	const submitHandler = (e: SyntheticEvent) => {
+	const submitHandler = (e: React.SyntheticEvent) => {
 		//prevent default form submission
 		e.preventDefault();
 
