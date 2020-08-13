@@ -3,9 +3,11 @@ import styles from './IndividualPost.module.scss';
 import * as firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
 import { db } from '../../app/config';
-import Post, { PostType } from '../../components/Post/Post';
+import Post from '../../components/Post/Post';
 import Nav from '../../components/Nav/Nav';
 import Comments from '../../components/Comments/Comments';
+
+import { PostType } from '../../app/types';
 
 interface State {
 	post: PostType;

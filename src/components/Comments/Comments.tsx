@@ -1,6 +1,6 @@
 import React from 'react';
 import Comment from '../Comment/Comment';
-import { PostType } from '../Post/Post';
+import { PostType } from '../../app/types';
 
 export default ({ comments }: PostType) => {
 	let commentsList = null;
