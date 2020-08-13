@@ -251,11 +251,13 @@ export default () => {
 				value: newestType === 'type' ? targetValue : prevState.type.value,
 				empty: newestType === 'type' ? targetEmpty : prevState.type.empty,
 
-				//update errors: If no error, set to empty
+				//update errors: If no error, set to default meessage
 				message: {
 					...prevState.type.message,
 					error: anyErrorsObject.type ? true : false,
-					text: anyErrorsObject.type ? anyErrorsObject.type : '',
+					text: anyErrorsObject.type
+						? anyErrorsObject.type
+						: prevState.type.message.default,
 				},
 			},
 
@@ -268,11 +270,13 @@ export default () => {
 				empty:
 					newestType === 'activity' ? targetEmpty : prevState.activity.empty,
 
-				//update errors: If no error, set to empty
+				//update errors: If no error, set to default meessage
 				message: {
 					...prevState.activity.message,
 					error: anyErrorsObject.activity ? true : false,
-					text: anyErrorsObject.activity ? anyErrorsObject.activity : '',
+					text: anyErrorsObject.activity
+						? anyErrorsObject.activity
+						: prevState.activity.message.default,
 				},
 			},
 			instrument: {
@@ -288,11 +292,13 @@ export default () => {
 						? targetEmpty
 						: prevState.instrument.empty,
 
-				//update errors: If no error, set to empty
+				//update errors: If no error, set to default meessage
 				message: {
 					...prevState.instrument.message,
 					error: anyErrorsObject.instrument ? true : false,
-					text: anyErrorsObject.instrument ? anyErrorsObject.instrument : '',
+					text: anyErrorsObject.instrument
+						? anyErrorsObject.instrument
+						: prevState.instrument.message.default,
 				},
 			},
 			website: {
@@ -302,11 +308,13 @@ export default () => {
 				value: newestType === 'website' ? targetValue : prevState.website.value,
 				empty: newestType === 'website' ? targetEmpty : prevState.website.empty,
 
-				//update errors: If no error, set to empty
+				//update errors: If no error, set to default meessage
 				message: {
 					...prevState.website.message,
 					error: anyErrorsObject.website ? true : false,
-					text: anyErrorsObject.website ? anyErrorsObject.website : '',
+					text: anyErrorsObject.website
+						? anyErrorsObject.website
+						: prevState.website.message.default,
 				},
 			},
 			bio: {
@@ -316,11 +324,13 @@ export default () => {
 				value: newestType === 'bio' ? targetValue : prevState.bio.value,
 				empty: newestType === 'bio' ? targetEmpty : prevState.bio.empty,
 
-				//update errors: If no error, set to empty
+				//update errors: If no error, set to default meessage
 				message: {
 					...prevState.bio.message,
 					error: anyErrorsObject.bio ? true : false,
-					text: anyErrorsObject.bio ? anyErrorsObject.bio : '',
+					text: anyErrorsObject.bio
+						? anyErrorsObject.bio
+						: prevState.bio.message.default,
 				},
 			},
 		}));
