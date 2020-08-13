@@ -97,6 +97,7 @@ export const establishAuthentication = () => (
 								zip = '',
 								createdAt = '',
 							} = doc.data();
+							console.log('[userSlice]: ', doc.data(), createdAt);
 							//convert timestamp to string after value has been extracted
 							//weird bug here where createdAt is sometimes registerd as null
 							if (createdAt) {
