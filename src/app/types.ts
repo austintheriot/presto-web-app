@@ -27,6 +27,23 @@ export interface CommentType {
 	uid?: string;
 }
 
+export interface ProfileType {
+	uid?: string;
+	profilePic?: string;
+	activity?: string;
+	bio?: string;
+	city?: string;
+	country?: string;
+	county?: string;
+	instrument?: string;
+	name?: string;
+	state?: string;
+	type?: string;
+	website?: string;
+	zip?: string;
+	createdAt?: TimestampType;
+}
+
 export interface PostType {
 	id?: string;
 	activity?: string;
@@ -49,6 +66,7 @@ export interface HistoryType {
 		location?: {
 			state?: {
 				infoMessage?: string;
+				redirect?: string;
 			};
 		};
 	};

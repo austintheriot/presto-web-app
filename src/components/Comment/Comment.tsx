@@ -1,15 +1,6 @@
 import React from 'react';
 import styles from './Comment.module.scss';
-import { TimestampType } from '../../app/config';
-
-export interface CommentType {
-	activity?: string;
-	body?: string;
-	createdAt?: TimestampType;
-	name?: string;
-	profilePic?: string;
-	uid?: string;
-}
+import { CommentType } from '../../app/types';
 
 export default ({
 	uid,

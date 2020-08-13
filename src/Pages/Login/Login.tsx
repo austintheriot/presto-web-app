@@ -10,58 +10,52 @@ import signInAnonymously from '../../app/signInAnonymously';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
 
+import { HistoryType, InputType } from '../../app/types';
+
 import home from '../../assets/images/home.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
 
-interface History {
-	history?: {
-		location?: {
-			state?: {
-				infoMessage?: string;
-				redirect?: string;
-			};
-		};
-	};
-}
-
-interface InputName {
-	value: string;
-	animateUp: boolean;
-	empty: boolean;
-	touched: boolean;
-	message: {
-		error: boolean;
-		text: string;
-	};
-}
-
 interface Inputs {
-	email: InputName;
-	password: InputName;
+	email: InputType;
+	password: InputType;
 }
 
 type KeyOfInputs = keyof Inputs;
 
-export default function Login(props?: History) {
+export default function Login(props?: HistoryType) {
 	const [inputs, setInputs] = useState<Inputs>({
 		email: {
 			value: '',
+			label: 'Email*',
 			animateUp: false,
 			empty: true,
 			touched: false,
 			message: {
 				error: false,
 				text: '',
+				default: '',
+			},
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
 			},
 		},
 		password: {
 			value: '',
+			label: 'Password*',
 			animateUp: false,
 			empty: true,
 			touched: false,
 			message: {
 				error: false,
 				text: '',
+				default: '',
+			},
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
 			},
 		},
 	});
@@ -151,6 +145,7 @@ export default function Login(props?: History) {
 
 				//update errors: If no error, set to empty
 				message: {
+					...prevState.email.message,
 					error: anyErrorsObject.email ? true : false,
 					text: anyErrorsObject.email ? anyErrorsObject.email : '',
 				},
@@ -166,6 +161,7 @@ export default function Login(props?: History) {
 
 				//update errors: If no error, set to empty
 				message: {
+					...prevState.password.message,
 					error: anyErrorsObject.password ? true : false,
 					text: anyErrorsObject.password ? anyErrorsObject.password : '',
 				},
@@ -278,7 +274,6 @@ export default function Login(props?: History) {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'email')
 					}
-					label={'Email*'}
 					inputs={inputs}
 				/>
 				<Input
@@ -293,7 +288,6 @@ export default function Login(props?: History) {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'password')
 					}
-					label={'Password*'}
 					inputs={inputs}
 				/>
 				<Modal message={modalMessage} color='black' />
