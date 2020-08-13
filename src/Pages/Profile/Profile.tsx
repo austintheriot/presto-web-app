@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, SyntheticEvent } from 'react';
 import Nav from '../../components/Nav/Nav';
 import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
@@ -13,30 +13,14 @@ import Input from '../../components/Input/Input';
 import Textarea from '../../components/Textarea/Textarea';
 import Modal from '../../components/Modal/Modal';
 
-interface InputName {
-	label: string;
-	suggestions: {
-		loading: boolean;
-		show: boolean;
-		array: string[];
-	};
-	value: string;
-	animateUp: boolean;
-	empty: boolean;
-	touched: boolean;
-	message: {
-		error: boolean;
-		text: string;
-		default: string;
-	};
-}
+import { InputType } from '../../app/types';
 
 interface Inputs {
-	type: InputName;
-	activity: InputName;
-	instrument: InputName;
-	website: InputName;
-	bio: InputName;
+	type: InputType;
+	activity: InputType;
+	instrument: InputType;
+	website: InputType;
+	bio: InputType;
 }
 
 type KeyOfInputs = keyof Inputs;
@@ -149,7 +133,11 @@ export default () => {
 	});
 	const [modalMessage, setModalMessage] = useState('');
 
-	const suggestionClickHandler = (e, i, newestType) => {
+	const suggestionClickHandler = (
+		e: React.FormEvent<HTMLInputElement>,
+		i: number,
+		newestType: KeyOfInputs
+	) => {
 		let newValue = inputs[newestType].suggestions.array[i];
 		setInputs((prevState) => ({
 			...prevState,
@@ -160,7 +148,10 @@ export default () => {
 		}));
 	};
 
-	const handleFocus = (event, newestType) => {
+	const handleFocus = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
 		//animation
 		if (
 			newestType === 'type' ||
@@ -193,7 +184,10 @@ export default () => {
 		}
 	};
 
-	const handleBlur = (e, newestType) => {
+	const handleBlur = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
 		//animation & output error if empty
 		let targetEmpty =
 			inputs[newestType].touched && inputs[newestType].value.length === 0
@@ -231,45 +225,122 @@ export default () => {
 		}
 	};
 
-	const handleChange = (event, newestType) => {
-		let targetValue = event.target.value;
+	const handleChange = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		let targetValue = e.currentTarget.value;
 		let targetEmpty = targetValue.length === 0 ? true : false;
 
 		//validate inputs
+		let anyErrorsObject = {
+			type: '',
+			activity: '',
+			instrument: '',
+			website: '',
+			bio: '',
+		};
 
 		//update state for all inputs
-		Object.keys(inputs).forEach((inputType) => {
-			setInputs((prevState) => ({
-				...prevState,
-				[inputType]: {
-					...prevState[inputType],
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			type: {
+				...prevState.type,
 
-					//update generic values
-					value:
-						inputType === newestType ? targetValue : prevState[inputType].value,
-					empty:
-						inputType === newestType ? targetEmpty : prevState[inputType].empty,
-					//update errors: If no error, set to empty
-					/*  message: {
-            ...prevState[inputType].message,
-            error: errors[inputType] ? true : false,
-            text: errors[inputType]
-              ? errors[inputType]
-              : prevState[inputType].message.default,
-          }, */
+				//update generic values
+				value: newestType === 'type' ? targetValue : prevState.type.value,
+				empty: newestType === 'type' ? targetEmpty : prevState.type.empty,
+
+				//update errors: If no error, set to empty
+				message: {
+					...prevState.type.message,
+					error: anyErrorsObject.type ? true : false,
+					text: anyErrorsObject.type ? anyErrorsObject.type : '',
 				},
-			}));
-		});
+			},
+
+			activity: {
+				...prevState.activity,
+
+				//update generic values
+				value:
+					newestType === 'activity' ? targetValue : prevState.activity.value,
+				empty:
+					newestType === 'activity' ? targetEmpty : prevState.activity.empty,
+
+				//update errors: If no error, set to empty
+				message: {
+					...prevState.activity.message,
+					error: anyErrorsObject.activity ? true : false,
+					text: anyErrorsObject.activity ? anyErrorsObject.activity : '',
+				},
+			},
+			instrument: {
+				...prevState.instrument,
+
+				//update generic values
+				value:
+					newestType === 'instrument'
+						? targetValue
+						: prevState.instrument.value,
+				empty:
+					newestType === 'instrument'
+						? targetEmpty
+						: prevState.instrument.empty,
+
+				//update errors: If no error, set to empty
+				message: {
+					...prevState.instrument.message,
+					error: anyErrorsObject.instrument ? true : false,
+					text: anyErrorsObject.instrument ? anyErrorsObject.instrument : '',
+				},
+			},
+			website: {
+				...prevState.website,
+
+				//update generic values
+				value: newestType === 'website' ? targetValue : prevState.website.value,
+				empty: newestType === 'website' ? targetEmpty : prevState.website.empty,
+
+				//update errors: If no error, set to empty
+				message: {
+					...prevState.website.message,
+					error: anyErrorsObject.website ? true : false,
+					text: anyErrorsObject.website ? anyErrorsObject.website : '',
+				},
+			},
+			bio: {
+				...prevState.bio,
+
+				//update generic values
+				value: newestType === 'bio' ? targetValue : prevState.bio.value,
+				empty: newestType === 'bio' ? targetEmpty : prevState.bio.empty,
+
+				//update errors: If no error, set to empty
+				message: {
+					...prevState.bio.message,
+					error: anyErrorsObject.bio ? true : false,
+					text: anyErrorsObject.bio ? anyErrorsObject.bio : '',
+				},
+			},
+		}));
 	};
 
-	const submitHandler = (event) => {
+	const submitHandler = (e: SyntheticEvent) => {
 		//prevent default form submission
-		event.preventDefault();
+		e.preventDefault();
 
 		//check for errors
 
 		//only update information if new information has been provided
-		let newInfoFromState = {};
+		interface NewInfoFromState {
+			type?: string;
+			activity?: string;
+			instrument?: string;
+			website?: string;
+			bio?: string;
+		}
+		let newInfoFromState: NewInfoFromState = {};
 		if (inputs.type.touched) newInfoFromState.type = inputs.type.value;
 		if (inputs.activity.touched)
 			newInfoFromState.activity = inputs.activity.value;
@@ -291,15 +362,28 @@ export default () => {
 				console.log('Document successfully written!');
 
 				//reset "touched" value of inputs so save isn't triggered again if attempted
-				Object.keys(inputs).forEach((inputType) => {
-					setInputs((prevState) => ({
-						...prevState,
-						[inputType]: {
-							...prevState[inputType],
-							touched: false,
-						},
-					}));
-				});
+				setInputs((prevState) => ({
+					type: {
+						...prevState.type,
+						touched: false,
+					},
+					activity: {
+						...prevState.type,
+						touched: false,
+					},
+					instrument: {
+						...prevState.type,
+						touched: false,
+					},
+					website: {
+						...prevState.type,
+						touched: false,
+					},
+					bio: {
+						...prevState.type,
+						touched: false,
+					},
+				}));
 				setModalMessage('Your settings have been successfully updated!');
 			})
 			.catch((error) => {
@@ -308,10 +392,11 @@ export default () => {
 			});
 	};
 
-	let dateArray = user.createdAt.split(' ');
-	let formattedDate = [dateArray[1], dateArray[2] + ',', dateArray[3]].join(
-		' '
-	);
+	let formattedDate = 'Unknown';
+	if (user?.createdAt) {
+		let dateArray = user.createdAt.split(' ');
+		formattedDate = [dateArray[1], dateArray[2] + ',', dateArray[3]].join(' ');
+	}
 
 	return (
 		<>
@@ -332,46 +417,65 @@ export default () => {
 				<Select
 					type='text'
 					customType='type'
-					handleFocus={(e) => handleFocus(e, 'type')}
-					handleBlur={(e) => handleBlur(e, 'type')}
-					label={'Individual/Ensemble'}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'type')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'type')
+					}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
 				<Select
 					type='text'
 					customType='activity'
-					handleFocus={(e) => handleFocus(e, 'activity')}
-					handleBlur={(e) => handleBlur(e, 'activity')}
-					label={'Musical Activity'}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'activity')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'activity')
+					}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
 				<Select
 					type='text'
 					customType='instrument'
-					handleFocus={(e) => handleFocus(e, 'instrument')}
-					handleBlur={(e) => handleBlur(e, 'instrument')}
-					label={'Instrument'}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'instrument')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'instrument')
+					}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
 				<Input
 					type='text'
 					customType='website'
-					handleFocus={(e) => handleFocus(e, 'website')}
-					handleBlur={(e) => handleBlur(e, 'website')}
-					handleChange={(e) => handleChange(e, 'website')}
-					label={'Website'}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'website')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'website')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'website')
+					}
 					inputs={inputs}
 				/>
 				<Textarea
 					type='text'
 					customType='bio'
-					handleFocus={(e) => handleFocus(e, 'bio')}
-					handleBlur={(e) => handleBlur(e, 'bio')}
-					handleChange={(e) => handleChange(e, 'bio')}
-					label={'Short Bio'}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'bio')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'bio')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'bio')
+					}
 					inputs={inputs}
 				/>
 				<Modal

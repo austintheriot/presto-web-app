@@ -5,6 +5,8 @@ import 'firebase/firebase-firestore';
 import { db } from '../../app/config';
 import Nav from '../../components/Nav/Nav';
 
+import { ProfileType } from '../../app/types';
+
 import locationIcon from '../../assets/images/location.svg';
 import websiteIcon from '../../assets/images/website.svg';
 import bioIcon from '../../assets/images/info.svg';
@@ -12,25 +14,8 @@ import joinedIcon from '../../assets/images/calendar.svg';
 import activityIcon from '../../assets/images/activity.svg';
 import instrumentIcon from '../../assets/images/instrument.svg';
 
-type Timestamp = firebase.firestore.Timestamp;
-
 interface State {
-	profile: {
-		uid?: string;
-		profilePic?: string;
-		activity?: string;
-		bio?: string;
-		city?: string;
-		country?: string;
-		county?: string;
-		instrument?: string;
-		name?: string;
-		state?: string;
-		type?: string;
-		website?: string;
-		zip?: string;
-		createdAt?: Timestamp;
-	};
+	profile: ProfileType;
 	status: string;
 	error: string | null;
 }

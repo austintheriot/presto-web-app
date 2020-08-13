@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
-import { TimestampType } from '../../app/config';
-import { CommentType } from '../Comment/Comment';
+import { PostType } from '../../app/types';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
@@ -12,23 +11,6 @@ import heartEmpty from '../../assets/images/heartEmpty.svg';
 import heartFull from '../../assets/images/heartFull.svg';
 import commentEmpty from '../../assets/images/commentEmpty.svg';
 import commentFull from '../../assets/images/commentFull.svg';
-
-export interface PostType {
-	id?: string;
-	activity?: string;
-	body?: string;
-	city?: string;
-	comments?: CommentType[];
-	country?: string;
-	county?: string;
-	createdAt?: TimestampType;
-	likes?: string[];
-	name?: string;
-	profilePic?: string;
-	state?: string;
-	uid?: string;
-	zip?: string;
-}
 
 export default ({
 	id,

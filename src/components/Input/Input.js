@@ -27,7 +27,7 @@ export default (props) => {
 					/>
 				) : null}
 				<label
-					htmlFor={props.label}
+					htmlFor={props?.inputs[props.customType]?.label}
 					className={[
 						//general
 						styles.label,
@@ -45,7 +45,7 @@ export default (props) => {
 						//inactive?
 						props?.readOnly ? styles.inactiveLabel : '',
 					].join(' ')}>
-					{props?.label || 'Label'}
+					{props?.inputs[props.customType]?.label}
 				</label>
 			</div>
 			<input
