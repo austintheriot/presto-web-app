@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, SyntheticEvent } from 'react';
 import { auth, analytics } from '../../app/config';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../app/returnInputErrors';
@@ -13,10 +13,37 @@ import { selectUser } from '../../app/userSlice';
 import home from '../../assets/images/home.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
 
-//redirect with AuthContext once setInputs permeates down to component
+interface History {
+	history?: {
+		location?: {
+			state?: {
+				infoMessage?: string;
+				redirect?: string;
+			};
+		};
+	};
+}
 
-export default function Login(props) {
-	const [inputs, setInputs] = useState({
+interface InputName {
+	value: string;
+	animateUp: boolean;
+	empty: boolean;
+	touched: boolean;
+	message: {
+		error: boolean;
+		text: string;
+	};
+}
+
+interface Inputs {
+	email: InputName;
+	password: InputName;
+}
+
+type KeyOfInputs = keyof Inputs;
+
+export default function Login(props?: History) {
+	const [inputs, setInputs] = useState<Inputs>({
 		email: {
 			value: '',
 			animateUp: false,
@@ -40,9 +67,12 @@ export default function Login(props) {
 	});
 	const [modalMessage, setModalMessage] = useState('');
 
-	const handleFocus = (event, newestType) => {
+	const handleFocus = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
 		//animation
-		setInputs((prevState) => ({
+		setInputs((prevState: Inputs) => ({
 			...prevState,
 			[newestType]: {
 				...prevState[newestType],
@@ -52,7 +82,10 @@ export default function Login(props) {
 		}));
 	};
 
-	const handleBlur = (event, newestType) => {
+	const handleBlur = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
 		//animation & output error if empty
 		let targetEmpty =
 			inputs[newestType].touched && inputs[newestType].value.length === 0
@@ -77,16 +110,27 @@ export default function Login(props) {
 	};
 
 	const validateInputs = (
-		newestType,
-		targetValue,
-		targetEmpty,
+		newestType: KeyOfInputs | string,
+		targetValue: string,
+		targetEmpty: boolean,
 		submittingForm = false
 	) => {
 		//validate input
-		let validationSettings = {
+		interface Parameters {
+			email?: string;
+			password?: string;
+			confirmPassword?: string;
+			isSignup?: boolean;
+			emailTouched?: boolean;
+			passwordTouched?: boolean;
+			confirmPasswordTouched?: boolean;
+			submittingForm?: boolean;
+		}
+
+		let validationSettings: Parameters = {
 			email: newestType === 'email' ? targetValue : inputs.email.value,
 			password: newestType === 'password' ? targetValue : inputs.password.value,
-			confirmPassword: null,
+			confirmPassword: '',
 			isSignup: false,
 			emailTouched: inputs.email.touched,
 			passwordTouched: inputs.password.touched,
@@ -96,49 +140,59 @@ export default function Login(props) {
 		let anyErrorsObject = returnInputErrors(validationSettings);
 
 		//update state for all inputs
-		Object.keys(inputs).forEach((inputType) => {
-			setInputs((prevState) => ({
-				...prevState,
-				[inputType]: {
-					...prevState[inputType],
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			email: {
+				...prevState.email,
 
-					//update generic values
-					value:
-						inputType === newestType ? targetValue : prevState[inputType].value,
-					empty:
-						inputType === newestType ? targetEmpty : prevState[inputType].empty,
+				//update generic values
+				value: newestType === 'email' ? targetValue : prevState.email.value,
+				empty: newestType === 'email' ? targetEmpty : prevState.email.empty,
 
-					//update errors: If no error, set to empty
-					message: {
-						error: anyErrorsObject[inputType] ? true : false,
-						text: anyErrorsObject[inputType]
-							? anyErrorsObject[inputType]
-							: false,
-					},
+				//update errors: If no error, set to empty
+				message: {
+					error: anyErrorsObject.email ? true : false,
+					text: anyErrorsObject.email ? anyErrorsObject.email : '',
 				},
-			}));
-		});
+			},
+			password: {
+				...prevState.password,
+
+				//update generic values
+				value:
+					newestType === 'password' ? targetValue : prevState.password.value,
+				empty:
+					newestType === 'password' ? targetEmpty : prevState.password.empty,
+
+				//update errors: If no error, set to empty
+				message: {
+					error: anyErrorsObject.password ? true : false,
+					text: anyErrorsObject.password ? anyErrorsObject.password : '',
+				},
+			},
+		}));
 		return anyErrorsObject;
 	};
 
-	const handleChange = (event, newestType) => {
-		let targetValue = event.target.value;
+	const handleChange = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		let targetValue = e.currentTarget.value;
 		let targetEmpty = targetValue.length === 0 ? true : false;
 		validateInputs(newestType, targetValue, targetEmpty);
 	};
 
-	const submitHandler = (event) => {
-		//prevent default form submission
-		event.preventDefault();
+	const submitHandler = (e: SyntheticEvent) => {
+		//pre default form submission
+		e.preventDefault();
 
 		//check for any errors before submitting
 		let anyErrorsFound = false;
-		let errors = validateInputs('', null, null, true);
-		Object.keys(errors).forEach((inputType) => {
-			if (errors[inputType]) {
-				anyErrorsFound = true;
-			}
-		});
+		let errors = validateInputs('', '', false, true);
+		if (errors.email || errors.password) {
+			anyErrorsFound = true;
+		}
 
 		if (anyErrorsFound) {
 			setModalMessage('Please fix all errors before submitting');
@@ -189,13 +243,13 @@ export default function Login(props) {
 	const user = useSelector(selectUser);
 	let { authenticated } = user;
 	let redirect = '/posts';
-	if (props.history?.location?.state?.redirect) {
+	if (props?.history?.location?.state?.redirect) {
 		redirect = props.history?.location?.state?.redirect;
 		console.log('[Login] will redirect to: ', redirect, ' when finished');
 	}
 
 	//top modal:
-	let infoMessage = props.history?.location?.state?.infoMessage;
+	let infoMessage = props?.history?.location?.state?.infoMessage;
 
 	return (
 		//display modal message if redirected from another page requiring authentication:
@@ -215,18 +269,30 @@ export default function Login(props) {
 				<Input
 					type='email'
 					customType='email'
-					handleFocus={(e) => handleFocus(e, 'email')}
-					handleBlur={(e) => handleBlur(e, 'email')}
-					handleChange={(e) => handleChange(e, 'email')}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'email')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'email')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'email')
+					}
 					label={'Email*'}
 					inputs={inputs}
 				/>
 				<Input
 					type='password'
 					customType='password'
-					handleFocus={(e) => handleFocus(e, 'password')}
-					handleBlur={(e) => handleBlur(e, 'password')}
-					handleChange={(e) => handleChange(e, 'password')}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'password')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'password')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'password')
+					}
 					label={'Password*'}
 					inputs={inputs}
 				/>

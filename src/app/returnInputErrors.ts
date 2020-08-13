@@ -1,3 +1,14 @@
+interface Parameters {
+	email?: string;
+	password?: string;
+	confirmPassword?: string;
+	isSignup?: boolean;
+	emailTouched?: boolean;
+	passwordTouched?: boolean;
+	confirmPasswordTouched?: boolean;
+	submittingForm?: boolean;
+}
+
 export default ({
 	email = '',
 	password = '',
