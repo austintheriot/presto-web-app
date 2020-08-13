@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react';
+import React, { useState } from 'react';
 import { db } from '../../app/config';
 
 import Modal from '../../components/Modal/Modal';
@@ -224,7 +224,7 @@ export default function Login(props: HistoryType) {
 		}));
 	};
 
-	const submitHandler = (e: SyntheticEvent) => {
+	const submitHandler = (e: React.SyntheticEvent) => {
 		//pre default form submission
 		e.preventDefault();
 
