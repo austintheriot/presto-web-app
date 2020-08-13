@@ -368,19 +368,19 @@ export default () => {
 						touched: false,
 					},
 					activity: {
-						...prevState.type,
+						...prevState.activity,
 						touched: false,
 					},
 					instrument: {
-						...prevState.type,
+						...prevState.instrument,
 						touched: false,
 					},
 					website: {
-						...prevState.type,
+						...prevState.website,
 						touched: false,
 					},
 					bio: {
-						...prevState.type,
+						...prevState.bio,
 						touched: false,
 					},
 				}));

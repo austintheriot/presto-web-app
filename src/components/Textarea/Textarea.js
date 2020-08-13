@@ -7,7 +7,7 @@ export default (props) => {
 		<>
 			<div className={styles.div}>
 				<label
-					htmlFor={props.label}
+					htmlFor={props?.inputs[props.customType]?.label}
 					className={[
 						//general
 						styles.label,
@@ -30,7 +30,7 @@ export default (props) => {
 			</div>
 			<textarea
 				autoComplete='on'
-				id={props.label}
+				id={props?.inputs[props.customType]?.label}
 				readOnly={props?.readOnly || false}
 				className={[
 					//general

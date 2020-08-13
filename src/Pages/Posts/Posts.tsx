@@ -3,7 +3,7 @@ import Nav from '../../components/Nav/Nav';
 import Post from '../../components/Post/Post';
 import { db } from '../../app/config';
 import styles from './Posts.module.scss';
-import { PostType } from '../../components/Post/Post';
+import { PostType } from '../../app/types';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';

@@ -50,7 +50,7 @@ export default (props) => {
 			</div>
 			<input
 				autoComplete='on'
-				id={props.label}
+				id={props?.inputs[props.customType]?.label}
 				readOnly={props?.readOnly || false}
 				className={[
 					//general
