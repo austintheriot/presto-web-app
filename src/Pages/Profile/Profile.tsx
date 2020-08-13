@@ -13,10 +13,38 @@ import Input from '../../components/Input/Input';
 import Textarea from '../../components/Textarea/Textarea';
 import Modal from '../../components/Modal/Modal';
 
-export default (props) => {
+interface InputName {
+	label: string;
+	suggestions: {
+		loading: boolean;
+		show: boolean;
+		array: string[];
+	};
+	value: string;
+	animateUp: boolean;
+	empty: boolean;
+	touched: boolean;
+	message: {
+		error: boolean;
+		text: string;
+		default: string;
+	};
+}
+
+interface Inputs {
+	type: InputName;
+	activity: InputName;
+	instrument: InputName;
+	website: InputName;
+	bio: InputName;
+}
+
+type KeyOfInputs = keyof Inputs;
+
+export default () => {
 	const user = useSelector(selectUser);
 
-	const [inputs, setInputs] = useState({
+	const [inputs, setInputs] = useState<Inputs>({
 		type: {
 			label: 'Individual/Ensemble',
 			suggestions: {
@@ -25,7 +53,7 @@ export default (props) => {
 				array: ['Individual', 'Ensemble'],
 			},
 			value: user.type || '',
-			animateUp: user.type,
+			animateUp: !!user.type,
 			empty: !user.type,
 			touched: false,
 			message: {
@@ -58,7 +86,7 @@ export default (props) => {
 				],
 			},
 			value: user.activity || '',
-			animateUp: user.activity,
+			animateUp: !!user.activity,
 			empty: !user.activity,
 			touched: false,
 			message: {
@@ -75,7 +103,7 @@ export default (props) => {
 				array: InstrumentArray,
 			},
 			value: user.instrument || '',
-			animateUp: user.instrument,
+			animateUp: !!user.instrument,
 			empty: !user.instrument,
 			touched: false,
 			message: {
@@ -86,8 +114,13 @@ export default (props) => {
 		},
 		website: {
 			label: 'Website',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
+			},
 			value: user.website || '',
-			animateUp: user.website,
+			animateUp: !!user.website,
 			empty: !user.website,
 			touched: false,
 			message: {
@@ -98,8 +131,13 @@ export default (props) => {
 		},
 		bio: {
 			label: 'Short Bio',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
+			},
 			value: user.bio || '',
-			animateUp: user.bio,
+			animateUp: !!user.bio,
 			empty: !user.bio,
 			touched: false,
 			message: {

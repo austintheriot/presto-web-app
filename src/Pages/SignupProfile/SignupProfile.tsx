@@ -10,51 +10,27 @@ import styles from './SignupProfile.module.scss';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import InstrumentArray from '../../app/InstrumentArray';
 
-//redirect with once setInputs permeates down to component
+//redux
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
 
+//types
+import { HistoryType, InputType } from '../../app/types';
+
+//images
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-left.svg';
 
-interface History {
-	history?: {
-		location?: {
-			state?: {
-				infoMessage?: string;
-			};
-		};
-	};
-}
-
-interface InputName {
-	label: string;
-	value: string;
-	animateUp: boolean;
-	empty: boolean;
-	touched: boolean;
-	message: {
-		error: boolean;
-		text: string;
-		default: string;
-	};
-	suggestions: {
-		loading: boolean;
-		show: boolean;
-		array: string[];
-	};
-}
-
 interface Inputs {
-	activity: InputName;
-	instrument: InputName;
-	website: InputName;
-	bio: InputName;
+	activity: InputType;
+	instrument: InputType;
+	website: InputType;
+	bio: InputType;
 }
 
 type KeyOfInputs = keyof Inputs;
 
-export default function Login(props: History) {
+export default function Login(props: HistoryType) {
 	const user = useSelector(selectUser);
 
 	const [inputs, setInputs] = useState<Inputs>({
