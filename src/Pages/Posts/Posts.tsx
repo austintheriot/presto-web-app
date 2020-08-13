@@ -3,15 +3,23 @@ import Nav from '../../components/Nav/Nav';
 import Post from '../../components/Post/Post';
 import { db } from '../../app/config';
 import styles from './Posts.module.scss';
+import { PostType } from '../../components/Post/Post';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
 
 import locationIcon from '../../assets/images/location.svg';
 
-export default (props) => {
+interface State {
+	posts: PostType[];
+	status: string;
+	error: string | null;
+}
+
+export default () => {
 	const user = useSelector(selectUser);
-	const [posts, setPosts] = useState({
+
+	const [posts, setPosts] = useState<State>({
 		posts: [],
 		status: 'idle', //idle, loading, success, falied
 		error: null,
@@ -19,9 +27,22 @@ export default (props) => {
 
 	const [location, setLocation] = useState('');
 
-	let searchQueries = ['city', 'state', 'country']; //location terms to look for in user info
-	let searchKey = searchQueries.find((key) => user[key]) || 'country'; //find the most specific location that is defined. Default to country.
-	let searchValue = user[searchKey] || 'United States'; //define the corresponding search value. Default to United States.
+	//search for posts based on the most narrow geographic location first
+	let searchKey: 'city' | 'state' | 'country';
+	let searchValue: string;
+	if (user.city) {
+		searchKey = 'city';
+		searchValue = user.city;
+	} else if (user.state) {
+		searchKey = 'state';
+		searchValue = user.state;
+	} else if (user.country) {
+		searchKey = 'country';
+		searchValue = user.country;
+	} else {
+		searchKey = 'country';
+		searchValue = 'United States';
+	}
 
 	const fetchPosts = () => {
 		setLocation(searchValue);
@@ -43,7 +64,7 @@ export default (props) => {
 				(querySnapshot) => {
 					if (!querySnapshot.empty) {
 						console.log('[Posts]: Posts received from database.');
-						let posts = [];
+						let posts: PostType[] = [];
 						querySnapshot.forEach((doc) => {
 							let post = { id: doc['id'], ...doc.data() }; //store doc id from database with the information it contains
 							posts.push(post);
