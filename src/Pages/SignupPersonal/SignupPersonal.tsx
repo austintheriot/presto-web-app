@@ -9,14 +9,22 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
 
+import { HistoryType, InputType } from '../../app/types';
+
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
 
 //redirect with AuthContext once setInputs permeates down to component
 
-export default function Login(props) {
+interface Inputs {
+	name: InputType;
+}
+
+type KeyOfInputs = keyof Inputs;
+
+export default function Login(props: HistoryType) {
 	const user = useSelector(selectUser);
-	const [inputs, setInputs] = useState({
+	const [inputs, setInputs] = useState<Inputs>({
 		name: {
 			label: 'Full Name',
 			value: '',
@@ -28,6 +36,11 @@ export default function Login(props) {
 				text: 'i.e. First Last',
 				default: 'i.e. First Last',
 			},
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
+			},
 		},
 	});
 	const [individualRadioChecked, setIndividualRadioChecked] = useState(true);
@@ -36,19 +49,24 @@ export default function Login(props) {
 	const [modalMessage, setModalMessage] = useState('');
 	const [submitted, setSubmitted] = useState(false);
 
-	const handleButtonOrRadioClicked = (e, type) => {
+	const handleButtonOrRadioClicked = (
+		e: React.SyntheticEvent,
+		type: 'individual' | 'ensemble'
+	) => {
 		if (type === 'individual') {
 			setIndividualRadioChecked(true);
 			setEnsembleRadioChecked(false);
 			setRadioValue('Individual');
+			radioButtonChanged(type);
 		} else if (type === 'ensemble') {
 			setIndividualRadioChecked(false);
 			setEnsembleRadioChecked(true);
 			setRadioValue('Ensemble');
+			radioButtonChanged(type);
 		}
 	};
 
-	const radioButtonChanged = (e, type) => {
+	const radioButtonChanged = (type: 'individual' | 'ensemble') => {
 		if (type === 'ensemble') {
 			setInputs((prevState) => ({
 				name: {
@@ -77,7 +95,10 @@ export default function Login(props) {
 		setRadioValue(type);
 	};
 
-	const handleFocus = (event, newestType) => {
+	const handleFocus = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
 		//animation
 		setInputs((prevState) => ({
 			...prevState,
@@ -89,7 +110,10 @@ export default function Login(props) {
 		}));
 	};
 
-	const handleBlur = (event, newestType) => {
+	const handleBlur = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
 		//animation & output error if empty
 		let targetEmpty =
 			inputs[newestType].touched && inputs[newestType].value.length === 0
@@ -106,8 +130,11 @@ export default function Login(props) {
 		}));
 	};
 
-	const handleChange = (event, newestType) => {
-		let targetValue = event.target.value;
+	const handleChange = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		let targetValue = e.currentTarget.value;
 		let targetEmpty = targetValue.length === 0 ? true : false;
 
 		//validate username
@@ -122,33 +149,28 @@ export default function Login(props) {
 		}
 
 		//update state for all inputs
-		Object.keys(inputs).forEach((inputType) => {
-			setInputs((prevState) => ({
-				...prevState,
-				[inputType]: {
-					...prevState[inputType],
 
-					//update generic values
-					value:
-						inputType === newestType ? targetValue : prevState[inputType].value,
-					empty:
-						inputType === newestType ? targetEmpty : prevState[inputType].empty,
-					//update errors: If no error, set to empty
-					message: {
-						...prevState[inputType].message,
-						error: errors[inputType] ? true : false,
-						text: errors[inputType]
-							? errors[inputType]
-							: prevState[inputType].message.default,
-					},
+		setInputs((prevState) => ({
+			...prevState,
+			name: {
+				...prevState.name,
+
+				//update generic values
+				value: 'name' === newestType ? targetValue : prevState.name.value,
+				empty: 'name' === newestType ? targetEmpty : prevState.name.empty,
+				//update errors: If no error, set to empty
+				message: {
+					...prevState.name.message,
+					error: errors.name ? true : false,
+					text: errors.name ? errors.name : prevState.name.message.default,
 				},
-			}));
-		});
+			},
+		}));
 	};
 
-	const submitHandler = (event) => {
+	const submitHandler = (e: React.SyntheticEvent) => {
 		//prevent default form submission
-		event.preventDefault();
+		e.preventDefault();
 
 		let anyErrors = false;
 		if (!inputs.name.value.match(/^[a-z-' ]*$/i)) {
@@ -160,7 +182,13 @@ export default function Login(props) {
 		}
 
 		//only update name if one is given
-		let newInfoFromState = { type: radioValue };
+
+		interface NewInfoFromState {
+			type: string;
+			name?: string;
+		}
+
+		let newInfoFromState: NewInfoFromState = { type: radioValue };
 		if (inputs.name.value) newInfoFromState.name = inputs.name.value;
 
 		//update name and username of user
@@ -203,8 +231,8 @@ export default function Login(props) {
 						name='type'
 						id='individual'
 						type='radio'
+						readOnly={true}
 						checked={individualRadioChecked}
-						onChange={(e) => radioButtonChanged(e, 'individual')}
 						onClick={(e) => handleButtonOrRadioClicked(e, 'individual')}
 					/>
 					<label
@@ -220,8 +248,8 @@ export default function Login(props) {
 						name='type'
 						id='ensemble'
 						type='radio'
+						readOnly={true}
 						checked={ensembleRadioChecked}
-						onChange={(e) => radioButtonChanged(e, 'ensemble')}
 						onClick={(e) => handleButtonOrRadioClicked(e, 'ensemble')}
 					/>
 					<label
@@ -235,19 +263,20 @@ export default function Login(props) {
 				<Input
 					type='text'
 					customType='name'
-					handleFocus={(e) => handleFocus(e, 'name')}
-					handleBlur={(e) => handleBlur(e, 'name')}
-					handleChange={(e) => handleChange(e, 'name')}
-					label={inputs.name.label}
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'name')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'name')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'name')
+					}
 					inputs={inputs}
 				/>
 
 				<Modal message={modalMessage} color='black' />
 				<div className={styles.buttonsDiv}>
-					<Link to='/' className={styles.linkLeft}>
-						<img className={styles.linkLeftImg} src={arrowLeft} alt='back' />
-					</Link>
-
 					<button
 						className={styles.linkRight}
 						type='submit'
@@ -258,6 +287,10 @@ export default function Login(props) {
 							alt='continue'
 						/>
 					</button>
+
+					<Link to='/' className={styles.linkLeft}>
+						<img className={styles.linkLeftImg} src={arrowLeft} alt='back' />
+					</Link>
 				</div>
 			</form>
 			<div className='spacerMedium'></div>
