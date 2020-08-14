@@ -1,7 +1,12 @@
 import React from 'react';
 import styles from './Modal.module.scss';
 
-const modal = (props) => {
+interface Props {
+	color?: string;
+	message?: string;
+}
+
+const modal = (props: Props) => {
 	let divStyle;
 	switch (props?.color) {
 		case 'hidden':

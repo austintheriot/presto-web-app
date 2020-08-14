@@ -7,7 +7,7 @@ import posts from '../../assets/images/posts.svg';
 import profile from '../../assets/images/profile.svg';
 import settings from '../../assets/images/settings.svg';
 
-export default (props) => {
+export default () => {
 	return (
 		<>
 			<nav className={styles.nav}>
