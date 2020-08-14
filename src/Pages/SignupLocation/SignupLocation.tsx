@@ -619,9 +619,9 @@ export default function Login(props: HistoryType) {
 				that helps you the most (you can edit this later).
 			</p>
 			{infoMessage ? (
-				<Modal message={infoMessage} color={infoMessage ? 'black' : null} />
+				<Modal message={infoMessage} color={infoMessage ? 'black' : ''} />
 			) : null}
-			<Modal message={modalMessage} color={modalMessage ? 'black' : null} />
+			<Modal message={modalMessage} color={modalMessage ? 'black' : ''} />
 			<Button onClick={getLocation}>Autofill Location</Button>
 			<Input
 				type='text'

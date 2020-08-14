@@ -4,12 +4,11 @@ import { Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../app/userSlice';
 
-export default ({
-	component: Component,
-	...rest
-}: {
-	component: typeof React.Component;
-}) => {
+/* interface Props {
+	component: typeof Component;
+} */
+
+export default ({ component: Component, ...rest }: any) => {
 	const user = useSelector(selectUser);
 
 	return (
