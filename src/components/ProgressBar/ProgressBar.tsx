@@ -2,7 +2,14 @@ import React from 'react';
 import styles from './ProgressBar.module.scss';
 import { Link } from 'react-router-dom';
 
-export default function ProgressBar(props) {
+interface Props {
+	signup?: 'complete' | 'inProgress';
+	personal?: 'complete' | 'inProgress';
+	location?: 'complete' | 'inProgress';
+	profile?: 'complete' | 'inProgress';
+}
+
+export default function ProgressBar(props: Props) {
 	return (
 		<div className={styles.line}>
 			<Link to='/signup' style={{ textDecoration: 'none' }}>
@@ -28,7 +35,7 @@ export default function ProgressBar(props) {
 							? styles.inProgress
 							: null,
 					].join(' ')}>
-					<p className={[styles.p]}>Personal</p>
+					<p className={styles.p}>Personal</p>
 				</div>
 			</Link>
 			<Link to='/signup-location' style={{ textDecoration: 'none' }}>
@@ -54,7 +61,7 @@ export default function ProgressBar(props) {
 							? styles.inProgress
 							: null,
 					].join(' ')}>
-					<p className={[styles.p]}>Profile</p>
+					<p className={styles.p}>Profile</p>
 				</div>
 			</Link>
 		</div>
