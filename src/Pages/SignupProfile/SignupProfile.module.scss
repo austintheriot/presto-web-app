@@ -63,6 +63,7 @@
 	display: flex;
 	flex: none;
 	align-items: center;
+	flex-direction: row-reverse;
 }
 
 .linkLeft {
@@ -70,7 +71,6 @@
 	margin: 0 auto;
 	position: relative;
 	cursor: pointer;
-
 	border-radius: 50%;
 }
 
