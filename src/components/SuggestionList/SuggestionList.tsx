@@ -1,12 +1,23 @@
 import React from 'react';
 import styles from './SuggestionList.module.scss';
 
+interface Props {
+	suggestions: {
+		array: string[];
+		loading: boolean;
+		show: boolean;
+	};
+	suggestionClickHandler: Function;
+	show: boolean;
+	customType: string;
+}
+
 export default function SuggestionList({
 	suggestions,
 	suggestionClickHandler,
 	show,
 	customType,
-}) {
+}: Props) {
 	//if given array, show the array
 	//else if loading, show loading,
 	//else hide
