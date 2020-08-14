@@ -19,7 +19,7 @@ import { HistoryType, InputType } from '../../app/types';
 
 //images
 import arrowLeft from '../../assets/images/arrow-left.svg';
-import arrowRight from '../../assets/images/arrow-left.svg';
+import arrowRight from '../../assets/images/arrow-right.svg';
 
 interface Inputs {
 	activity: InputType;
@@ -338,10 +338,6 @@ export default function Login(props: HistoryType) {
 
 				<Modal message={modalMessage} color='black' />
 				<div className={styles.buttonsDiv}>
-					<Link to='/signup-location' className={styles.linkLeft}>
-						<img className={styles.linkLeftImg} src={arrowLeft} alt='back' />
-					</Link>
-
 					<button
 						className={styles.linkRight}
 						type='submit'
@@ -352,6 +348,10 @@ export default function Login(props: HistoryType) {
 							alt='continue'
 						/>
 					</button>
+
+					<Link to='/signup-location' className={styles.linkLeft}>
+						<img className={styles.linkLeftImg} src={arrowLeft} alt='back' />
+					</Link>
 				</div>
 			</form>
 			<div className='spacerMedium'></div>
