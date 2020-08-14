@@ -91,7 +91,7 @@ const Home = (props: { modalMessage: string }) => {
 						</Button>
 						<Modal
 							message={props.modalMessage ? props.modalMessage : modalMessage}
-							color={modalMessage ? 'red' : null}
+							color={modalMessage ? 'red' : ''}
 						/>
 					</>
 				)}
