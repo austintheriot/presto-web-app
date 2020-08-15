@@ -4,20 +4,18 @@
 
 Presto is a React single-page web app designed and developed by musicians for
 musicians. In today's day and age, meeting local musicians should
-be easy, but until now, there hasn't been a social media space for musicians to
+be easy, but until now, there hasn't been a go-to social media space for musicians to
 connect with other musicians from their communities. Especially today, in the
 wake of the COVID-19 pandemic, local communities have become more fragmented
 than ever before.
 
-Presto is designed to provide a space for local musical communities to reconnect
+Presto is designed to provide a space for musical communities to reconnect
 by enabling guests and musicians to make public posts based on location. Trying
-to meet a singer? Make a post. Need a fill-in trumpet player for a gig this
-weekend? Write a post. Tell a little about youself own profile so that others
-can see what musical services you offer. Then, when you've found a musician that
-you'd like to work with, message them privately to connect.
+to meet a singer? Make a post. Want to talk about the new Kronos Quartet album? Write a post. Tell a little about youself on your own profile so that others
+can learn more about you. Then, if you find a musician you'd like to talk to individually, message them privately to connect.
 
 This app is intended for performers, composers, arrangers, conductors, soloists,
-ensembles, bands, and any guests interested in hiring them.
+ensembles, bands, and any guests interested in hiring them or joining the conversation. 
 
 ## Behind the Scenes
 
