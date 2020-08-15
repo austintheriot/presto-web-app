@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/firebase-firestore';
-import { auth, analytics, db } from '../../app/config';
+import { auth, analytics, db, serverTimeStamp } from '../../app/config';
 import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import styles from './HomePublic.module.scss';
 import Logout from '../../components/Logout';
-import Modal from '../../components/Modal/Message';
+import Message from '../../components/Message/Message';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
@@ -43,7 +41,7 @@ const Home = (props: { message: string }) => {
 						.set(
 							{
 								name: 'Guest',
-								createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+								createdAt: serverTimeStamp(),
 								city: 'Austin',
 								state: 'Texas',
 								country: 'United States',
@@ -89,7 +87,7 @@ const Home = (props: { message: string }) => {
 						<Button customstyle='inverted' onClick={signInAnonymously}>
 							<p>I'm a Guest</p>
 						</Button>
-						<Modal
+						<Message
 							message={props.message ? props.message : message}
 							color={message ? 'red' : ''}
 						/>

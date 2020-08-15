@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth, analytics } from '../../app/config';
-import Modal from '../../components/Modal/Message';
+import Message from '../../components/Message/Message';
 import returnInputErrors from '../../app/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
@@ -244,11 +244,11 @@ export default function Login(props?: HistoryType) {
 		console.log('[Login] will redirect to: ', redirect, ' when finished');
 	}
 
-	//top modal:
+	//top Message:
 	let infoMessage = props?.history?.location?.state?.infoMessage;
 
 	return (
-		//display modal message if redirected from another page requiring authentication:
+		//display Message message if redirected from another page requiring authentication:
 		<>
 			<div className={styles.SignupDiv}>
 				<Link to='/signup'>Sign Up</Link>
@@ -260,7 +260,7 @@ export default function Login(props?: HistoryType) {
 			{authenticated ? <Redirect to={redirect} /> : null}
 
 			<h1 className={styles.title}>Log In</h1>
-			{infoMessage ? <Modal message={infoMessage} color='black' /> : null}
+			{infoMessage ? <Message message={infoMessage} color='black' /> : null}
 			<form onSubmit={submitHandler}>
 				<Input
 					type='email'
@@ -290,7 +290,7 @@ export default function Login(props?: HistoryType) {
 					}
 					inputs={inputs}
 				/>
-				<Modal message={message} color='black' />
+				<Message message={message} color='black' />
 				<div className={styles.buttonsDiv}>
 					<button
 						className={styles.linkRight}

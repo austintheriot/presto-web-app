@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './IndividualPost.module.scss';
-import * as firebase from 'firebase/app';
-import 'firebase/firebase-firestore';
-import { db } from '../../app/config';
+import { db, documentId } from '../../app/config';
 import Post from '../../components/Post/Post';
 import Nav from '../../components/Nav/Nav';
 import Comments from '../../components/Comments/Comments';
@@ -33,7 +31,7 @@ export default () => {
 			status: 'loading', //idle, loading, complete, failed
 		}));
 		db.collection('posts')
-			.where(firebase.firestore.FieldPath.documentId(), '==', postID)
+			.where(documentId(), '==', postID)
 			.onSnapshot(
 				(querySnapshot) => {
 					console.log('[IndividualPost]: Post data recieved');
