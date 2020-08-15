@@ -30,7 +30,25 @@ export default ({
 }: PostType) => {
 	const user = useSelector(selectUser);
 
-	let postID = window.location.pathname.split('/posts/')[1];
+	let isSinglePostPage = !!window.location.pathname.split('/posts/')[1];
+	let bodyText =
+		//if single post, show only body, no link
+		isSinglePostPage ? (
+			<p>{body}</p>
+		) : //if Posts page and body is > 250 characters, truncate
+		body && body.length > 250 ? (
+			<>
+				<p>{body.substr(0, 250) + '...'}</p>
+				<Link to={`/posts/${id}`} className={styles.SeeMore}>
+					See More
+				</Link>
+			</>
+		) : (
+			//Else if Posts page and body is <= 250 characters, show it plain with a link to individual post
+			<Link to={`/posts/${id}`} className={styles.Link}>
+				<p>{body}</p>
+			</Link>
+		);
 
 	return (
 		<div className={styles.wrapper}>
@@ -63,15 +81,7 @@ export default ({
 				</header>
 				{/* BODY */}
 				{/* Only link to individual post when on main feed */}
-				<main className={styles.body}>
-					{postID ? (
-						<p>{body}</p>
-					) : (
-						<Link to={`/posts/${id}`} className={styles.Link}>
-							<p>{body}</p>
-						</Link>
-					)}
-				</main>
+				<main className={styles.body}>{bodyText}</main>
 				<footer>
 					{/* NUMBER OF LIKES */}
 					<Link to={`/posts/${id}`} className={styles.Link}>
