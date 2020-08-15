@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db } from '../../app/config';
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/Modal/Message';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import Button from '../../components/Button/Button';
@@ -161,7 +161,7 @@ export default function Login(props: HistoryType) {
 		},
 	});
 	const [suggestions, setSuggestions] = useState<CollectedDataArray>([]);
-	const [modalMessage, setModalMessage] = useState('');
+	const [message, setMessage] = useState('');
 	const [submitted, setSubmitted] = useState(false);
 	const [timerId, setTimerId] = useState(setTimeout(() => {}, 0));
 
@@ -351,7 +351,7 @@ export default function Login(props: HistoryType) {
 		xhr.send(null);
 		xhr.onerror = () => {
 			console.error('Request failed');
-			setModalMessage(`Sorry, we couldn't find your location.`);
+			setMessage(`Sorry, we couldn't find your location.`);
 		};
 		xhr.onload = () => {
 			if (xhr.status !== 200) {
@@ -480,7 +480,7 @@ export default function Login(props: HistoryType) {
 			xhr.send(null);
 			xhr.onerror = () => {
 				console.error('Request failed');
-				setModalMessage(`Sorry, we couldn't find your location.`);
+				setMessage(`Sorry, we couldn't find your location.`);
 			};
 			xhr.onload = (data) => {
 				if (xhr.status !== 200) {
@@ -544,7 +544,7 @@ export default function Login(props: HistoryType) {
 
 		const handleGeolocationFail = (err: { code: any; message: any }) => {
 			console.warn(`ERROR(${err.code}): ${err.message}`);
-			setModalMessage(`Sorry, we couldn't find your location.`);
+			setMessage(`Sorry, we couldn't find your location.`);
 		};
 
 		//if Geolocation is supported, call it (see above)
@@ -555,7 +555,7 @@ export default function Login(props: HistoryType) {
 				options
 			);
 		} else {
-			setModalMessage('Geolocation is not supported by this browser.');
+			setMessage('Geolocation is not supported by this browser.');
 		}
 	};
 
@@ -586,7 +586,7 @@ export default function Login(props: HistoryType) {
 				})
 				.catch((error) => {
 					console.error(error);
-					setModalMessage('Server error. Please try again later.');
+					setMessage('Server error. Please try again later.');
 				});
 		} else {
 			setSubmitted(true);
@@ -621,7 +621,7 @@ export default function Login(props: HistoryType) {
 			{infoMessage ? (
 				<Modal message={infoMessage} color={infoMessage ? 'black' : ''} />
 			) : null}
-			<Modal message={modalMessage} color={modalMessage ? 'black' : ''} />
+			<Modal message={message} color={message ? 'black' : ''} />
 			<Button onClick={getLocation}>Autofill Location</Button>
 			<Input
 				type='text'

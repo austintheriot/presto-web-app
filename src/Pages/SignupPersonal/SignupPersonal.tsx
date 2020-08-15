@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db } from '../../app/config';
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/Modal/Message';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import styles from './SignupPersonal.module.scss';
@@ -46,7 +46,7 @@ export default function Login(props: HistoryType) {
 	const [individualRadioChecked, setIndividualRadioChecked] = useState(true);
 	const [ensembleRadioChecked, setEnsembleRadioChecked] = useState(false);
 	const [radioValue, setRadioValue] = useState('individual');
-	const [modalMessage, setModalMessage] = useState('');
+	const [message, setMessage] = useState('');
 	const [submitted, setSubmitted] = useState(false);
 
 	const handleButtonOrRadioClicked = (
@@ -177,7 +177,7 @@ export default function Login(props: HistoryType) {
 			anyErrors = true;
 		}
 		if (anyErrors) {
-			setModalMessage('Please fix any errors before submitting');
+			setMessage('Please fix any errors before submitting');
 			return;
 		}
 
@@ -202,7 +202,7 @@ export default function Login(props: HistoryType) {
 			})
 			.catch((error) => {
 				console.log('[SignupPersonal]: Submit handler catch block:', error);
-				setModalMessage('Server error. Please try again later.');
+				setMessage('Server error. Please try again later.');
 			});
 	};
 
@@ -275,7 +275,7 @@ export default function Login(props: HistoryType) {
 					inputs={inputs}
 				/>
 
-				<Modal message={modalMessage} color='black' />
+				<Modal message={message} color='black' />
 				<div className={styles.buttonsDiv}>
 					<button
 						className={styles.linkRight}

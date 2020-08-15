@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from './Modal.module.scss';
+import styles from './Message.module.scss';
 
 interface Props {
 	color?: string;
 	message?: string;
 }
 
-const modal = (props: Props) => {
+const message = (props: Props) => {
 	let divStyle;
 	switch (props?.color) {
 		case 'hidden':
@@ -50,4 +50,4 @@ const modal = (props: Props) => {
 	);
 };
 
-export default modal;
+export default message;

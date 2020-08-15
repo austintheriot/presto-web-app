@@ -6,7 +6,7 @@ import { Link, Redirect } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import styles from './HomePublic.module.scss';
 import Logout from '../../components/Logout';
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/Modal/Message';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
@@ -17,9 +17,9 @@ import home2 from '../../assets/images/home2.svg';
 import home3 from '../../assets/images/home4.svg';
 import home4 from '../../assets/images/home5.svg';
 
-const Home = (props: { modalMessage: string }) => {
+const Home = (props: { message: string }) => {
 	const user = useSelector(selectUser);
-	const [modalMessage, setModalMessage] = useState('');
+	const [message, setMessage] = useState('');
 	const [signedInAnonymously, setSignedInAnonymously] = useState(false);
 
 	const signInAnonymously = () => {
@@ -60,7 +60,7 @@ const Home = (props: { modalMessage: string }) => {
 			})
 			.catch(function (error) {
 				console.error(error.code, error.message);
-				setModalMessage('Server error. Please try again later.');
+				setMessage('Server error. Please try again later.');
 			});
 	};
 
@@ -90,8 +90,8 @@ const Home = (props: { modalMessage: string }) => {
 							<p>I'm a Guest</p>
 						</Button>
 						<Modal
-							message={props.modalMessage ? props.modalMessage : modalMessage}
-							color={modalMessage ? 'red' : ''}
+							message={props.message ? props.message : message}
+							color={message ? 'red' : ''}
 						/>
 					</>
 				)}

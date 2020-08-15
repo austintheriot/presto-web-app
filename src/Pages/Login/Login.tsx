@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth, analytics } from '../../app/config';
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/Modal/Message';
 import returnInputErrors from '../../app/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
@@ -59,7 +59,7 @@ export default function Login(props?: HistoryType) {
 			},
 		},
 	});
-	const [modalMessage, setModalMessage] = useState('');
+	const [message, setMessage] = useState('');
 
 	const handleFocus = (
 		e: React.FormEvent<HTMLInputElement>,
@@ -191,7 +191,7 @@ export default function Login(props?: HistoryType) {
 		}
 
 		if (anyErrorsFound) {
-			setModalMessage('Please fix all errors before submitting');
+			setMessage('Please fix all errors before submitting');
 			return;
 		} else {
 			//assuming the email and password are both valid, log in
@@ -211,27 +211,27 @@ export default function Login(props?: HistoryType) {
 				switch (error.code) {
 					//account diabled
 					case 'auth/user-disabled':
-						setModalMessage(
+						setMessage(
 							'This account corresponding to this email has been disabled'
 						);
 						break;
 					case 'auth/invalid-email':
-						setModalMessage('The email or password you entered is incorrect');
+						setMessage('The email or password you entered is incorrect');
 						break;
 					case 'auth/wrong-password':
-						setModalMessage('The email or password you entered is incorrect');
+						setMessage('The email or password you entered is incorrect');
 						break;
 					case 'auth/user-not-found':
-						setModalMessage('There is no account associated with this email.');
+						setMessage('There is no account associated with this email.');
 						break;
 					case 'auth/too-many-requests':
-						setModalMessage(
+						setMessage(
 							'Too many unsuccessful attempts. Please try again later.'
 						);
 						break;
 					default:
 						console.error(error.code, error.message);
-						return setModalMessage('Server error. Please try again later.');
+						return setMessage('Server error. Please try again later.');
 				}
 			});
 	};
@@ -252,7 +252,7 @@ export default function Login(props?: HistoryType) {
 		<>
 			<div className={styles.SignupDiv}>
 				<Link to='/signup'>Sign Up</Link>
-				<button onClick={() => signInAnonymously(setModalMessage)}>
+				<button onClick={() => signInAnonymously(setMessage)}>
 					I'm a guest
 				</button>
 			</div>
@@ -290,7 +290,7 @@ export default function Login(props?: HistoryType) {
 					}
 					inputs={inputs}
 				/>
-				<Modal message={modalMessage} color='black' />
+				<Modal message={message} color='black' />
 				<div className={styles.buttonsDiv}>
 					<button
 						className={styles.linkRight}

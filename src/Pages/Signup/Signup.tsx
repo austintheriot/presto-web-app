@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db, auth, analytics, serverTimeStamp } from '../../app/config';
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/Modal/Message';
 import returnInputErrors from '../../app/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
@@ -67,7 +67,7 @@ export default function Signup(props: HistoryType) {
 			},
 		},
 	});
-	const [modalMessage, setModalMessage] = useState('');
+	const [message, setMessage] = useState('');
 	const [signedUpUser, setSignedUpUser] = useState<UserAuthenticationInfoType>(
 		null
 	);
@@ -203,7 +203,7 @@ export default function Signup(props: HistoryType) {
 		}
 
 		if (anyErrorsFound) {
-			setModalMessage('Please fix all errors before submitting');
+			setMessage('Please fix all errors before submitting');
 			return;
 		} else {
 			//assuming the email and password are both valid, signup
@@ -223,14 +223,14 @@ export default function Signup(props: HistoryType) {
 			})
 			.catch((error) => {
 				if (error.code === 'auth/email-already-in-use')
-					return setModalMessage('Email already in use');
+					return setMessage('Email already in use');
 				else if (error.code === 'auth/invalid-email')
-					return setModalMessage('Invalid email');
+					return setMessage('Invalid email');
 				else if (error.code === 'auth/weak-password')
-					return setModalMessage('Password not strong enough');
+					return setMessage('Password not strong enough');
 				else {
 					console.error(error.code, error.message);
-					setModalMessage('Sorry, there was an error. Please try again later.');
+					setMessage('Sorry, there was an error. Please try again later.');
 				}
 			});
 	};
@@ -309,7 +309,7 @@ export default function Signup(props: HistoryType) {
 				<button
 					onClick={() => {
 						setSignedInAnonymously(true);
-						signInAnonymously(setModalMessage);
+						signInAnonymously(setMessage);
 					}}>
 					I'm a guest
 				</button>
@@ -350,7 +350,7 @@ export default function Signup(props: HistoryType) {
 					}
 					inputs={inputs}
 				/>
-				<Modal message={modalMessage} color='black' />
+				<Modal message={message} color='black' />
 				<div className={styles.buttonsDiv}>
 					<button
 						className={styles.linkRight}
