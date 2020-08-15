@@ -1,8 +1,6 @@
-import * as firebase from 'firebase/app';
-import 'firebase/firebase-firestore';
-import { auth, analytics, db } from './config';
+import { auth, analytics, db, serverTimeStamp } from './config';
 
-export default (setModalMessage: Function): void => {
+export default (setMessage: Function): void => {
 	auth
 		.signInAnonymously()
 		.then((data) => {
@@ -20,7 +18,7 @@ export default (setModalMessage: Function): void => {
 				.set(
 					{
 						name: 'Guest',
-						createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+						createdAt: serverTimeStamp(),
 						city: 'Austin',
 						state: 'Texas',
 						country: 'United States',
@@ -36,6 +34,6 @@ export default (setModalMessage: Function): void => {
 		})
 		.catch(function (error) {
 			console.error(error.code, error.message);
-			setModalMessage('Server error. Please try again later.');
+			setMessage('Server error. Please try again later.');
 		});
 };
