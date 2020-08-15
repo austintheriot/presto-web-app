@@ -11,7 +11,7 @@ import { selectUser } from '../../app/userSlice';
 import Select from '../../components/Inputs/Select';
 import Input from '../../components/Inputs/Input';
 import Textarea from '../../components/Inputs/Textarea';
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/Modal/Message';
 
 import { InputType } from '../../app/types';
 
@@ -131,7 +131,7 @@ export default () => {
 			},
 		},
 	});
-	const [modalMessage, setModalMessage] = useState('');
+	const [message, setMessage] = useState('');
 
 	const suggestionClickHandler = (
 		e: React.FormEvent<HTMLInputElement>,
@@ -360,11 +360,11 @@ export default () => {
 		if (inputs.bio.touched) newInfoFromState.bio = inputs.bio.value;
 
 		if (Object.keys(newInfoFromState).length === 0) {
-			return setModalMessage('No new settings to update.');
+			return setMessage('No new settings to update.');
 		}
 
 		//update profile information of user
-		setModalMessage('Saving...');
+		setMessage('Saving...');
 		db.collection('users')
 			.doc(user.uid)
 			.set(newInfoFromState, { merge: true })
@@ -394,11 +394,11 @@ export default () => {
 						touched: false,
 					},
 				}));
-				setModalMessage('Your settings have been successfully updated!');
+				setMessage('Your settings have been successfully updated!');
 			})
 			.catch((error) => {
 				console.error(error);
-				setModalMessage('Server error. Please try again later.');
+				setMessage('Server error. Please try again later.');
 			});
 	};
 
@@ -488,10 +488,7 @@ export default () => {
 					}
 					inputs={inputs}
 				/>
-				<Modal
-					message={modalMessage}
-					color={modalMessage ? 'black' : 'hidden'}
-				/>
+				<Modal message={message} color={message ? 'black' : 'hidden'} />
 				<Button type='submit' onClick={submitHandler}>
 					Save
 				</Button>

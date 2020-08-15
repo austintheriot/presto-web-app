@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../../app/config';
 
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/Modal/Message';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import Select from '../../components/Inputs/Select';
@@ -119,7 +119,7 @@ export default function Login(props: HistoryType) {
 			},
 		},
 	});
-	const [modalMessage, setModalMessage] = useState('');
+	const [message, setMessage] = useState('');
 	const [submitted, setSubmitted] = useState(false);
 
 	const suggestionClickHandler = (
@@ -256,7 +256,7 @@ export default function Login(props: HistoryType) {
 			})
 			.catch((error) => {
 				console.error(error);
-				setModalMessage('Server error. Please try again later.');
+				setMessage('Server error. Please try again later.');
 			});
 	};
 
@@ -332,7 +332,7 @@ export default function Login(props: HistoryType) {
 					inputs={inputs}
 				/>
 
-				<Modal message={modalMessage} color='black' />
+				<Modal message={message} color='black' />
 				<div className={styles.buttonsDiv}>
 					<button
 						className={styles.linkRight}
