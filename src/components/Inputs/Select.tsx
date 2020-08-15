@@ -1,11 +1,21 @@
 import React from 'react';
-import styles from './Textarea.module.scss';
+import styles from './Select.module.scss';
 import SuggestionList from '../SuggestionList/SuggestionList';
 
-export default (props) => {
+interface Props {
+	inputs: any;
+	type: string;
+	customType: string;
+	readOnly?: boolean;
+	handleFocus: Function;
+	handleBlur: Function;
+	suggestionClickHandler?: Function;
+}
+
+export default (props: Props) => {
 	return (
 		<>
-			<div className={styles.div}>
+			<div className={styles.labelDiv}>
 				<label
 					htmlFor={props?.inputs[props.customType]?.label}
 					className={[
@@ -25,39 +35,40 @@ export default (props) => {
 						//inactive?
 						props?.readOnly ? styles.inactiveLabel : '',
 					].join(' ')}>
-					{props?.label || 'Label'}
+					{props?.inputs[props.customType]?.label || 'Input'}
 				</label>
 			</div>
-			<textarea
+			<input
 				autoComplete='on'
 				id={props?.inputs[props.customType]?.label}
 				readOnly={props?.readOnly || false}
 				className={[
 					//general
-					styles.textarea,
+					styles.input,
 
 					//animate up?
-					props?.inputs[props.customType]?.animateUp
-						? styles.colorTextarea
-						: '',
+					props?.inputs[props.customType]?.animateUp ? styles.colorInput : '',
 
 					//error?
 					props?.inputs[props.customType]?.message?.error
-						? styles.redTextarea
+						? styles.redInput
 						: '',
 
 					//inactive?
-					props?.readOnly ? styles.inactiveTextarea : '',
+					props?.readOnly ? styles.inactiveInput : '',
 				].join(' ')}
 				value={props?.inputs[props.customType]?.value || ''}
 				type={props?.type || 'text'}
 				onBlur={(e) => props.handleBlur(e, props.customType)}
 				onFocus={(e) => props.handleFocus(e, props.customType)}
-				onChange={(e) => props.handleChange(e, props.customType)}
+				//probably unnecessary, since it wouldn't update the state regardless, but just be sure...
+				onChange={(e) => e.preventDefault()}
 			/>
 			<SuggestionList
 				suggestions={props?.inputs[props.customType]?.suggestions || null}
-				suggestionClickHandler={props?.suggestionClickHandler || null}
+				suggestionClickHandler={props?.suggestionClickHandler || undefined}
+				show={props?.inputs[props.customType]?.suggestions?.show || false}
+				customType={props.customType}
 			/>
 			<p
 				className={

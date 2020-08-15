@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../../app/config';
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Input/Input';
+import Input from '../../components/Inputs/Input';
 import Button from '../../components/Button/Button';
 import geoapifyKey from '../../app/geoapifyKey';
 import styles from './SignupLocation.module.scss';

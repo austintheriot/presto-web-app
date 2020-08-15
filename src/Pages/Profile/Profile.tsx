@@ -8,9 +8,9 @@ import { db } from '../../app/config';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
 
-import Select from '../../components/Select/Select';
-import Input from '../../components/Input/Input';
-import Textarea from '../../components/Textarea/Textarea';
+import Select from '../../components/Inputs/Select';
+import Input from '../../components/Inputs/Input';
+import Textarea from '../../components/Inputs/Textarea';
 import Modal from '../../components/Modal/Modal';
 
 import { InputType } from '../../app/types';

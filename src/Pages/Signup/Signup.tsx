@@ -3,7 +3,7 @@ import { db, auth, analytics, serverTimeStamp } from '../../app/config';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../app/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Input/Input';
+import Input from '../../components/Inputs/Input';
 import styles from './Signup.module.scss';
 import signInAnonymously from '../../app/signInAnonymously';
 
@@ -334,7 +334,6 @@ export default function Signup(props: HistoryType) {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'email')
 					}
-					label={'Email*'}
 					inputs={inputs}
 				/>
 				<Input
@@ -349,7 +348,6 @@ export default function Signup(props: HistoryType) {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'password')
 					}
-					label={'Password*'}
 					inputs={inputs}
 				/>
 				<Modal message={modalMessage} color='black' />

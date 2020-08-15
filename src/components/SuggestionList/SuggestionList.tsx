@@ -7,7 +7,7 @@ interface Props {
 		loading: boolean;
 		show: boolean;
 	};
-	suggestionClickHandler: Function;
+	suggestionClickHandler?: Function;
 	show: boolean;
 	customType: string;
 }
@@ -29,7 +29,13 @@ export default function SuggestionList({
 				<li
 					className={styles.li}
 					key={key}
-					onMouseDown={(e) => suggestionClickHandler(e, i, customType)}>
+					onMouseDown={(e) => {
+						if (suggestionClickHandler) {
+							suggestionClickHandler(e, i, customType);
+						} else {
+							return;
+						}
+					}}>
 					{el}
 				</li>
 			);
