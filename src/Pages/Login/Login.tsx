@@ -3,7 +3,7 @@ import { auth, analytics } from '../../app/config';
 import Modal from '../../components/Modal/Modal';
 import returnInputErrors from '../../app/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Input/Input';
+import Input from '../../components/Inputs/Input';
 import styles from './Login.module.scss';
 import signInAnonymously from '../../app/signInAnonymously';
 

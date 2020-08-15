@@ -3,9 +3,9 @@ import { db } from '../../app/config';
 
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Input/Input';
-import Select from '../../components/Select/Select';
-import Textarea from '../../components/Textarea/Textarea';
+import Input from '../../components/Inputs/Input';
+import Select from '../../components/Inputs/Select';
+import Textarea from '../../components/Inputs/Textarea';
 import styles from './SignupProfile.module.scss';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import InstrumentArray from '../../app/InstrumentArray';
@@ -288,7 +288,6 @@ export default function Login(props: HistoryType) {
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'activity')
 					}
-					label={'Musical Activity'}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
@@ -301,7 +300,6 @@ export default function Login(props: HistoryType) {
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'instrument')
 					}
-					label={'Instrument'}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
@@ -317,7 +315,6 @@ export default function Login(props: HistoryType) {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'website')
 					}
-					label={'Website'}
 					inputs={inputs}
 				/>
 				<Textarea
@@ -332,7 +329,6 @@ export default function Login(props: HistoryType) {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'bio')
 					}
-					label={'Short Bio'}
 					inputs={inputs}
 				/>
 

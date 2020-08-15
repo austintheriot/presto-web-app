@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../../app/config';
 import Modal from '../../components/Modal/Modal';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Input/Input';
+import Input from '../../components/Inputs/Input';
 import styles from './SignupPersonal.module.scss';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
