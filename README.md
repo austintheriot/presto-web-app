@@ -3,7 +3,7 @@
 ## 🎵 About the Project
 
 Presto is a React single-page web app designed and developed by musicians for
-musicians. In today's day and age, meeting (and hiring) local musicians should
+musicians. In today's day and age, meeting local musicians should
 be easy, but until now, there hasn't been a social media space for musicians to
 connect with other musicians from their communities. Especially today, in the
 wake of the COVID-19 pandemic, local communities have become more fragmented
@@ -39,7 +39,7 @@ in TypeScript, It is built to be fast, secure, and intuitive.
 
 ### 3rd Party API's:
 
-Presto also uses the Geoapify API to validate users' location: they can either
+Presto uses the Geoapify API to validate users' location: they can either
 autofill their location using the built-in JavaScript Geolocation API combined
 with Geoapify, or they can manually input their location and select from the
 options provided by the Geoapify autocomplete API.
