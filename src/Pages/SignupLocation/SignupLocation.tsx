@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db } from '../../app/config';
-import Modal from '../../components/Modal/Message';
+import Message from '../../components/Message/Message';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import Button from '../../components/Button/Button';
@@ -593,11 +593,11 @@ export default function Login(props: HistoryType) {
 		}
 	};
 
-	//top modal:
+	//top Message:
 	let infoMessage = props.history?.location?.state?.infoMessage;
 
 	return (
-		//display modal message if redirected from another page requiring authentication:
+		//display Message message if redirected from another page requiring authentication:
 		<>
 			<div className={styles.SkipDiv}>
 				<Link to='/signup-profile'>Skip</Link>
@@ -619,9 +619,9 @@ export default function Login(props: HistoryType) {
 				that helps you the most (you can edit this later).
 			</p>
 			{infoMessage ? (
-				<Modal message={infoMessage} color={infoMessage ? 'black' : ''} />
+				<Message message={infoMessage} color={infoMessage ? 'black' : ''} />
 			) : null}
-			<Modal message={message} color={message ? 'black' : ''} />
+			<Message message={message} color={message ? 'black' : ''} />
 			<Button onClick={getLocation}>Autofill Location</Button>
 			<Input
 				type='text'

@@ -11,7 +11,7 @@ import { selectUser } from '../../app/userSlice';
 import Select from '../../components/Inputs/Select';
 import Input from '../../components/Inputs/Input';
 import Textarea from '../../components/Inputs/Textarea';
-import Modal from '../../components/Modal/Message';
+import Message from '../../components/Message/Message';
 
 import { InputType } from '../../app/types';
 
@@ -488,7 +488,7 @@ export default () => {
 					}
 					inputs={inputs}
 				/>
-				<Modal message={message} color={message ? 'black' : 'hidden'} />
+				<Message message={message} color={message ? 'black' : 'hidden'} />
 				<Button type='submit' onClick={submitHandler}>
 					Save
 				</Button>

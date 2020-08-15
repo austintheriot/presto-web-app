@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db } from '../../app/config';
-import Modal from '../../components/Modal/Message';
+import Message from '../../components/Message/Message';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import styles from './SignupPersonal.module.scss';
@@ -206,18 +206,18 @@ export default function Login(props: HistoryType) {
 			});
 	};
 
-	//top modal:
+	//top Message:
 	let infoMessage = props.history?.location?.state?.infoMessage;
 
 	return (
-		//display modal message if redirected from another page requiring authentication:
+		//display Message message if redirected from another page requiring authentication:
 		<>
 			<div className={styles.SkipDiv}>
 				<Link to='/signup-location'>Skip</Link>
 			</div>
 			{submitted ? <Redirect to={'/signup-location'} /> : null}
 			<ProgressBar signup='complete' personal='inProgress' />
-			{infoMessage ? <Modal message={infoMessage} color='black' /> : null}
+			{infoMessage ? <Message message={infoMessage} color='black' /> : null}
 			<h1 className={styles.title}>Thanks for Signing up!</h1>
 			<p className={styles.subtitle}>
 				Add some info about yourself. This information is public and allows
@@ -275,7 +275,7 @@ export default function Login(props: HistoryType) {
 					inputs={inputs}
 				/>
 
-				<Modal message={message} color='black' />
+				<Message message={message} color='black' />
 				<div className={styles.buttonsDiv}>
 					<button
 						className={styles.linkRight}
