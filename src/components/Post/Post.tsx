@@ -30,6 +30,8 @@ export default ({
 }: PostType) => {
 	const user = useSelector(selectUser);
 
+	let postID = window.location.pathname.split('/posts/')[1];
+
 	return (
 		<div className={styles.wrapper}>
 			<article className={styles.article}>
@@ -46,7 +48,7 @@ export default ({
 					</Link>
 					{/* TIME */}
 					<Link
-						to={`/post/${id}`}
+						to={`/posts/${id}`}
 						className={[styles.Link, styles.timeLink].join(' ')}>
 						<time dateTime={createdAt!.toDate().toLocaleString()}>
 							{createdAt!.toDate().toLocaleString()}
@@ -60,19 +62,26 @@ export default ({
 					</Link>
 				</header>
 				{/* BODY */}
+				{/* Only link to individual post when on main feed */}
 				<main className={styles.body}>
-					<p>{body}</p>
+					{postID ? (
+						<p>{body}</p>
+					) : (
+						<Link to={`/posts/${id}`} className={styles.Link}>
+							<p>{body}</p>
+						</Link>
+					)}
 				</main>
 				<footer>
 					{/* NUMBER OF LIKES */}
-					<Link to={`/post/${id}`} className={styles.Link}>
+					<Link to={`/posts/${id}`} className={styles.Link}>
 						<p className={styles.likes}>
 							<img alt='likes' src={heartFull}></img> {likes!.length} likes
 						</p>
 					</Link>
 					{/* NUMBER OF COMMENTS */}
 					<Link
-						to={`/post/${id}`}
+						to={`/posts/${id}`}
 						className={[styles.Link, styles.comments].join(' ')}>
 						<img alt='likes' src={commentFull}></img> {comments!.length}{' '}
 						comments
@@ -88,7 +97,7 @@ export default ({
 						</button>
 
 						{/* COMMENT BUTTON */}
-						<Link to={`/post/${id}`} className={styles.Link}>
+						<Link to={`/posts/${id}`} className={styles.Link}>
 							<button>
 								{comments!.map((el) => el.uid).includes(user.uid) ? (
 									<img alt='comments' src={commentFull}></img>
