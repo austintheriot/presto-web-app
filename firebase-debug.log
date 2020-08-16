@@ -1,0 +1,25 @@
+[debug] [2020-08-16T00:58:39.274Z] ----------------------------------------------------------------------
+[debug] [2020-08-16T00:58:39.276Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\austi\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init functions
+[debug] [2020-08-16T00:58:39.276Z] CLI Version:   8.7.0
+[debug] [2020-08-16T00:58:39.276Z] Platform:      win32
+[debug] [2020-08-16T00:58:39.276Z] Node Version:  v14.5.0
+[debug] [2020-08-16T00:58:39.278Z] Time:          Sat Aug 15 2020 19:58:39 GMT-0500 (Central Daylight Time)
+[debug] [2020-08-16T00:58:39.278Z] ----------------------------------------------------------------------
+[debug] [2020-08-16T00:58:39.278Z] 
+[debug] [2020-08-16T00:58:39.285Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-08-16T00:58:39.286Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\austi\Documents\Code\______Projects\2020-8-8 Presto\Tracked Files
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
