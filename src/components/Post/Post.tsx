@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
 import { PostType } from '../../app/types';
+import { db } from '../../app/config';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
@@ -29,6 +30,38 @@ export default ({
 	zip,
 }: PostType) => {
 	const user = useSelector(selectUser);
+
+	const likePostHandler = (postId: string) => {
+		//create document if it doesn't exists, or update it if it does
+		console.log('[Post]: Liking post. Post Id: ', postId, 'UserId: ', user.uid);
+		let postDocument = db.collection('posts').doc(postId);
+		let likesDocument = postDocument.collection('likes').doc(user.uid);
+		likesDocument
+			.set({
+				uid: user.uid,
+			})
+			.then(() => {
+				console.log('Like successfully added!');
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	};
+
+	const unlikePostHandler = (postId: string) => {
+		//delete document if it exists
+		console.log('[Post]: Liking post. Post Id: ', postId, 'UserId: ', user.uid);
+		let postDocument = db.collection('posts').doc(postId);
+		let likesDocument = postDocument.collection('likes').doc(user.uid);
+		likesDocument
+			.delete()
+			.then(() => {
+				console.log('Like successfully deleted!');
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	};
 
 	let isSinglePostPage = !!window.location.pathname.split('/posts/')[1];
 	let bodyText =
@@ -100,9 +133,15 @@ export default ({
 						{/* LIKE BUTTON */}
 						<button>
 							{likes!.includes(user.uid) ? (
-								<img alt='likes' src={heartFull}></img>
+								<img
+									alt='likes'
+									src={heartFull}
+									onClick={() => unlikePostHandler(id!)}></img>
 							) : (
-								<img alt='likes' src={heartEmpty}></img>
+								<img
+									alt='likes'
+									src={heartEmpty}
+									onClick={() => likePostHandler(id!)}></img>
 							)}
 						</button>
 
