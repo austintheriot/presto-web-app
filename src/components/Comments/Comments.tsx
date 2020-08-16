@@ -1,11 +1,15 @@
 import React from 'react';
 import Comment from '../Comment/Comment';
-import { PostType } from '../../app/types';
 
-export default ({ comments }: PostType) => {
-	let commentsList = null;
-	if (comments!.length > 0) {
-		commentsList = comments!.map((comment) => (
+export default ({ comments }: any) => {
+	let commentsList: any[] = [];
+	if (comments?.count) {
+		for (let key in comments) {
+			if (key !== 'count') {
+				commentsList.push(comments[key]); //add comments into an array
+			}
+		}
+		commentsList = comments!.map((comment: any) => (
 			<Comment key={comment!.body! + comment.createdAt} {...comment} />
 		));
 	}

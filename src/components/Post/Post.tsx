@@ -10,7 +10,7 @@ import { selectUser } from '../../app/userSlice';
 //images
 import heartEmpty from '../../assets/images/heartEmpty.svg';
 import heartFull from '../../assets/images/heartFull.svg';
-import commentEmpty from '../../assets/images/commentEmpty.svg';
+/* import commentEmpty from '../../assets/images/commentEmpty.svg'; */
 import commentFull from '../../assets/images/commentFull.svg';
 
 export default ({
@@ -34,12 +34,24 @@ export default ({
 	const likePostHandler = (postId: string) => {
 		//create document if it doesn't exists, or update it if it does
 		console.log('[Post]: Liking post. Post Id: ', postId, 'UserId: ', user.uid);
-		let postDocument = db.collection('posts').doc(postId);
-		let likesDocument = postDocument.collection('likes').doc(user.uid);
-		likesDocument
-			.set({
-				uid: user.uid,
-			})
+		const batch = db.batch();
+		//set: creates or updates document with info:
+		const likeDocRef = db
+			.collection('posts')
+			.doc(postId)
+			.collection('likes')
+			.doc(user.uid);
+		const userDocRef = db.collection('users').doc(user.uid);
+		batch.set(likeDocRef, {
+			uid: user.uid,
+		});
+		let propertyKey = `likes.${postId}`;
+		//create or update postId property on user.likes
+		batch.update(userDocRef, {
+			[propertyKey]: true,
+		});
+		batch
+			.commit()
 			.then(() => {
 				console.log('Like successfully added!');
 			})
@@ -51,12 +63,24 @@ export default ({
 	const unlikePostHandler = (postId: string) => {
 		//delete document if it exists
 		console.log('[Post]: Liking post. Post Id: ', postId, 'UserId: ', user.uid);
-		let postDocument = db.collection('posts').doc(postId);
-		let likesDocument = postDocument.collection('likes').doc(user.uid);
-		likesDocument
-			.delete()
+		const batch = db.batch();
+		//set: creates or updates document with info:
+		const likeDocRef = db
+			.collection('posts')
+			.doc(postId)
+			.collection('likes')
+			.doc(user.uid);
+		const userDocRef = db.collection('users').doc(user.uid);
+		batch.delete(likeDocRef);
+		let propertyKey = `likes.${postId}`;
+		//update postId value on user.likes to be false
+		batch.update(userDocRef, {
+			[propertyKey]: false,
+		});
+		batch
+			.commit()
 			.then(() => {
-				console.log('Like successfully deleted!');
+				console.log('Like successfully added!');
 			})
 			.catch((err) => {
 				console.error(err);
@@ -82,7 +106,6 @@ export default ({
 				<p>{body}</p>
 			</Link>
 		);
-
 	return (
 		<div className={styles.wrapper}>
 			<article className={styles.article}>
@@ -119,20 +142,20 @@ export default ({
 					{/* NUMBER OF LIKES */}
 					<Link to={`/posts/${id}`} className={styles.Link}>
 						<p className={styles.likes}>
-							<img alt='likes' src={heartFull}></img> {likes!.length} likes
+							<img alt='likes' src={heartFull}></img> {likes!.count} likes
 						</p>
 					</Link>
 					{/* NUMBER OF COMMENTS */}
 					<Link
 						to={`/posts/${id}`}
 						className={[styles.Link, styles.comments].join(' ')}>
-						<img alt='likes' src={commentFull}></img> {comments!.length}{' '}
-						comments
+						<img alt='likes' src={commentFull}></img> {comments!.count} comments
 					</Link>
 					<div className={styles.icons}>
 						{/* LIKE BUTTON */}
 						<button>
-							{likes!.includes(user.uid) ? (
+							{/* Show full heart if this post has been saved in user "likes" */}
+							{id && user?.likes && user?.likes[id] ? (
 								<img
 									alt='likes'
 									src={heartFull}
@@ -148,11 +171,7 @@ export default ({
 						{/* COMMENT BUTTON */}
 						<Link to={`/posts/${id}`} className={styles.Link}>
 							<button>
-								{comments!.map((el) => el.uid).includes(user.uid) ? (
-									<img alt='comments' src={commentFull}></img>
-								) : (
-									<img alt='comments' src={commentEmpty}></img>
-								)}
+								<img alt='comments' src={commentFull}></img>
 							</button>
 						</Link>
 					</div>

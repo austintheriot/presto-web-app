@@ -9,7 +9,13 @@ interface ReduxPayload {
 	error: string | null;
 	uid: string | ''; //necessary to be declared as a string, regardless of if that string is empty or not
 
-	//optional ata received after auth and database requests:
+	//optional data received after auth and database requests:
+	likes?: {
+		[string: string]: boolean;
+	};
+	comments?: {
+		[string: string]: boolean;
+	};
 	email?: string;
 	displayName?: string;
 	emailVerified?: false;
@@ -84,6 +90,8 @@ export const establishAuthentication = () => (
 								'[App]: data is not empty; user document exists in database'
 							);
 							let {
+								likes = {},
+								comments = {},
 								activity = '',
 								bio = '',
 								city = '',
@@ -108,6 +116,8 @@ export const establishAuthentication = () => (
 								authenticated: true,
 								init: true,
 								status: 'success',
+								likes,
+								comments,
 								error: null,
 								email,
 								uid,

@@ -20,11 +20,15 @@ export interface InputType {
 }
 
 export interface CommentType {
+	uid?: string;
 	activity?: string;
 	body?: string;
 	createdAt?: TimestampType;
 	name?: string;
 	profilePic?: string;
+}
+
+export interface LikeType {
 	uid?: string;
 }
 
@@ -53,14 +57,18 @@ export interface ProfileType {
 
 export interface PostType {
 	id?: string;
+	comments?: {
+		count?: number;
+	};
+	likes?: {
+		count?: number;
+	};
 	activity?: string;
 	body?: string;
 	city?: string;
-	comments?: CommentType[];
 	country?: string;
 	county?: string;
 	createdAt?: TimestampType;
-	likes?: string[];
 	name?: string;
 	profilePic?: string;
 	state?: string;
