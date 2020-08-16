@@ -25,5 +25,3 @@ yarn-error.log*
 notes.txt
 geoapifyKey.js
 config.js
-
-/presto-functions
