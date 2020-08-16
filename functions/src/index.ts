@@ -3,44 +3,53 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 const db = admin.firestore();
 
+interface Context {
+	params: {
+		postId: string;
+		collectionId: 'strings' | 'comments';
+		docId: string;
+	};
+}
+
 exports.myFunction = functions.firestore
-	.document('posts/{postId}/{collectionId}/{userId}')
-	.onWrite((change: any, context: any) => {
-		// If we set `/posts/ACDEFGHIJKLMNOP/likes/1234564567` to {body: "This is an example"} then
-		const postId = context.params.postId; // == "ACDEFGHIJKLMNOP";
-		const collectionId = context.params.collectionId; //== "likes" or "comments";
-		// context.params.userId == "1234564567";'
-
-		// Retrieve the current and previous value
-		const data = change.after.data(); //== {body: "This is an example"}
-		console.log('data: ', data);
-		const dataId = change.after.id; //== {body: "This is an example"}
-		console.log('dataId: ', dataId);
-		const previousData = change.before.data();
-
-		// We'll only update if the name has changed.
-		// This is crucial to prevent infinite loops.
-		if (data.name === previousData.name) {
-			return null;
-		}
+	.document('posts/{postId}/{collectionId}/{docId}') //watch subcollection of posts for changes
+	.onWrite((change: any, context: Context) => {
+		//Example path: `/posts/bXKkHTXxQgs6QlZS8G9M/likes/DTOrxcyi04dYaxl5WhCiakSnnmf1
+		const postId: string = context.params.postId; // == "bXKkHTXxQgs6QlZS8G9M" --id of the post
+		const collectionId: 'strings' | 'comments' = context.params.collectionId; //== "likes" or "comments"
+		//const docId: string = context.params.docId; //== "DTOrxcyi04dYaxl5WhCiakSnnmf1" --doc id in the subcollection of likes/comments
 
 		//get total number of documents in the collection
 		db.collection('posts')
-			.doc(postId)
-			.collection(collectionId)
+			.doc(postId) //id of the post that was edited
+			.collection(collectionId) //i.e. likes or comments
 			.get()
-			.then((querySnapshot) => {
-				let numberOfDocs = querySnapshot.size;
-				console.log('Number of Docs: ', numberOfDocs);
+			.then((querySnapshot: any) => {
+				const numberOfDocs = querySnapshot.size; //get number of documents in the subcollection
+
+				//duplicate the contents of the subcollection into an object (each doc is an attribute)
+				const dataObject: any = {};
+				dataObject.count = numberOfDocs; //update the count of likes/comments
+				querySnapshot.forEach((doc: { id: string; data: () => any }) => {
+					dataObject[doc.id] = doc.data(); //copy each document into the dataObject as an attribute
+				});
+
+				//replace information inside top level post with array of document information
+				db.collection('posts')
+					.doc(postId)
+					.update({
+						[collectionId]: dataObject, //override specified field with data gathered from subcollections
+					})
+					.then(() => {
+						return;
+					})
+					.catch((err: typeof Error) => {
+						console.error(err);
+						return;
+					});
+			})
+			.catch((err: typeof Error) => {
+				console.error(err);
+				return;
 			});
-
-		/* return db.collection('posts').doc(postId); */
 	});
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
