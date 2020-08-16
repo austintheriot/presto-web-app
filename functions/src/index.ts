@@ -5,7 +5,7 @@ const db = admin.firestore();
 
 exports.myFunction = functions.firestore
 	.document('posts/{postId}/{collectionId}/{userId}')
-	.onWrite((change, context) => {
+	.onWrite((change: any, context: any) => {
 		// If we set `/posts/ACDEFGHIJKLMNOP/likes/1234564567` to {body: "This is an example"} then
 		const postId = context.params.postId; // == "ACDEFGHIJKLMNOP";
 		const collectionId = context.params.collectionId; //== "likes" or "comments";
