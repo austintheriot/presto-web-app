@@ -2,39 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { auth, db } from './config';
 import { fetchPosts } from './postsSlice';
 
-interface UserPayload {
-	//necessary for initializing app (loading screen etc.):
-	authenticated: boolean;
-	init: boolean;
-	status: string;
-	error: string | null;
-	uid: string | ''; //necessary to be declared as a string, regardless of if that string is empty or not
-
-	//optional data received after auth and database requests:
-	likes?: {
-		[string: string]: boolean;
-	};
-	comments?: {
-		[string: string]: boolean;
-	};
-	email?: string;
-	displayName?: string;
-	emailVerified?: false;
-	photoUrl?: string;
-	isAnonymous?: false;
-	activity?: string;
-	bio?: string;
-	city?: string;
-	country?: string;
-	county?: string;
-	instrument?: string;
-	name?: string;
-	state?: string;
-	type?: string;
-	website?: string;
-	zip?: string;
-	createdAt?: string;
-}
+import { UserPayload, ReduxState } from './types';
 
 export const userSlice = createSlice({
 	name: 'user',
@@ -224,13 +192,7 @@ export const initializeApp = () => (dispatch: Function) => {
 		});
 };
 
-interface UserSlice {
-	user: {
-		user: UserPayload;
-	};
-}
-
-export const selectUser = (state: UserSlice) => state.user.user;
+export const selectUser = (state: ReduxState) => state.user.user;
 
 export const { updateUser } = userSlice.actions;
 

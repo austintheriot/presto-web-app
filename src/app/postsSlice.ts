@@ -1,31 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { db } from './config';
 import extractPostInfoFromDoc from './extractPostInfoFromDoc';
-import { PostType } from './types';
-
-interface PostsPayload {
-	//necessary for initializing app (loading screen etc.):
-	posts: PostType[];
-	status: 'idle' | 'loading' | 'success' | 'failed';
-	error: string;
-}
-
-interface PostsSlice {
-	posts: {
-		posts: PostsPayload;
-	};
-}
+import { PostType, PostsPayload, ReduxState } from './types';
 
 export const postsSlice = createSlice({
 	name: 'posts',
 	initialState: {
-		posts: [],
-		status: 'idle',
-		error: '',
+		postData: {
+			postContainer: {},
+			status: 'idle',
+			error: '',
+		},
 	},
 	reducers: {
-		updatePosts: (state, action) => {
-			state.posts = action.payload;
+		updatePostData: (state, action) => {
+			state.postData = action.payload;
+			console.log('updatePostData payload: ', action.payload);
+		},
+		likePost: (
+			state,
+			action: {
+				type: string;
+				payload: { userId: string; postId: string };
+			}
+		) => {
+			/* let userId = action.payload.userId;
+			let postId = action.payload.postId; */
 		},
 	},
 });
@@ -35,11 +35,11 @@ export const fetchPosts = (searchKey: string, searchValue: string) => (
 	getState: Function
 ) => {
 	let postsData: PostsPayload = {
-		posts: [],
+		postContainer: {},
 		status: 'loading',
 		error: '',
 	};
-	dispatch(updatePosts(postsData));
+	dispatch(updatePostData(postsData));
 	console.log(
 		'[postsSlice]: Searching database for posts where: ',
 		searchKey,
@@ -54,32 +54,32 @@ export const fetchPosts = (searchKey: string, searchValue: string) => (
 			(querySnapshot) => {
 				if (!querySnapshot.empty) {
 					console.log('[postsSlice]: Posts received from database.');
-					let posts: PostType[] = [];
+					let postContainer: any = {};
 					querySnapshot.forEach((doc) => {
-						let post = extractPostInfoFromDoc(doc);
-						posts.push(post);
+						let post: PostType = extractPostInfoFromDoc(doc);
+						postContainer[doc.id] = post;
 					});
 					console.log(
 						'[postsSlice]: Setting posts state with posts from database.'
 					);
 					let postsData = {
-						posts,
+						postContainer,
 						status: 'success', //idle, loading, success, falied
 						error: '',
 					};
-					dispatch(updatePosts(postsData));
+					dispatch(updatePostData(postsData));
 					console.log('[postsSlice]: Posts data: ', postsData);
 				} else {
 					console.log(
 						'[postsSlice]: No posts found. Displaying message instead.'
 					);
 					let postsData = {
-						posts: [],
+						postContainer: {},
 						status: 'failed', //idle, loading, success, failed
 						error:
 							'No posts found in your area. Try posting something to get people in your area talking!',
 					};
-					dispatch(updatePosts(postsData));
+					dispatch(updatePostData(postsData));
 				}
 			},
 			(error) => {
@@ -90,17 +90,17 @@ export const fetchPosts = (searchKey: string, searchValue: string) => (
 				//after being redirected to Login page):
 				console.error(error);
 				let postsData = {
-					posts: [],
+					postContainer: {},
 					status: 'failed', //idle, loading, success, failed
 					error: 'Sorry, there was an error. Please try again later.',
 				};
-				dispatch(updatePosts(postsData));
+				dispatch(updatePostData(postsData));
 			}
 		);
 };
 
-export const selectPosts = (state: PostsSlice) => state.posts.posts;
+export const getPostData = (state: ReduxState) => state.posts.postData;
 
-export const { updatePosts } = postsSlice.actions;
+export const { updatePostData, likePost } = postsSlice.actions;
 
 export default postsSlice.reducer;

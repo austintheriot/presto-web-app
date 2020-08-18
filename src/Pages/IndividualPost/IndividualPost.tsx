@@ -16,7 +16,16 @@ interface State {
 
 export default () => {
 	const [post, setPost] = useState<State>({
-		post: {},
+		post: {
+			uid: '',
+			id: '',
+			likes: {
+				count: 0,
+			},
+			comments: {
+				count: 0,
+			},
+		},
 		status: 'idle',
 		error: null,
 	});
@@ -40,7 +49,7 @@ export default () => {
 					if (!querySnapshot.empty) {
 						querySnapshot.forEach((doc) => {
 							console.log('[IndividualPost]: setting post with doc.data()');
-							let post = extractPostInfoFromDoc(doc);
+							let post: PostType = extractPostInfoFromDoc(doc);
 							setPost({
 								post,
 								status: 'success', //idle, loading, success, falied
