@@ -9,7 +9,7 @@ export default ({ comments }: any) => {
 				commentsList.push(comments[key]); //add comments into an array
 			}
 		}
-		commentsList = comments!.map((comment: any) => (
+		commentsList = commentsList.map((comment: any) => (
 			<Comment key={comment!.body! + comment.createdAt} {...comment} />
 		));
 	}
