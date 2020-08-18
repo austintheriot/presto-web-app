@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser, establishAuthentication } from './app/userSlice';
+import { selectUser, initializeApp } from './app/userSlice';
 
 //pages
 import LoadingScreen from './Pages/LoadingScreen/LoadingScreen';
@@ -34,7 +34,7 @@ function App() {
 	const user = useSelector(selectUser);
 
 	useEffect(() => {
-		dispatch(establishAuthentication());
+		dispatch(initializeApp());
 	}, [dispatch]);
 
 	return (

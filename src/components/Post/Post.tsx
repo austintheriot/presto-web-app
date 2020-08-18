@@ -124,9 +124,7 @@ export default ({
 					<Link
 						to={`/posts/${id}`}
 						className={[styles.Link, styles.timeLink].join(' ')}>
-						<time dateTime={createdAt!.toDate().toLocaleString()}>
-							{createdAt!.toDate().toLocaleString()}
-						</time>
+						<time>{createdAt}</time>
 					</Link>
 					{/* ACTIVITY */}
 					<Link

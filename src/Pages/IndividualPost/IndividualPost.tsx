@@ -6,6 +6,7 @@ import Nav from '../../components/Nav/Nav';
 import Comments from '../../components/Comments/Comments';
 
 import { PostType } from '../../app/types';
+import extractPostInfoFromDoc from '../../app/extractPostInfoFromDoc';
 
 interface State {
 	post: PostType;
@@ -39,7 +40,7 @@ export default () => {
 					if (!querySnapshot.empty) {
 						querySnapshot.forEach((doc) => {
 							console.log('[IndividualPost]: setting post with doc.data()');
-							let post = { id: doc['id'], ...doc.data() };
+							let post = extractPostInfoFromDoc(doc);
 							setPost({
 								post,
 								status: 'success', //idle, loading, success, falied
