@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { db } from './config';
 import extractPostInfoFromDoc from './extractPostInfoFromDoc';
-import { PostType, PostsPayload, ReduxState } from './types';
+import { PostContainer, PostType, PostsPayload, ReduxState } from './types';
 
 export const postsSlice = createSlice({
 	name: 'posts',
 	initialState: {
 		postData: {
-			postContainer: {},
+			postContainer: {} as PostContainer,
 			status: 'idle',
 			error: '',
 		},
@@ -21,11 +21,47 @@ export const postsSlice = createSlice({
 			state,
 			action: {
 				type: string;
-				payload: { userId: string; postId: string };
+				payload: { userId: any; postId: any };
 			}
 		) => {
-			/* let userId = action.payload.userId;
-			let postId = action.payload.postId; */
+			let userId = action.payload.userId;
+			let postId = action.payload.postId;
+			let likes = state.postData.postContainer[postId].likes;
+			if (likes[userId]) {
+				return;
+			} else {
+				let newLikes = {
+					...likes,
+					count: likes.count + 1,
+					[userId]: {
+						uid: userId,
+					},
+				};
+				state.postData.postContainer[postId].likes = newLikes;
+				console.log('updating likes to: ', newLikes);
+			}
+		},
+		unlikePost: (
+			state,
+			action: {
+				type: string;
+				payload: { userId: any; postId: any };
+			}
+		) => {
+			let userId = action.payload.userId;
+			let postId = action.payload.postId;
+			let likes = state.postData.postContainer[postId].likes;
+			if (!likes[userId]) {
+				return;
+			} else {
+				let newLikes = {
+					...likes,
+					count: likes.count - 1,
+					[userId]: false,
+				};
+				state.postData.postContainer[postId].likes = newLikes;
+				console.log('updating likes to: ', newLikes);
+			}
 		},
 	},
 });
@@ -101,6 +137,6 @@ export const fetchPosts = (searchKey: string, searchValue: string) => (
 
 export const getPostData = (state: ReduxState) => state.posts.postData;
 
-export const { updatePostData, likePost } = postsSlice.actions;
+export const { updatePostData, likePost, unlikePost } = postsSlice.actions;
 
 export default postsSlice.reducer;
