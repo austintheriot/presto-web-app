@@ -15,9 +15,7 @@ export default ({
 			<img src={profilePic} alt='profile' className={styles.profilePic}></img>
 			<header>
 				<h3 className={styles.name}>{name}</h3>
-				<time className={styles.time}>
-					{createdAt ? createdAt.toDate().toLocaleString() : null}
-				</time>
+				<time className={styles.time}>{createdAt}</time>
 				<p className={styles.activity}>{activity}</p>
 			</header>
 			<main>
