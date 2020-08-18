@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { PostType } from '../../app/types';
 import { db } from '../../app/config';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
 
 //images
@@ -29,21 +29,31 @@ export default ({
 	uid,
 	zip,
 }: PostType) => {
+	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
 
+	const likePost = (userId: string, postId: string) => ({
+		type: 'posts/likePost',
+		payload: {
+			userId,
+			postId,
+		},
+	});
+
 	const likePostHandler = (postId: string) => {
+		let userId = user.uid;
 		//create document if it doesn't exists, or update it if it does
-		console.log('[Post]: Liking post. Post Id: ', postId, 'UserId: ', user.uid);
+		console.log('[Post]: Liking post. Post Id: ', postId, 'UserId: ', userId);
 		const batch = db.batch();
 		//set: creates or updates document with info:
 		const likeDocRef = db
 			.collection('posts')
 			.doc(postId)
 			.collection('likes')
-			.doc(user.uid);
-		const userDocRef = db.collection('users').doc(user.uid);
+			.doc(userId);
+		const userDocRef = db.collection('users').doc(userId);
 		batch.set(likeDocRef, {
-			uid: user.uid,
+			uid: userId,
 		});
 		let propertyKey = `likes.${postId}`;
 		//create or update postId property on user.likes
@@ -54,6 +64,7 @@ export default ({
 			.commit()
 			.then(() => {
 				console.log('Like successfully added!');
+				dispatch(likePost(userId, postId));
 			})
 			.catch((err) => {
 				console.error(err);
