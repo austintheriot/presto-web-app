@@ -35,11 +35,13 @@ export interface UserPayload {
 	createdAt?: string;
 }
 
+export interface PostContainer {
+	[postId: string]: PostType;
+}
+
 export interface PostsPayload {
 	//necessary for initializing app (loading screen etc.):
-	postContainer: {
-		[postId: string]: PostType;
-	};
+	postContainer: PostContainer;
 	status: 'idle' | 'loading' | 'success' | 'failed';
 	error: string;
 }
