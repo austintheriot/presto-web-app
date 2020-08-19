@@ -65,7 +65,7 @@
 		grid-area: header;
 
 		width: 100%;
-		height: max-content;
+		height: 40px;
 
 		display: grid;
 		/* 2 middle sections required here to prevent mobile spacing bug */
@@ -80,14 +80,14 @@
 	.profilePic {
 		grid-area: profilePic;
 
-		height: 50px;
-		width: 50px;
-		border-radius: 18px;
+		height: 40px;
+		width: 40px;
+		border-radius: 12px;
 		overflow: hidden;
 
 		img {
-			height: 50px;
-			width: 50px;
+			height: 40px;
+			width: 40px;
 			object-fit: cover;
 			object-position: center;
 		}
@@ -137,6 +137,13 @@
 		div {
 			width: 100%;
 			max-width: none;
+		}
+		div {
+			margin-top: 0;
+		}
+
+		textarea {
+			height: 4rem;
 		}
 	}
 }

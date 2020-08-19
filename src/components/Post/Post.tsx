@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
-import { PostType, CommentType } from '../../app/types';
+import { PostType } from '../../app/types';
 import { db } from '../../app/config';
 
 import { useSelector, useDispatch } from 'react-redux';
