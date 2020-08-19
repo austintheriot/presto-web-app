@@ -1,6 +1,10 @@
 import { PostType } from './types';
 
-export default (doc: firebase.firestore.QueryDocumentSnapshot) => {
+export default (
+	doc:
+		| firebase.firestore.QueryDocumentSnapshot
+		| firebase.firestore.DocumentData
+) => {
 	//convert servertimestamps into serialized values for the Redux store:
 	let serializedPostCreatedAt = doc.data().createdAt.toDate().toLocaleString();
 	//post/comments/{createdAt} --> serlialized value
@@ -21,6 +25,8 @@ export default (doc: firebase.firestore.QueryDocumentSnapshot) => {
 		id: doc['id'],
 		uid: doc.data()['uid'],
 		likes: doc.data()['likes'],
+		status: 'success',
+		error: '',
 		createdAt: serializedPostCreatedAt, //overwrite values with serialized versions
 		comments: postComments, //overwrite values with serialized versions
 	}; //store doc id from database with the information it contains

@@ -1,5 +1,24 @@
 /* Wrapper to add some padding */
 
+/* Post not found, loading post..., etc. */
+.altWrapper {
+	width: 90%;
+	min-width: 300px;
+	max-width: 600px;
+	margin: 2rem auto;
+	box-shadow: var(--shadow);
+	border-radius: 20px;
+	padding: 1.5rem;
+	display: flex;
+	flex: none;
+	place-items: center;
+}
+.altWrapper p {
+	width: 100%;
+	text-align: center;
+}
+
+/* Post loaded */
 .Link {
 	text-decoration: none;
 	color: black;

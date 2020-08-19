@@ -16,6 +16,8 @@ import commentFull from '../../assets/images/commentFull.svg';
 
 export default ({
 	id,
+	status,
+	error,
 	activity,
 	body,
 	city,
@@ -94,74 +96,87 @@ export default ({
 			</Link>
 		);
 	return (
-		<div className={styles.wrapper}>
-			<article className={styles.article}>
-				<header>
-					{/* PROFILE PIC*/}
-					<div className={styles.profilePic}>
-						<Link to={`/profile/${uid}`} className={styles.Link}>
-							<img alt='/profile' src={profilePic} />
-						</Link>
-					</div>
-					{/* NAME */}
-					<Link to={`/profile/${uid}`} className={styles.Link}>
-						<h2 className={styles.name}>{name}</h2>
-					</Link>
-					{/* TIME */}
-					<Link
-						to={`/posts/${id}`}
-						className={[styles.Link, styles.timeLink].join(' ')}>
-						<time>{createdAt}</time>
-					</Link>
-					{/* ACTIVITY */}
-					<Link
-						to={`/profile/${uid}`}
-						className={[styles.Link, styles.activityLink].join(' ')}>
-						<p className={styles.activity}>{activity}</p>
-					</Link>
-				</header>
-				{/* BODY */}
-				{/* Only link to individual post when on main feed */}
-				<main className={styles.body}>{bodyText}</main>
-				<footer>
-					{/* NUMBER OF LIKES */}
-					<Link to={`/posts/${id}`} className={styles.Link}>
-						<p className={styles.likes}>
-							<img alt='likes' src={heartFull}></img> {likes!.count} likes
-						</p>
-					</Link>
-					{/* NUMBER OF COMMENTS */}
-					<Link
-						to={`/posts/${id}`}
-						className={[styles.Link, styles.comments].join(' ')}>
-						<img alt='likes' src={commentFull}></img> {comments!.count} comments
-					</Link>
-					<div className={styles.icons}>
-						{/* LIKE BUTTON */}
-						<button>
-							{/* Show full heart if this post has been saved in user "likes" */}
-							{likes[user.uid] ? (
-								<img
-									alt='likes'
-									src={heartFull}
-									onClick={() => unlikePostHandler(id!)}></img>
-							) : (
-								<img
-									alt='likes'
-									src={heartEmpty}
-									onClick={() => likePostHandler(id!)}></img>
-							)}
-						</button>
+		<>
+			{status === 'idle' ? null : status === 'loading' ? (
+				<div className={styles.altWrapper}>
+					<p>Loading post...</p>
+				</div>
+			) : status === 'failed' ? (
+				<div className={styles.altWrapper}>
+					<p>Post not found.</p>
+				</div>
+			) : status === 'success' ? (
+				<div className={styles.wrapper}>
+					<article className={styles.article}>
+						<header>
+							{/* PROFILE PIC*/}
+							<div className={styles.profilePic}>
+								<Link to={`/profile/${uid}`} className={styles.Link}>
+									<img alt='/profile' src={profilePic} />
+								</Link>
+							</div>
+							{/* NAME */}
+							<Link to={`/profile/${uid}`} className={styles.Link}>
+								<h2 className={styles.name}>{name}</h2>
+							</Link>
+							{/* TIME */}
+							<Link
+								to={`/posts/${id}`}
+								className={[styles.Link, styles.timeLink].join(' ')}>
+								<time>{createdAt}</time>
+							</Link>
+							{/* ACTIVITY */}
+							<Link
+								to={`/profile/${uid}`}
+								className={[styles.Link, styles.activityLink].join(' ')}>
+								<p className={styles.activity}>{activity}</p>
+							</Link>
+						</header>
+						{/* BODY */}
+						{/* Only link to individual post when on main feed */}
+						<main className={styles.body}>{bodyText}</main>
+						<footer>
+							{/* NUMBER OF LIKES */}
+							<Link to={`/posts/${id}`} className={styles.Link}>
+								<p className={styles.likes}>
+									<img alt='likes' src={heartFull}></img> {likes!.count} likes
+								</p>
+							</Link>
+							{/* NUMBER OF COMMENTS */}
+							<Link
+								to={`/posts/${id}`}
+								className={[styles.Link, styles.comments].join(' ')}>
+								<img alt='likes' src={commentFull}></img> {comments!.count}{' '}
+								comments
+							</Link>
+							<div className={styles.icons}>
+								{/* LIKE BUTTON */}
+								<button>
+									{/* Show full heart if this post has been saved in user "likes" */}
+									{likes[user.uid] ? (
+										<img
+											alt='likes'
+											src={heartFull}
+											onClick={() => unlikePostHandler(id!)}></img>
+									) : (
+										<img
+											alt='likes'
+											src={heartEmpty}
+											onClick={() => likePostHandler(id!)}></img>
+									)}
+								</button>
 
-						{/* COMMENT BUTTON */}
-						<Link to={`/posts/${id}`} className={styles.Link}>
-							<button>
-								<img alt='comments' src={commentFull}></img>
-							</button>
-						</Link>
-					</div>
-				</footer>
-			</article>
-		</div>
+								{/* COMMENT BUTTON */}
+								<Link to={`/posts/${id}`} className={styles.Link}>
+									<button>
+										<img alt='comments' src={commentFull}></img>
+									</button>
+								</Link>
+							</div>
+						</footer>
+					</article>
+				</div>
+			) : null}
+		</>
 	);
 };

@@ -6,7 +6,7 @@ import { PostType } from '../../app/types';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
-import { getPostData } from '../../app/postsSlice';
+import { getPostsData } from '../../app/postsSlice';
 
 import locationIcon from '../../assets/images/location.svg';
 
@@ -18,17 +18,15 @@ interface State {
 
 export default () => {
 	const user = useSelector(selectUser);
-	const postData = useSelector(getPostData);
-
-	console.log('POST DATA', postData);
+	const postsData = useSelector(getPostsData);
 
 	return (
 		<>
 			<Nav />
 			<h1 className={styles.title}>Posts</h1>
-			{postData.status === 'idle' ? null : postData.status === 'loading' ? (
-				<p>Loading posts...</p>
-			) : postData.status === 'success' ? (
+			{postsData.status === 'idle' ? null : postsData.status === 'loading' ? (
+				<p className={styles.message}>Loading posts...</p>
+			) : postsData.status === 'success' ? (
 				<>
 					<div className={styles.locationDiv}>
 						<img src={locationIcon} alt='location' />{' '}
@@ -36,12 +34,18 @@ export default () => {
 							{user.city || user.state || user.country || 'United States'}:
 						</address>
 					</div>
-					{Object.values(postData.postContainer).map((el: any, i: number) => {
-						return <Post key={el.body || i} {...el} />;
-					})}
+					{Object.values(postsData.postContainer)
+						//filter out any posts that have been loaded into Redux, but shouldn't be part of the feed
+						.filter(
+							(post) => post.city === user.city || post.state === user.state
+						)
+						//convert post data into a Post component
+						.map((el: any, i: number) => {
+							return <Post key={el.body || i} {...el} />;
+						})}
 				</>
-			) : postData.status === 'failed' ? (
-				<p>{postData.error}</p>
+			) : postsData.status === 'failed' ? (
+				<p className={styles.message}>{postsData.error}</p>
 			) : null}
 			<div className='spacerLarge'></div>
 		</>
