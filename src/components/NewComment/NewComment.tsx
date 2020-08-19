@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './NewPost.module.scss';
+import styles from './NewComment.module.scss';
 import { Link } from 'react-router-dom';
 import { UserPayload } from '../../app/types';
 import { db, serverTimeStamp } from '../../app/config';
@@ -17,22 +17,18 @@ interface Inputs {
 
 type KeyOfInputs = keyof Inputs;
 
-export default () => {
+export default ({ postId }: { postId: string }) => {
 	const user = useSelector(selectUser);
 	const {
 		uid = '',
 		activity = '',
 		profilePic = 'https://images.pexels.com/photos/922376/pexels-photo-922376.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-		city = '',
-		country = '',
 		name = '',
-		state = '',
-		zip = '',
 	}: UserPayload = user;
 
 	const [inputs, setInputs] = useState<Inputs>({
 		body: {
-			label: 'Write a post',
+			label: 'Write a comment',
 			value: '',
 			animateUp: false,
 			empty: true,
@@ -115,12 +111,6 @@ export default () => {
 		//only update information if new information has been provided
 		interface StateAndUserInfo {
 			uid: string;
-			comments: {
-				count: number;
-			};
-			likes: {
-				count: number;
-			};
 			createdAt: any;
 
 			activity?: string;
@@ -136,22 +126,10 @@ export default () => {
 
 		let stateAndUserInfo: StateAndUserInfo = {
 			uid,
-			comments: {
-				count: 0,
-			},
-			likes: {
-				count: 0,
-			},
-
-			activity,
-			city,
-			country,
-			createdAt: serverTimeStamp(),
-			name,
 			profilePic,
-			state,
-			zip,
-
+			name,
+			createdAt: serverTimeStamp(),
+			activity,
 			body: inputs.body.value,
 		};
 
@@ -167,9 +145,11 @@ export default () => {
 		}));
 
 		db.collection('posts')
+			.doc(postId)
+			.collection('comments')
 			.add(stateAndUserInfo)
 			.then(() => {
-				console.log('Post successfully added to database!');
+				console.log('Comment successfully added to database!');
 			})
 			.catch((error) => {
 				console.error(error);

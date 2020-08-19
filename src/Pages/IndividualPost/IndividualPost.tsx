@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styles from './IndividualPost.module.scss';
-import { db, documentId } from '../../app/config';
 import Post from '../../components/Post/Post';
 import Nav from '../../components/Nav/Nav';
 import Comments from '../../components/Comments/Comments';
+import NewComment from '../../components/NewComment/NewComment';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
@@ -24,7 +24,6 @@ interface SinglePostStatus {
 
 export default () => {
 	const dispatch = useDispatch();
-	const user = useSelector(selectUser);
 	const postData = useSelector(getPostsData);
 	const [postId] = useState(window.location.pathname.split('/posts/')[1]);
 
@@ -51,6 +50,7 @@ export default () => {
 						) : postData.postContainer[postId].status === 'success' ? (
 							<>
 								<Post {...postData.postContainer[postId]} />
+								<NewComment postId={postId} />
 								<Comments {...postData.postContainer[postId]} />
 							</>
 						) : null
