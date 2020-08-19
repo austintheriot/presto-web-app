@@ -45,6 +45,7 @@ const Home = (props: { message: string }) => {
 								city: 'Austin',
 								state: 'Texas',
 								country: 'United States',
+								profilePic: 'https://source.unsplash.com/random',
 							},
 							{ merge: true }
 						)
