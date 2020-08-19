@@ -74,7 +74,6 @@ export const initializeApp = () => (dispatch: Function) => {
 									zip = '',
 									createdAt = '',
 								} = doc.data();
-								console.log('[userSlice]: ', doc.data(), createdAt);
 								//convert timestamp to string after value has been extracted
 								//weird bug here where createdAt is sometimes registerd as null
 								if (createdAt) {
@@ -126,7 +125,6 @@ export const initializeApp = () => (dispatch: Function) => {
 							console.log(
 								'[userSlice]: initializing app with user authentication data and user database data at the same time'
 							);
-							console.log('[userSlice] user data: ', userData);
 							dispatch(updateUser(userData));
 							resolve(userData);
 						},

@@ -49,7 +49,7 @@ export default ({
 				uid: userId,
 			})
 			.then(() => {
-				console.log('Like successfully added!');
+				console.log('Like successfully added to database!');
 			})
 			.catch((err) => {
 				console.error(err);
@@ -68,7 +68,7 @@ export default ({
 			.doc(userId)
 			.delete()
 			.then(() => {
-				console.log('Like successfully added!');
+				console.log('Like successfully deleted from database!');
 			})
 			.catch((err) => {
 				console.error(err);

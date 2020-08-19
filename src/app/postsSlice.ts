@@ -46,7 +46,6 @@ export const postsSlice = createSlice({
 					},
 				};
 				state.postsData.postContainer[postId].likes = newLikes;
-				console.log('updating likes to: ', newLikes);
 			}
 		},
 		unlikePost: (
@@ -68,7 +67,6 @@ export const postsSlice = createSlice({
 					[userId]: false,
 				};
 				state.postsData.postContainer[postId].likes = newLikes;
-				console.log('updating likes to: ', newLikes);
 			}
 		},
 	},
@@ -112,7 +110,6 @@ export const fetchPosts = (searchKey: string, searchValue: string) => (
 						error: '',
 					};
 					dispatch(updatePostsData(postsData));
-					console.log('[postsSlice]: Posts data: ', postsData);
 				} else {
 					console.log(
 						'[postsSlice]: No posts found. Displaying message instead.'
@@ -147,7 +144,6 @@ export const fetchSinglePost = (postId: string) => (
 	dispatch: Function,
 	getState: Function
 ) => {
-	console.log('//////////////////////////////////////////////////////////');
 	console.log('[postsSlice]: Searching database for posts with Id: ', postId);
 	let singlePostData: PostType = {
 		id: postId,
