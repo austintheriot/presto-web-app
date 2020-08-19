@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Nav from '../../components/Nav/Nav';
 import Post from '../../components/Post/Post';
 import styles from './Posts.module.scss';
@@ -10,15 +10,28 @@ import { getPostsData } from '../../app/postsSlice';
 
 import locationIcon from '../../assets/images/location.svg';
 
-interface State {
-	posts: PostType[];
-	status: string;
-	error: string | null;
-}
-
 export default () => {
 	const user = useSelector(selectUser);
 	const postsData = useSelector(getPostsData);
+	const [posts, setPosts] = useState<any[]>([]);
+
+	useEffect(() => {
+		console.log('[Posts]: filtering posts and sorting by date.');
+		let postsArray = Object.values(postsData.postContainer)
+			//filter out any posts that have been loaded into Redux, but shouldn't be part of the feed
+			.filter((post) => post.city === user.city || post.state === user.state)
+			//sort by most recent at the top
+			.sort((postA, postB) => {
+				let a = new Date(postA.createdAt ? postA.createdAt : 0).getTime();
+				let b = new Date(postB.createdAt ? postB.createdAt : 0).getTime();
+				return b - a;
+			})
+			//convert post data into a Post component
+			.map((el: any, i: number) => {
+				return <Post key={el.body || i} {...el} />;
+			});
+		setPosts(postsArray);
+	}, [postsData.postContainer, user.city, user.state]);
 
 	return (
 		<>
@@ -34,15 +47,8 @@ export default () => {
 							{user.city || user.state || user.country || 'United States'}:
 						</address>
 					</div>
-					{Object.values(postsData.postContainer)
-						//filter out any posts that have been loaded into Redux, but shouldn't be part of the feed
-						.filter(
-							(post) => post.city === user.city || post.state === user.state
-						)
-						//convert post data into a Post component
-						.map((el: any, i: number) => {
-							return <Post key={el.body || i} {...el} />;
-						})}
+					{posts}
+					{}
 				</>
 			) : postsData.status === 'failed' ? (
 				<p className={styles.message}>{postsData.error}</p>

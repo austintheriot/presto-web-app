@@ -90,7 +90,6 @@ export const fetchPosts = (searchKey: string, searchValue: string) => (
 	);
 	db.collection('posts')
 		.where(searchKey, '==', searchValue)
-		/* .orderBy('createdAt', 'desc') //create index to do this */
 		.limit(20)
 		.onSnapshot(
 			(querySnapshot) => {

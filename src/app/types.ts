@@ -44,7 +44,7 @@ export interface PostType {
 	id: string;
 	comments: any;
 	likes: any;
-	createdAt?: TimestampType;
+	createdAt?: string;
 
 	activity?: string;
 	body?: string;
