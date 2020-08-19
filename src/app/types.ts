@@ -35,13 +35,37 @@ export interface UserPayload {
 	createdAt?: string;
 }
 
+export interface PostType {
+	//used for showing statuses on individual posts while they're loading
+	status: 'idle' | 'loading' | 'success' | 'failed';
+	error: string;
+
+	uid: string;
+	id: string;
+	comments: any;
+	likes: any;
+	createdAt?: TimestampType;
+
+	activity?: string;
+	body?: string;
+	city?: string;
+	country?: string;
+	county?: string;
+	name?: string;
+	profilePic?: string;
+	state?: string;
+	zip?: string;
+}
+
 export interface PostContainer {
 	[postId: string]: PostType;
 }
 
-export interface PostsPayload {
+export interface PostsData {
 	//necessary for initializing app (loading screen etc.):
 	postContainer: PostContainer;
+
+	//used to show status when loading loading main body Posts into app
 	status: 'idle' | 'loading' | 'success' | 'failed';
 	error: string;
 }
@@ -51,7 +75,7 @@ export interface ReduxState {
 		user: UserPayload;
 	};
 	posts: {
-		postData: PostsPayload;
+		postsData: PostsData;
 	};
 }
 
@@ -107,24 +131,6 @@ export interface ProfileType {
 	website?: string;
 	zip?: string;
 	createdAt?: TimestampType;
-}
-
-export interface PostType {
-	uid: string;
-	id: string;
-	createdAt?: TimestampType;
-	comments: any;
-	likes: any;
-
-	activity?: string;
-	body?: string;
-	city?: string;
-	country?: string;
-	county?: string;
-	name?: string;
-	profilePic?: string;
-	state?: string;
-	zip?: string;
 }
 
 export interface HistoryType {
