@@ -139,36 +139,51 @@ export default () => {
 						alt='activity'
 						className={styles.activityIcon}
 					/>
-					<p className={styles.activity}>{profile.profile.activity}</p>
+					<p className={styles.activity}>{profile.profile.activity || 'n/a'}</p>
 					{/* INSTRUMENT */}
 					<img
 						src={instrumentIcon}
 						alt='instrument'
 						className={styles.instrumentIcon}
 					/>
-					<p className={styles.instrument}>{profile.profile.instrument}</p>
+					<p className={styles.instrument}>
+						{profile.profile.instrument || 'n/a'}
+					</p>
 					{/* BIO */}
 					<img src={bioIcon} alt='bio' className={styles.bioIcon} />
-					<p className={styles.bio}>{profile.profile.bio}</p>
+					<p className={styles.bio}>{profile.profile.bio || 'n/a'}</p>
 					{/* WEBSITE */}
-					<a
-						href={profile.profile.website}
-						target='_blank'
-						rel='noopener noreferrer'
-						className={styles.websiteIcon}>
-						<img
-							src={websiteIcon}
-							alt='website'
-							className={styles.websiteIcon}
-						/>
-					</a>
-					<a
-						href={profile.profile.website}
-						target='_blank'
-						rel='noopener noreferrer'
-						className={styles.website}>
-						{profile.profile.website}
-					</a>
+					{profile.profile.website ? (
+						<>
+							<a
+								href={profile.profile.website}
+								target='_blank'
+								rel='noopener noreferrer'
+								className={styles.websiteIcon}>
+								<img
+									src={websiteIcon}
+									alt='website'
+									className={styles.websiteIcon}
+								/>
+							</a>
+							<a
+								href={profile.profile.website}
+								target='_blank'
+								rel='noopener noreferrer'
+								className={styles.website}>
+								{profile.profile.website || 'n/a'}
+							</a>
+						</>
+					) : (
+						<>
+							<img
+								src={websiteIcon}
+								alt='website'
+								className={styles.websiteIcon}
+							/>
+							<p className={styles.website}>n/a</p>
+						</>
+					)}
 					{/* JOINED */}
 					<img src={joinedIcon} alt='calendar' className={styles.joinedIcon} />
 					<p className={styles.joined}>
