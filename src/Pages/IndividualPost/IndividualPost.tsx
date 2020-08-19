@@ -8,19 +8,6 @@ import NewComment from '../../components/NewComment/NewComment';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPostsData, fetchSinglePost } from '../../app/postsSlice';
 
-import { PostType } from '../../app/types';
-
-interface State {
-	post: PostType;
-	status: 'idle' | 'loading' | 'success' | 'failed';
-	error: string | null;
-}
-
-interface SinglePostStatus {
-	status: 'idle' | 'loading' | 'success' | 'failed';
-	error: '';
-}
-
 export default () => {
 	const dispatch = useDispatch();
 	const postData = useSelector(getPostsData);
