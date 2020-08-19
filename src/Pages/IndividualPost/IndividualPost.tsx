@@ -6,7 +6,6 @@ import Comments from '../../components/Comments/Comments';
 import NewComment from '../../components/NewComment/NewComment';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
 import { getPostsData, fetchSinglePost } from '../../app/postsSlice';
 
 import { PostType } from '../../app/types';
