@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
-import { PostType } from '../../app/types';
+import { PostType, CommentType } from '../../app/types';
 import { db } from '../../app/config';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ import { likePost, unlikePost } from '../../app/postsActionCreators';
 //images
 import heartEmpty from '../../assets/images/heartEmpty.svg';
 import heartFull from '../../assets/images/heartFull.svg';
-/* import commentEmpty from '../../assets/images/commentEmpty.svg'; */
+import commentEmpty from '../../assets/images/commentEmpty.svg';
 import commentFull from '../../assets/images/commentFull.svg';
 
 export default ({
@@ -167,11 +167,21 @@ export default ({
 								</button>
 
 								{/* COMMENT BUTTON */}
-								<Link to={`/posts/${id}`} className={styles.Link}>
-									<button>
-										<img alt='comments' src={commentFull}></img>
-									</button>
-								</Link>
+								{Object.values(comments).find(
+									(comment: any) => comment.uid === user.uid
+								) ? (
+									<Link to={`/posts/${id}`} className={styles.Link}>
+										<button>
+											<img alt='comments' src={commentFull}></img>
+										</button>
+									</Link>
+								) : (
+									<Link to={`/posts/${id}`} className={styles.Link}>
+										<button>
+											<img alt='comments' src={commentEmpty}></img>
+										</button>
+									</Link>
+								)}
 							</div>
 						</footer>
 					</article>
