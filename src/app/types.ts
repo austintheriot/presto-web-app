@@ -10,12 +10,6 @@ export interface UserPayload {
 	uid: string | ''; //necessary to be declared as a string, regardless of if that string is empty or not
 
 	//optional data received after auth and database requests:
-	likes?: {
-		[string: string]: boolean;
-	};
-	comments?: {
-		[string: string]: boolean;
-	};
 	email?: string;
 	displayName?: string;
 	emailVerified?: false;
@@ -33,6 +27,7 @@ export interface UserPayload {
 	website?: string;
 	zip?: string;
 	createdAt?: string;
+	profilePic?: string;
 }
 
 export interface PostType {

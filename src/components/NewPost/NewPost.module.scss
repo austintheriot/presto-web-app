@@ -1,0 +1,142 @@
+/* Wrapper to add some padding */
+
+/* Post not found, loading post..., etc. */
+.altWrapper {
+	width: 90%;
+	min-width: 300px;
+	max-width: 600px;
+	margin: 2rem auto;
+	box-shadow: var(--shadow);
+	border-radius: 20px;
+	padding: 1.5rem;
+	display: flex;
+	flex: none;
+	place-items: center;
+}
+.altWrapper p {
+	width: 100%;
+	text-align: center;
+}
+
+/* Post loaded */
+.Link {
+	text-decoration: none;
+	color: black;
+}
+.Link:visited {
+	color: black;
+}
+.SeeMore {
+	display: block;
+	margin-top: 1rem;
+	color: black;
+	text-decoration: underline;
+}
+.SeeMore:visited {
+	color: black;
+}
+
+.wrapper {
+	width: 90%;
+	min-width: 300px;
+	max-width: 600px;
+	margin: 2rem auto;
+	box-shadow: var(--shadow);
+	border-radius: 20px;
+	padding: 1.5rem;
+}
+
+.article {
+	margin: 0 auto;
+	width: 100%;
+	min-width: 300px;
+	max-width: 600px;
+
+	display: grid;
+	/* rows / columns */
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr minmax(100px, max-content);
+	grid-template-areas:
+		'header'
+		'body';
+	place-items: center; /* align justify */
+
+	header {
+		grid-area: header;
+
+		width: 100%;
+		height: max-content;
+
+		display: grid;
+		/* 2 middle sections required here to prevent mobile spacing bug */
+		grid: repeat(3, 1fr) / 60px repeat(2, 1fr) 75px;
+		grid-template-areas:
+			'profilePic name name activity'
+			'profilePic time time activity'
+			'profilePic time time activity';
+		place-items: start;
+	}
+
+	.profilePic {
+		grid-area: profilePic;
+
+		height: 50px;
+		width: 50px;
+		border-radius: 18px;
+		overflow: hidden;
+
+		img {
+			height: 50px;
+			width: 50px;
+			object-fit: cover;
+			object-position: center;
+		}
+	}
+
+	.name {
+		grid-area: name;
+
+		font-weight: 600;
+		width: 100%;
+		font-size: 1rem;
+		text-align: left;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.timeLink,
+	time {
+		grid-area: time;
+		font-size: 0.75rem;
+	}
+	.activityLink,
+	.activity {
+		grid-area: activity;
+		font-size: 0.75rem;
+		text-align: right;
+		justify-self: self-end;
+		height: max-content;
+		width: max-content;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.body {
+		grid-area: body;
+		align-self: flex-start;
+
+		width: 100%;
+		height: max-content;
+
+		button {
+			margin: 1rem auto;
+		}
+
+		textarea,
+		div {
+			width: 100%;
+			max-width: none;
+		}
+	}
+}

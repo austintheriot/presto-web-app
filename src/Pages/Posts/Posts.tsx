@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../../components/Nav/Nav';
 import Post from '../../components/Post/Post';
+import NewPost from '../../components/NewPost/NewPost';
 import styles from './Posts.module.scss';
-import { PostType } from '../../app/types';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
@@ -28,7 +28,7 @@ export default () => {
 			})
 			//convert post data into a Post component
 			.map((el: any, i: number) => {
-				return <Post key={el.body || i} {...el} />;
+				return <Post key={el.uid + el.body + el.createdAt} {...el} />;
 			});
 		setPosts(postsArray);
 	}, [postsData.postContainer, user.city, user.state]);
@@ -47,6 +47,7 @@ export default () => {
 							{user.city || user.state || user.country || 'United States'}:
 						</address>
 					</div>
+					<NewPost />
 					{posts}
 					{}
 				</>

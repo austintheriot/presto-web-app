@@ -59,8 +59,6 @@ export const initializeApp = () => (dispatch: Function) => {
 									'[userSlice]: data is not empty; user document exists in database'
 								);
 								let {
-									likes = {},
-									comments = {},
 									activity = '',
 									bio = '',
 									city = '',
@@ -73,6 +71,7 @@ export const initializeApp = () => (dispatch: Function) => {
 									website = '',
 									zip = '',
 									createdAt = '',
+									profilePic = '',
 								} = doc.data();
 								//convert timestamp to string after value has been extracted
 								//weird bug here where createdAt is sometimes registerd as null
@@ -84,8 +83,6 @@ export const initializeApp = () => (dispatch: Function) => {
 									authenticated: true,
 									init: true,
 									status: 'success',
-									likes,
-									comments,
 									error: null,
 									email,
 									uid,
@@ -104,6 +101,7 @@ export const initializeApp = () => (dispatch: Function) => {
 									website,
 									zip,
 									createdAt,
+									profilePic,
 								};
 							} else {
 								console.log(

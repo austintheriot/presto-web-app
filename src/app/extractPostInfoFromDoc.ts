@@ -6,7 +6,12 @@ export default (
 		| firebase.firestore.DocumentData
 ) => {
 	//convert servertimestamps into serialized values for the Redux store:
-	let serializedPostCreatedAt = doc.data().createdAt.toDate().toLocaleString();
+	let serializedPostCreatedAt = '';
+
+	//make sure createdAt is defined before making transformation on it
+	if (doc.data()?.createdAt) {
+		serializedPostCreatedAt = doc.data().createdAt.toDate().toLocaleString();
+	}
 	//post/comments/{createdAt} --> serlialized value
 	let postComments = { ...doc.data().comments };
 	//if there are comments on the post:
@@ -14,9 +19,12 @@ export default (
 		for (let docIdKey in postComments) {
 			//don't iterate using the key 'count'
 			if (docIdKey !== 'count') {
-				postComments[docIdKey].createdAt = postComments[docIdKey].createdAt
-					.toDate()
-					.toLocaleString();
+				//make sure createdAt is defined before making transformation on it
+				if (postComments[docIdKey].createdAt) {
+					postComments[docIdKey].createdAt = postComments[docIdKey].createdAt
+						.toDate()
+						.toLocaleString();
+				}
 			}
 		}
 	}
