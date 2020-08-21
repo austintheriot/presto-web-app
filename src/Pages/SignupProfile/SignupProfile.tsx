@@ -20,6 +20,7 @@ import { HistoryType, InputType } from '../../app/types';
 //images
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
+import SpacerMedium from '../../components/Spacers/SpacerMedium';
 
 interface Inputs {
 	activity: InputType;
@@ -350,7 +351,7 @@ export default function Login(props: HistoryType) {
 					</Link>
 				</div>
 			</form>
-			<div className='spacerMedium'></div>
+			<SpacerMedium />
 		</>
 	);
 }

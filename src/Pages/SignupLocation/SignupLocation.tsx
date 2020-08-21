@@ -15,6 +15,8 @@ import { HistoryType, InputType } from '../../app/types';
 
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
+import SpacerSmall from '../../components/Spacers/SpacerSmall';
+import SpacerMedium from '../../components/Spacers/SpacerMedium';
 
 interface Inputs {
 	location: InputType;
@@ -638,7 +640,7 @@ export default function Login(props: HistoryType) {
 				inputs={inputs}
 				suggestionClickHandler={suggestionClickHandler}
 			/>
-			<div className='spacerSmall'></div>
+			<SpacerSmall />
 			<form onSubmit={submitHandler}>
 				<fieldset className={styles.fieldset}>
 					<Input
@@ -735,7 +737,7 @@ export default function Login(props: HistoryType) {
 					</button>
 				</div>
 			</form>
-			<div className='spacerMedium'></div>
+			<SpacerMedium />
 		</>
 	);
 }
