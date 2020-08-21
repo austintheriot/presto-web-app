@@ -8,8 +8,9 @@ import Button from '../Button/Button';
 
 import { InputType } from '../../app/types';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
+import { addComment, deleteComment } from '../../app/postsSlice';
 
 interface Inputs {
 	body: InputType;
@@ -19,6 +20,7 @@ type KeyOfInputs = keyof Inputs;
 
 export default ({ postId }: { postId: string }) => {
 	const user = useSelector(selectUser);
+	const dispatch = useDispatch();
 	const {
 		uid = '',
 		activity = '',
@@ -157,8 +159,18 @@ export default ({ postId }: { postId: string }) => {
 			.doc(postId)
 			.collection('comments')
 			.add(stateAndUserInfo)
-			.then(() => {
+			.then((doc) => {
 				console.log('Comment successfully added to database!');
+
+				//turn createdAt into a string before adding it to Redux
+				stateAndUserInfo.createdAt = new Date().toLocaleString();
+				dispatch(
+					addComment({
+						postId,
+						commentId: doc.id,
+						commentData: stateAndUserInfo,
+					})
+				);
 			})
 			.catch((error) => {
 				console.error(error);
