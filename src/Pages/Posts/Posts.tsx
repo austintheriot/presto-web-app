@@ -20,7 +20,7 @@ export default () => {
 		console.log('[Posts]: filtering posts and sorting by date.');
 		let postsArray = Object.values(postsData.postContainer)
 			//filter out any posts that have been loaded into Redux, but shouldn't be part of the feed
-			.filter((post) => post.city === user.city || post.state === user.state)
+			.filter((post) => post.country === user.country)
 			//sort by most recent at the top
 			.sort((postA, postB) => {
 				let a = new Date(postA.createdAt ? postA.createdAt : 0).getTime();
