@@ -38,7 +38,10 @@ export default () => {
 							<>
 								<Post {...postData.postContainer[postId]} />
 								<NewComment postId={postId} />
-								<Comments {...postData.postContainer[postId]} />
+								<Comments
+									commentsContainer={postData.postContainer[postId]}
+									postId={postId}
+								/>
 							</>
 						) : null
 					) : (

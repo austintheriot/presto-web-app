@@ -10,7 +10,7 @@ import { InputType } from '../../app/types';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
-import { addComment, deleteComment } from '../../app/postsSlice';
+import { addComment } from '../../app/postsSlice';
 
 interface Inputs {
 	body: InputType;
@@ -133,6 +133,7 @@ export default ({ postId }: { postId: string }) => {
 			zip?: string;
 
 			body?: string;
+			id?: string;
 		}
 
 		let stateAndUserInfo: StateAndUserInfo = {

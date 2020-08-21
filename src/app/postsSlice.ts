@@ -73,13 +73,18 @@ export const postsSlice = createSlice({
 			let postId = action.payload.postId;
 			let commentId = action.payload.commentId;
 			let commentData = action.payload.commentData;
-
-			/* state.postsData = action.payload; */
 			state.postsData.postContainer[postId].comments[commentId] = commentData;
 			state.postsData.postContainer[postId].comments.count += 1;
 		},
 		deleteComment: (state, action) => {
-			/* state.postsData = action.payload; */
+			let postId = action.payload.postId;
+			let commentId = action.payload.commentId;
+			let currentComments = {
+				...state.postsData.postContainer[postId].comments,
+			};
+			delete currentComments[commentId];
+			state.postsData.postContainer[postId].comments = currentComments;
+			state.postsData.postContainer[postId].comments.count -= 1;
 		},
 	},
 });
