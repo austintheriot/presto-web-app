@@ -32,7 +32,7 @@ export default () => {
 				return <Post key={el.uid + el.body + el.createdAt} {...el} />;
 			});
 		setPosts(postsArray);
-	}, [postsData.postContainer, user.city, user.state]);
+	}, [postsData.postContainer, user.country]);
 
 	return (
 		<>
