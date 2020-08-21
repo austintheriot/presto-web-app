@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './NewPost.module.scss';
 import { Link } from 'react-router-dom';
 import { UserPayload } from '../../app/types';
@@ -49,6 +49,15 @@ export default () => {
 			},
 		},
 	});
+
+	const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
+
+	useEffect(() => {
+		const timer = setInterval(() => {
+			setCurrentTime(new Date().toLocaleString());
+		}, 1000);
+		return () => clearInterval(timer);
+	}, []);
 
 	const handleFocus = (
 		e: React.FormEvent<HTMLInputElement>,
@@ -195,7 +204,7 @@ export default () => {
 					<Link
 						to={`/profile/${uid}`}
 						className={[styles.Link, styles.timeLink].join(' ')}>
-						<time>{new Date().toLocaleString()}</time>
+						<time>{currentTime}</time>
 					</Link>
 					{/* ACTIVITY */}
 					<Link
