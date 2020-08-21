@@ -7,6 +7,7 @@ import NewComment from '../../components/NewComment/NewComment';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getPostsData, fetchSinglePost } from '../../app/postsSlice';
+import SpacerLarge from '../../components/Spacers/SpacerLarge';
 
 export default () => {
 	const dispatch = useDispatch();
@@ -46,6 +47,7 @@ export default () => {
 					)
 				) : null
 			}
+			<SpacerLarge />
 		</>
 	);
 };
