@@ -264,8 +264,6 @@ export default function Signup(props: HistoryType) {
 					{
 						email: signedUpUser.email,
 						createdAt: serverTimeStamp(),
-						city: 'Austin',
-						state: 'Texas',
 						country: 'United States',
 					},
 					{ merge: true }
