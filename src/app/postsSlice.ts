@@ -69,6 +69,18 @@ export const postsSlice = createSlice({
 				state.postsData.postContainer[postId].likes = newLikes;
 			}
 		},
+		addComment: (state, action) => {
+			let postId = action.payload.postId;
+			let commentId = action.payload.commentId;
+			let commentData = action.payload.commentData;
+
+			/* state.postsData = action.payload; */
+			state.postsData.postContainer[postId].comments[commentId] = commentData;
+			state.postsData.postContainer[postId].comments.count += 1;
+		},
+		deleteComment: (state, action) => {
+			/* state.postsData = action.payload; */
+		},
 	},
 });
 
@@ -223,6 +235,8 @@ export const {
 	updateSinglePost,
 	likePost,
 	unlikePost,
+	addComment,
+	deleteComment,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
