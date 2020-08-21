@@ -19,6 +19,8 @@ interface State {
 }
 
 export default () => {
+	window.scrollTo(0, 0);
+
 	const [profile, setProfile] = useState<State>({
 		profile: {},
 		status: 'idle', //idle, loading, success, failed

@@ -9,6 +9,8 @@ import logout from '../../assets/images/logout.svg';
 /* import notifications from '../../assets/images/notifications.svg'; */
 
 export default () => {
+	window.scrollTo(0, 0);
+
 	return (
 		<>
 			<Nav />

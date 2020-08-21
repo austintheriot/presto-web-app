@@ -16,6 +16,8 @@ import home3 from '../../assets/images/home4.svg';
 import home4 from '../../assets/images/home5.svg';
 
 const Home = (props: { message: string }) => {
+	window.scrollTo(0, 0);
+
 	const user = useSelector(selectUser);
 	const [message, setMessage] = useState('');
 	const [signedInAnonymously, setSignedInAnonymously] = useState(false);

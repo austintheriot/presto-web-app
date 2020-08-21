@@ -24,6 +24,8 @@ interface Inputs {
 type KeyOfInputs = keyof Inputs;
 
 export default function Login(props: HistoryType) {
+	window.scrollTo(0, 0);
+
 	const user = useSelector(selectUser);
 	const [inputs, setInputs] = useState<Inputs>({
 		name: {
