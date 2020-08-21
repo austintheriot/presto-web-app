@@ -93,6 +93,8 @@ export interface InputType {
 }
 
 export interface CommentType {
+	commentId?: string;
+	postId?: string;
 	uid?: string;
 	activity?: string;
 	body?: string;
