@@ -19,8 +19,6 @@ export default (setMessage: Function): void => {
 					{
 						name: 'Guest',
 						createdAt: serverTimeStamp(),
-						city: 'Austin',
-						state: 'Texas',
 						country: 'United States',
 						profilePic: 'https://i.postimg.cc/QdjGdXRk/no-img.png',
 					},
