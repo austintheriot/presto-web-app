@@ -23,6 +23,8 @@ interface Inputs {
 type KeyOfInputs = keyof Inputs;
 
 export default function Login(props?: HistoryType) {
+	window.scrollTo(0, 0);
+
 	const [inputs, setInputs] = useState<Inputs>({
 		email: {
 			value: '',

@@ -12,6 +12,8 @@ import locationIcon from '../../assets/images/location.svg';
 import SpacerLarge from '../../components/Spacers/SpacerLarge';
 
 export default () => {
+	window.scrollTo(0, 0);
+
 	const user = useSelector(selectUser);
 	const postsData = useSelector(getPostsData);
 	const [posts, setPosts] = useState<any[]>([]);

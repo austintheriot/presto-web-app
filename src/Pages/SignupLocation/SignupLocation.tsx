@@ -57,6 +57,8 @@ interface PositionData {
 type CollectedDataArray = LocationData[];
 
 export default function Login(props: HistoryType) {
+	window.scrollTo(0, 0);
+
 	const user = useSelector(selectUser);
 	const [inputs, setInputs] = useState<Inputs>({
 		location: {

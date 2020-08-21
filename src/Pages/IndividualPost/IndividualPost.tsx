@@ -10,6 +10,8 @@ import { getPostsData, fetchSinglePost } from '../../app/postsSlice';
 import SpacerLarge from '../../components/Spacers/SpacerLarge';
 
 export default () => {
+	window.scrollTo(0, 0);
+
 	const dispatch = useDispatch();
 	const postData = useSelector(getPostsData);
 	const [postId] = useState(window.location.pathname.split('/posts/')[1]);
