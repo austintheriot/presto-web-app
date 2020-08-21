@@ -13,6 +13,7 @@ import { HistoryType, InputType } from '../../app/types';
 
 import arrowLeft from '../../assets/images/arrow-left.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
+import SpacerMedium from '../../components/Spacers/SpacerMedium';
 
 //redirect with AuthContext once setInputs permeates down to component
 
@@ -293,7 +294,7 @@ export default function Login(props: HistoryType) {
 					</Link>
 				</div>
 			</form>
-			<div className='spacerMedium'></div>
+			<SpacerMedium />
 		</>
 	);
 }

@@ -9,6 +9,7 @@ import { selectUser } from '../../app/userSlice';
 import { getPostsData } from '../../app/postsSlice';
 
 import locationIcon from '../../assets/images/location.svg';
+import SpacerLarge from '../../components/Spacers/SpacerLarge';
 
 export default () => {
 	const user = useSelector(selectUser);
@@ -54,7 +55,7 @@ export default () => {
 			) : postsData.status === 'failed' ? (
 				<p className={styles.message}>{postsData.error}</p>
 			) : null}
-			<div className='spacerLarge'></div>
+			<SpacerLarge />
 		</>
 	);
 };
