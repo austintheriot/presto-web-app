@@ -73,8 +73,8 @@
 		grid: repeat(3, 1fr) / 60px repeat(2, 1fr) 75px;
 		grid-template-areas:
 			'profilePic name name activity'
-			'profilePic time time activity'
-			'profilePic time time activity';
+			'profilePic time time delete'
+			'profilePic time time delete';
 		place-items: start;
 	}
 
@@ -148,6 +148,23 @@
 		width: max-content;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.delete {
+		grid-area: delete;
+		justify-self: flex-end;
+		border: none;
+		outline: none;
+		background-color: transparent;
+		cursor: pointer;
+
+		height: 1.25rem;
+		display: flex;
+		flex: none;
+		align-items: center;
+		img {
+			height: 1rem;
+		}
 	}
 
 	.body {
