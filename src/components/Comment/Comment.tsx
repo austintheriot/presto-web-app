@@ -22,6 +22,28 @@ export default ({
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
 
+	const deleteCommentHandler = () => {
+		if (window.confirm('Are you sure you want to delete this comment?')) {
+			db.collection('posts')
+				.doc(postId)
+				.collection('comments')
+				.doc(commentId)
+				.delete()
+				.then(() => {
+					console.log('[Comment]: Comment successfully deleted from database!');
+					dispatch(
+						deleteComment({
+							postId,
+							commentId,
+						})
+					);
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		}
+	};
+
 	return (
 		<section className={styles.comment}>
 			<img src={profilePic} alt='profile' className={styles.profilePic}></img>
@@ -30,29 +52,7 @@ export default ({
 				<time className={styles.time}>{createdAt}</time>
 				<p className={styles.activity}>{activity}</p>
 				{user.uid === uid ? (
-					<button
-						className={styles.delete}
-						onClick={() => {
-							db.collection('posts')
-								.doc(postId)
-								.collection('comments')
-								.doc(commentId)
-								.delete()
-								.then(() => {
-									console.log(
-										'[Comment]: Comment successfully deleted from database!'
-									);
-									dispatch(
-										deleteComment({
-											postId,
-											commentId,
-										})
-									);
-								})
-								.catch((err) => {
-									console.error(err);
-								});
-						}}>
+					<button className={styles.delete} onClick={deleteCommentHandler}>
 						<img src={trashIcon} alt='delete' />
 					</button>
 				) : null}

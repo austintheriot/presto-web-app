@@ -77,6 +77,20 @@ export default ({
 			});
 	};
 
+	const deletePostHandler = () => {
+		if (window.confirm('Are you sure you want to delete this post?')) {
+			db.collection('posts')
+				.doc(id)
+				.delete()
+				.then(() => {
+					console.log('[Post]: Post successfully deleted from database!');
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		}
+	};
+
 	let isSinglePostPage = !!window.location.pathname.split('/posts/')[1];
 	let bodyText =
 		//if single post, show only body, no link
@@ -133,21 +147,7 @@ export default ({
 								<p className={styles.activity}>{activity}</p>
 							</Link>
 							{user.uid === uid ? (
-								<button
-									className={styles.delete}
-									onClick={() => {
-										db.collection('posts')
-											.doc(id)
-											.delete()
-											.then(() => {
-												console.log(
-													'[Post]: Post successfully deleted from database!'
-												);
-											})
-											.catch((err) => {
-												console.error(err);
-											});
-									}}>
+								<button className={styles.delete} onClick={deletePostHandler}>
 									<img src={trashIcon} alt='delete' />
 								</button>
 							) : null}
