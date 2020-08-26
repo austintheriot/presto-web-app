@@ -101,19 +101,6 @@ export const postsSlice = createSlice({
 			let body = action.payload.body;
 			state.postsData.postContainer[postId].comments[commentId].body = body;
 		},
-		editPost: (
-			state,
-			action: {
-				payload: {
-					postId: string;
-					body: string;
-				};
-			}
-		) => {
-			let postId = action.payload.postId;
-			let body = action.payload.body;
-			state.postsData.postContainer[postId].body = body;
-		},
 	},
 });
 
@@ -274,7 +261,6 @@ export const {
 	addComment,
 	deleteComment,
 	editComment,
-	editPost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
