@@ -35,10 +35,10 @@
 
 		display: grid;
 		/* 2 middle sections required here to prevent mobile spacing bug */
-		grid: 1fr 1fr / auto auto 1fr;
+		grid: 1fr 1fr / auto auto 1fr 1fr;
 		grid-template-areas:
-			'name name activity'
-			'time time time';
+			'name name activity activity'
+			'time time delete delete';
 		place-items: start;
 		gap: 0.25rem;
 	}
@@ -78,6 +78,23 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.delete {
+		grid-area: delete;
+		justify-self: flex-end;
+		border: none;
+		outline: none;
+		background-color: transparent;
+		cursor: pointer;
+
+		height: 1.25rem;
+		display: flex;
+		flex: none;
+		align-items: center;
+		img {
+			height: 1rem;
+		}
 	}
 
 	main {
