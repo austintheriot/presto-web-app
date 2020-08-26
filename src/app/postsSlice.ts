@@ -101,6 +101,19 @@ export const postsSlice = createSlice({
 			let body = action.payload.body;
 			state.postsData.postContainer[postId].comments[commentId].body = body;
 		},
+		editPost: (
+			state,
+			action: {
+				payload: {
+					postId: string;
+					body: string;
+				};
+			}
+		) => {
+			let postId = action.payload.postId;
+			let body = action.payload.body;
+			state.postsData.postContainer[postId].body = body;
+		},
 	},
 });
 
@@ -181,6 +194,7 @@ export const fetchSinglePost = (postId: string) => (
 		status: 'loading',
 		error: '',
 		uid: '',
+		body: '',
 		comments: {
 			count: 0,
 		},
@@ -214,6 +228,7 @@ export const fetchSinglePost = (postId: string) => (
 						status: 'failed',
 						error: 'Post not found.',
 						uid: '',
+						body: '',
 						comments: {
 							count: 0,
 						},
@@ -236,6 +251,7 @@ export const fetchSinglePost = (postId: string) => (
 					status: 'failed',
 					error: 'Server error. Please try again later.',
 					uid: '',
+					body: '',
 					comments: {
 						count: 0,
 					},
@@ -258,6 +274,7 @@ export const {
 	addComment,
 	deleteComment,
 	editComment,
+	editPost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

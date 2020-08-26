@@ -39,10 +39,10 @@ export interface PostType {
 	id: string;
 	comments: any;
 	likes: any;
+	body: string;
 	createdAt?: string;
 
 	activity?: string;
-	body?: string;
 	city?: string;
 	country?: string;
 	county?: string;
