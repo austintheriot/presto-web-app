@@ -161,7 +161,7 @@ export default ({ postId }: { postId: string }) => {
 			.collection('comments')
 			.add(stateAndUserInfo)
 			.then((doc) => {
-				console.log('Comment successfully added to database!');
+				console.log('[NewComment]: Comment successfully added to database!');
 
 				//turn createdAt into a string before adding it to Redux
 				stateAndUserInfo.createdAt = new Date().toLocaleString();
