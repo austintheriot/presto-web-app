@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
 import { PostType } from '../../app/types';
@@ -6,7 +6,12 @@ import { db } from '../../app/config';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
+import { editPost } from '../../app/postsSlice';
+import Textarea from '../../components/Inputs/Textarea';
+import Button from '../../components/Button/Button';
 import { likePost, unlikePost } from '../../app/postsActionCreators';
+
+import { InputType } from '../../app/types';
 
 //images
 import heartEmpty from '../../assets/images/heartEmpty.svg';
@@ -14,6 +19,14 @@ import heartFull from '../../assets/images/heartFull.svg';
 import commentEmpty from '../../assets/images/commentEmpty.svg';
 import commentFull from '../../assets/images/commentFull.svg';
 import trashIcon from '../../assets/images/delete.svg';
+import editIcon from '../../assets/images/edit.svg';
+import moreIcon from '../../assets/images/more.svg';
+
+interface Inputs {
+	body: InputType;
+}
+
+type KeyOfInputs = keyof Inputs;
 
 export default ({
 	id,
@@ -35,6 +48,112 @@ export default ({
 }: PostType) => {
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
+	const [editing, setEditing] = useState(false);
+	const [inputs, setInputs] = useState<Inputs>({
+		body: {
+			value: body,
+			label: 'Comment',
+			animateUp: !!body,
+			empty: !body,
+			touched: false,
+			message: {
+				error: false,
+				text: '',
+				default: '',
+			},
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
+			},
+		},
+	});
+
+	const handleFocus = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				animateUp: true,
+				touched: true,
+			},
+		}));
+	};
+
+	const handleBlur = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		//animation & output error if empty
+		let targetEmpty =
+			inputs[newestType].touched && inputs[newestType].value.length === 0
+				? true
+				: false;
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				//animation
+				animateUp: targetEmpty ? false : true,
+			},
+		}));
+	};
+
+	const handleChange = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		let targetValue = e.currentTarget.value;
+		let targetEmpty = targetValue.length === 0 ? true : false;
+
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				//animation
+				value: targetValue,
+				empty: targetEmpty,
+			},
+		}));
+	};
+
+	const submitPostEdits = (e: React.SyntheticEvent) => {
+		//pre default form submission
+		e.preventDefault();
+
+		//if body text has not been touched/edited, ignore submit button
+		if (!inputs.body.touched || inputs.body.empty || !inputs.body.value) {
+			return;
+		}
+
+		//check for errors
+
+		console.log('[Post]: data entered: ', inputs.body.value);
+		//close editing dialog
+		setEditing(false);
+		//update comment UI immediately
+		/* dispatch(
+			editPost({
+				postId,
+				body: inputs.body.value,
+			})
+		); */
+		db.collection('posts')
+			.doc(id)
+			.update({
+				body: inputs.body.value,
+			})
+			.then(() => {
+				console.log('[Post]: Post successfully edited in database!');
+			})
+			.catch((error) => {
+				console.error(error);
+				alert('Sorry, there was a server error. Please try again later.');
+			});
+	};
 
 	const likePostHandler = (postId: string) => {
 		let userId = user.uid;
@@ -75,6 +194,10 @@ export default ({
 				console.error(err);
 				dispatch(likePost(userId, postId)); //undo action
 			});
+	};
+
+	const editPostButtonClickHandler = () => {
+		setEditing((prevState) => !prevState);
 	};
 
 	const deletePostHandler = () => {
@@ -147,14 +270,48 @@ export default ({
 								<p className={styles.activity}>{activity}</p>
 							</Link>
 							{user.uid === uid ? (
-								<button className={styles.delete} onClick={deletePostHandler}>
-									<img src={trashIcon} alt='delete' />
-								</button>
+								<>
+									<div className={styles.more}>
+										<button>
+											<img src={moreIcon} alt='more' />
+										</button>
+										<div className={styles.hiddenMenu}>
+											<button onClick={editPostButtonClickHandler}>
+												<img src={editIcon} alt='edit' />
+											</button>
+											<button onClick={deletePostHandler}>
+												<img src={trashIcon} alt='delete' />
+											</button>
+										</div>
+									</div>
+								</>
 							) : null}
 						</header>
 						{/* BODY */}
-						{/* Only link to individual post when on main feed */}
-						<main className={styles.body}>{bodyText}</main>
+						<main className={styles.body}>
+							{editing ? (
+								<form onSubmit={submitPostEdits}>
+									<Textarea
+										type='body'
+										customType='body'
+										handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+											handleFocus(e, 'body')
+										}
+										handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+											handleBlur(e, 'body')
+										}
+										handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+											handleChange(e, 'body')
+										}
+										inputs={inputs}
+									/>
+									<Button type='submit'>Submit</Button>
+								</form>
+							) : (
+								/* Only link to individual post when on main feed */
+								bodyText
+							)}
+						</main>
 						<footer>
 							{/* NUMBER OF LIKES */}
 							<Link to={`/posts/${id}`} className={styles.Link}>
