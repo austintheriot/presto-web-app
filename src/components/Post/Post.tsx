@@ -13,6 +13,7 @@ import heartEmpty from '../../assets/images/heartEmpty.svg';
 import heartFull from '../../assets/images/heartFull.svg';
 import commentEmpty from '../../assets/images/commentEmpty.svg';
 import commentFull from '../../assets/images/commentFull.svg';
+import trashIcon from '../../assets/images/delete.svg';
 
 export default ({
 	id,
@@ -131,6 +132,25 @@ export default ({
 								className={[styles.Link, styles.activityLink].join(' ')}>
 								<p className={styles.activity}>{activity}</p>
 							</Link>
+							{user.uid === uid ? (
+								<button
+									className={styles.delete}
+									onClick={() => {
+										db.collection('posts')
+											.doc(id)
+											.delete()
+											.then(() => {
+												console.log(
+													'[Post]: Post successfully deleted from database!'
+												);
+											})
+											.catch((err) => {
+												console.error(err);
+											});
+									}}>
+									<img src={trashIcon} alt='delete' />
+								</button>
+							) : null}
 						</header>
 						{/* BODY */}
 						{/* Only link to individual post when on main feed */}
