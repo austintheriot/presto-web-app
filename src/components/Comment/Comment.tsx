@@ -3,8 +3,9 @@ import styles from './Comment.module.scss';
 import { CommentType } from '../../app/types';
 import { db } from '../../app/config';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment } from '../../app/postsSlice';
+import { selectUser } from '../../app/userSlice';
 
 import trashIcon from '../../assets/images/delete.svg';
 
@@ -19,6 +20,7 @@ export default ({
 	profilePic,
 }: CommentType) => {
 	const dispatch = useDispatch();
+	const user = useSelector(selectUser);
 
 	return (
 		<section className={styles.comment}>
@@ -27,33 +29,36 @@ export default ({
 				<h3 className={styles.name}>{name}</h3>
 				<time className={styles.time}>{createdAt}</time>
 				<p className={styles.activity}>{activity}</p>
+				{user.uid === uid ? (
+					<button
+						className={styles.delete}
+						onClick={() => {
+							db.collection('posts')
+								.doc(postId)
+								.collection('comments')
+								.doc(commentId)
+								.delete()
+								.then(() => {
+									console.log(
+										'[Comment]: Comment successfully deleted from database!'
+									);
+									dispatch(
+										deleteComment({
+											postId,
+											commentId,
+										})
+									);
+								})
+								.catch((err) => {
+									console.error(err);
+								});
+						}}>
+						<img src={trashIcon} alt='delete' />
+					</button>
+				) : null}
 			</header>
 			<main>
 				<p className={styles.body}>{body}</p>
-				<button
-					onClick={() => {
-						db.collection('posts')
-							.doc(postId)
-							.collection('comments')
-							.doc(commentId)
-							.delete()
-							.then(() => {
-								console.log(
-									'[Comment]: Comment successfully deleted from database!'
-								);
-								dispatch(
-									deleteComment({
-										postId,
-										commentId,
-									})
-								);
-							})
-							.catch((err) => {
-								console.error(err);
-							});
-					}}>
-					<img src={trashIcon} alt='delete' />
-				</button>
 			</main>
 		</section>
 	);
