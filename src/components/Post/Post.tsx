@@ -6,7 +6,6 @@ import { db } from '../../app/config';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
-import { editPost } from '../../app/postsSlice';
 import Textarea from '../../components/Inputs/Textarea';
 import Button from '../../components/Button/Button';
 import { likePost, unlikePost } from '../../app/postsActionCreators';
@@ -134,13 +133,7 @@ export default ({
 		console.log('[Post]: data entered: ', inputs.body.value);
 		//close editing dialog
 		setEditing(false);
-		//update comment UI immediately
-		/* dispatch(
-			editPost({
-				postId,
-				body: inputs.body.value,
-			})
-		); */
+		//update post in database
 		db.collection('posts')
 			.doc(id)
 			.update({
