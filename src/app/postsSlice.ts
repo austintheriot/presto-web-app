@@ -86,6 +86,21 @@ export const postsSlice = createSlice({
 			state.postsData.postContainer[postId].comments = currentComments;
 			state.postsData.postContainer[postId].comments.count -= 1;
 		},
+		editComment: (
+			state,
+			action: {
+				payload: {
+					postId: string;
+					commentId: string;
+					body: string;
+				};
+			}
+		) => {
+			let postId = action.payload.postId;
+			let commentId = action.payload.commentId;
+			let body = action.payload.body;
+			state.postsData.postContainer[postId].comments[commentId].body = body;
+		},
 	},
 });
 
@@ -242,6 +257,7 @@ export const {
 	unlikePost,
 	addComment,
 	deleteComment,
+	editComment,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

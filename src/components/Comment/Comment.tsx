@@ -6,7 +6,7 @@ import Textarea from '../../components/Inputs/Textarea';
 import Button from '../../components/Button/Button';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteComment } from '../../app/postsSlice';
+import { deleteComment, editComment } from '../../app/postsSlice';
 import { selectUser } from '../../app/userSlice';
 
 import { InputType } from '../../app/types';
@@ -105,7 +105,7 @@ export default ({
 		}));
 	};
 
-	const submitHandler = (e: React.SyntheticEvent) => {
+	const submitCommentEdits = (e: React.SyntheticEvent) => {
 		//pre default form submission
 		e.preventDefault();
 
@@ -117,7 +117,16 @@ export default ({
 		//check for errors
 
 		console.log('[Comment]: data entered: ', inputs.body.value);
+		//close editing dialog
 		setEditing(false);
+		//update comment UI immediately
+		dispatch(
+			editComment({
+				postId,
+				commentId,
+				body: inputs.body.value,
+			})
+		);
 		db.collection('posts')
 			.doc(postId)
 			.collection('comments')
@@ -127,13 +136,7 @@ export default ({
 			})
 			.then((doc) => {
 				console.log('[Comment]: Comment successfully edited in database!');
-				/* dispatch(
-					addComment({
-						postId,
-						commentId: doc.id,
-						commentData: stateAndUserInfo,
-					}) */
-				setInputs((prevState: Inputs) => ({
+				/* setInputs((prevState: Inputs) => ({
 					...prevState,
 					body: {
 						...prevState.body,
@@ -142,7 +145,7 @@ export default ({
 						animateUp: !!body,
 						empty: !body,
 					},
-				}));
+				})); */
 			})
 			.catch((error) => {
 				console.error(error);
@@ -172,8 +175,8 @@ export default ({
 		}
 	};
 
-	const editCommentHandler = () => {
-		setEditing(true);
+	const editCommentButtonClickHandler = () => {
+		setEditing((prevState) => !prevState);
 	};
 
 	return (
@@ -190,7 +193,7 @@ export default ({
 								<img src={moreIcon} alt='more' />
 							</button>
 							<div className={styles.hiddenMenu}>
-								<button onClick={editCommentHandler}>
+								<button onClick={editCommentButtonClickHandler}>
 									<img src={editIcon} alt='edit' />
 								</button>
 								<button onClick={deleteCommentHandler}>
@@ -203,7 +206,7 @@ export default ({
 			</header>
 			<main>
 				{editing ? (
-					<form onSubmit={submitHandler}>
+					<form onSubmit={submitCommentEdits}>
 						<Textarea
 							type='body'
 							customType='body'
