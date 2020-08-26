@@ -14,7 +14,7 @@
 	grid-template-rows: 1fr minmax(1rem, max-content);
 	grid-template-areas:
 		'profilePic header'
-		'profilePic body';
+		'body body';
 	place-items: center; /* align justify */
 	gap: 0.5rem;
 
@@ -133,9 +133,9 @@
 
 		textarea,
 		div {
-			max-width: none;
 			margin: 0;
 			width: 100%;
+			max-width: none;
 		}
 		button {
 			margin-top: 0;
