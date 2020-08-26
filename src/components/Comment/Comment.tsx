@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Comment.module.scss';
 import { CommentType } from '../../app/types';
 import { db } from '../../app/config';
+import Textarea from '../../components/Inputs/Textarea';
+import Button from '../../components/Button/Button';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment } from '../../app/postsSlice';
 import { selectUser } from '../../app/userSlice';
 
+import { InputType } from '../../app/types';
+
 import trashIcon from '../../assets/images/delete.svg';
 import editIcon from '../../assets/images/edit.svg';
 import moreIcon from '../../assets/images/more.svg';
+
+interface Inputs {
+	body: InputType;
+}
+
+type KeyOfInputs = keyof Inputs;
 
 export default ({
 	commentId,
@@ -23,6 +33,122 @@ export default ({
 }: CommentType) => {
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
+	const [editing, setEditing] = useState(false);
+	const [inputs, setInputs] = useState<Inputs>({
+		body: {
+			value: body,
+			label: 'Comment',
+			animateUp: !!body,
+			empty: !body,
+			touched: false,
+			message: {
+				error: false,
+				text: '',
+				default: '',
+			},
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
+			},
+		},
+	});
+
+	const handleFocus = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				animateUp: true,
+				touched: true,
+			},
+		}));
+	};
+
+	const handleBlur = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		//animation & output error if empty
+		let targetEmpty =
+			inputs[newestType].touched && inputs[newestType].value.length === 0
+				? true
+				: false;
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				//animation
+				animateUp: targetEmpty ? false : true,
+			},
+		}));
+	};
+
+	const handleChange = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: KeyOfInputs
+	) => {
+		let targetValue = e.currentTarget.value;
+		let targetEmpty = targetValue.length === 0 ? true : false;
+
+		setInputs((prevState: Inputs) => ({
+			...prevState,
+			[newestType]: {
+				...prevState[newestType],
+				//animation
+				value: targetValue,
+				empty: targetEmpty,
+			},
+		}));
+	};
+
+	const submitHandler = (e: React.SyntheticEvent) => {
+		//pre default form submission
+		e.preventDefault();
+
+		//if body text has not been touched/edited, ignore submit button
+		if (!inputs.body.touched || inputs.body.empty || !inputs.body.value) {
+			return;
+		}
+
+		//check for errors
+
+		console.log('[Comment]: data entered: ', inputs.body.value);
+		setEditing(false);
+		db.collection('posts')
+			.doc(postId)
+			.collection('comments')
+			.doc(commentId)
+			.update({
+				body: inputs.body.value,
+			})
+			.then((doc) => {
+				console.log('[Comment]: Comment successfully edited in database!');
+				/* dispatch(
+					addComment({
+						postId,
+						commentId: doc.id,
+						commentData: stateAndUserInfo,
+					}) */
+				setInputs((prevState: Inputs) => ({
+					...prevState,
+					body: {
+						...prevState.body,
+						//animation
+						value: body,
+						animateUp: !!body,
+						empty: !body,
+					},
+				}));
+			})
+			.catch((error) => {
+				console.error(error);
+				alert('Sorry, there was a server error. Please try again later.');
+			});
+	};
 
 	const deleteCommentHandler = () => {
 		if (window.confirm('Are you sure you want to delete this comment?')) {
@@ -46,7 +172,9 @@ export default ({
 		}
 	};
 
-	const editCommentHandler = () => {};
+	const editCommentHandler = () => {
+		setEditing(true);
+	};
 
 	return (
 		<section className={styles.comment}>
@@ -74,7 +202,27 @@ export default ({
 				) : null}
 			</header>
 			<main>
-				<p className={styles.body}>{body}</p>
+				{editing ? (
+					<form onSubmit={submitHandler}>
+						<Textarea
+							type='body'
+							customType='body'
+							handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+								handleFocus(e, 'body')
+							}
+							handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+								handleBlur(e, 'body')
+							}
+							handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+								handleChange(e, 'body')
+							}
+							inputs={inputs}
+						/>
+						<Button type='submit'>Submit</Button>
+					</form>
+				) : (
+					<p className={styles.body}>{body}</p>
+				)}
 			</main>
 		</section>
 	);
