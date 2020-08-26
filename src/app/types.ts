@@ -93,14 +93,14 @@ export interface InputType {
 }
 
 export interface CommentType {
-	commentId?: string;
-	postId?: string;
-	uid?: string;
-	activity?: string;
-	body?: string;
-	createdAt?: TimestampType;
-	name?: string;
-	profilePic?: string;
+	uid: string;
+	body: string;
+	commentId: string;
+	postId: string;
+	activity: string;
+	createdAt: TimestampType;
+	name: string;
+	profilePic: string;
 }
 
 export interface LikeType {
