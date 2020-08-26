@@ -8,6 +8,8 @@ import { deleteComment } from '../../app/postsSlice';
 import { selectUser } from '../../app/userSlice';
 
 import trashIcon from '../../assets/images/delete.svg';
+import editIcon from '../../assets/images/edit.svg';
+import moreIcon from '../../assets/images/more.svg';
 
 export default ({
 	commentId,
@@ -44,6 +46,8 @@ export default ({
 		}
 	};
 
+	const editCommentHandler = () => {};
+
 	return (
 		<section className={styles.comment}>
 			<img src={profilePic} alt='profile' className={styles.profilePic}></img>
@@ -52,9 +56,21 @@ export default ({
 				<time className={styles.time}>{createdAt}</time>
 				<p className={styles.activity}>{activity}</p>
 				{user.uid === uid ? (
-					<button className={styles.delete} onClick={deleteCommentHandler}>
-						<img src={trashIcon} alt='delete' />
-					</button>
+					<>
+						<div className={styles.more}>
+							<button>
+								<img src={moreIcon} alt='more' />
+							</button>
+							<div className={styles.hiddenMenu}>
+								<button onClick={editCommentHandler}>
+									<img src={editIcon} alt='edit' />
+								</button>
+								<button onClick={deleteCommentHandler}>
+									<img src={trashIcon} alt='delete' />
+								</button>
+							</div>
+						</div>
+					</>
 				) : null}
 			</header>
 			<main>
