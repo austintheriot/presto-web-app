@@ -6,6 +6,7 @@
 	min-width: 300px;
 	max-width: 600px;
 	margin: 3rem auto;
+	background-color: white;
 
 	display: grid;
 	/* rows / columns */
@@ -38,7 +39,7 @@
 		grid: 1fr 1fr / auto auto 1fr 1fr;
 		grid-template-areas:
 			'name name activity activity'
-			'time time delete delete';
+			'time time more more';
 		place-items: start;
 		gap: 0.25rem;
 	}
@@ -80,20 +81,47 @@
 		text-overflow: ellipsis;
 	}
 
-	.delete {
-		grid-area: delete;
+	.more {
+		grid-area: more;
 		justify-self: flex-end;
-		border: none;
-		outline: none;
-		background-color: transparent;
-		cursor: pointer;
+		position: relative;
 
-		height: 1.25rem;
-		display: flex;
-		flex: none;
-		align-items: center;
+		button {
+			border: none;
+			outline: none;
+			background-color: transparent;
+			display: flex;
+			flex: none;
+			align-items: center;
+			height: 1.25rem;
+			cursor: pointer;
+		}
+
 		img {
-			height: 1rem;
+			width: 1rem;
+		}
+
+		.hiddenMenu {
+			height: 100px;
+			width: 1.5rem;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: white;
+			border-radius: 0 0 5px 5px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-evenly;
+			position: absolute;
+			z-index: -1000;
+			pointer-events: none;
+			opacity: 0;
+		}
+
+		&:hover .hiddenMenu {
+			z-index: 0;
+			pointer-events: auto;
+			opacity: 1;
 		}
 	}
 
