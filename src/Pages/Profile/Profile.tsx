@@ -42,6 +42,7 @@ export default () => {
 					'Conductor',
 					'Copyist',
 					'Curator',
+					'Director',
 					'Editor',
 					'Engineer',
 					'Ensemble',
