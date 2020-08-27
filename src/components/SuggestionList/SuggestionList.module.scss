@@ -3,7 +3,7 @@
 	height: max-content;
 	height: 0;
 	width: 50%;
-	min-width: 250px;
+	min-width: 300px;
 	max-width: 400px;
 	margin: 0 auto;
 }
@@ -15,7 +15,6 @@
 .ul {
 	position: absolute;
 	width: 100%;
-	min-width: 250px;
 	max-width: 400px;
 	max-height: 9rem;
 	overflow-y: scroll;
@@ -31,7 +30,6 @@
 .li {
 	position: relative;
 	width: 100%;
-	min-width: 250px;
 	max-width: 400px;
 	padding: 1rem 0 1rem 1rem;
 	cursor: pointer;
