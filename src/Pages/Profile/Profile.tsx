@@ -17,7 +17,6 @@ import { InputType } from '../../app/types';
 import locationFormatter from '../../app/locationFormatter';
 
 interface Inputs {
-	type: InputType;
 	activity: InputType;
 	instrument: InputType;
 	website: InputType;
@@ -32,23 +31,6 @@ export default () => {
 	const user = useSelector(selectUser);
 
 	const [inputs, setInputs] = useState<Inputs>({
-		type: {
-			label: 'Individual/Ensemble',
-			suggestions: {
-				loading: false,
-				show: false,
-				array: ['Individual', 'Ensemble'],
-			},
-			value: user.type || '',
-			animateUp: !!user.type,
-			empty: !user.type,
-			touched: false,
-			message: {
-				error: false,
-				text: '',
-				default: '',
-			},
-		},
 		activity: {
 			label: 'Musical Activity',
 			suggestions: {
@@ -157,11 +139,7 @@ export default () => {
 		newestType: KeyOfInputs
 	) => {
 		//animation
-		if (
-			newestType === 'type' ||
-			newestType === 'activity' ||
-			newestType === 'instrument'
-		) {
+		if (newestType === 'activity' || newestType === 'instrument') {
 			//show drop down menu
 			setInputs((prevState) => ({
 				...prevState,
@@ -199,11 +177,7 @@ export default () => {
 				: false;
 
 		//hide drop down menu
-		if (
-			newestType === 'type' ||
-			newestType === 'activity' ||
-			newestType === 'instrument'
-		) {
+		if (newestType === 'activity' || newestType === 'instrument') {
 			setInputs((prevState) => ({
 				...prevState,
 				[newestType]: {
@@ -238,7 +212,6 @@ export default () => {
 
 		//validate inputs
 		let anyErrorsObject = {
-			type: '',
 			activity: '',
 			instrument: '',
 			website: '',
@@ -248,23 +221,6 @@ export default () => {
 		//update state for all inputs
 		setInputs((prevState: Inputs) => ({
 			...prevState,
-			type: {
-				...prevState.type,
-
-				//update generic values
-				value: newestType === 'type' ? targetValue : prevState.type.value,
-				empty: newestType === 'type' ? targetEmpty : prevState.type.empty,
-
-				//update errors: If no error, set to default meessage
-				message: {
-					...prevState.type.message,
-					error: anyErrorsObject.type ? true : false,
-					text: anyErrorsObject.type
-						? anyErrorsObject.type
-						: prevState.type.message.default,
-				},
-			},
-
 			activity: {
 				...prevState.activity,
 
@@ -274,7 +230,7 @@ export default () => {
 				empty:
 					newestType === 'activity' ? targetEmpty : prevState.activity.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.activity.message,
 					error: anyErrorsObject.activity ? true : false,
@@ -296,7 +252,7 @@ export default () => {
 						? targetEmpty
 						: prevState.instrument.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.instrument.message,
 					error: anyErrorsObject.instrument ? true : false,
@@ -312,7 +268,7 @@ export default () => {
 				value: newestType === 'website' ? targetValue : prevState.website.value,
 				empty: newestType === 'website' ? targetEmpty : prevState.website.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.website.message,
 					error: anyErrorsObject.website ? true : false,
@@ -328,7 +284,7 @@ export default () => {
 				value: newestType === 'bio' ? targetValue : prevState.bio.value,
 				empty: newestType === 'bio' ? targetEmpty : prevState.bio.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.bio.message,
 					error: anyErrorsObject.bio ? true : false,
@@ -348,14 +304,12 @@ export default () => {
 
 		//only update information if new information has been provided
 		interface NewInfoFromState {
-			type?: string;
 			activity?: string;
 			instrument?: string;
 			website?: string;
 			bio?: string;
 		}
 		let newInfoFromState: NewInfoFromState = {};
-		if (inputs.type.touched) newInfoFromState.type = inputs.type.value;
 		if (inputs.activity.touched)
 			newInfoFromState.activity = inputs.activity.value;
 		if (inputs.instrument.touched)
@@ -377,10 +331,6 @@ export default () => {
 
 				//reset "touched" value of inputs so save isn't triggered again if attempted
 				setInputs((prevState) => ({
-					type: {
-						...prevState.type,
-						touched: false,
-					},
 					activity: {
 						...prevState.activity,
 						touched: false,
@@ -430,18 +380,6 @@ export default () => {
 				</p>
 			</div>
 			<form onSubmit={submitHandler}>
-				<Select
-					type='text'
-					customType='type'
-					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
-						handleFocus(e, 'type')
-					}
-					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
-						handleBlur(e, 'type')
-					}
-					inputs={inputs}
-					suggestionClickHandler={suggestionClickHandler}
-				/>
 				<Select
 					type='text'
 					customType='activity'
