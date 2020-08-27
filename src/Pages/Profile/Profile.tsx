@@ -83,23 +83,6 @@ export default () => {
 				default: 'i.e. Piano, Violin, Soprano, etc.',
 			},
 		},
-		website: {
-			label: 'Website',
-			suggestions: {
-				loading: false,
-				show: false,
-				array: [],
-			},
-			value: user.website || '',
-			animateUp: !!user.website,
-			empty: !user.website,
-			touched: false,
-			message: {
-				error: false,
-				text: 'Link to your personal website.',
-				default: 'Link to your personal website.',
-			},
-		},
 		bio: {
 			label: 'Short Bio',
 			suggestions: {
@@ -115,6 +98,23 @@ export default () => {
 				error: false,
 				text: 'Tell us a little about yourself.',
 				default: 'Tell us a little about yourself.',
+			},
+		},
+		website: {
+			label: 'Website',
+			suggestions: {
+				loading: false,
+				show: false,
+				array: [],
+			},
+			value: user.website || '',
+			animateUp: !!user.website,
+			empty: !user.website,
+			touched: false,
+			message: {
+				error: false,
+				text: 'Link to your personal website.',
+				default: 'Link to your personal website.',
 			},
 		},
 	});
@@ -262,22 +262,6 @@ export default () => {
 						: prevState.instrument.message.default,
 				},
 			},
-			website: {
-				...prevState.website,
-
-				//update generic values
-				value: newestType === 'website' ? targetValue : prevState.website.value,
-				empty: newestType === 'website' ? targetEmpty : prevState.website.empty,
-
-				//update errors: If no error, set to default message
-				message: {
-					...prevState.website.message,
-					error: anyErrorsObject.website ? true : false,
-					text: anyErrorsObject.website
-						? anyErrorsObject.website
-						: prevState.website.message.default,
-				},
-			},
 			bio: {
 				...prevState.bio,
 
@@ -292,6 +276,22 @@ export default () => {
 					text: anyErrorsObject.bio
 						? anyErrorsObject.bio
 						: prevState.bio.message.default,
+				},
+			},
+			website: {
+				...prevState.website,
+
+				//update generic values
+				value: newestType === 'website' ? targetValue : prevState.website.value,
+				empty: newestType === 'website' ? targetEmpty : prevState.website.empty,
+
+				//update errors: If no error, set to default message
+				message: {
+					...prevState.website.message,
+					error: anyErrorsObject.website ? true : false,
+					text: anyErrorsObject.website
+						? anyErrorsObject.website
+						: prevState.website.message.default,
 				},
 			},
 		}));
@@ -340,12 +340,12 @@ export default () => {
 						...prevState.instrument,
 						touched: false,
 					},
-					website: {
-						...prevState.website,
-						touched: false,
-					},
 					bio: {
 						...prevState.bio,
+						touched: false,
+					},
+					website: {
+						...prevState.website,
 						touched: false,
 					},
 				}));
@@ -405,20 +405,6 @@ export default () => {
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
-				<Input
-					type='text'
-					customType='website'
-					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
-						handleFocus(e, 'website')
-					}
-					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
-						handleBlur(e, 'website')
-					}
-					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
-						handleChange(e, 'website')
-					}
-					inputs={inputs}
-				/>
 				<Textarea
 					type='text'
 					customType='bio'
@@ -430,6 +416,20 @@ export default () => {
 					}
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'bio')
+					}
+					inputs={inputs}
+				/>
+				<Input
+					type='text'
+					customType='website'
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'website')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'website')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'website')
 					}
 					inputs={inputs}
 				/>
