@@ -20,7 +20,7 @@ export default function SuggestionList({
 	customType,
 	value,
 }: Props) {
-	const searchValue = new RegExp(`${value}`, 'i');
+	const searchValue = new RegExp(`${value}`, 'i'); //create search filter
 	//if loading, show loading,
 	//else if given array, show the array
 	//else hide
@@ -28,7 +28,7 @@ export default function SuggestionList({
 		<li className={styles.li}>Loading...</li>
 	) : suggestions?.array ? (
 		suggestions.array
-			.filter((el) => el.match(searchValue))
+			.filter((el) => el.match(searchValue)) //filter by text already input
 			.map((el, i) => {
 				//defer to using element info with indexes before indexes alone
 				let key = el ? el.toString() + i : i;

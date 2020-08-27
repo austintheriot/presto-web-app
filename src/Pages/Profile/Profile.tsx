@@ -467,6 +467,8 @@ export default () => {
 		}));
 		if (newestType === 'location' && targetValue) {
 			let requestDelay = 500;
+			let cleanedUpRequest = targetValue.trim();
+			if (cleanedUpRequest.length === 0) return;
 			clearTimeout(timerId);
 			setTimerId(
 				setTimeout(() => sendAutoCompleteRequest(targetValue), requestDelay)
@@ -488,6 +490,21 @@ export default () => {
 		}
 	};
 
+	const clearLocationSuggestions = () => {
+		setInputs((prevState) => ({
+			...prevState,
+			location: {
+				...prevState.location,
+				suggestions: {
+					...prevState.location.suggestions,
+					loading: false,
+					show: false,
+					array: [],
+				},
+			},
+		}));
+	};
+
 	const sendAutoCompleteRequest = (locationInputValue: string) => {
 		let key = geoapifyKey;
 		let requestUrl = `https://api.geoapify.com/v1/geocode/autocomplete?text=${locationInputValue}&limit=5&apiKey=${key}`;
@@ -499,15 +516,18 @@ export default () => {
 		xhr.onerror = () => {
 			console.error('Request failed');
 			setMessage(`Sorry, we couldn't find your location.`);
+			clearLocationSuggestions();
 		};
 		xhr.onload = () => {
 			if (xhr.status !== 200) {
 				// analyze HTTP status of the response
 				console.error(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+				clearLocationSuggestions();
 			} else {
 				//if the response succeeds:
 				let geoapifyDataArray = xhr.response.features;
 				console.log('[Profile]: Location received: ', geoapifyDataArray);
+				if (geoapifyDataArray.length === 0) clearLocationSuggestions();
 
 				//turn data into an array of objects for later recall
 				let collectedDataArray: CollectedDataArray = geoapifyDataArray.map(
