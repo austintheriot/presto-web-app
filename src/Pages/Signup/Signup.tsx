@@ -46,6 +46,7 @@ export default function Signup(props: HistoryType) {
 				default: '',
 			},
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],
@@ -63,6 +64,7 @@ export default function Signup(props: HistoryType) {
 				default: '',
 			},
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],
@@ -80,7 +82,7 @@ export default function Signup(props: HistoryType) {
 		newestType: KeyOfInputs
 	) => {
 		//animation
-		setInputs((prevState) => ({
+		setInputs((prevState: Inputs) => ({
 			...prevState,
 			[newestType]: {
 				...prevState[newestType],
@@ -100,7 +102,7 @@ export default function Signup(props: HistoryType) {
 				? true
 				: false;
 
-		setInputs((prevState) => ({
+		setInputs((prevState: Inputs) => ({
 			...prevState,
 			[newestType]: {
 				...prevState[newestType],

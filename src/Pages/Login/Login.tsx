@@ -38,6 +38,7 @@ export default function Login(props?: HistoryType) {
 				default: '',
 			},
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],
@@ -55,6 +56,7 @@ export default function Login(props?: HistoryType) {
 				default: '',
 			},
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],
@@ -88,7 +90,7 @@ export default function Login(props?: HistoryType) {
 				? true
 				: false;
 
-		setInputs((prevState) => ({
+		setInputs((prevState: Inputs) => ({
 			...prevState,
 			[newestType]: {
 				...prevState[newestType],

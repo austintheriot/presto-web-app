@@ -41,6 +41,7 @@ export default ({ postId }: { postId: string }) => {
 				default: '',
 			},
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],

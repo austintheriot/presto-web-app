@@ -68,6 +68,7 @@ export default function Login(props: HistoryType) {
 			empty: true,
 			touched: false,
 			suggestions: {
+				selected: false,
 				loading: false,
 				array: [],
 				show: false,
@@ -85,6 +86,7 @@ export default function Login(props: HistoryType) {
 			empty: true,
 			touched: false,
 			suggestions: {
+				selected: false,
 				loading: false,
 				array: [],
 				show: false,
@@ -102,6 +104,7 @@ export default function Login(props: HistoryType) {
 			empty: true,
 			touched: false,
 			suggestions: {
+				selected: false,
 				loading: false,
 				array: [],
 				show: false,
@@ -119,6 +122,7 @@ export default function Login(props: HistoryType) {
 			empty: true,
 			touched: false,
 			suggestions: {
+				selected: false,
 				loading: false,
 				array: [],
 				show: false,
@@ -136,6 +140,7 @@ export default function Login(props: HistoryType) {
 			empty: true,
 			touched: false,
 			suggestions: {
+				selected: false,
 				loading: false,
 				array: [],
 				show: false,
@@ -153,6 +158,7 @@ export default function Login(props: HistoryType) {
 			empty: true,
 			touched: false,
 			suggestions: {
+				selected: false,
 				loading: false,
 				array: [],
 				show: false,
@@ -336,6 +342,7 @@ export default function Login(props: HistoryType) {
 				location: {
 					...prevState.location,
 					suggestions: {
+						...prevState.location.suggestions,
 						loading: true,
 						array: [],
 						show: true,
@@ -394,6 +401,7 @@ export default function Login(props: HistoryType) {
 					location: {
 						...prevState.location,
 						suggestions: {
+							...prevState.location.suggestions,
 							loading: false,
 							show: true,
 							array: collectedDataArrayFormatted,
