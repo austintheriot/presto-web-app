@@ -40,6 +40,7 @@ export default function Login(props: HistoryType) {
 		activity: {
 			label: 'Musical Activity',
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [
@@ -73,6 +74,7 @@ export default function Login(props: HistoryType) {
 		instrument: {
 			label: 'Instrument/Voice Type',
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: InstrumentArray,
@@ -90,6 +92,7 @@ export default function Login(props: HistoryType) {
 		website: {
 			label: 'Website',
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],
@@ -107,6 +110,7 @@ export default function Login(props: HistoryType) {
 		bio: {
 			label: 'Short Bio',
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],
@@ -291,6 +295,9 @@ export default function Login(props: HistoryType) {
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'activity')
 					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'activity')
+					}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
@@ -302,6 +309,9 @@ export default function Login(props: HistoryType) {
 					}
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'instrument')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'instrument')
 					}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}

@@ -86,7 +86,8 @@ export interface InputType {
 		default: string;
 	};
 	suggestions: {
-		loading: boolean;
+		selected: boolean; //whether an option was chosen from the suggestions menu
+		loading: boolean; //whether the suggestions are loading (being fetched from an API)
 		show: boolean;
 		array: string[];
 	};

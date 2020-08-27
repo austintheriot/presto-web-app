@@ -9,6 +9,7 @@ interface Props {
 	readOnly?: boolean;
 	handleFocus: Function;
 	handleBlur: Function;
+	handleChange: Function;
 	suggestionClickHandler?: Function;
 }
 
@@ -61,8 +62,7 @@ export default (props: Props) => {
 				type={props?.type || 'text'}
 				onBlur={(e) => props.handleBlur(e, props.customType)}
 				onFocus={(e) => props.handleFocus(e, props.customType)}
-				//probably unnecessary, since it wouldn't update the state regardless, but just be sure...
-				onChange={(e) => e.preventDefault()}
+				onChange={(e) => props.handleChange(e, props.customType)}
 			/>
 			<SuggestionList
 				suggestions={props?.inputs[props.customType]?.suggestions || null}

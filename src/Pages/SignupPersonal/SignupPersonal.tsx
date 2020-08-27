@@ -40,6 +40,7 @@ export default function Login(props: HistoryType) {
 				default: 'i.e. First Last',
 			},
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],

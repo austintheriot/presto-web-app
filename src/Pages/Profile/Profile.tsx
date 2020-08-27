@@ -4,6 +4,7 @@ import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
 import InstrumentArray from '../../app/InstrumentArray';
 import { db } from '../../app/config';
+import geoapifyKey from '../../app/geoapifyKey';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
@@ -16,11 +17,43 @@ import Message from '../../components/Message/Message';
 import { InputType } from '../../app/types';
 import locationFormatter from '../../app/locationFormatter';
 
+interface GeoapifyData {
+	properties: {
+		city?: string;
+		state?: string;
+		county?: string;
+		postcode?: string;
+		country?: string;
+	};
+}
+
+interface LocationData {
+	city?: string;
+	state?: string;
+	county?: string;
+	zip?: string;
+	country?: string;
+}
+
+interface PositionData {
+	coords: {
+		latitude: number;
+		longitude: number;
+	};
+}
+type CollectedDataArray = LocationData[];
+
 interface Inputs {
 	activity: InputType;
 	instrument: InputType;
 	website: InputType;
 	bio: InputType;
+	location: InputType;
+	city: InputType;
+	county: InputType;
+	state: InputType;
+	zip: InputType;
+	country: InputType;
 }
 
 type KeyOfInputs = keyof Inputs;
@@ -32,6 +65,7 @@ export default () => {
 		activity: {
 			label: 'Musical Activity',
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [
@@ -67,6 +101,7 @@ export default () => {
 		instrument: {
 			label: 'Instrument/Voice Type',
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: InstrumentArray,
@@ -84,6 +119,7 @@ export default () => {
 		bio: {
 			label: 'Short Bio',
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],
@@ -101,6 +137,7 @@ export default () => {
 		website: {
 			label: 'Website',
 			suggestions: {
+				selected: false,
 				loading: false,
 				show: false,
 				array: [],
@@ -115,7 +152,116 @@ export default () => {
 				default: 'Link to your personal website.',
 			},
 		},
+		location: {
+			label: 'Location',
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			suggestions: {
+				selected: false,
+				loading: false,
+				array: [],
+				show: false,
+			},
+			message: {
+				error: false,
+				text: 'e.g. Address/City/State/Zip Code, etc.',
+				default: 'e.g. Address/City/State/Zip Code, etc.',
+			},
+		},
+		city: {
+			value: '',
+			label: 'City',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			suggestions: {
+				selected: false,
+				loading: false,
+				array: [],
+				show: false,
+			},
+			message: {
+				error: false,
+				text: '',
+				default: '',
+			},
+		},
+		county: {
+			label: 'County',
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			suggestions: {
+				selected: false,
+				loading: false,
+				array: [],
+				show: false,
+			},
+			message: {
+				error: false,
+				text: '',
+				default: '',
+			},
+		},
+		state: {
+			label: 'State',
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			suggestions: {
+				selected: false,
+				loading: false,
+				array: [],
+				show: false,
+			},
+			message: {
+				error: false,
+				text: '',
+				default: '',
+			},
+		},
+		zip: {
+			label: 'Zip Code',
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			suggestions: {
+				selected: false,
+				loading: false,
+				array: [],
+				show: false,
+			},
+			message: {
+				error: false,
+				text: '',
+				default: '',
+			},
+		},
+		country: {
+			label: 'Full Name',
+			value: '',
+			animateUp: false,
+			empty: true,
+			touched: false,
+			suggestions: {
+				selected: false,
+				loading: false,
+				array: [],
+				show: false,
+			},
+			message: {
+				error: false,
+				text: '',
+				default: '',
+			},
+		},
 	});
+	const [timerId, setTimerId] = useState(setTimeout(() => {}, 0));
 	const [message, setMessage] = useState('');
 
 	const suggestionClickHandler = (
@@ -138,7 +284,11 @@ export default () => {
 		newestType: KeyOfInputs
 	) => {
 		//animation
-		if (newestType === 'activity' || newestType === 'instrument') {
+		if (
+			newestType === 'activity' ||
+			newestType === 'instrument' ||
+			newestType === 'location'
+		) {
 			//show drop down menu
 			setInputs((prevState) => ({
 				...prevState,
@@ -176,7 +326,11 @@ export default () => {
 				: false;
 
 		//hide drop down menu
-		if (newestType === 'activity' || newestType === 'instrument') {
+		if (
+			newestType === 'activity' ||
+			newestType === 'instrument' ||
+			newestType === 'location'
+		) {
 			setInputs((prevState) => ({
 				...prevState,
 				[newestType]: {
@@ -215,6 +369,7 @@ export default () => {
 			instrument: '',
 			website: '',
 			bio: '',
+			location: '',
 		};
 
 		//update state for all inputs
@@ -292,7 +447,202 @@ export default () => {
 						: prevState.website.message.default,
 				},
 			},
+			location: {
+				...prevState.location,
+
+				//update generic values
+				value:
+					newestType === 'location' ? targetValue : prevState.location.value,
+				empty:
+					newestType === 'location' ? targetEmpty : prevState.location.empty,
+
+				//update errors: If no error, set to default message
+				message: {
+					...prevState.location.message,
+					error: anyErrorsObject.location ? true : false,
+					text: anyErrorsObject.location
+						? anyErrorsObject.location
+						: prevState.location.message.default,
+				},
+			},
 		}));
+		if (newestType === 'location' && targetValue) {
+			let requestDelay = 500;
+			clearTimeout(timerId);
+			setTimerId(
+				setTimeout(() => sendAutoCompleteRequest(targetValue), requestDelay)
+			);
+
+			//set autocomplete to loading
+			setInputs((prevState: Inputs) => ({
+				...prevState,
+				location: {
+					...prevState.location,
+					suggestions: {
+						...prevState.location.suggestions,
+						loading: true,
+						array: [],
+						show: true,
+					},
+				},
+			}));
+		}
+	};
+
+	const sendAutoCompleteRequest = (locationInputValue: string) => {
+		let key = geoapifyKey;
+		let requestUrl = `https://api.geoapify.com/v1/geocode/autocomplete?text=${locationInputValue}&limit=5&apiKey=${key}`;
+		var xhr = new XMLHttpRequest();
+		xhr.withCredentials = false;
+		xhr.open('GET', requestUrl);
+		xhr.responseType = 'json';
+		xhr.send(null);
+		xhr.onerror = () => {
+			console.error('Request failed');
+			setMessage(`Sorry, we couldn't find your location.`);
+		};
+		xhr.onload = () => {
+			if (xhr.status !== 200) {
+				// analyze HTTP status of the response
+				console.error(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+			} else {
+				//if the response succeeds:
+				let geoapifyDataArray = xhr.response.features;
+				console.log('[Profile]: Location received: ', geoapifyDataArray);
+
+				//turn data into an array of objects for later recall
+				let collectedDataArray: CollectedDataArray = geoapifyDataArray.map(
+					({ properties }: GeoapifyData) => {
+						return {
+							city: properties.city || null,
+							state: properties.state || null,
+							county: properties.county || null,
+							zip: properties.postcode || null,
+							country: properties.country || null,
+						};
+					}
+				);
+				//format data to be usable for the suggestions drop down menu
+				let collectedDataArrayFormatted = collectedDataArray.map((el) => {
+					return [el.city, el.state, el.country, el.zip]
+						.filter((el) => el)
+						.join(', ')
+						.trim();
+				});
+
+				//update autocomplete suggestions for location input
+				setInputs((prevState) => ({
+					...prevState,
+					location: {
+						...prevState.location,
+						suggestions: {
+							...prevState.location.suggestions,
+							loading: false,
+							show: true,
+							array: collectedDataArrayFormatted,
+						},
+					},
+				}));
+			}
+		};
+	};
+
+	const getLocation = () => {
+		const options = {
+			enableHighAccuracy: true,
+			timeout: 30000,
+			maximumAge: 0,
+		};
+
+		const handleGeolocationSuccess = (pos: PositionData) => {
+			let key = geoapifyKey;
+			let latitude = pos.coords.latitude;
+			let longitude = pos.coords.longitude;
+			let requestUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&limit=1&apiKey=${key}`;
+			var xhr = new XMLHttpRequest();
+			xhr.withCredentials = false;
+			xhr.open('GET', requestUrl);
+			xhr.responseType = 'json';
+			xhr.send(null);
+			xhr.onerror = () => {
+				console.error('Request failed');
+				setMessage(`Sorry, we couldn't find your location.`);
+			};
+			xhr.onload = (data) => {
+				if (xhr.status !== 200) {
+					// analyze HTTP status of the response
+					console.error(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+				} else {
+					//if the response succeeds:
+					let properties = xhr.response.features[0].properties;
+					//reduce info to necessary fields:
+					let locationInfoObject = {
+						lat: latitude,
+						lon: longitude,
+						city: properties.city,
+						county: properties.county,
+						state: properties.state,
+						country: properties.country,
+						zip: properties.postcode,
+					};
+
+					setInputs((prevState: Inputs) => ({
+						...prevState,
+						city: {
+							...prevState.city,
+							//update generic values
+							value: locationInfoObject.city || '',
+							animateUp: !!locationInfoObject.city,
+							empty: !!locationInfoObject.city,
+						},
+						county: {
+							...prevState.county,
+							//update generic values
+							value: locationInfoObject.county || '',
+							animateUp: !!locationInfoObject.county,
+							empty: !!locationInfoObject.county,
+						},
+						zip: {
+							...prevState.zip,
+							//update generic values
+							value: locationInfoObject.zip || '',
+							animateUp: !!locationInfoObject.zip,
+							empty: !!locationInfoObject.zip,
+						},
+						state: {
+							...prevState.state,
+							//update generic values
+							value: locationInfoObject.state || '',
+							animateUp: !!locationInfoObject.state,
+							empty: !!locationInfoObject.state,
+						},
+						country: {
+							...prevState.country,
+							//update generic values
+							value: locationInfoObject.country || '',
+							animateUp: !!locationInfoObject.country,
+							empty: !!locationInfoObject.country,
+						},
+					}));
+				}
+			};
+		};
+
+		const handleGeolocationFail = (err: { code: any; message: any }) => {
+			console.warn(`ERROR(${err.code}): ${err.message}`);
+			setMessage(`Sorry, we couldn't find your location.`);
+		};
+
+		//if Geolocation is supported, call it (see above)
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				handleGeolocationSuccess,
+				handleGeolocationFail,
+				options
+			);
+		} else {
+			setMessage('Geolocation is not supported by this browser.');
+		}
 	};
 
 	const submitHandler = (e: React.SyntheticEvent) => {
@@ -307,6 +657,11 @@ export default () => {
 			instrument?: string;
 			website?: string;
 			bio?: string;
+			city?: string;
+			county?: string;
+			zip?: string;
+			state?: string;
+			country?: string;
 		}
 		let newInfoFromState: NewInfoFromState = {};
 		if (inputs.activity.touched)
@@ -315,6 +670,11 @@ export default () => {
 			newInfoFromState.instrument = inputs.instrument.value;
 		if (inputs.website.touched) newInfoFromState.website = inputs.website.value;
 		if (inputs.bio.touched) newInfoFromState.bio = inputs.bio.value;
+		if (inputs.city.touched) newInfoFromState.city = inputs.city.value;
+		if (inputs.state.touched) newInfoFromState.state = inputs.state.value;
+		if (inputs.county.touched) newInfoFromState.county = inputs.county.value;
+		if (inputs.zip.touched) newInfoFromState.zip = inputs.zip.value;
+		if (inputs.country.touched) newInfoFromState.country = inputs.country.value;
 
 		if (Object.keys(newInfoFromState).length === 0) {
 			return setMessage('No new settings to update.');
@@ -330,6 +690,7 @@ export default () => {
 
 				//reset "touched" value of inputs so save isn't triggered again if attempted
 				setInputs((prevState) => ({
+					...prevState,
 					activity: {
 						...prevState.activity,
 						touched: false,
@@ -344,6 +705,26 @@ export default () => {
 					},
 					website: {
 						...prevState.website,
+						touched: false,
+					},
+					city: {
+						...prevState.city,
+						touched: false,
+					},
+					state: {
+						...prevState.state,
+						touched: false,
+					},
+					county: {
+						...prevState.county,
+						touched: false,
+					},
+					zip: {
+						...prevState.zip,
+						touched: false,
+					},
+					country: {
+						...prevState.country,
 						touched: false,
 					},
 				}));
@@ -379,6 +760,22 @@ export default () => {
 				</p>
 			</div>
 			<form onSubmit={submitHandler}>
+				<Button onClick={getLocation}>Autofill Location</Button>
+				<Select
+					type='text'
+					customType='location'
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'location')
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'location')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'location')
+					}
+					inputs={inputs}
+					suggestionClickHandler={suggestionClickHandler}
+				/>
 				<Select
 					type='text'
 					customType='activity'
@@ -387,6 +784,9 @@ export default () => {
 					}
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'activity')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'activity')
 					}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
@@ -399,6 +799,9 @@ export default () => {
 					}
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'instrument')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'instrument')
 					}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
