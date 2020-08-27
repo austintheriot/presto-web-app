@@ -62,6 +62,7 @@ export default () => {
 					'Curator',
 					'Editor',
 					'Engineer',
+					'Ensemble',
 					'Engraver',
 					'Performer',
 					'Producer',
