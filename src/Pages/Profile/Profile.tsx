@@ -26,8 +26,6 @@ interface Inputs {
 type KeyOfInputs = keyof Inputs;
 
 export default () => {
-	window.scrollTo(0, 0);
-
 	const user = useSelector(selectUser);
 
 	const [inputs, setInputs] = useState<Inputs>({
