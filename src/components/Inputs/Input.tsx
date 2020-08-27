@@ -87,6 +87,7 @@ export default (props: Props) => {
 				onChange={(e) => props.handleChange(e, props.customType)}
 			/>
 			<SuggestionList
+				value={props?.inputs[props.customType]?.value || ''}
 				suggestions={props?.inputs[props.customType]?.suggestions || null}
 				suggestionClickHandler={props?.suggestionClickHandler}
 				show={props?.inputs[props.customType]?.suggestions?.show || false}
