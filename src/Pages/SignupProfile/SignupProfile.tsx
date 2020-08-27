@@ -4,7 +4,6 @@ import { db } from '../../app/config';
 import Message from '../../components/Message/Message';
 import { Redirect, Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
-import Select from '../../components/Inputs/Select';
 import Textarea from '../../components/Inputs/Textarea';
 import styles from './SignupProfile.module.scss';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
@@ -286,7 +285,7 @@ export default function Login(props: HistoryType) {
 			/>
 			<h1 className={styles.title}>Profile</h1>
 			<form onSubmit={submitHandler}>
-				<Select
+				<Input
 					type='text'
 					customType='activity'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
@@ -301,7 +300,7 @@ export default function Login(props: HistoryType) {
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
-				<Select
+				<Input
 					type='text'
 					customType='instrument'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>

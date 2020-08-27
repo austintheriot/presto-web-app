@@ -9,7 +9,6 @@ import geoapifyKey from '../../app/geoapifyKey';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/userSlice';
 
-import Select from '../../components/Inputs/Select';
 import Input from '../../components/Inputs/Input';
 import Textarea from '../../components/Inputs/Textarea';
 import Message from '../../components/Message/Message';
@@ -761,7 +760,7 @@ export default () => {
 			</div>
 			<form onSubmit={submitHandler}>
 				<Button onClick={getLocation}>Autofill Location</Button>
-				<Select
+				<Input
 					type='text'
 					customType='location'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
@@ -776,7 +775,7 @@ export default () => {
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
-				<Select
+				<Input
 					type='text'
 					customType='activity'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
@@ -791,7 +790,7 @@ export default () => {
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
 				/>
-				<Select
+				<Input
 					type='text'
 					customType='instrument'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
