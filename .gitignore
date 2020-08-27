@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 notes.txt
-geoapifyKey.js
-config.js
+geoapifyKey.ts
+config.ts
