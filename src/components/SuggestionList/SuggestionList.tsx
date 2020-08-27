@@ -18,10 +18,12 @@ export default function SuggestionList({
 	show,
 	customType,
 }: Props) {
-	//if given array, show the array
-	//else if loading, show loading,
+	//if loading, show loading,
+	//else if given array, show the array
 	//else hide
-	let listItems = suggestions?.array ? (
+	let listItems = suggestions?.loading ? (
+		<li className={styles.li}>Loading...</li>
+	) : suggestions?.array ? (
 		suggestions.array.map((el, i) => {
 			//defer to using element info with indexes before indexes alone
 			let key = el ? el.toString() + i : i;
@@ -40,8 +42,6 @@ export default function SuggestionList({
 				</li>
 			);
 		})
-	) : suggestions?.loading ? (
-		<li className={styles.li}>Loading...</li>
 	) : null;
 
 	return (
