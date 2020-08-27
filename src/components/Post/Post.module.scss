@@ -3,7 +3,6 @@
 /* Post not found, loading post..., etc. */
 .altWrapper {
 	width: 90%;
-	min-width: 300px;
 	max-width: 600px;
 	margin: 2rem auto;
 	box-shadow: var(--shadow);
@@ -49,7 +48,6 @@
 .article {
 	margin: 0 auto;
 	width: 100%;
-	min-width: 300px;
 	max-width: 600px;
 
 	display: grid;
