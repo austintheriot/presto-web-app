@@ -11,6 +11,7 @@ import bioIcon from '../../assets/images/info.svg';
 import joinedIcon from '../../assets/images/calendar.svg';
 import activityIcon from '../../assets/images/activity.svg';
 import instrumentIcon from '../../assets/images/instrument.svg';
+import SpacerMedium from '../../components/Spacers/SpacerMedium';
 
 interface State {
 	profile: ProfileType;
@@ -193,6 +194,7 @@ export default () => {
 					</p>
 				</section>
 			) : null}
+			<SpacerMedium />
 		</>
 	);
 };
