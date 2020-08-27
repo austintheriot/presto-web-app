@@ -38,7 +38,8 @@ export default function SuggestionList({
 						key={key}
 						onMouseDown={(e) => {
 							if (suggestionClickHandler) {
-								suggestionClickHandler(e, i, customType);
+								const indexInOriginalArray = suggestions.array.indexOf(el);
+								suggestionClickHandler(e, indexInOriginalArray, customType);
 							} else {
 								return;
 							}

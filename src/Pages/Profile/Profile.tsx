@@ -42,23 +42,33 @@ interface PositionData {
 }
 type CollectedDataArray = LocationData[];
 
+interface LocationType extends InputType {
+	_data: {
+		city: string;
+		state: string;
+		county: string;
+		zip: string;
+		country: string;
+	};
+	suggestionsArray: any[];
+}
+
 interface Inputs {
 	activity: InputType;
 	instrument: InputType;
 	website: InputType;
 	bio: InputType;
-	location: InputType;
-	city: InputType;
-	county: InputType;
-	state: InputType;
-	zip: InputType;
-	country: InputType;
+	location: LocationType;
 }
 
 type KeyOfInputs = keyof Inputs;
 
 export default () => {
 	const user = useSelector(selectUser);
+	const userLocation = [user.city, user.state, user.country]
+		.filter((el) => el)
+		.join(', ')
+		.trim();
 
 	const [inputs, setInputs] = useState<Inputs>({
 		activity: {
@@ -153,9 +163,17 @@ export default () => {
 		},
 		location: {
 			label: 'Location',
-			value: '',
-			animateUp: false,
-			empty: true,
+			_data: {
+				city: '',
+				state: '',
+				county: '',
+				zip: '',
+				country: '',
+			},
+			suggestionsArray: [],
+			value: userLocation,
+			animateUp: !!userLocation,
+			empty: !userLocation,
 			touched: false,
 			suggestions: {
 				selected: false,
@@ -165,103 +183,14 @@ export default () => {
 			},
 			message: {
 				error: false,
-				text: 'e.g. Address/City/State/Zip Code, etc.',
-				default: 'e.g. Address/City/State/Zip Code, etc.',
-			},
-		},
-		city: {
-			value: '',
-			label: 'City',
-			animateUp: false,
-			empty: true,
-			touched: false,
-			suggestions: {
-				selected: false,
-				loading: false,
-				array: [],
-				show: false,
-			},
-			message: {
-				error: false,
-				text: '',
-				default: '',
-			},
-		},
-		county: {
-			label: 'County',
-			value: '',
-			animateUp: false,
-			empty: true,
-			touched: false,
-			suggestions: {
-				selected: false,
-				loading: false,
-				array: [],
-				show: false,
-			},
-			message: {
-				error: false,
-				text: '',
-				default: '',
-			},
-		},
-		state: {
-			label: 'State',
-			value: '',
-			animateUp: false,
-			empty: true,
-			touched: false,
-			suggestions: {
-				selected: false,
-				loading: false,
-				array: [],
-				show: false,
-			},
-			message: {
-				error: false,
-				text: '',
-				default: '',
-			},
-		},
-		zip: {
-			label: 'Zip Code',
-			value: '',
-			animateUp: false,
-			empty: true,
-			touched: false,
-			suggestions: {
-				selected: false,
-				loading: false,
-				array: [],
-				show: false,
-			},
-			message: {
-				error: false,
-				text: '',
-				default: '',
-			},
-		},
-		country: {
-			label: 'Full Name',
-			value: '',
-			animateUp: false,
-			empty: true,
-			touched: false,
-			suggestions: {
-				selected: false,
-				loading: false,
-				array: [],
-				show: false,
-			},
-			message: {
-				error: false,
-				text: '',
-				default: '',
+				text: 'e.g. Address, City, or State, etc.',
+				default: 'e.g. Address, City, or State, etc.',
 			},
 		},
 	});
 	const [timerId, setTimerId] = useState(setTimeout(() => {}, 0));
-	const [message, setMessage] = useState('');
+	const [saveMessage, setSaveMessage] = useState('');
+	const [locationMessage, setLocationMessage] = useState('');
 
 	const suggestionClickHandler = (
 		e: React.FormEvent<HTMLInputElement>,
@@ -269,13 +198,41 @@ export default () => {
 		newestType: KeyOfInputs
 	) => {
 		let newValue = inputs[newestType].suggestions.array[i];
-		setInputs((prevState) => ({
-			...prevState,
-			[newestType]: {
-				...prevState[newestType],
-				value: newValue,
-			},
-		}));
+
+		if (newestType === 'location') {
+			const formattedData = newValue;
+			const unformattedData = inputs.location.suggestionsArray[i];
+			setInputs((prevState: Inputs) => ({
+				...prevState,
+				location: {
+					...prevState.location,
+					value: formattedData || '',
+					empty: !formattedData,
+					animateUp: !!formattedData,
+					suggestions: {
+						...prevState.location.suggestions,
+						selected: true,
+					},
+					_data: {
+						city: unformattedData.city || '',
+						county: unformattedData.county || '',
+						zip: unformattedData.zip || '',
+						state: unformattedData.state || '',
+						country: unformattedData.country || '',
+					},
+				},
+			}));
+		} else {
+			setInputs((prevState) => ({
+				...prevState,
+				[newestType]: {
+					...prevState[newestType],
+					value: newValue,
+					// empty: !newValue,
+					// animateUp: !!newValue,
+				},
+			}));
+		}
 	};
 
 	const handleFocus = (
@@ -515,7 +472,7 @@ export default () => {
 		xhr.send(null);
 		xhr.onerror = () => {
 			console.error('Request failed');
-			setMessage(`Sorry, we couldn't find your location.`);
+			setLocationMessage(`Sorry, we couldn't find your location.`);
 			clearLocationSuggestions();
 		};
 		xhr.onload = () => {
@@ -526,8 +483,14 @@ export default () => {
 			} else {
 				//if the response succeeds:
 				let geoapifyDataArray = xhr.response.features;
-				console.log('[Profile]: Location received: ', geoapifyDataArray);
-				if (geoapifyDataArray.length === 0) clearLocationSuggestions();
+				if (geoapifyDataArray.length === 0) {
+					setLocationMessage(
+						`Sorry, we couldn't find any locations that matched.`
+					);
+					clearLocationSuggestions();
+				} else {
+					setLocationMessage(``);
+				}
 
 				//turn data into an array of objects for later recall
 				let collectedDataArray: CollectedDataArray = geoapifyDataArray.map(
@@ -541,6 +504,7 @@ export default () => {
 						};
 					}
 				);
+
 				//format data to be usable for the suggestions drop down menu
 				let collectedDataArrayFormatted = collectedDataArray.map((el) => {
 					return [el.city, el.state, el.country, el.zip]
@@ -554,7 +518,9 @@ export default () => {
 					...prevState,
 					location: {
 						...prevState.location,
+						suggestionsArray: collectedDataArray, //unformatted data (for sending)
 						suggestions: {
+							//data formatted as a string for SuggestionsList
 							...prevState.location.suggestions,
 							loading: false,
 							show: true,
@@ -585,19 +551,18 @@ export default () => {
 			xhr.send(null);
 			xhr.onerror = () => {
 				console.error('Request failed');
-				setMessage(`Sorry, we couldn't find your location.`);
+				setLocationMessage(`Sorry, we couldn't find your location.`);
 			};
 			xhr.onload = (data) => {
 				if (xhr.status !== 200) {
 					// analyze HTTP status of the response
 					console.error(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+					setLocationMessage(`Sorry, we couldn't find your location.`);
 				} else {
 					//if the response succeeds:
 					let properties = xhr.response.features[0].properties;
 					//reduce info to necessary fields:
 					let locationInfoObject = {
-						lat: latitude,
-						lon: longitude,
 						city: properties.city,
 						county: properties.county,
 						state: properties.state,
@@ -605,42 +570,34 @@ export default () => {
 						zip: properties.postcode,
 					};
 
+					let formattedLocation = [
+						locationInfoObject.city,
+						locationInfoObject.state,
+						locationInfoObject.country,
+						locationInfoObject.zip,
+					]
+						.filter((el) => el)
+						.join(', ')
+						.trim();
+
 					setInputs((prevState: Inputs) => ({
 						...prevState,
-						city: {
-							...prevState.city,
-							//update generic values
-							value: locationInfoObject.city || '',
-							animateUp: !!locationInfoObject.city,
-							empty: !!locationInfoObject.city,
-						},
-						county: {
-							...prevState.county,
-							//update generic values
-							value: locationInfoObject.county || '',
-							animateUp: !!locationInfoObject.county,
-							empty: !!locationInfoObject.county,
-						},
-						zip: {
-							...prevState.zip,
-							//update generic values
-							value: locationInfoObject.zip || '',
-							animateUp: !!locationInfoObject.zip,
-							empty: !!locationInfoObject.zip,
-						},
-						state: {
-							...prevState.state,
-							//update generic values
-							value: locationInfoObject.state || '',
-							animateUp: !!locationInfoObject.state,
-							empty: !!locationInfoObject.state,
-						},
-						country: {
-							...prevState.country,
-							//update generic values
-							value: locationInfoObject.country || '',
-							animateUp: !!locationInfoObject.country,
-							empty: !!locationInfoObject.country,
+						location: {
+							...prevState.location,
+							value: formattedLocation || '',
+							empty: !formattedLocation,
+							animateUp: !!formattedLocation,
+							suggestions: {
+								...prevState.location.suggestions,
+								selected: true,
+							},
+							_data: {
+								city: locationInfoObject.city || '',
+								county: locationInfoObject.county || '',
+								zip: locationInfoObject.zip || '',
+								state: locationInfoObject.state || '',
+								country: locationInfoObject.country || '',
+							},
 						},
 					}));
 				}
@@ -649,7 +606,7 @@ export default () => {
 
 		const handleGeolocationFail = (err: { code: any; message: any }) => {
 			console.warn(`ERROR(${err.code}): ${err.message}`);
-			setMessage(`Sorry, we couldn't find your location.`);
+			setLocationMessage(`Sorry, we couldn't find your location.`);
 		};
 
 		//if Geolocation is supported, call it (see above)
@@ -660,7 +617,7 @@ export default () => {
 				options
 			);
 		} else {
-			setMessage('Geolocation is not supported by this browser.');
+			setLocationMessage('Geolocation is not supported by this browser.');
 		}
 	};
 
@@ -689,23 +646,30 @@ export default () => {
 			newInfoFromState.instrument = inputs.instrument.value;
 		if (inputs.website.touched) newInfoFromState.website = inputs.website.value;
 		if (inputs.bio.touched) newInfoFromState.bio = inputs.bio.value;
-		if (inputs.city.touched) newInfoFromState.city = inputs.city.value;
-		if (inputs.state.touched) newInfoFromState.state = inputs.state.value;
-		if (inputs.county.touched) newInfoFromState.county = inputs.county.value;
-		if (inputs.zip.touched) newInfoFromState.zip = inputs.zip.value;
-		if (inputs.country.touched) newInfoFromState.country = inputs.country.value;
+		if (inputs.location.touched) {
+			if (inputs.location._data.city)
+				newInfoFromState.city = inputs.location._data.city;
+			if (inputs.location._data.county)
+				newInfoFromState.county = inputs.location._data.county;
+			if (inputs.location._data.zip)
+				newInfoFromState.zip = inputs.location._data.zip;
+			if (inputs.location._data.state)
+				newInfoFromState.state = inputs.location._data.state;
+			if (inputs.location._data.country)
+				newInfoFromState.country = inputs.location._data.country;
+		}
 
 		if (Object.keys(newInfoFromState).length === 0) {
-			return setMessage('No new settings to update.');
+			return setSaveMessage('No new settings to update.');
 		}
 
 		//update profile information of user
-		setMessage('Saving...');
+		setSaveMessage('Saving...');
 		db.collection('users')
 			.doc(user.uid)
 			.set(newInfoFromState, { merge: true })
 			.then(() => {
-				console.log('Document successfully written!');
+				console.log('[Profile]: Document successfully updated in database!');
 
 				//reset "touched" value of inputs so save isn't triggered again if attempted
 				setInputs((prevState) => ({
@@ -726,32 +690,16 @@ export default () => {
 						...prevState.website,
 						touched: false,
 					},
-					city: {
-						...prevState.city,
-						touched: false,
-					},
-					state: {
-						...prevState.state,
-						touched: false,
-					},
-					county: {
-						...prevState.county,
-						touched: false,
-					},
-					zip: {
-						...prevState.zip,
-						touched: false,
-					},
-					country: {
-						...prevState.country,
+					location: {
+						...prevState.location,
 						touched: false,
 					},
 				}));
-				setMessage('Your settings have been successfully updated!');
+				setSaveMessage('Your settings have been successfully updated!');
 			})
 			.catch((error) => {
 				console.error(error);
-				setMessage('Server error. Please try again later.');
+				setSaveMessage('Server error. Please try again later.');
 			});
 	};
 
@@ -794,6 +742,10 @@ export default () => {
 					}
 					inputs={inputs}
 					suggestionClickHandler={suggestionClickHandler}
+				/>
+				<Message
+					message={locationMessage}
+					color={locationMessage ? 'black' : 'hidden'}
 				/>
 				<Input
 					type='text'
@@ -853,7 +805,10 @@ export default () => {
 					}
 					inputs={inputs}
 				/>
-				<Message message={message} color={message ? 'black' : 'hidden'} />
+				<Message
+					message={saveMessage}
+					color={saveMessage ? 'black' : 'hidden'}
+				/>
 				<Button type='submit' onClick={submitHandler}>
 					Save
 				</Button>
