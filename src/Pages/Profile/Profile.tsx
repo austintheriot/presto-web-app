@@ -14,6 +14,7 @@ import Textarea from '../../components/Inputs/Textarea';
 import Message from '../../components/Message/Message';
 
 import { InputType } from '../../app/types';
+import locationFormatter from '../../app/locationFormatter';
 
 interface Inputs {
 	type: InputType;
@@ -420,9 +421,11 @@ export default () => {
 
 				{/* Location */}
 				<p>
-					{(user.city || '') + ', '}
-					{(user.state || '') + ', '}
-					{user.country || ''}
+					{locationFormatter({
+						city: user.city || '',
+						state: user.state || '',
+						country: user.country || '',
+					})}
 				</p>
 			</div>
 			<form onSubmit={submitHandler}>
