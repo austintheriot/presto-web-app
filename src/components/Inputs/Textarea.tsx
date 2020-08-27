@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './Textarea.module.scss';
-import SuggestionList from '../SuggestionList/SuggestionList';
 
 interface Props {
 	inputs: any;
@@ -64,12 +63,6 @@ export default (props: Props) => {
 				onBlur={(e) => props.handleBlur(e, props.customType)}
 				onFocus={(e) => props.handleFocus(e, props.customType)}
 				onChange={(e) => props.handleChange(e, props.customType)}
-			/>
-			<SuggestionList
-				suggestions={props?.inputs[props.customType]?.suggestions || null}
-				suggestionClickHandler={props?.suggestionClickHandler}
-				show={props?.inputs[props.customType]?.suggestions?.show || false}
-				customType={props.customType}
 			/>
 			<p
 				className={
