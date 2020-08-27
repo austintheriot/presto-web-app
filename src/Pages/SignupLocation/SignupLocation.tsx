@@ -29,7 +29,7 @@ interface Inputs {
 
 type KeyOfInputs = keyof Inputs;
 
-interface GeapifyData {
+interface GeoapifyData {
 	properties: {
 		city?: string;
 		state?: string;
@@ -367,7 +367,7 @@ export default function Login(props: HistoryType) {
 
 				//turn data into an array of objects for later recall
 				let collectedDataArray: CollectedDataArray = geoapifyDataArray.map(
-					({ properties }: GeapifyData) => {
+					({ properties }: GeoapifyData) => {
 						return {
 							city: properties.city || null,
 							state: properties.state || null,
