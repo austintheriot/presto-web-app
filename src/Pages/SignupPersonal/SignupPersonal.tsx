@@ -48,7 +48,7 @@ export default function Login(props: HistoryType) {
 	});
 	const [individualRadioChecked, setIndividualRadioChecked] = useState(true);
 	const [ensembleRadioChecked, setEnsembleRadioChecked] = useState(false);
-	const [radioValue, setRadioValue] = useState('individual');
+	const [radioValue, setRadioValue] = useState('Individual');
 	const [message, setMessage] = useState('');
 	const [submitted, setSubmitted] = useState(false);
 
