@@ -228,8 +228,10 @@ export default () => {
 				[newestType]: {
 					...prevState[newestType],
 					value: newValue,
-					// empty: !newValue,
-					// animateUp: !!newValue,
+					suggestions: {
+						...prevState[newestType].suggestions,
+						selected: true,
+					},
 				},
 			}));
 		}
@@ -626,6 +628,78 @@ export default () => {
 		e.preventDefault();
 
 		//check for errors
+		//if inputs edited, but not selected from drop down menu:
+		if (inputs.location.touched && !inputs.location.suggestions.selected) {
+			setSaveMessage('Please fix all errors before saving.');
+			return setInputs((prevState) => ({
+				...prevState,
+				location: {
+					...prevState.location,
+					message: {
+						...prevState.location.message,
+						error: true,
+						text: 'Please select from available options.',
+					},
+				},
+			}));
+		}
+		if (inputs.activity.touched && !inputs.activity.suggestions.selected) {
+			setSaveMessage('Please fix all errors before saving.');
+			return setInputs((prevState) => ({
+				...prevState,
+				activity: {
+					...prevState.activity,
+					message: {
+						...prevState.activity.message,
+						error: true,
+						text: 'Please select from available options.',
+					},
+				},
+			}));
+		}
+		if (inputs.instrument.touched && !inputs.instrument.suggestions.selected) {
+			setSaveMessage('Please fix all errors before saving.');
+			return setInputs((prevState) => ({
+				...prevState,
+				instrument: {
+					...prevState.instrument,
+					message: {
+						...prevState.instrument.message,
+						error: true,
+						text: 'Please select from available options.',
+					},
+				},
+			}));
+		}
+
+		//clear all errors:
+		setInputs((prevState) => ({
+			...prevState,
+			location: {
+				...prevState.location,
+				message: {
+					...prevState.location.message,
+					error: false,
+					text: prevState.location.message.default,
+				},
+			},
+			activity: {
+				...prevState.activity,
+				message: {
+					...prevState.activity.message,
+					error: false,
+					text: prevState.activity.message.default,
+				},
+			},
+			instrument: {
+				...prevState.instrument,
+				message: {
+					...prevState.instrument.message,
+					error: false,
+					text: prevState.instrument.message.default,
+				},
+			},
+		}));
 
 		//only update information if new information has been provided
 		interface NewInfoFromState {
