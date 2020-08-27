@@ -10,6 +10,7 @@ import { getPostsData } from '../../app/postsSlice';
 
 import locationIcon from '../../assets/images/location.svg';
 import SpacerLarge from '../../components/Spacers/SpacerLarge';
+import locationFormatter from '../../app/locationFormatter';
 
 export default () => {
 	const user = useSelector(selectUser);
@@ -45,7 +46,12 @@ export default () => {
 					<div className={styles.locationDiv}>
 						<img src={locationIcon} alt='location' />{' '}
 						<address>
-							{user.city || user.state || user.country || 'United States'}:
+							{locationFormatter({
+								city: user.city || '',
+								state: user.state || '',
+								country: user.country || '',
+							})}
+							:
 						</address>
 					</div>
 					<NewPost />
