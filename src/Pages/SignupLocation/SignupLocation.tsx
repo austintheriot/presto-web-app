@@ -232,7 +232,7 @@ export default function Login(props: HistoryType) {
 				empty:
 					newestType === 'location' ? targetEmpty : prevState.location.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.location.message,
 					error: anyErrorsObject.location ? true : false,
@@ -248,7 +248,7 @@ export default function Login(props: HistoryType) {
 				value: newestType === 'city' ? targetValue : prevState.city.value,
 				empty: newestType === 'city' ? targetEmpty : prevState.city.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.city.message,
 					error: anyErrorsObject.city ? true : false,
@@ -264,7 +264,7 @@ export default function Login(props: HistoryType) {
 				value: newestType === 'county' ? targetValue : prevState.county.value,
 				empty: newestType === 'county' ? targetEmpty : prevState.county.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.county.message,
 					error: anyErrorsObject.county ? true : false,
@@ -280,7 +280,7 @@ export default function Login(props: HistoryType) {
 				value: newestType === 'state' ? targetValue : prevState.state.value,
 				empty: newestType === 'state' ? targetEmpty : prevState.state.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.state.message,
 					error: anyErrorsObject.state ? true : false,
@@ -296,7 +296,7 @@ export default function Login(props: HistoryType) {
 				value: newestType === 'zip' ? targetValue : prevState.zip.value,
 				empty: newestType === 'zip' ? targetEmpty : prevState.zip.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.zip.message,
 					error: anyErrorsObject.zip ? true : false,
@@ -312,7 +312,7 @@ export default function Login(props: HistoryType) {
 				value: newestType === 'country' ? targetValue : prevState.country.value,
 				empty: newestType === 'country' ? targetEmpty : prevState.country.empty,
 
-				//update errors: If no error, set to default meessage
+				//update errors: If no error, set to default message
 				message: {
 					...prevState.country.message,
 					error: anyErrorsObject.country ? true : false,
