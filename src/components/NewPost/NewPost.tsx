@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styles from './NewPost.module.scss';
 import { Link } from 'react-router-dom';
-import { UserPayload } from '../../app/types';
-import { db, serverTimeStamp } from '../../app/config';
-import Textarea from '../Inputs/Textarea';
-import Button from '../Button/Button';
+import { UserPayload } from 'app/types';
+import { db, serverTimeStamp } from 'app/config';
+import Textarea from 'components/Inputs/Textarea';
+import Button from 'components/Button/Button';
 
-import { InputType } from '../../app/types';
+import { InputType } from 'app/types';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
+import { selectUser } from 'app/userSlice';
 
 interface Inputs {
 	body: InputType;

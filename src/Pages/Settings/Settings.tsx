@@ -1,12 +1,12 @@
 import React from 'react';
-import Nav from '../../components/Nav/Nav';
+import Nav from 'components/Nav/Nav';
 import styles from './Settings.module.scss';
-import Button from '../../components/Button/Button';
-import logoutFunction from '../../app/logout';
+import Button from 'components/Button/Button';
+import logoutFunction from 'app/logout';
 
 //images
-import logout from '../../assets/images/logout.svg';
-/* import notifications from '../../assets/images/notifications.svg'; */
+import logout from 'assets/images/logout.svg';
+/* import notifications from 'assets/images/notifications.svg'; */
 
 export default () => {
 	window.scrollTo(0, 0);

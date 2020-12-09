@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import Nav from '../../components/Nav/Nav';
+import Nav from 'components/Nav/Nav';
 import styles from './Profile.module.scss';
-import Button from '../../components/Button/Button';
-import InstrumentArray from '../../app/InstrumentArray';
-import { db } from '../../app/config';
-import geoapifyKey from '../../app/geoapifyKey';
+import Button from 'components/Button/Button';
+import InstrumentArray from 'app/InstrumentArray';
+import { db } from 'app/config';
+import geoapifyKey from 'app/geoapifyKey';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
+import { selectUser } from 'app/userSlice';
 
-import Input from '../../components/Inputs/Input';
-import Textarea from '../../components/Inputs/Textarea';
-import Message from '../../components/Message/Message';
+import Input from 'components/Inputs/Input';
+import Textarea from 'components/Inputs/Textarea';
+import Message from 'components/Message/Message';
 
-import { InputType } from '../../app/types';
-import locationFormatter from '../../app/locationFormatter';
+import { InputType } from 'app/types';
+import locationFormatter from 'app/locationFormatter';
 
 interface GeoapifyData {
 	properties: {

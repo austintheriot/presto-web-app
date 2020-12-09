@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { auth, analytics, db, serverTimeStamp } from '../../app/config';
+import { auth, analytics, db, serverTimeStamp } from 'app/config';
 import { Link, Redirect } from 'react-router-dom';
-import Button from '../../components/Button/Button';
+import Button from 'components/Button/Button';
 import styles from './HomePublic.module.scss';
-import Logout from '../../components/Logout';
-import Message from '../../components/Message/Message';
+import Logout from 'components/Logout';
+import Message from 'components/Message/Message';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
+import { selectUser } from 'app/userSlice';
 
 //images
-import home1 from '../../assets/images/home1.svg';
-import home2 from '../../assets/images/home2.svg';
-import home3 from '../../assets/images/home4.svg';
-import home4 from '../../assets/images/home5.svg';
+import home1 from 'assets/images/home1.svg';
+import home2 from 'assets/images/home2.svg';
+import home3 from 'assets/images/home4.svg';
+import home4 from 'assets/images/home5.svg';
 
 const Home = (props: { message: string }) => {
 	window.scrollTo(0, 0);

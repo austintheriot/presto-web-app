@@ -1,12 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { db } from '../../app/config';
-import extractPostInfoFromDoc from '../../app/extractPostInfoFromDoc';
-import {
-	PostContainer,
-	PostType,
-	PostsData,
-	ReduxState,
-} from '../../app/types';
+import { db } from 'app/config';
+import extractPostInfoFromDoc from 'app/extractPostInfoFromDoc';
+import { PostContainer, PostType, PostsData, ReduxState } from 'app/types';
 
 export const postsSlice = createSlice({
 	name: 'posts',

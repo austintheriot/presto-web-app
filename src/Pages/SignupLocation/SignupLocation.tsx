@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import { db } from '../../app/config';
-import Message from '../../components/Message/Message';
+import { db } from 'app/config';
+import Message from 'components/Message/Message';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Inputs/Input';
-import Button from '../../components/Button/Button';
-import geoapifyKey from '../../app/geoapifyKey';
+import Input from 'components/Inputs/Input';
+import Button from 'components/Button/Button';
+import geoapifyKey from 'app/geoapifyKey';
 import styles from './SignupLocation.module.scss';
-import ProgressBar from '../../components/ProgressBar/ProgressBar';
+import ProgressBar from 'components/ProgressBar/ProgressBar';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
+import { selectUser } from 'app/userSlice';
 
-import { HistoryType, InputType } from '../../app/types';
+import { HistoryType, InputType } from 'app/types';
 
-import arrowLeft from '../../assets/images/arrow-left.svg';
-import arrowRight from '../../assets/images/arrow-right.svg';
-import SpacerSmall from '../../components/Spacers/SpacerSmall';
-import SpacerMedium from '../../components/Spacers/SpacerMedium';
+import arrowLeft from 'assets/images/arrow-left.svg';
+import arrowRight from 'assets/images/arrow-right.svg';
+import SpacerSmall from 'components/Spacers/SpacerSmall';
+import SpacerMedium from 'components/Spacers/SpacerMedium';
 
 interface Inputs {
 	location: InputType;

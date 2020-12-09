@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import styles from './Comment.module.scss';
-import { CommentType } from '../../app/types';
-import { db } from '../../app/config';
-import Textarea from '../../components/Inputs/Textarea';
-import Button from '../../components/Button/Button';
+import { CommentType } from 'app/types';
+import { db } from 'app/config';
+import Textarea from 'components/Inputs/Textarea';
+import Button from 'components/Button/Button';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteComment, editComment } from '../../app/postsSlice';
-import { selectUser } from '../../app/userSlice';
+import { deleteComment, editComment } from 'app/postsSlice';
+import { selectUser } from 'app/userSlice';
 
-import { InputType } from '../../app/types';
+import { InputType } from 'app/types';
 
-import trashIcon from '../../assets/images/delete.svg';
-import editIcon from '../../assets/images/edit.svg';
-import moreIcon from '../../assets/images/more.svg';
+import trashIcon from 'assets/images/delete.svg';
+import editIcon from 'assets/images/edit.svg';
+import moreIcon from 'assets/images/more.svg';
 
 interface Inputs {
 	body: InputType;

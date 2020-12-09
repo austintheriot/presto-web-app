@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Nav from '../../components/Nav/Nav';
-import Post from '../../components/Post/Post';
-import NewPost from '../../components/NewPost/NewPost';
+import Nav from 'components/Nav/Nav';
+import Post from 'components/Post/Post';
+import NewPost from 'components/NewPost/NewPost';
 import styles from './Posts.module.scss';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
-import { getPostsData } from '../../app/postsSlice';
+import { selectUser } from 'app/userSlice';
+import { getPostsData } from 'app/postsSlice';
 
-import locationIcon from '../../assets/images/location.svg';
-import SpacerLarge from '../../components/Spacers/SpacerLarge';
-import locationFormatter from '../../app/locationFormatter';
+import locationIcon from 'assets/images/location.svg';
+import SpacerLarge from 'components/Spacers/SpacerLarge';
+import locationFormatter from 'app/locationFormatter';
 
 export default () => {
 	const user = useSelector(selectUser);

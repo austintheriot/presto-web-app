@@ -1,5 +1,5 @@
 import React from 'react';
-import Comment from '../Comment/Comment';
+import Comment from 'components/Comment/Comment';
 
 export default (props: { postId: string; commentsContainer: any }) => {
 	let commentsObject = { ...props.commentsContainer.comments };

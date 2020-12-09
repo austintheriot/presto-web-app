@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../app/userSlice';
+import { selectUser } from 'app/userSlice';
 
 /* interface Props {
 	component: typeof Component;

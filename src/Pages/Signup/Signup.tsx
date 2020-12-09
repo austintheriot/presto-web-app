@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
-import { db, auth, analytics, serverTimeStamp } from '../../app/config';
-import Message from '../../components/Message/Message';
-import returnInputErrors from '../../app/returnInputErrors';
+import { db, auth, analytics, serverTimeStamp } from 'app/config';
+import Message from 'components/Message/Message';
+import returnInputErrors from 'app/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Inputs/Input';
+import Input from 'components/Inputs/Input';
 import styles from './Signup.module.scss';
-import signInAnonymously from '../../app/signInAnonymously';
+import signInAnonymously from 'app/signInAnonymously';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
+import { selectUser } from 'app/userSlice';
 
-import {
-	HistoryType,
-	InputType,
-	UserAuthenticationInfoType,
-} from '../../app/types';
+import { HistoryType, InputType, UserAuthenticationInfoType } from 'app/types';
 
-import home from '../../assets/images/home.svg';
-import arrowRight from '../../assets/images/arrow-right.svg';
+import home from 'assets/images/home.svg';
+import arrowRight from 'assets/images/arrow-right.svg';
 
 //redirect with AuthContext once setInputs permeates down to component
 

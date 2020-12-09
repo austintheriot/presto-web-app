@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { auth, analytics } from '../../app/config';
-import Message from '../../components/Message/Message';
-import returnInputErrors from '../../app/returnInputErrors';
+import { auth, analytics } from 'app/config';
+import Message from 'components/Message/Message';
+import returnInputErrors from 'app/returnInputErrors';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Inputs/Input';
+import Input from 'components/Inputs/Input';
 import styles from './Login.module.scss';
-import signInAnonymously from '../../app/signInAnonymously';
+import signInAnonymously from 'app/signInAnonymously';
 
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
+import { selectUser } from 'app/userSlice';
 
-import { HistoryType, InputType } from '../../app/types';
+import { HistoryType, InputType } from 'app/types';
 
-import home from '../../assets/images/home.svg';
-import arrowRight from '../../assets/images/arrow-right.svg';
+import home from 'assets/images/home.svg';
+import arrowRight from 'assets/images/arrow-right.svg';
 
 interface Inputs {
 	email: InputType;

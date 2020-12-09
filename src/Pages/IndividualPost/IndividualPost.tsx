@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styles from './IndividualPost.module.scss';
-import Post from '../../components/Post/Post';
-import Nav from '../../components/Nav/Nav';
-import Comments from '../../components/Comments/Comments';
-import NewComment from '../../components/NewComment/NewComment';
+import Post from 'components/Post/Post';
+import Nav from 'components/Nav/Nav';
+import Comments from 'components/Comments/Comments';
+import NewComment from 'components/NewComment/NewComment';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getPostsData, fetchSinglePost } from '../../app/postsSlice';
-import SpacerLarge from '../../components/Spacers/SpacerLarge';
+import { getPostsData, fetchSinglePost } from 'app/postsSlice';
+import SpacerLarge from 'components/Spacers/SpacerLarge';
 
 export default () => {
 	const dispatch = useDispatch();

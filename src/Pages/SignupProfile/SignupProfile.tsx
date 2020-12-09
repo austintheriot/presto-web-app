@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
-import { db } from '../../app/config';
+import { db } from 'app/config';
 
-import Message from '../../components/Message/Message';
+import Message from 'components/Message/Message';
 import { Redirect, Link } from 'react-router-dom';
-import Input from '../../components/Inputs/Input';
-import Textarea from '../../components/Inputs/Textarea';
+import Input from 'components/Inputs/Input';
+import Textarea from 'components/Inputs/Textarea';
 import styles from './SignupProfile.module.scss';
-import ProgressBar from '../../components/ProgressBar/ProgressBar';
-import InstrumentArray from '../../app/InstrumentArray';
+import ProgressBar from 'components/ProgressBar/ProgressBar';
+import InstrumentArray from 'app/InstrumentArray';
 
 //redux
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
+import { selectUser } from 'app/userSlice';
 
 //types
-import { HistoryType, InputType } from '../../app/types';
+import { HistoryType, InputType } from 'app/types';
 
 //images
-import arrowLeft from '../../assets/images/arrow-left.svg';
-import arrowRight from '../../assets/images/arrow-right.svg';
-import SpacerMedium from '../../components/Spacers/SpacerMedium';
+import arrowLeft from 'assets/images/arrow-left.svg';
+import arrowRight from 'assets/images/arrow-right.svg';
+import SpacerMedium from 'components/Spacers/SpacerMedium';
 
 interface Inputs {
 	activity: InputType;

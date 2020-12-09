@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
-import { PostType } from '../../app/types';
-import { db } from '../../app/config';
+import { PostType } from 'app/types';
+import { db } from 'app/config';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser } from '../../app/userSlice';
-import Textarea from '../../components/Inputs/Textarea';
-import Button from '../../components/Button/Button';
-import { likePost, unlikePost } from '../../app/postsActionCreators';
+import { selectUser } from 'app/userSlice';
+import Textarea from 'components/Inputs/Textarea';
+import Button from 'components/Button/Button';
+import { likePost, unlikePost } from 'app/postsActionCreators';
 
-import { InputType } from '../../app/types';
+import { InputType } from 'app/types';
 
 //images
-import heartEmpty from '../../assets/images/heartEmpty.svg';
-import heartFull from '../../assets/images/heartFull.svg';
-import commentEmpty from '../../assets/images/commentEmpty.svg';
-import commentFull from '../../assets/images/commentFull.svg';
-import trashIcon from '../../assets/images/delete.svg';
-import editIcon from '../../assets/images/edit.svg';
-import moreIcon from '../../assets/images/more.svg';
+import heartEmpty from 'assets/images/heartEmpty.svg';
+import heartFull from 'assets/images/heartFull.svg';
+import commentEmpty from 'assets/images/commentEmpty.svg';
+import commentFull from 'assets/images/commentFull.svg';
+import trashIcon from 'assets/images/delete.svg';
+import editIcon from 'assets/images/edit.svg';
+import moreIcon from 'assets/images/more.svg';
 
 interface Inputs {
 	body: InputType;

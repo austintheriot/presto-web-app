@@ -3,9 +3,9 @@ import styles from './Nav.module.scss';
 import { Link } from 'react-router-dom';
 
 //images:
-import posts from '../../assets/images/posts.svg';
-import profile from '../../assets/images/profile.svg';
-import settings from '../../assets/images/settings.svg';
+import posts from 'assets/images/posts.svg';
+import profile from 'assets/images/profile.svg';
+import settings from 'assets/images/settings.svg';
 
 export default () => {
 	return (
