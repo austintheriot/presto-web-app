@@ -40,6 +40,7 @@ interface PositionData {
 		longitude: number;
 	};
 }
+
 type CollectedDataArray = LocationData[];
 
 interface LocationType extends InputType {
@@ -493,16 +494,17 @@ export default () => {
 				} else {
 					setLocationMessage(``);
 				}
+				console.log(geoapifyDataArray);
 
 				//turn data into an array of objects for later recall
 				let collectedDataArray: CollectedDataArray = geoapifyDataArray.map(
 					({ properties }: GeoapifyData) => {
 						return {
-							city: properties.city || null,
-							state: properties.state || null,
-							county: properties.county || null,
-							zip: properties.postcode || null,
-							country: properties.country || null,
+							city: properties.city || '',
+							state: properties.state || '',
+							county: properties.county || '',
+							zip: properties.postcode ? properties.postcode.split(';')[0] : '',
+							country: properties.country || '',
 						};
 					}
 				);
@@ -510,7 +512,7 @@ export default () => {
 				//format data to be usable for the suggestions drop down menu
 				let collectedDataArrayFormatted = collectedDataArray.map((el) => {
 					return [el.city, el.state, el.country, el.zip]
-						.filter((el) => el)
+						.filter((el) => el !== null)
 						.join(', ')
 						.trim();
 				});
@@ -721,16 +723,16 @@ export default () => {
 		if (inputs.website.touched) newInfoFromState.website = inputs.website.value;
 		if (inputs.bio.touched) newInfoFromState.bio = inputs.bio.value;
 		if (inputs.location.touched) {
-			if (inputs.location._data.city)
-				newInfoFromState.city = inputs.location._data.city;
-			if (inputs.location._data.county)
-				newInfoFromState.county = inputs.location._data.county;
-			if (inputs.location._data.zip)
-				newInfoFromState.zip = inputs.location._data.zip;
-			if (inputs.location._data.state)
-				newInfoFromState.state = inputs.location._data.state;
 			if (inputs.location._data.country)
 				newInfoFromState.country = inputs.location._data.country;
+			if (inputs.location._data.state)
+				newInfoFromState.state = inputs.location._data.state;
+			if (inputs.location._data.zip)
+				newInfoFromState.zip = inputs.location._data.zip;
+			if (inputs.location._data.county)
+				newInfoFromState.county = inputs.location._data.county;
+			if (inputs.location._data.city)
+				newInfoFromState.city = inputs.location._data.city;
 		}
 
 		if (Object.keys(newInfoFromState).length === 0) {
