@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser, initializeApp } from './app/userSlice';
+import { selectUser, initializeApp } from 'app/userSlice';
 
 //pages
-import LoadingScreen from './Pages/LoadingScreen/LoadingScreen';
-import HomePublic from './Pages/HomePublic/HomePublic';
-import Login from './Pages/Login/Login';
-import Signup from './Pages/Signup/Signup';
-import SignupPersonal from './Pages/SignupPersonal/SignupPersonal';
-import SignupLocation from './Pages/SignupLocation/SignupLocation';
-import SignupProfile from './Pages/SignupProfile/SignupProfile';
-import LogoutByRender from './components/LogoutByRender';
-import Posts from './Pages/Posts/Posts';
-import IndividualPost from './Pages/IndividualPost/IndividualPost';
-import Profile from './Pages/Profile/Profile';
-import Settings from './Pages/Settings/Settings';
+import LoadingScreen from 'pages/LoadingScreen/LoadingScreen';
+import HomePublic from 'pages/HomePublic/HomePublic';
+import Login from 'pages/Login/Login';
+import Signup from 'pages/Signup/Signup';
+import SignupPersonal from 'pages/SignupPersonal/SignupPersonal';
+import SignupLocation from 'pages/SignupLocation/SignupLocation';
+import SignupProfile from 'pages/SignupProfile/SignupProfile';
+import LogoutByRender from 'components/LogoutByRender';
+import Posts from 'pages/Posts/Posts';
+import IndividualPost from 'pages/IndividualPost/IndividualPost';
+import Profile from 'pages/Profile/Profile';
+import Settings from 'pages/Settings/Settings';
 
 //components
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from 'components/PrivateRoute';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -26,8 +26,8 @@ import {
 } from 'react-router-dom';
 
 //styling
-import './App.scss';
-import IndividualProfile from './Pages/Individual Profile/IndividualProfile';
+import 'App.scss';
+import IndividualProfile from 'pages/Individual Profile/IndividualProfile';
 
 function App() {
 	const dispatch = useDispatch();
