@@ -56,7 +56,6 @@ export default () => {
 				],
 			},
 			value: user.activity || '',
-			empty: !user.activity,
 			edited: false,
 			message: {
 				error: false,
@@ -73,7 +72,6 @@ export default () => {
 				array: InstrumentArray,
 			},
 			value: user.instrument || '',
-			empty: !user.instrument,
 			edited: false,
 			message: {
 				error: false,
@@ -90,7 +88,6 @@ export default () => {
 				array: [],
 			},
 			value: user.bio || '',
-			empty: !user.bio,
 			edited: false,
 			message: {
 				error: false,
@@ -107,7 +104,6 @@ export default () => {
 				array: [],
 			},
 			value: user.website || '',
-			empty: !user.website,
 			edited: false,
 			message: {
 				error: false,
@@ -126,7 +122,6 @@ export default () => {
 			},
 			suggestionsArray: [],
 			value: userLocation,
-			empty: !userLocation,
 			edited: false,
 			suggestions: {
 				selected: false,
@@ -175,7 +170,6 @@ export default () => {
 		newestType: ProfileTypes.KeyOfInputs
 	) => {
 		let targetValue = e.currentTarget.value;
-		let targetEmpty = targetValue.length === 0 ? true : false;
 
 		//validate inputs
 		let anyErrorsObject = {
@@ -195,8 +189,6 @@ export default () => {
 				//update generic values
 				value:
 					newestType === 'activity' ? targetValue : prevState.activity.value,
-				empty:
-					newestType === 'activity' ? targetEmpty : prevState.activity.empty,
 				edited: newestType === 'activity' ? true : prevState.activity.edited,
 				//update errors: If no error, set to default message
 				message: {
@@ -215,10 +207,6 @@ export default () => {
 					newestType === 'instrument'
 						? targetValue
 						: prevState.instrument.value,
-				empty:
-					newestType === 'instrument'
-						? targetEmpty
-						: prevState.instrument.empty,
 				edited:
 					newestType === 'instrument' ? true : prevState.instrument.edited,
 				//update errors: If no error, set to default message
@@ -235,7 +223,6 @@ export default () => {
 
 				//update generic values
 				value: newestType === 'bio' ? targetValue : prevState.bio.value,
-				empty: newestType === 'bio' ? targetEmpty : prevState.bio.empty,
 				edited: newestType === 'bio' ? true : prevState.bio.edited,
 				//update errors: If no error, set to default message
 				message: {
@@ -251,7 +238,6 @@ export default () => {
 
 				//update generic values
 				value: newestType === 'website' ? targetValue : prevState.website.value,
-				empty: newestType === 'website' ? targetEmpty : prevState.website.empty,
 				edited: newestType === 'website' ? true : prevState.website.edited,
 				//update errors: If no error, set to default message
 				message: {
@@ -268,8 +254,6 @@ export default () => {
 				//update generic values
 				value:
 					newestType === 'location' ? targetValue : prevState.location.value,
-				empty:
-					newestType === 'location' ? targetEmpty : prevState.location.empty,
 				edited: newestType === 'location' ? true : prevState.location.edited,
 				//update errors: If no error, set to default message
 				message: {
@@ -383,7 +367,6 @@ export default () => {
 						location: {
 							...prevState.location,
 							value: formattedLocation || '',
-							empty: !formattedLocation,
 							suggestions: {
 								...prevState.location.suggestions,
 								selected: true,
