@@ -15,6 +15,7 @@ import Nav from 'components/Nav/Nav';
 import styles from './Profile.module.scss';
 import Button from 'components/Button/Button';
 import { LocationDisplay } from 'components/LocationDisplay/LocationDisplay';
+import ProfilePicture from 'components/ProfilePicture/ProfilePicture';
 
 import { NewInputType, UserPayload } from 'app/types';
 import suggestionClickHandler from './suggestionClickHandler';
@@ -22,6 +23,7 @@ import handleFocus from './handleFocus';
 import sendAutoCompleteRequest from './sendAutoCompleteRequest';
 
 import * as ProfileTypes from './ProfileTypes';
+import SpacerSmall from 'components/Spacers/SpacerSmall';
 
 export default () => {
 	const user = useSelector(selectUser);
@@ -544,14 +546,16 @@ export default () => {
 	return (
 		<>
 			<Nav />
+			{/* User Name */}
+			<h1 className={styles.title}>Profile</h1>
 
-			<div className={styles.wrapper}>
-				{/* User Name */}
-				<h1 className={styles.title}>Profile</h1>
+			{/* Location */}
+			<LocationDisplay user={user} />
 
-				{/* Location */}
-				<LocationDisplay user={user} />
-			</div>
+			{/* Profile Picture */}
+			<ProfilePicture size={'large'} src={user.profilePic} />
+
+			{/* Profile Settings */}
 			<form onSubmit={submitHandler}>
 				<Button onClick={autofillLocation}>Autofill Location</Button>
 				<NewInput

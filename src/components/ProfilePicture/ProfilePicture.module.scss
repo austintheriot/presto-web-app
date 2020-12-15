@@ -1,0 +1,33 @@
+%profile-picture {
+	display: block;
+	height: 100px;
+	width: 100px;
+	object-fit: cover;
+	object-position: center;
+	margin: 0 auto;
+	border-radius: 25%;
+}
+
+.small {
+	@extend %profile-picture;
+	height: 50px;
+	width: 50px;
+}
+
+.smallMedium {
+	@extend %profile-picture;
+	height: 100px;
+	width: 100px;
+}
+
+.medium {
+	@extend %profile-picture;
+	height: 150px;
+	width: 150px;
+}
+
+.large {
+	@extend %profile-picture;
+	height: 200px;
+	width: 200px;
+}
