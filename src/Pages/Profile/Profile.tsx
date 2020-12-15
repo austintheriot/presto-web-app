@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
-import Nav from 'components/Nav/Nav';
-import styles from './Profile.module.scss';
-import Button from 'components/Button/Button';
 import InstrumentArray from 'app/InstrumentArray';
 import { db } from 'app/config';
 import geoapifyKey from 'app/geoapifyKey';
@@ -14,6 +11,10 @@ import { selectUser } from 'app/userSlice';
 import NewInput from 'components/Inputs/Input';
 import Textarea from 'components/Inputs/Textarea';
 import Message from 'components/Message/Message';
+import Nav from 'components/Nav/Nav';
+import styles from './Profile.module.scss';
+import Button from 'components/Button/Button';
+import { LocationDisplay } from 'components/LocationDisplay/LocationDisplay';
 
 import { NewInputType, UserPayload } from 'app/types';
 import locationFormatter from 'app/locationFormatter';
@@ -549,13 +550,7 @@ export default () => {
 				<h1 className={styles.title}>Profile</h1>
 
 				{/* Location */}
-				<p>
-					{locationFormatter({
-						city: user.city || '',
-						state: user.state || '',
-						country: user.country || '',
-					})}
-				</p>
+				<LocationDisplay user={user} />
 			</div>
 			<form onSubmit={submitHandler}>
 				<Button onClick={autofillLocation}>Autofill Location</Button>

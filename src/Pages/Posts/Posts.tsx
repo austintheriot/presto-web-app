@@ -3,14 +3,13 @@ import Nav from 'components/Nav/Nav';
 import Post from 'components/Post/Post';
 import NewPost from 'components/NewPost/NewPost';
 import styles from './Posts.module.scss';
+import { LocationDisplay } from 'components/LocationDisplay/LocationDisplay';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/userSlice';
 import { getPostsData } from 'app/postsSlice';
 
-import locationIcon from 'assets/images/location.svg';
 import SpacerLarge from 'components/Spacers/SpacerLarge';
-import locationFormatter from 'app/locationFormatter';
 
 export default () => {
 	const user = useSelector(selectUser);
@@ -43,17 +42,7 @@ export default () => {
 				<p className={styles.message}>Loading posts...</p>
 			) : postsData.status === 'success' ? (
 				<>
-					<div className={styles.locationDiv}>
-						<img src={locationIcon} alt='location' />{' '}
-						<address>
-							{locationFormatter({
-								city: user.city || '',
-								state: user.state || '',
-								country: user.country || '',
-							})}
-							:
-						</address>
-					</div>
+					<LocationDisplay user={user} />
 					<NewPost />
 					{posts}
 					{}
