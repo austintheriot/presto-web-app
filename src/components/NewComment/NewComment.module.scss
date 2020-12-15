@@ -132,15 +132,11 @@
 
 		textarea,
 		div {
+			margin-top: 1rem;
 			width: 100%;
 			max-width: none;
-		}
-		div {
-			margin-top: 0;
-		}
-
-		textarea {
-			height: 4rem;
+			min-height: 0;
+			height: 6rem !important;
 		}
 	}
 }
