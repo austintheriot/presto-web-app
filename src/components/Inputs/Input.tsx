@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import styles from './Input.module.scss';
-import SuggestionList from 'components/SuggestionList/SuggestionList';
+import SuggestionList from './SuggestionList/SuggestionList';
 
 import eye from 'assets/images/eye.svg';
+import { NewInputType } from 'app/types';
 
 interface Props {
-	inputs: any;
+	input: NewInputType;
 	type: string;
 	customType: string;
 	readOnly?: boolean;
-	handleFocus: Function;
-	handleBlur: Function;
+	handleFocus?: Function;
+	handleBlur?: Function;
 	handleChange: Function;
 	suggestionClickHandler?: Function;
+	setInputs: Function;
 }
 
 export default (props: Props) => {
@@ -27,80 +29,86 @@ export default (props: Props) => {
 	};
 
 	return (
-		<>
-			<div className={styles.div}>
-				{props?.customType === 'password' ? (
-					<img
-						className={styles.eye}
-						alt='show password'
-						src={eye}
-						onClick={togglePasswordVisibility}
-					/>
-				) : null}
-				<label
-					htmlFor={props?.inputs[props.customType]?.label}
-					className={[
-						//general
-						styles.label,
+		<div className={styles.div}>
+			{/* Show password button */}
+			{props?.customType === 'password' ? (
+				<img
+					className={styles.eye}
+					alt='show password'
+					src={eye}
+					onClick={togglePasswordVisibility}
+				/>
+			) : null}
 
-						//animate up?
-						props?.inputs[props.customType]?.animateUp
-							? styles.up
-							: styles.down,
-
-						//error?
-						props?.inputs[props.customType]?.message?.error
-							? styles.redLabel
-							: '',
-
-						//inactive?
-						props?.readOnly ? styles.inactiveLabel : '',
-					].join(' ')}>
-					{props?.inputs[props.customType]?.label}
-				</label>
-			</div>
+			{/* Input Element */}
 			<input
+				placeholder=' '
 				autoComplete='on'
-				id={props?.inputs[props.customType]?.label}
+				spellCheck={true}
+				id={props?.input?.label}
 				readOnly={props?.readOnly || false}
 				className={[
 					//general
 					styles.input,
 
-					//animate up?
-					props?.inputs[props.customType]?.animateUp ? styles.colorInput : '',
+					//show password?
+					props?.type === 'password' ? styles.showEye : '',
 
 					//error?
-					props?.inputs[props.customType]?.message?.error
-						? styles.redInput
-						: '',
+					props?.input?.message?.error ? styles.redInput : '',
 
 					//inactive?
 					props?.readOnly ? styles.inactiveInput : '',
 				].join(' ')}
-				value={props?.inputs[props.customType]?.value || ''}
+				value={props?.input?.value || ''}
 				type={
 					props?.type === 'password' ? state.innerType : props?.type || 'text'
 				}
-				onBlur={(e) => props.handleBlur(e, props.customType)}
-				onFocus={(e) => props.handleFocus(e, props.customType)}
-				onChange={(e) => props.handleChange(e, props.customType)}
+				onBlur={(e) =>
+					props.handleBlur ? props.handleBlur(e, props.customType) : null
+				}
+				onFocus={(e) =>
+					props.handleFocus ? props.handleFocus(e, props.customType) : null
+				}
+				onChange={(e) =>
+					props.handleChange ? props.handleChange(e, props.customType) : null
+				}
 			/>
+
+			{/* Suggestions List */}
 			<SuggestionList
-				value={props?.inputs[props.customType]?.value || ''}
-				suggestions={props?.inputs[props.customType]?.suggestions || null}
+				value={props?.input?.value || ''}
+				suggestions={props?.input?.suggestions || null}
 				suggestionClickHandler={props?.suggestionClickHandler}
-				show={props?.inputs[props.customType]?.suggestions?.show || false}
+				show={props?.input?.suggestions?.show || false}
 				customType={props.customType}
+				input={props.input}
+				setInputs={props.setInputs}
 			/>
+
+			{/* Input Label */}
+			<label
+				htmlFor={props?.input?.label}
+				className={[
+					//general
+					styles.label,
+
+					//error?
+					props?.input?.message?.error ? styles.redLabel : '',
+
+					//inactive?
+					props?.readOnly ? styles.inactiveLabel : '',
+				].join(' ')}>
+				{props?.input?.label}
+			</label>
+
+			{/* Message */}
 			<p
 				className={
-					props?.inputs[props.customType]?.message?.error
-						? styles.redMessage
-						: styles.message
+					props?.input?.message?.error ? styles.redMessage : styles.message
 				}>
-				{props?.inputs[props.customType]?.message?.text}
+				{props?.input?.message?.text}
 			</p>
-		</>
+		</div>
 	);
 };

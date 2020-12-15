@@ -2,49 +2,14 @@
 	box-sizing: border-box;
 	position: relative;
 	display: block;
-	margin: 1rem auto 0;
-	height: 1rem;
+	height: 4.5rem;
 	width: 90%;
 	max-width: 400px;
-}
-
-.label {
-	box-sizing: border-box;
-	position: relative;
-	display: block;
-	top: 0.5rem;
-	left: 0.75rem;
-	transition: all 0.1s;
-	text-align: left;
-	width: max-content;
-	border-radius: 5px;
-	padding: 0.1rem 0.3rem;
-}
-
-.up {
-	z-index: 1;
-	background-color: white;
-	color: #60399dff;
-	font-size: 0.8rem;
-	top: 0.2rem;
-}
-
-.down {
-	color: #adadad;
-	top: 1.75rem;
-	font-size: 1rem;
-}
-
-.redLabel {
-	color: red;
-}
-
-.inactiveLabel {
-	color: #777;
-	background-color: #efefef;
+	margin: 2.5rem auto 1.5rem;
 }
 
 .input {
+	width: 100%;
 	box-sizing: border-box;
 	position: relative;
 	display: block;
@@ -57,12 +22,12 @@
 	background-color: transparent;
 	border: 1px solid #bbb;
 	transition: all 0.1s;
-	width: 90%;
-	max-width: 400px;
-	margin: 0 auto;
 	border-radius: 5px;
-	padding: 0 2rem 0 1rem;
-	font-size: 16px;
+	padding: 0 1.2rem 0 1rem;
+}
+
+.showEye {
+	padding: 0 2.75rem 0 1rem;
 }
 
 .input:hover {
@@ -86,16 +51,50 @@
 	z-index: -1;
 }
 
+.label {
+	position: absolute;
+	display: block;
+	top: 0rem;
+	left: 0.75rem;
+	transition: all 0.1s;
+	text-align: left;
+	width: max-content;
+	border-radius: 5px;
+	padding: 0.1rem 0.3rem;
+}
+
+//label down
+.input:placeholder-shown ~ .label {
+	color: #adadad;
+	top: 0.75rem;
+	font-size: 1rem;
+}
+
+//label up
+.input:focus ~ .label,
+.input:not(:placeholder-shown) ~ .label {
+	z-index: 1;
+	background-color: white;
+	color: #60399dff;
+	font-size: 0.8rem;
+	top: -0.75rem;
+}
+
+.redLabel {
+	color: red !important;
+}
+
+.inactiveLabel {
+	color: #777;
+	background-color: #efefef;
+}
+
 .message {
 	box-sizing: border-box;
 	position: relative;
 	display: block;
 	font-size: 0.75rem;
-	width: 90%;
-	max-width: 400px;
-	margin: 0 auto;
 	padding: 0;
-	margin-bottom: 1rem;
 	text-align: left;
 	color: black;
 	top: 0.2rem;
@@ -111,8 +110,8 @@
 .eye {
 	position: absolute;
 	width: 1.2rem;
-	right: 0.5rem;
-	top: 2.1rem;
+	right: 1rem;
+	top: 1.2rem;
 	cursor: pointer;
 	z-index: 1;
 }
