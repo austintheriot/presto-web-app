@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'app/userSlice';
 
 import NewInput from 'components/NewInputs/Input';
-import Textarea from 'components/Inputs/Textarea';
+import Textarea from 'components/NewInputs/Textarea';
 import Message from 'components/Message/Message';
 
 import { NewInputType, UserPayload } from 'app/types';
@@ -612,8 +612,8 @@ export default () => {
 					setInputs={setInputs}
 				/>
 				<Textarea
-					type='text'
 					customType='bio'
+					setInputs={setInputs}
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
 						handleFocus(e, 'bio', setInputs)
 					}
@@ -623,7 +623,7 @@ export default () => {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'bio')
 					}
-					inputs={inputs}
+					input={inputs.bio}
 				/>
 				<NewInput
 					type='text'
