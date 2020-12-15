@@ -219,7 +219,6 @@ export default () => {
 				<main className={styles.body}>
 					<form onSubmit={submitHandler}>
 						<Textarea
-							type='text'
 							customType='body'
 							handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
 								handleFocus(e, 'body')
@@ -230,7 +229,8 @@ export default () => {
 							handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 								handleChange(e, 'body')
 							}
-							inputs={inputs}
+							input={inputs.body}
+							setInputs={setInputs}
 						/>
 						<Button type='submit' onClick={submitHandler}>
 							Submit

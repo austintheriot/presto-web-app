@@ -209,7 +209,6 @@ export default ({
 				{editing ? (
 					<form onSubmit={submitCommentEdits}>
 						<Textarea
-							type='body'
 							customType='body'
 							handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
 								handleFocus(e, 'body')
@@ -220,7 +219,8 @@ export default ({
 							handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 								handleChange(e, 'body')
 							}
-							inputs={inputs}
+							input={inputs.body}
+							setInputs={setInputs}
 						/>
 						<Button type='submit'>Submit</Button>
 					</form>

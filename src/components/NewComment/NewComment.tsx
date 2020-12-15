@@ -212,7 +212,6 @@ export default ({ postId }: { postId: string }) => {
 				<main className={styles.body}>
 					<form onSubmit={submitHandler}>
 						<Textarea
-							type='text'
 							customType='body'
 							handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
 								handleFocus(e, 'body')
@@ -223,7 +222,8 @@ export default ({ postId }: { postId: string }) => {
 							handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 								handleChange(e, 'body')
 							}
-							inputs={inputs}
+							input={inputs.body}
+							setInputs={setInputs}
 						/>
 						<Button type='submit' onClick={submitHandler}>
 							Submit

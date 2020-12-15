@@ -278,7 +278,8 @@ export default function Login(props?: HistoryType) {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'email')
 					}
-					inputs={inputs}
+					input={inputs.email}
+					setInputs={setInputs}
 				/>
 				<Input
 					type='password'
@@ -292,7 +293,8 @@ export default function Login(props?: HistoryType) {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'password')
 					}
-					inputs={inputs}
+					input={inputs.password}
+					setInputs={setInputs}
 				/>
 				<Message message={message} color='black' />
 				<div className={styles.buttonsDiv}>

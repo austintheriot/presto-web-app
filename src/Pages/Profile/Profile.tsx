@@ -11,8 +11,8 @@ import geoapifyKey from 'app/geoapifyKey';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/userSlice';
 
-import NewInput from 'components/NewInputs/Input';
-import Textarea from 'components/NewInputs/Textarea';
+import NewInput from 'components/Inputs/Input';
+import Textarea from 'components/Inputs/Textarea';
 import Message from 'components/Message/Message';
 
 import { NewInputType, UserPayload } from 'app/types';

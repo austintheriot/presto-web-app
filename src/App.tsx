@@ -7,9 +7,6 @@ import LoadingScreen from 'pages/LoadingScreen/LoadingScreen';
 import HomePublic from 'pages/HomePublic/HomePublic';
 import Login from 'pages/Login/Login';
 import Signup from 'pages/Signup/Signup';
-import SignupPersonal from 'pages/SignupPersonal/SignupPersonal';
-import SignupLocation from 'pages/SignupLocation/SignupLocation';
-import SignupProfile from 'pages/SignupProfile/SignupProfile';
 import LogoutByRender from 'components/LogoutByRender';
 import Posts from 'pages/Posts/Posts';
 import IndividualPost from 'pages/IndividualPost/IndividualPost';
@@ -47,21 +44,6 @@ function App() {
 							<Route exact path='/logout' component={LogoutByRender} />
 							<Route exact path='/login' component={Login} />
 							<Route exact path='/signup' component={Signup} />
-							<PrivateRoute
-								exact
-								path='/signup-personal'
-								component={SignupPersonal}
-							/>
-							<PrivateRoute
-								exact
-								path='/signup-location'
-								component={SignupLocation}
-							/>
-							<PrivateRoute
-								exact
-								path='/signup-profile'
-								component={SignupProfile}
-							/>
 							<PrivateRoute exact path='/posts' component={Posts} />
 							<PrivateRoute path='/posts/*' component={IndividualPost} />
 							<PrivateRoute exact path='/profile' component={Profile} />
