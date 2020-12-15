@@ -44,6 +44,7 @@ export default (props: Props) => {
 			<input
 				placeholder=' '
 				autoComplete='on'
+				spellCheck={true}
 				id={props?.input?.label}
 				readOnly={props?.readOnly || false}
 				className={[
