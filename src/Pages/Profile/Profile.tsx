@@ -23,7 +23,7 @@ import handleFocus from './handleFocus';
 import sendAutoCompleteRequest from './sendAutoCompleteRequest';
 
 import * as ProfileTypes from './ProfileTypes';
-import SpacerSmall from 'components/Spacers/SpacerSmall';
+import formatDate from 'app/formatDate';
 
 export default () => {
 	const user = useSelector(selectUser);
@@ -537,12 +537,6 @@ export default () => {
 		);
 	};
 
-	let formattedDate = 'Unknown';
-	if (user?.createdAt) {
-		let dateArray = user.createdAt.split(' ');
-		formattedDate = [dateArray[1], dateArray[2] + ',', dateArray[3]].join(' ');
-	}
-
 	return (
 		<>
 			<Nav />
@@ -651,7 +645,7 @@ export default () => {
 			</form>
 			{/* Date Joined */}
 			{user.createdAt ? (
-				<p className={styles.joinedAt}>Joined: {formattedDate}</p>
+				<p className={styles.joinedAt}>Joined: {formatDate(user.createdAt)}</p>
 			) : null}
 		</>
 	);

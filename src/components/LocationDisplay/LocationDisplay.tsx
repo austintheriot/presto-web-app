@@ -1,16 +1,23 @@
 import React from 'react';
 import styles from './LocationDisplay.module.scss';
-import locationFormatter from 'app/locationFormatter';
+import formatLocation from 'app/formatLocation';
 
 import locationIcon from 'assets/images/location.svg';
-import { UserPayload } from 'app/types';
 
-export function LocationDisplay({ user }: { user: UserPayload }) {
+export function LocationDisplay({
+	user,
+}: {
+	user: {
+		city?: string | undefined;
+		state?: string | undefined;
+		country?: string | undefined;
+	};
+}) {
 	return (
 		<div className={styles.locationDiv}>
 			<img src={locationIcon} alt='location' />{' '}
 			<address>
-				{locationFormatter({
+				{formatLocation({
 					city: user.city || '',
 					state: user.state || '',
 					country: user.country || '',

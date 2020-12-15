@@ -5,13 +5,15 @@ import Nav from 'components/Nav/Nav';
 
 import { ProfileType } from 'app/types';
 
-import locationIcon from 'assets/images/location.svg';
 import websiteIcon from 'assets/images/website.svg';
 import bioIcon from 'assets/images/info.svg';
 import joinedIcon from 'assets/images/calendar.svg';
 import activityIcon from 'assets/images/activity.svg';
 import instrumentIcon from 'assets/images/instrument.svg';
 import SpacerMedium from 'components/Spacers/SpacerMedium';
+import { LocationDisplay } from 'components/LocationDisplay/LocationDisplay';
+import ProfilePicture from 'components/ProfilePicture/ProfilePicture';
+import formatDate from 'app/formatDate';
 
 interface State {
 	profile: ProfileType;
@@ -93,13 +95,9 @@ export default () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	let formattedDate;
+	let formattedDate = '';
 	if (profile.status === 'success' && profile.profile.createdAt) {
-		let dateArray = profile.profile.createdAt
-			.toDate()
-			.toDateString()
-			.split(' ');
-		formattedDate = [dateArray[1], dateArray[2] + ',', dateArray[3]].join(' ');
+		formattedDate = formatDate(profile.profile.createdAt);
 	}
 
 	return (
@@ -110,89 +108,81 @@ export default () => {
 			) : profile.status === 'failed' ? (
 				<p className={styles.message}>{profile.error}</p>
 			) : profile.status === 'success' ? (
-				<section className={styles.individualProfile}>
+				<>
+					{/* User's Name */}
 					<h1 className={styles.name}>{profile.profile.name}</h1>
-					<img
-						src={profile.profile.profilePic}
-						alt='profile'
-						className={styles.profilePic}
-					/>
-					{/* LOCATION */}
-					<p className={styles.location}>
+
+					{/* Location */}
+					<LocationDisplay user={profile.profile} />
+
+					{/* Profile Picture */}
+					<ProfilePicture size={'large'} src={profile.profile.profilePic} />
+
+					<section className={styles.profileSettings}>
+						{/* ACTIVITY */}
 						<img
-							src={locationIcon}
-							alt='location'
-							className={styles.locationIcon}
+							src={activityIcon}
+							alt='activity'
+							className={styles.activityIcon}
 						/>
-						{/* If city and state both shown, don't show country. 
-							If one isn't defined, show country, and add an apostrophe before it. */}
-						{profile.profile.city ? profile.profile.city + ', ' : null}
-						{profile.profile.state
-							? profile.profile.state + (profile.profile.city ? '' : ', ')
-							: null}
-						{profile.profile.city && profile.profile.state
-							? null
-							: profile.profile.country
-							? profile.profile.country
-							: 'Unknown'}
-					</p>
-					{/* ACTIVITY */}
-					<img
-						src={activityIcon}
-						alt='activity'
-						className={styles.activityIcon}
-					/>
-					<p className={styles.activity}>{profile.profile.activity || 'n/a'}</p>
-					{/* INSTRUMENT */}
-					<img
-						src={instrumentIcon}
-						alt='instrument'
-						className={styles.instrumentIcon}
-					/>
-					<p className={styles.instrument}>
-						{profile.profile.instrument || 'n/a'}
-					</p>
-					{/* BIO */}
-					<img src={bioIcon} alt='bio' className={styles.bioIcon} />
-					<p className={styles.bio}>{profile.profile.bio || 'n/a'}</p>
-					{/* WEBSITE */}
-					{profile.profile.website ? (
-						<>
-							<a
-								href={profile.profile.website}
-								target='_blank'
-								rel='noopener noreferrer'
-								className={styles.websiteIcon}>
+						<p className={styles.activity}>
+							{profile.profile.activity || 'n/a'}
+						</p>
+						{/* INSTRUMENT */}
+						<img
+							src={instrumentIcon}
+							alt='instrument'
+							className={styles.instrumentIcon}
+						/>
+						<p className={styles.instrument}>
+							{profile.profile.instrument || 'n/a'}
+						</p>
+						{/* BIO */}
+						<img src={bioIcon} alt='bio' className={styles.bioIcon} />
+						<p className={styles.bio}>{profile.profile.bio || 'n/a'}</p>
+						{/* WEBSITE */}
+						{profile.profile.website ? (
+							<>
+								<a
+									href={profile.profile.website}
+									target='_blank'
+									rel='noopener noreferrer'
+									className={styles.websiteIcon}>
+									<img
+										src={websiteIcon}
+										alt='website'
+										className={styles.websiteIcon}
+									/>
+								</a>
+								<a
+									href={profile.profile.website}
+									target='_blank'
+									rel='noopener noreferrer'
+									className={styles.website}>
+									{profile.profile.website || 'n/a'}
+								</a>
+							</>
+						) : (
+							<>
 								<img
 									src={websiteIcon}
 									alt='website'
 									className={styles.websiteIcon}
 								/>
-							</a>
-							<a
-								href={profile.profile.website}
-								target='_blank'
-								rel='noopener noreferrer'
-								className={styles.website}>
-								{profile.profile.website || 'n/a'}
-							</a>
-						</>
-					) : (
-						<>
-							<img
-								src={websiteIcon}
-								alt='website'
-								className={styles.websiteIcon}
-							/>
-							<p className={styles.website}>n/a</p>
-						</>
-					)}
-					{/* JOINED */}
-					<img src={joinedIcon} alt='calendar' className={styles.joinedIcon} />
-					<p className={styles.joined}>
-						Joined: {formattedDate ? formattedDate : ''}
-					</p>
-				</section>
+								<p className={styles.website}>n/a</p>
+							</>
+						)}
+						{/* JOINED */}
+						<img
+							src={joinedIcon}
+							alt='calendar'
+							className={styles.joinedIcon}
+						/>
+						<p className={styles.joined}>
+							Joined: {formattedDate ? formattedDate : ''}
+						</p>
+					</section>
+				</>
 			) : null}
 			<SpacerMedium />
 		</>
