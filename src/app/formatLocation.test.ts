@@ -1,4 +1,4 @@
-import locationFormatter from './locationFormatter';
+import formatLocation from './formatLocation';
 
 describe('Location Formatter', () => {
 	let inputs = {
@@ -7,21 +7,21 @@ describe('Location Formatter', () => {
 		country: 'United States',
 	};
 	test('city, state, country => City, State', () => {
-		expect(locationFormatter(inputs)).toBe('Austin, Texas');
+		expect(formatLocation(inputs)).toBe('Austin, Texas');
 	});
 
 	test('state, country => State', () => {
 		let inputs = { city: '', state: 'Texas', country: '' };
-		expect(locationFormatter(inputs)).toBe('Texas');
+		expect(formatLocation(inputs)).toBe('Texas');
 	});
 
 	test('country => Country', () => {
 		let inputs = { city: '', state: '', country: 'United State' };
-		expect(locationFormatter(inputs)).toBe('United State');
+		expect(formatLocation(inputs)).toBe('United State');
 	});
 
 	test('nothing => Location Unknown', () => {
 		let inputs = { city: '', state: '', country: '' };
-		expect(locationFormatter(inputs)).toBe('Location Unknown');
+		expect(formatLocation(inputs)).toBe('Location Unknown');
 	});
 });
