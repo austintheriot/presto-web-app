@@ -1,6 +1,7 @@
 export default (
 	createdAt: firebase.firestore.Timestamp | string | undefined
 ) => {
+	// eslint-disable-next-line eqeqeq
 	if (createdAt == undefined) return '';
 	else if (typeof createdAt === 'string') {
 		let dateArray = new Date(createdAt).toDateString().split(' ');
