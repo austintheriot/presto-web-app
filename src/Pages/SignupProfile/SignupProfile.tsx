@@ -63,7 +63,7 @@ export default function Login(props: HistoryType) {
 			value: '',
 			animateUp: false,
 			empty: true,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'i.e. Performer, Composer, Teacher, etc.',
@@ -81,7 +81,7 @@ export default function Login(props: HistoryType) {
 			value: '',
 			animateUp: false,
 			empty: true,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'i.e. Piano, Violin, Soprano, etc.',
@@ -99,7 +99,7 @@ export default function Login(props: HistoryType) {
 			value: '',
 			animateUp: false,
 			empty: true,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'Link to your personal website.',
@@ -117,7 +117,7 @@ export default function Login(props: HistoryType) {
 			value: '',
 			animateUp: false,
 			empty: true,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'Tell us a little about yourself.',
@@ -155,7 +155,7 @@ export default function Login(props: HistoryType) {
 				[newestType]: {
 					...prevState[newestType],
 					animateUp: true,
-					touched: true,
+					edited: true,
 					suggestions: {
 						...prevState[newestType].suggestions,
 						loading: false,
@@ -169,7 +169,7 @@ export default function Login(props: HistoryType) {
 				[newestType]: {
 					...prevState[newestType],
 					animateUp: true,
-					touched: true,
+					edited: true,
 				},
 			}));
 		}
@@ -181,7 +181,7 @@ export default function Login(props: HistoryType) {
 	) => {
 		//animation & output error if empty
 		let targetEmpty =
-			inputs[newestType].touched && inputs[newestType].value.length === 0
+			inputs[newestType].edited && inputs[newestType].value.length === 0
 				? true
 				: false;
 

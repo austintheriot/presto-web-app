@@ -9,9 +9,6 @@ interface Props {
 const message = (props: Props) => {
 	let divStyle;
 	switch (props?.color) {
-		case 'hidden':
-			divStyle = styles.divHidden;
-			break;
 		case 'black':
 			divStyle = styles.divBlack;
 			break;
@@ -22,14 +19,12 @@ const message = (props: Props) => {
 			divStyle = styles.divGreen;
 			break;
 		default:
-			divStyle = styles.divHidden;
+			divStyle = styles.divBlack;
+			break;
 	}
 
 	let paragraphStyle;
 	switch (props?.color) {
-		case 'hidden':
-			divStyle = styles.paragraphHidden;
-			break;
 		case 'black':
 			paragraphStyle = styles.paragraphBlack;
 			break;
@@ -40,7 +35,7 @@ const message = (props: Props) => {
 			paragraphStyle = styles.paragraphGreen;
 			break;
 		default:
-			paragraphStyle = styles.paragraphHidden;
+			paragraphStyle = styles.paragraphBlack;
 	}
 
 	return (

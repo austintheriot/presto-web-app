@@ -31,7 +31,7 @@ export default function Login(props?: HistoryType) {
 			label: 'Email*',
 			animateUp: false,
 			empty: true,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: '',
@@ -49,7 +49,7 @@ export default function Login(props?: HistoryType) {
 			label: 'Password*',
 			animateUp: false,
 			empty: true,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: '',
@@ -75,7 +75,7 @@ export default function Login(props?: HistoryType) {
 			[newestType]: {
 				...prevState[newestType],
 				animateUp: true,
-				touched: true,
+				edited: true,
 			},
 		}));
 	};
@@ -86,7 +86,7 @@ export default function Login(props?: HistoryType) {
 	) => {
 		//animation & output error if empty
 		let targetEmpty =
-			inputs[newestType].touched && inputs[newestType].value.length === 0
+			inputs[newestType].edited && inputs[newestType].value.length === 0
 				? true
 				: false;
 
@@ -130,8 +130,8 @@ export default function Login(props?: HistoryType) {
 			password: newestType === 'password' ? targetValue : inputs.password.value,
 			confirmPassword: '',
 			isSignup: false,
-			emailTouched: inputs.email.touched,
-			passwordTouched: inputs.password.touched,
+			emailTouched: inputs.email.edited,
+			passwordTouched: inputs.password.edited,
 			confirmPasswordTouched: false,
 			submittingForm: submittingForm,
 		};

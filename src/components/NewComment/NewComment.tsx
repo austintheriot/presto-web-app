@@ -34,7 +34,7 @@ export default ({ postId }: { postId: string }) => {
 			value: '',
 			animateUp: false,
 			empty: true,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: '',
@@ -67,7 +67,7 @@ export default ({ postId }: { postId: string }) => {
 			[newestType]: {
 				...prevState[newestType],
 				animateUp: true,
-				touched: true,
+				edited: true,
 			},
 		}));
 	};
@@ -78,7 +78,7 @@ export default ({ postId }: { postId: string }) => {
 	) => {
 		//animation & output error if empty
 		let targetEmpty =
-			inputs[newestType].touched && inputs[newestType].value.length === 0
+			inputs[newestType].edited && inputs[newestType].value.length === 0
 				? true
 				: false;
 		setInputs((prevState: Inputs) => ({
@@ -113,8 +113,8 @@ export default ({ postId }: { postId: string }) => {
 		//pre default form submission
 		e.preventDefault();
 
-		//if body text has not been touched/edited, ignore submit button
-		if (!inputs.body.touched || inputs.body.empty || !inputs.body.value) {
+		//if body text has not been edited/edited, ignore submit button
+		if (!inputs.body.edited || inputs.body.empty || !inputs.body.value) {
 			return;
 		}
 

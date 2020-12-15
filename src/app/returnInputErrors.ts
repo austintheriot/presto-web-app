@@ -31,21 +31,21 @@ export default ({
 	if (password && confirmPassword && password !== confirmPassword)
 		errors.confirmPassword = 'Passwords do not match';
 	if (
-		//error if touched
+		//error if edited
 		(email !== null && emailTouched && email.length === 0) ||
 		//error if submitted without touching
 		(email !== null && submittingForm && email.length === 0)
 	)
 		errors.email = 'This field is required';
 	if (
-		//error if touched
+		//error if edited
 		(password !== null && passwordTouched && password.length === 0) ||
 		//error if submitted without touching
 		(password !== null && submittingForm && password.length === 0)
 	)
 		errors.password = 'This field is required';
 	if (
-		//error if touched
+		//error if edited
 		(confirmPassword !== null &&
 			confirmPasswordTouched &&
 			confirmPassword.length === 0) ||

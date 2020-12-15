@@ -33,7 +33,7 @@ export default function Login(props: HistoryType) {
 			value: '',
 			animateUp: false,
 			empty: true,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'i.e. First Last',
@@ -109,7 +109,7 @@ export default function Login(props: HistoryType) {
 			[newestType]: {
 				...prevState[newestType],
 				animateUp: true,
-				touched: true,
+				edited: true,
 			},
 		}));
 	};
@@ -120,7 +120,7 @@ export default function Login(props: HistoryType) {
 	) => {
 		//animation & output error if empty
 		let targetEmpty =
-			inputs[newestType].touched && inputs[newestType].value.length === 0
+			inputs[newestType].edited && inputs[newestType].value.length === 0
 				? true
 				: false;
 

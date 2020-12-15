@@ -9,60 +9,17 @@ import geoapifyKey from 'app/geoapifyKey';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/userSlice';
 
-import Input from 'components/Inputs/Input';
+import NewInput from 'components/NewInputs/Input';
 import Textarea from 'components/Inputs/Textarea';
 import Message from 'components/Message/Message';
 
-import { InputType } from 'app/types';
+import { NewInputType } from 'app/types';
 import locationFormatter from 'app/locationFormatter';
+import suggestionClickHandler from './suggestionClickHandler';
+import handleFocus from './handleFocus';
+import sendAutoCompleteRequest from './sendAutoCompleteRequest';
 
-interface GeoapifyData {
-	properties: {
-		city?: string;
-		state?: string;
-		county?: string;
-		postcode?: string;
-		country?: string;
-	};
-}
-
-interface LocationData {
-	city?: string;
-	state?: string;
-	county?: string;
-	zip?: string;
-	country?: string;
-}
-
-interface PositionData {
-	coords: {
-		latitude: number;
-		longitude: number;
-	};
-}
-
-type CollectedDataArray = LocationData[];
-
-interface LocationType extends InputType {
-	_data: {
-		city: string;
-		state: string;
-		county: string;
-		zip: string;
-		country: string;
-	};
-	suggestionsArray: any[];
-}
-
-interface Inputs {
-	activity: InputType;
-	instrument: InputType;
-	website: InputType;
-	bio: InputType;
-	location: LocationType;
-}
-
-type KeyOfInputs = keyof Inputs;
+import * as ProfileTypes from './ProfileTypes';
 
 export default () => {
 	const user = useSelector(selectUser);
@@ -71,7 +28,7 @@ export default () => {
 		.join(', ')
 		.trim();
 
-	const [inputs, setInputs] = useState<Inputs>({
+	const [inputs, setInputs] = useState<ProfileTypes.Inputs>({
 		activity: {
 			label: 'Musical Activity',
 			suggestions: {
@@ -99,9 +56,8 @@ export default () => {
 				],
 			},
 			value: user.activity || '',
-			animateUp: !!user.activity,
 			empty: !user.activity,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'i.e. Performer, Composer, Teacher, etc.',
@@ -117,9 +73,8 @@ export default () => {
 				array: InstrumentArray,
 			},
 			value: user.instrument || '',
-			animateUp: !!user.instrument,
 			empty: !user.instrument,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'i.e. Piano, Violin, Soprano, etc.',
@@ -135,9 +90,8 @@ export default () => {
 				array: [],
 			},
 			value: user.bio || '',
-			animateUp: !!user.bio,
 			empty: !user.bio,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'Tell us a little about yourself.',
@@ -153,9 +107,8 @@ export default () => {
 				array: [],
 			},
 			value: user.website || '',
-			animateUp: !!user.website,
 			empty: !user.website,
-			touched: false,
+			edited: false,
 			message: {
 				error: false,
 				text: 'Link to your personal website.',
@@ -173,9 +126,8 @@ export default () => {
 			},
 			suggestionsArray: [],
 			value: userLocation,
-			animateUp: !!userLocation,
 			empty: !userLocation,
-			touched: false,
+			edited: false,
 			suggestions: {
 				selected: false,
 				loading: false,
@@ -193,109 +145,21 @@ export default () => {
 	const [saveMessage, setSaveMessage] = useState('');
 	const [locationMessage, setLocationMessage] = useState('');
 
-	const suggestionClickHandler = (
-		e: React.FormEvent<HTMLInputElement>,
-		i: number,
-		newestType: KeyOfInputs
-	) => {
-		let newValue = inputs[newestType].suggestions.array[i];
-
-		if (newestType === 'location') {
-			const formattedData = newValue;
-			const unformattedData = inputs.location.suggestionsArray[i];
-			setInputs((prevState: Inputs) => ({
-				...prevState,
-				location: {
-					...prevState.location,
-					value: formattedData || '',
-					empty: !formattedData,
-					animateUp: !!formattedData,
-					suggestions: {
-						...prevState.location.suggestions,
-						selected: true,
-					},
-					_data: {
-						city: unformattedData.city || '',
-						county: unformattedData.county || '',
-						zip: unformattedData.zip || '',
-						state: unformattedData.state || '',
-						country: unformattedData.country || '',
-					},
-				},
-			}));
-		} else {
-			setInputs((prevState) => ({
-				...prevState,
-				[newestType]: {
-					...prevState[newestType],
-					value: newValue,
-					suggestions: {
-						...prevState[newestType].suggestions,
-						selected: true,
-					},
-				},
-			}));
-		}
-	};
-
-	const handleFocus = (
-		e: React.FormEvent<HTMLInputElement>,
-		newestType: KeyOfInputs
-	) => {
-		//animation
-		if (
-			newestType === 'activity' ||
-			newestType === 'instrument' ||
-			newestType === 'location'
-		) {
-			//show drop down menu
-			setInputs((prevState) => ({
-				...prevState,
-				[newestType]: {
-					...prevState[newestType],
-					animateUp: true,
-					touched: true,
-					suggestions: {
-						...prevState[newestType].suggestions,
-						loading: false,
-						show: true,
-					},
-				},
-			}));
-		} else {
-			setInputs((prevState) => ({
-				...prevState,
-				[newestType]: {
-					...prevState[newestType],
-					animateUp: true,
-					touched: true,
-				},
-			}));
-		}
-	};
-
 	const handleBlur = (
 		e: React.FormEvent<HTMLInputElement>,
-		newestType: KeyOfInputs
+		newestType: ProfileTypes.KeyOfInputs
 	) => {
-		//animation & output error if empty
-		let targetEmpty =
-			inputs[newestType].touched && inputs[newestType].value.length === 0
-				? true
-				: false;
-
 		//hide drop down menu
 		if (
 			newestType === 'activity' ||
 			newestType === 'instrument' ||
 			newestType === 'location'
 		) {
-			setInputs((prevState) => ({
+			setInputs((prevState: ProfileTypes.Inputs) => ({
 				...prevState,
 				[newestType]: {
 					...prevState[newestType],
 					//animation
-					animateUp: targetEmpty ? false : true,
 					suggestions: {
 						...prevState[newestType].suggestions,
 						loading: false,
@@ -303,21 +167,12 @@ export default () => {
 					},
 				},
 			}));
-		} else {
-			setInputs((prevState) => ({
-				...prevState,
-				[newestType]: {
-					...prevState[newestType],
-					//animation
-					animateUp: targetEmpty ? false : true,
-				},
-			}));
 		}
 	};
 
 	const handleChange = (
 		e: React.FormEvent<HTMLInputElement>,
-		newestType: KeyOfInputs
+		newestType: ProfileTypes.KeyOfInputs
 	) => {
 		let targetValue = e.currentTarget.value;
 		let targetEmpty = targetValue.length === 0 ? true : false;
@@ -332,7 +187,7 @@ export default () => {
 		};
 
 		//update state for all inputs
-		setInputs((prevState: Inputs) => ({
+		setInputs((prevState: ProfileTypes.Inputs) => ({
 			...prevState,
 			activity: {
 				...prevState.activity,
@@ -342,7 +197,7 @@ export default () => {
 					newestType === 'activity' ? targetValue : prevState.activity.value,
 				empty:
 					newestType === 'activity' ? targetEmpty : prevState.activity.empty,
-
+				edited: newestType === 'activity' ? true : prevState.activity.edited,
 				//update errors: If no error, set to default message
 				message: {
 					...prevState.activity.message,
@@ -364,7 +219,8 @@ export default () => {
 					newestType === 'instrument'
 						? targetEmpty
 						: prevState.instrument.empty,
-
+				edited:
+					newestType === 'instrument' ? true : prevState.instrument.edited,
 				//update errors: If no error, set to default message
 				message: {
 					...prevState.instrument.message,
@@ -380,7 +236,7 @@ export default () => {
 				//update generic values
 				value: newestType === 'bio' ? targetValue : prevState.bio.value,
 				empty: newestType === 'bio' ? targetEmpty : prevState.bio.empty,
-
+				edited: newestType === 'bio' ? true : prevState.bio.edited,
 				//update errors: If no error, set to default message
 				message: {
 					...prevState.bio.message,
@@ -396,7 +252,7 @@ export default () => {
 				//update generic values
 				value: newestType === 'website' ? targetValue : prevState.website.value,
 				empty: newestType === 'website' ? targetEmpty : prevState.website.empty,
-
+				edited: newestType === 'website' ? true : prevState.website.edited,
 				//update errors: If no error, set to default message
 				message: {
 					...prevState.website.message,
@@ -414,7 +270,7 @@ export default () => {
 					newestType === 'location' ? targetValue : prevState.location.value,
 				empty:
 					newestType === 'location' ? targetEmpty : prevState.location.empty,
-
+				edited: newestType === 'location' ? true : prevState.location.edited,
 				//update errors: If no error, set to default message
 				message: {
 					...prevState.location.message,
@@ -431,11 +287,20 @@ export default () => {
 			if (cleanedUpRequest.length === 0) return;
 			clearTimeout(timerId);
 			setTimerId(
-				setTimeout(() => sendAutoCompleteRequest(targetValue), requestDelay)
+				setTimeout(
+					() =>
+						sendAutoCompleteRequest(
+							setLocationMessage,
+							clearLocationSuggestions,
+							setInputs,
+							targetValue
+						),
+					requestDelay
+				)
 			);
 
 			//set autocomplete to loading
-			setInputs((prevState: Inputs) => ({
+			setInputs((prevState: ProfileTypes.Inputs) => ({
 				...prevState,
 				location: {
 					...prevState.location,
@@ -451,7 +316,7 @@ export default () => {
 	};
 
 	const clearLocationSuggestions = () => {
-		setInputs((prevState) => ({
+		setInputs((prevState: ProfileTypes.Inputs) => ({
 			...prevState,
 			location: {
 				...prevState.location,
@@ -465,77 +330,6 @@ export default () => {
 		}));
 	};
 
-	const sendAutoCompleteRequest = (locationInputValue: string) => {
-		let key = geoapifyKey;
-		let requestUrl = `https://api.geoapify.com/v1/geocode/autocomplete?text=${locationInputValue}&limit=5&apiKey=${key}`;
-		var xhr = new XMLHttpRequest();
-		xhr.withCredentials = false;
-		xhr.open('GET', requestUrl);
-		xhr.responseType = 'json';
-		xhr.send(null);
-		xhr.onerror = () => {
-			console.error('Request failed');
-			setLocationMessage(`Sorry, we couldn't find your location.`);
-			clearLocationSuggestions();
-		};
-		xhr.onload = () => {
-			if (xhr.status !== 200) {
-				// analyze HTTP status of the response
-				console.error(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
-				clearLocationSuggestions();
-			} else {
-				//if the response succeeds:
-				let geoapifyDataArray = xhr.response.features;
-				if (geoapifyDataArray.length === 0) {
-					setLocationMessage(
-						`Sorry, we couldn't find any locations that matched.`
-					);
-					clearLocationSuggestions();
-				} else {
-					setLocationMessage(``);
-				}
-				console.log(geoapifyDataArray);
-
-				//turn data into an array of objects for later recall
-				let collectedDataArray: CollectedDataArray = geoapifyDataArray.map(
-					({ properties }: GeoapifyData) => {
-						return {
-							city: properties.city || '',
-							state: properties.state || '',
-							county: properties.county || '',
-							zip: properties.postcode ? properties.postcode.split(';')[0] : '',
-							country: properties.country || '',
-						};
-					}
-				);
-
-				//format data to be usable for the suggestions drop down menu
-				let collectedDataArrayFormatted = collectedDataArray.map((el) => {
-					return [el.city, el.state, el.country, el.zip]
-						.filter((el) => el !== null)
-						.join(', ')
-						.trim();
-				});
-
-				//update autocomplete suggestions for location input
-				setInputs((prevState) => ({
-					...prevState,
-					location: {
-						...prevState.location,
-						suggestionsArray: collectedDataArray, //unformatted data (for sending)
-						suggestions: {
-							//data formatted as a string for SuggestionsList
-							...prevState.location.suggestions,
-							loading: false,
-							show: true,
-							array: collectedDataArrayFormatted,
-						},
-					},
-				}));
-			}
-		};
-	};
-
 	const getLocation = () => {
 		const options = {
 			enableHighAccuracy: true,
@@ -543,7 +337,7 @@ export default () => {
 			maximumAge: 0,
 		};
 
-		const handleGeolocationSuccess = (pos: PositionData) => {
+		const handleGeolocationSuccess = (pos: ProfileTypes.PositionData) => {
 			let key = geoapifyKey;
 			let latitude = pos.coords.latitude;
 			let longitude = pos.coords.longitude;
@@ -584,13 +378,12 @@ export default () => {
 						.join(', ')
 						.trim();
 
-					setInputs((prevState: Inputs) => ({
+					setInputs((prevState: ProfileTypes.Inputs) => ({
 						...prevState,
 						location: {
 							...prevState.location,
 							value: formattedLocation || '',
 							empty: !formattedLocation,
-							animateUp: !!formattedLocation,
 							suggestions: {
 								...prevState.location.suggestions,
 								selected: true,
@@ -631,9 +424,9 @@ export default () => {
 
 		//check for errors
 		//if inputs edited, but not selected from drop down menu:
-		if (inputs.location.touched && !inputs.location.suggestions.selected) {
+		if (inputs.location.edited && !inputs.location.suggestions.selected) {
 			setSaveMessage('Please fix all errors before saving.');
-			return setInputs((prevState) => ({
+			return setInputs((prevState: ProfileTypes.Inputs) => ({
 				...prevState,
 				location: {
 					...prevState.location,
@@ -645,9 +438,9 @@ export default () => {
 				},
 			}));
 		}
-		if (inputs.activity.touched && !inputs.activity.suggestions.selected) {
+		if (inputs.activity.edited && !inputs.activity.suggestions.selected) {
 			setSaveMessage('Please fix all errors before saving.');
-			return setInputs((prevState) => ({
+			return setInputs((prevState: ProfileTypes.Inputs) => ({
 				...prevState,
 				activity: {
 					...prevState.activity,
@@ -659,9 +452,9 @@ export default () => {
 				},
 			}));
 		}
-		if (inputs.instrument.touched && !inputs.instrument.suggestions.selected) {
+		if (inputs.instrument.edited && !inputs.instrument.suggestions.selected) {
 			setSaveMessage('Please fix all errors before saving.');
-			return setInputs((prevState) => ({
+			return setInputs((prevState: ProfileTypes.Inputs) => ({
 				...prevState,
 				instrument: {
 					...prevState.instrument,
@@ -675,33 +468,13 @@ export default () => {
 		}
 
 		//clear all errors:
-		setInputs((prevState) => ({
-			...prevState,
-			location: {
-				...prevState.location,
-				message: {
-					...prevState.location.message,
-					error: false,
-					text: prevState.location.message.default,
-				},
-			},
-			activity: {
-				...prevState.activity,
-				message: {
-					...prevState.activity.message,
-					error: false,
-					text: prevState.activity.message.default,
-				},
-			},
-			instrument: {
-				...prevState.instrument,
-				message: {
-					...prevState.instrument.message,
-					error: false,
-					text: prevState.instrument.message.default,
-				},
-			},
-		}));
+		setInputs((prevState: ProfileTypes.Inputs) => {
+			for (let key in prevState) {
+				prevState[key].message.error = false;
+				prevState[key].message.text = prevState[key].message.default;
+			}
+			return prevState;
+		});
 
 		//only update information if new information has been provided
 		interface NewInfoFromState {
@@ -716,26 +489,32 @@ export default () => {
 			country?: string;
 		}
 		let newInfoFromState: NewInfoFromState = {};
-		if (inputs.activity.touched)
+		if (inputs.activity.edited) {
 			newInfoFromState.activity = inputs.activity.value;
-		if (inputs.instrument.touched)
+		}
+		if (inputs.instrument.edited) {
 			newInfoFromState.instrument = inputs.instrument.value;
-		if (inputs.website.touched) newInfoFromState.website = inputs.website.value;
-		if (inputs.bio.touched) newInfoFromState.bio = inputs.bio.value;
-		if (inputs.location.touched) {
-			if (inputs.location._data.country)
-				newInfoFromState.country = inputs.location._data.country;
-			if (inputs.location._data.state)
-				newInfoFromState.state = inputs.location._data.state;
-			if (inputs.location._data.zip)
-				newInfoFromState.zip = inputs.location._data.zip;
-			if (inputs.location._data.county)
-				newInfoFromState.county = inputs.location._data.county;
-			if (inputs.location._data.city)
-				newInfoFromState.city = inputs.location._data.city;
+		}
+		if (inputs.website.edited) {
+			newInfoFromState.website = inputs.website.value;
+		}
+		if (inputs.bio.edited) {
+			newInfoFromState.bio = inputs.bio.value;
+		}
+		//all state must be updated if location is edited
+		//so that more specific information does not persist (such as city)
+		//when more general data is changed (such as country)
+		if (inputs.location.edited) {
+			newInfoFromState = {
+				country: inputs.location._data.country || '',
+				state: inputs.location._data.state || '',
+				zip: inputs.location._data.zip || '',
+				county: inputs.location._data.county || '',
+				city: inputs.location._data.city || '',
+			};
 		}
 
-		if (Object.keys(newInfoFromState).length === 0) {
+		if (!Object.values(inputs).find((input: NewInputType) => input.edited)) {
 			return setSaveMessage('No new settings to update.');
 		}
 
@@ -747,28 +526,28 @@ export default () => {
 			.then(() => {
 				console.log('[Profile]: Document successfully updated in database!');
 
-				//reset "touched" value of inputs so save isn't triggered again if attempted
+				//reset "edited" value of inputs so save isn't triggered again if attempted
 				setInputs((prevState) => ({
 					...prevState,
 					activity: {
 						...prevState.activity,
-						touched: false,
+						edited: false,
 					},
 					instrument: {
 						...prevState.instrument,
-						touched: false,
+						edited: false,
 					},
 					bio: {
 						...prevState.bio,
-						touched: false,
+						edited: false,
 					},
 					website: {
 						...prevState.website,
-						touched: false,
+						edited: false,
 					},
 					location: {
 						...prevState.location,
-						touched: false,
+						edited: false,
 					},
 				}));
 				setSaveMessage('Your settings have been successfully updated!');
@@ -804,11 +583,11 @@ export default () => {
 			</div>
 			<form onSubmit={submitHandler}>
 				<Button onClick={getLocation}>Autofill Location</Button>
-				<Input
+				<NewInput
 					type='text'
 					customType='location'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
-						handleFocus(e, 'location')
+						handleFocus(e, 'location', setInputs)
 					}
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'location')
@@ -816,18 +595,19 @@ export default () => {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'location')
 					}
-					inputs={inputs}
+					input={inputs.location}
 					suggestionClickHandler={suggestionClickHandler}
+					setInputs={setInputs}
 				/>
 				<Message
 					message={locationMessage}
 					color={locationMessage ? 'black' : 'hidden'}
 				/>
-				<Input
+				<NewInput
 					type='text'
 					customType='activity'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
-						handleFocus(e, 'activity')
+						handleFocus(e, 'activity', setInputs)
 					}
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'activity')
@@ -835,14 +615,15 @@ export default () => {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'activity')
 					}
-					inputs={inputs}
+					input={inputs.activity}
 					suggestionClickHandler={suggestionClickHandler}
+					setInputs={setInputs}
 				/>
-				<Input
+				<NewInput
 					type='text'
 					customType='instrument'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
-						handleFocus(e, 'instrument')
+						handleFocus(e, 'instrument', setInputs)
 					}
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'instrument')
@@ -850,10 +631,11 @@ export default () => {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'instrument')
 					}
-					inputs={inputs}
+					input={inputs.instrument}
 					suggestionClickHandler={suggestionClickHandler}
+					setInputs={setInputs}
 				/>
-				<Textarea
+				{/* <Textarea
 					type='text'
 					customType='bio'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
@@ -865,13 +647,13 @@ export default () => {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'bio')
 					}
-					inputs={inputs}
-				/>
-				<Input
+					input={inputs.instrument}
+				/> */}
+				<NewInput
 					type='text'
 					customType='website'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
-						handleFocus(e, 'website')
+						handleFocus(e, 'website', setInputs)
 					}
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'website')
@@ -879,12 +661,15 @@ export default () => {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'website')
 					}
-					inputs={inputs}
+					input={inputs.website}
+					setInputs={setInputs}
 				/>
-				<Message
-					message={saveMessage}
-					color={saveMessage ? 'black' : 'hidden'}
-				/>
+				{saveMessage ? (
+					<Message
+						message={saveMessage}
+						color={saveMessage ? 'black' : 'hidden'}
+					/>
+				) : null}
 				<Button type='submit' onClick={submitHandler}>
 					Save
 				</Button>

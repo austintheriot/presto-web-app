@@ -79,7 +79,25 @@ export interface InputType {
 	value: string;
 	animateUp: boolean;
 	empty: boolean;
-	touched: boolean;
+	edited: boolean;
+	message: {
+		error: boolean;
+		text: string;
+		default: string;
+	};
+	suggestions: {
+		selected: boolean; //whether an option was chosen from the suggestions menu
+		loading: boolean; //whether the suggestions are loading (being fetched from an API)
+		show: boolean;
+		array: string[];
+	};
+}
+
+export interface NewInputType {
+	[key: string]: any;
+	label: string;
+	value: string;
+	edited: boolean;
 	message: {
 		error: boolean;
 		text: string;
