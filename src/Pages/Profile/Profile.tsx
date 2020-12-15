@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import cloneDeep from 'lodash/cloneDeep';
+
 import Nav from 'components/Nav/Nav';
 import styles from './Profile.module.scss';
 import Button from 'components/Button/Button';
@@ -13,7 +15,7 @@ import NewInput from 'components/NewInputs/Input';
 import Textarea from 'components/Inputs/Textarea';
 import Message from 'components/Message/Message';
 
-import { NewInputType } from 'app/types';
+import { NewInputType, UserPayload } from 'app/types';
 import locationFormatter from 'app/locationFormatter';
 import suggestionClickHandler from './suggestionClickHandler';
 import handleFocus from './handleFocus';
@@ -27,7 +29,6 @@ export default () => {
 		.filter((el) => el)
 		.join(', ')
 		.trim();
-
 	const [inputs, setInputs] = useState<ProfileTypes.Inputs>({
 		activity: {
 			label: 'Musical Activity',
@@ -140,188 +141,197 @@ export default () => {
 	const [saveMessage, setSaveMessage] = useState('');
 	const [locationMessage, setLocationMessage] = useState('');
 
-	const handleBlur = (
-		e: React.FormEvent<HTMLInputElement>,
-		newestType: ProfileTypes.KeyOfInputs
+	const hideSuggestionList = (
+		setInputs: React.Dispatch<React.SetStateAction<ProfileTypes.Inputs>>,
+		newestType: string
 	) => {
-		//hide drop down menu
 		if (
 			newestType === 'activity' ||
 			newestType === 'instrument' ||
 			newestType === 'location'
 		) {
-			setInputs((prevState: ProfileTypes.Inputs) => ({
-				...prevState,
-				[newestType]: {
-					...prevState[newestType],
-					//animation
-					suggestions: {
-						...prevState[newestType].suggestions,
-						loading: false,
-						show: false,
-					},
-				},
-			}));
+			setInputs((prevState: ProfileTypes.Inputs) => {
+				const newState = cloneDeep(prevState);
+				const input = newState[newestType];
+				input.suggestions.loading = false;
+				input.suggestions.show = false;
+				return newState;
+			});
 		}
 	};
 
-	const handleChange = (
+	const handleBlur = (
 		e: React.FormEvent<HTMLInputElement>,
-		newestType: ProfileTypes.KeyOfInputs
+		newestType: string
 	) => {
-		let targetValue = e.currentTarget.value;
+		//hide drop down menu
+		hideSuggestionList(setInputs, newestType);
+	};
 
-		//validate inputs
-		let anyErrorsObject = {
+	const setLocationAutocompleteToLoading = (
+		setInputs: ProfileTypes.SetInputs
+	) => {
+		setInputs((prevState: ProfileTypes.Inputs) => {
+			const newState = cloneDeep(prevState);
+			const { location } = newState;
+			location.suggestions.loading = true;
+			location.suggestions.array = [];
+			location.suggestions.show = true;
+			return newState;
+		});
+	};
+
+	const updateAllInputValuesAndErrors = (
+		newestType: string,
+		targetValue: string,
+		anyErrorsObject: { [key: string]: string },
+		setInputs: ProfileTypes.SetInputs
+	) => {
+		setInputs((prevState: ProfileTypes.Inputs) => {
+			const newState = cloneDeep(prevState);
+			Object.entries(newState).forEach((inputEntry) => {
+				const inputKey = inputEntry[0];
+				const inputState: NewInputType = inputEntry[1];
+				inputState.value =
+					newestType === inputKey ? targetValue : inputState.value;
+				inputState.edited = newestType === inputKey ? true : inputState.edited;
+				inputState.message.error = anyErrorsObject[inputKey] ? true : false;
+				inputState.message.text = anyErrorsObject[inputKey]
+					? anyErrorsObject[inputKey]
+					: inputState.message.default;
+			});
+			return newState;
+		});
+	};
+
+	interface AnyErrorsObject {
+		[key: string]: string;
+	}
+
+	//TODO: make actual validate function
+	const validateInputs = (inputs: any): AnyErrorsObject => {
+		return {
 			activity: '',
 			instrument: '',
 			website: '',
 			bio: '',
 			location: '',
 		};
+	};
 
-		//update state for all inputs
-		setInputs((prevState: ProfileTypes.Inputs) => ({
-			...prevState,
-			activity: {
-				...prevState.activity,
+	const restartAutcompleteTimer = (targetValue: string) => {
+		const REQUEST_DELAY = 500;
+		if (targetValue.trim().length === 0) return;
+		clearTimeout(timerId);
+		setTimerId(
+			setTimeout(
+				() =>
+					sendAutoCompleteRequest(
+						setLocationMessage,
+						clearLocationSuggestions,
+						setInputs,
+						targetValue
+					),
+				REQUEST_DELAY
+			)
+		);
+		setLocationAutocompleteToLoading(setInputs);
+	};
 
-				//update generic values
-				value:
-					newestType === 'activity' ? targetValue : prevState.activity.value,
-				edited: newestType === 'activity' ? true : prevState.activity.edited,
-				//update errors: If no error, set to default message
-				message: {
-					...prevState.activity.message,
-					error: anyErrorsObject.activity ? true : false,
-					text: anyErrorsObject.activity
-						? anyErrorsObject.activity
-						: prevState.activity.message.default,
-				},
-			},
-			instrument: {
-				...prevState.instrument,
-
-				//update generic values
-				value:
-					newestType === 'instrument'
-						? targetValue
-						: prevState.instrument.value,
-				edited:
-					newestType === 'instrument' ? true : prevState.instrument.edited,
-				//update errors: If no error, set to default message
-				message: {
-					...prevState.instrument.message,
-					error: anyErrorsObject.instrument ? true : false,
-					text: anyErrorsObject.instrument
-						? anyErrorsObject.instrument
-						: prevState.instrument.message.default,
-				},
-			},
-			bio: {
-				...prevState.bio,
-
-				//update generic values
-				value: newestType === 'bio' ? targetValue : prevState.bio.value,
-				edited: newestType === 'bio' ? true : prevState.bio.edited,
-				//update errors: If no error, set to default message
-				message: {
-					...prevState.bio.message,
-					error: anyErrorsObject.bio ? true : false,
-					text: anyErrorsObject.bio
-						? anyErrorsObject.bio
-						: prevState.bio.message.default,
-				},
-			},
-			website: {
-				...prevState.website,
-
-				//update generic values
-				value: newestType === 'website' ? targetValue : prevState.website.value,
-				edited: newestType === 'website' ? true : prevState.website.edited,
-				//update errors: If no error, set to default message
-				message: {
-					...prevState.website.message,
-					error: anyErrorsObject.website ? true : false,
-					text: anyErrorsObject.website
-						? anyErrorsObject.website
-						: prevState.website.message.default,
-				},
-			},
-			location: {
-				...prevState.location,
-
-				//update generic values
-				value:
-					newestType === 'location' ? targetValue : prevState.location.value,
-				edited: newestType === 'location' ? true : prevState.location.edited,
-				//update errors: If no error, set to default message
-				message: {
-					...prevState.location.message,
-					error: anyErrorsObject.location ? true : false,
-					text: anyErrorsObject.location
-						? anyErrorsObject.location
-						: prevState.location.message.default,
-				},
-			},
-		}));
+	const handleChange = (
+		e: React.FormEvent<HTMLInputElement>,
+		newestType: string
+	) => {
+		let targetValue = e.currentTarget.value;
+		//TODO: validate inputs
+		const anyErrorsObject = validateInputs(inputs);
+		updateAllInputValuesAndErrors(
+			newestType,
+			targetValue,
+			anyErrorsObject,
+			setInputs
+		);
 		if (newestType === 'location' && targetValue) {
-			let requestDelay = 500;
-			let cleanedUpRequest = targetValue.trim();
-			if (cleanedUpRequest.length === 0) return;
-			clearTimeout(timerId);
-			setTimerId(
-				setTimeout(
-					() =>
-						sendAutoCompleteRequest(
-							setLocationMessage,
-							clearLocationSuggestions,
-							setInputs,
-							targetValue
-						),
-					requestDelay
-				)
-			);
-
-			//set autocomplete to loading
-			setInputs((prevState: ProfileTypes.Inputs) => ({
-				...prevState,
-				location: {
-					...prevState.location,
-					suggestions: {
-						...prevState.location.suggestions,
-						loading: true,
-						array: [],
-						show: true,
-					},
-				},
-			}));
+			restartAutcompleteTimer(targetValue);
 		}
 	};
 
 	const clearLocationSuggestions = () => {
-		setInputs((prevState: ProfileTypes.Inputs) => ({
-			...prevState,
-			location: {
-				...prevState.location,
-				suggestions: {
-					...prevState.location.suggestions,
-					loading: false,
-					show: false,
-					array: [],
-				},
-			},
-		}));
+		setInputs((prevState: ProfileTypes.Inputs) => {
+			const newState = cloneDeep(prevState);
+			newState.location.suggestions.loading = false;
+			newState.location.suggestions.show = false;
+			newState.location.suggestions.array = [];
+			return newState;
+		});
 	};
 
-	const getLocation = () => {
+	const extractLocationData = (xhr: XMLHttpRequest) => {
+		const {
+			city,
+			county,
+			state,
+			country,
+			zip,
+		} = xhr.response.features[0].properties;
+
+		//reduce info to necessary fields:
+		const locationDataObject = {
+			city,
+			county,
+			state,
+			country,
+			zip,
+		};
+
+		//stringify location data (to fill location input)
+		const locationDataString = [city, state, country, zip]
+			.filter((el) => el)
+			.join(', ')
+			.trim();
+
+		return { locationDataObject, locationDataString };
+	};
+
+	const autofillLocationData = (
+		setInputs: ProfileTypes.SetInputs,
+		locationDataString: string,
+		locationDataObject: {
+			city: any;
+			county: any;
+			state: any;
+			country: any;
+			zip: any;
+		}
+	) => {
+		setInputs((prevState: ProfileTypes.Inputs) => {
+			const newState = cloneDeep(prevState);
+			const { location } = newState;
+			location.value = locationDataString;
+			location.suggestions.selected = true;
+			location.edited = true;
+
+			//preserve actual location data (un-stringified) for use later:
+			location._data = {
+				city: locationDataObject.city,
+				county: locationDataObject.county,
+				zip: locationDataObject.zip,
+				state: locationDataObject.state,
+				country: locationDataObject.country,
+			};
+
+			return newState;
+		});
+	};
+
+	const autofillLocation = () => {
 		const options = {
 			enableHighAccuracy: true,
 			timeout: 30000,
 			maximumAge: 0,
 		};
 
-		const handleGeolocationSuccess = (pos: ProfileTypes.PositionData) => {
+		const autofillSuccess = (pos: ProfileTypes.PositionData) => {
 			let key = geoapifyKey;
 			let latitude = pos.coords.latitude;
 			let longitude = pos.coords.longitude;
@@ -336,55 +346,30 @@ export default () => {
 				setLocationMessage(`Sorry, we couldn't find your location.`);
 			};
 			xhr.onload = (data) => {
+				//if response fails
 				if (xhr.status !== 200) {
 					// analyze HTTP status of the response
 					console.error(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
 					setLocationMessage(`Sorry, we couldn't find your location.`);
-				} else {
-					//if the response succeeds:
-					let properties = xhr.response.features[0].properties;
-					//reduce info to necessary fields:
-					let locationInfoObject = {
-						city: properties.city,
-						county: properties.county,
-						state: properties.state,
-						country: properties.country,
-						zip: properties.postcode,
-					};
+				}
 
-					let formattedLocation = [
-						locationInfoObject.city,
-						locationInfoObject.state,
-						locationInfoObject.country,
-						locationInfoObject.zip,
-					]
-						.filter((el) => el)
-						.join(', ')
-						.trim();
+				//if the response succeeds:
+				else {
+					const {
+						locationDataObject,
+						locationDataString,
+					} = extractLocationData(xhr);
 
-					setInputs((prevState: ProfileTypes.Inputs) => ({
-						...prevState,
-						location: {
-							...prevState.location,
-							value: formattedLocation || '',
-							suggestions: {
-								...prevState.location.suggestions,
-								selected: true,
-							},
-							_data: {
-								city: locationInfoObject.city || '',
-								county: locationInfoObject.county || '',
-								zip: locationInfoObject.zip || '',
-								state: locationInfoObject.state || '',
-								country: locationInfoObject.country || '',
-							},
-						},
-					}));
+					autofillLocationData(
+						setInputs,
+						locationDataString,
+						locationDataObject
+					);
 				}
 			};
 		};
 
-		const handleGeolocationFail = (err: { code: any; message: any }) => {
+		const autofillError = (err: { code: any; message: any }) => {
 			console.warn(`ERROR(${err.code}): ${err.message}`);
 			setLocationMessage(`Sorry, we couldn't find your location.`);
 		};
@@ -392,8 +377,8 @@ export default () => {
 		//if Geolocation is supported, call it (see above)
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
-				handleGeolocationSuccess,
-				handleGeolocationFail,
+				autofillSuccess,
+				autofillError,
 				options
 			);
 		} else {
@@ -401,77 +386,12 @@ export default () => {
 		}
 	};
 
-	const submitHandler = (e: React.SyntheticEvent) => {
-		//prevent default form submission
-		e.preventDefault();
-
-		//check for errors
-		//if inputs edited, but not selected from drop down menu:
-		if (inputs.location.edited && !inputs.location.suggestions.selected) {
-			setSaveMessage('Please fix all errors before saving.');
-			return setInputs((prevState: ProfileTypes.Inputs) => ({
-				...prevState,
-				location: {
-					...prevState.location,
-					message: {
-						...prevState.location.message,
-						error: true,
-						text: 'Please select from available options.',
-					},
-				},
-			}));
-		}
-		if (inputs.activity.edited && !inputs.activity.suggestions.selected) {
-			setSaveMessage('Please fix all errors before saving.');
-			return setInputs((prevState: ProfileTypes.Inputs) => ({
-				...prevState,
-				activity: {
-					...prevState.activity,
-					message: {
-						...prevState.activity.message,
-						error: true,
-						text: 'Please select from available options.',
-					},
-				},
-			}));
-		}
-		if (inputs.instrument.edited && !inputs.instrument.suggestions.selected) {
-			setSaveMessage('Please fix all errors before saving.');
-			return setInputs((prevState: ProfileTypes.Inputs) => ({
-				...prevState,
-				instrument: {
-					...prevState.instrument,
-					message: {
-						...prevState.instrument.message,
-						error: true,
-						text: 'Please select from available options.',
-					},
-				},
-			}));
-		}
-
-		//clear all errors:
-		setInputs((prevState: ProfileTypes.Inputs) => {
-			for (let key in prevState) {
-				prevState[key].message.error = false;
-				prevState[key].message.text = prevState[key].message.default;
-			}
-			return prevState;
-		});
-
+	const createInputObjectFromState = (
+		inputs: ProfileTypes.Inputs
+	): ProfileTypes.NewInfoFromState => {
 		//only update information if new information has been provided
-		interface NewInfoFromState {
-			activity?: string;
-			instrument?: string;
-			website?: string;
-			bio?: string;
-			city?: string;
-			county?: string;
-			zip?: string;
-			state?: string;
-			country?: string;
-		}
-		let newInfoFromState: NewInfoFromState = {};
+
+		let newInfoFromState: ProfileTypes.NewInfoFromState = {};
 		if (inputs.activity.edited) {
 			newInfoFromState.activity = inputs.activity.value;
 		}
@@ -497,48 +417,121 @@ export default () => {
 			};
 		}
 
-		if (!Object.values(inputs).find((input: NewInputType) => input.edited)) {
-			return setSaveMessage('No new settings to update.');
-		}
+		return newInfoFromState;
+	};
 
-		//update profile information of user
-		setSaveMessage('Saving...');
+	const resetInputErrorState = (setInputs: ProfileTypes.SetInputs) => {
+		setInputs((prevState: ProfileTypes.Inputs) => {
+			const newState = cloneDeep(prevState);
+			for (let inputKey in newState) {
+				newState[inputKey].message.error = false;
+				newState[inputKey].message.text = newState[inputKey].message.default;
+			}
+			return newState;
+		});
+	};
+
+	const resetInputEditedState = (setInputs: ProfileTypes.SetInputs) => {
+		setInputs((prevState: ProfileTypes.Inputs) => {
+			const newState = cloneDeep(prevState);
+			for (let inputKey in newState) {
+				const input = newState[inputKey];
+				input.edited = false;
+			}
+			return newState;
+		});
+	};
+
+	const checkForSelectInputErrors = (
+		inputs: ProfileTypes.Inputs,
+		setSaveMessage: ProfileTypes.SetSaveMessage,
+		setInputs: ProfileTypes.SetInputs
+	) => {
+		if (inputs.location.edited && !inputs.location.suggestions.selected) {
+			setSaveMessage('Please fix all errors before saving.');
+			setInputs((prevState: ProfileTypes.Inputs) => {
+				const newState = cloneDeep(prevState);
+				const { location } = newState;
+				location.message.error = true;
+				location.message.text = 'Please select from available options.';
+				return newState;
+			});
+			return;
+		}
+		if (inputs.activity.edited && !inputs.activity.suggestions.selected) {
+			setSaveMessage('Please fix all errors before saving.');
+			setInputs((prevState: ProfileTypes.Inputs) => {
+				const newState = cloneDeep(prevState);
+				const { activity } = newState;
+				activity.message.error = true;
+				activity.message.text = 'Please select from available options.';
+				return newState;
+			});
+			return;
+		}
+		if (inputs.instrument.edited && !inputs.instrument.suggestions.selected) {
+			setSaveMessage('Please fix all errors before saving.');
+			setInputs((prevState: ProfileTypes.Inputs) => {
+				const newState = cloneDeep(prevState);
+				const { instrument } = newState;
+				instrument.message.error = true;
+				instrument.message.text = 'Please select from available options.';
+				return newState;
+			});
+			return;
+		}
+	};
+
+	function updateProfileData(
+		user: UserPayload,
+		resetInputEditedState: (setInputs: ProfileTypes.SetInputs) => void,
+		setInputs: React.Dispatch<React.SetStateAction<ProfileTypes.Inputs>>,
+		setSaveMessage: React.Dispatch<React.SetStateAction<string>>,
+		db: firebase.firestore.Firestore,
+		newInfoFromState: ProfileTypes.NewInfoFromState
+	) {
 		db.collection('users')
 			.doc(user.uid)
 			.set(newInfoFromState, { merge: true })
 			.then(() => {
 				console.log('[Profile]: Document successfully updated in database!');
-
 				//reset "edited" value of inputs so save isn't triggered again if attempted
-				setInputs((prevState) => ({
-					...prevState,
-					activity: {
-						...prevState.activity,
-						edited: false,
-					},
-					instrument: {
-						...prevState.instrument,
-						edited: false,
-					},
-					bio: {
-						...prevState.bio,
-						edited: false,
-					},
-					website: {
-						...prevState.website,
-						edited: false,
-					},
-					location: {
-						...prevState.location,
-						edited: false,
-					},
-				}));
+				resetInputEditedState(setInputs);
 				setSaveMessage('Your settings have been successfully updated!');
 			})
 			.catch((error) => {
 				console.error(error);
 				setSaveMessage('Server error. Please try again later.');
 			});
+	}
+
+	const submitHandler = (e: React.SyntheticEvent) => {
+		//prevent default form submission
+		e.preventDefault();
+
+		//check for errors
+		checkForSelectInputErrors(inputs, setSaveMessage, setInputs);
+
+		//clear all errors:
+		resetInputErrorState(setInputs);
+		const newInfoFromState = createInputObjectFromState(inputs);
+
+		//Only update values if inputs have been edited
+		if (!Object.values(inputs).find((input: NewInputType) => input.edited)) {
+			setSaveMessage('No new settings to update.');
+			return;
+		}
+
+		//Update user profile information in database
+		setSaveMessage('Saving...');
+		updateProfileData(
+			user,
+			resetInputEditedState,
+			setInputs,
+			setSaveMessage,
+			db,
+			newInfoFromState
+		);
 	};
 
 	let formattedDate = 'Unknown';
@@ -565,7 +558,7 @@ export default () => {
 				</p>
 			</div>
 			<form onSubmit={submitHandler}>
-				<Button onClick={getLocation}>Autofill Location</Button>
+				<Button onClick={autofillLocation}>Autofill Location</Button>
 				<NewInput
 					type='text'
 					customType='location'
@@ -618,11 +611,11 @@ export default () => {
 					suggestionClickHandler={suggestionClickHandler}
 					setInputs={setInputs}
 				/>
-				{/* <Textarea
+				<Textarea
 					type='text'
 					customType='bio'
 					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
-						handleFocus(e, 'bio')
+						handleFocus(e, 'bio', setInputs)
 					}
 					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
 						handleBlur(e, 'bio')
@@ -630,8 +623,8 @@ export default () => {
 					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
 						handleChange(e, 'bio')
 					}
-					input={inputs.instrument}
-				/> */}
+					inputs={inputs}
+				/>
 				<NewInput
 					type='text'
 					customType='website'

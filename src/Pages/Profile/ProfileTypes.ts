@@ -48,3 +48,23 @@ export interface Inputs {
 }
 
 export type KeyOfInputs = keyof Inputs;
+
+export interface NewInfoFromState {
+	activity?: string;
+	instrument?: string;
+	website?: string;
+	bio?: string;
+	city?: string;
+	county?: string;
+	zip?: string;
+	state?: string;
+	country?: string;
+}
+
+export interface SetSaveMessage {
+	(value: React.SetStateAction<string>): void;
+}
+
+export interface SetInputs {
+	(value: React.SetStateAction<Inputs>): void;
+}

@@ -1,5 +1,23 @@
 import * as ProfileTypes from './ProfileTypes';
 import geoapifyKey from 'app/geoapifyKey';
+import cloneDeep from 'lodash/cloneDeep';
+
+const updateLocationValues = (
+	setInputs: ProfileTypes.SetInputs,
+	collectedDataArray: ProfileTypes.CollectedDataArray,
+	collectedDataString: string[]
+) => {
+	//update autocomplete suggestions for location input
+	setInputs((prevState: ProfileTypes.Inputs) => {
+		const newState = cloneDeep(prevState);
+		const { location } = newState;
+		location.suggestionsArray = collectedDataArray;
+		location.suggestions.loading = false;
+		location.suggestions.show = true;
+		location.suggestions.array = collectedDataString;
+		return newState;
+	});
+};
 
 export default function sendAutoCompleteRequest(
 	setLocationMessage: React.Dispatch<React.SetStateAction<string>>,
@@ -33,9 +51,8 @@ export default function sendAutoCompleteRequest(
 				);
 				clearLocationSuggestions();
 			} else {
-				setLocationMessage(``);
+				setLocationMessage('');
 			}
-			console.log(geoapifyDataArray);
 			//turn data into an array of objects for later recall
 			let collectedDataArray: ProfileTypes.CollectedDataArray = geoapifyDataArray.map(
 				({ properties }: ProfileTypes.GeoapifyData) => {
@@ -49,27 +66,14 @@ export default function sendAutoCompleteRequest(
 				}
 			);
 			//format data to be usable for the suggestions drop down menu
-			let collectedDataArrayFormatted = collectedDataArray.map((el) => {
+			let collectedDataString = collectedDataArray.map((el) => {
 				return [el.city, el.state, el.country, el.zip]
 					.filter((el) => el)
 					.join(', ')
 					.trim();
 			});
-			//update autocomplete suggestions for location input
-			setInputs((prevState: ProfileTypes.Inputs) => ({
-				...prevState,
-				location: {
-					...prevState.location,
-					suggestionsArray: collectedDataArray,
-					suggestions: {
-						//data formatted as a string for SuggestionsList
-						...prevState.location.suggestions,
-						loading: false,
-						show: true,
-						array: collectedDataArrayFormatted,
-					},
-				},
-			}));
+
+			updateLocationValues(setInputs, collectedDataArray, collectedDataString);
 		}
 	};
 }
