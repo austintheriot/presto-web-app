@@ -17,7 +17,6 @@ import Button from 'components/Button/Button';
 import { LocationDisplay } from 'components/LocationDisplay/LocationDisplay';
 
 import { NewInputType, UserPayload } from 'app/types';
-import locationFormatter from 'app/locationFormatter';
 import suggestionClickHandler from './suggestionClickHandler';
 import handleFocus from './handleFocus';
 import sendAutoCompleteRequest from './sendAutoCompleteRequest';
@@ -443,11 +442,11 @@ export default () => {
 		});
 	};
 
-	const checkForSelectInputErrors = (
+	const anySelectInputErrors = (
 		inputs: ProfileTypes.Inputs,
 		setSaveMessage: ProfileTypes.SetSaveMessage,
 		setInputs: ProfileTypes.SetInputs
-	) => {
+	): boolean => {
 		if (inputs.location.edited && !inputs.location.suggestions.selected) {
 			setSaveMessage('Please fix all errors before saving.');
 			setInputs((prevState: ProfileTypes.Inputs) => {
@@ -457,7 +456,7 @@ export default () => {
 				location.message.text = 'Please select from available options.';
 				return newState;
 			});
-			return;
+			return true;
 		}
 		if (inputs.activity.edited && !inputs.activity.suggestions.selected) {
 			setSaveMessage('Please fix all errors before saving.');
@@ -468,7 +467,7 @@ export default () => {
 				activity.message.text = 'Please select from available options.';
 				return newState;
 			});
-			return;
+			return true;
 		}
 		if (inputs.instrument.edited && !inputs.instrument.suggestions.selected) {
 			setSaveMessage('Please fix all errors before saving.');
@@ -479,8 +478,9 @@ export default () => {
 				instrument.message.text = 'Please select from available options.';
 				return newState;
 			});
-			return;
+			return true;
 		}
+		return false;
 	};
 
 	function updateProfileData(
@@ -511,7 +511,7 @@ export default () => {
 		e.preventDefault();
 
 		//check for errors
-		checkForSelectInputErrors(inputs, setSaveMessage, setInputs);
+		if (anySelectInputErrors(inputs, setSaveMessage, setInputs)) return;
 
 		//clear all errors:
 		resetInputErrorState(setInputs);
