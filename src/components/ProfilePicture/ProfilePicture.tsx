@@ -1,13 +1,15 @@
 import React from 'react';
 import styles from './ProfilePicture.module.scss';
 
+import noProfilePicture from 'assets/images/no-img.svg';
+
 export default function ProfilePicture(props: {
 	src: string | undefined;
 	size: 'small' | 'small-medium' | 'medium' | 'large';
 }) {
 	return (
 		<img
-			src={props.src || 'https://i.postimg.cc/QdjGdXRk/no-img.png'}
+			src={props.src || noProfilePicture}
 			alt='profile'
 			className={
 				props.size === 'small'
