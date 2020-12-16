@@ -12,8 +12,7 @@ export default () => {
 		auth
 			.signOut()
 			.then(() => {
-				let payload = { user: null, status: 'failed', error: null };
-				dispatch(updateUser(payload));
+				dispatch(updateUser({ user: null, status: 'failed', error: null }));
 				console.log('[Logout]: User successfully signed out');
 			})
 			.catch((error) => {

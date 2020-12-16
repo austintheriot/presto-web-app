@@ -3,7 +3,7 @@ import { auth, analytics, db, serverTimeStamp } from 'app/config';
 import { Link, Redirect } from 'react-router-dom';
 import Button from 'components/Button/Button';
 import styles from './HomePublic.module.scss';
-import Logout from 'components/Logout';
+import Logout from 'components/LogoutLink';
 import Message from 'components/Message/Message';
 
 import { useSelector } from 'react-redux';
