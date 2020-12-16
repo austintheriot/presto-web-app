@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 const db = admin.firestore();
+const storage = admin.storage();
 
 interface Context {
 	params: {
@@ -11,7 +12,8 @@ interface Context {
 	};
 }
 
-exports.myFunction = functions.firestore
+//Update likes/comments on posts when a new document is written (when a user likes/comments)
+exports.updateLikesAndCommentsCount = functions.firestore
 	.document('posts/{postId}/{collectionId}/{docId}') //watch subcollection of posts for changes
 	.onWrite((change: any, context: Context) => {
 		//Example path: `/posts/bXKkHTXxQgs6QlZS8G9M/likes/DTOrxcyi04dYaxl5WhCiakSnnmf1
@@ -52,4 +54,15 @@ exports.myFunction = functions.firestore
 				console.error(err);
 				return;
 			});
+	});
+
+//Info that has to be globally update on posts and comments:
+//profilePic
+//name
+//activity
+
+exports.updateProfilePicOnPostsAndComments = functions.storage
+	.object()
+	.onFinalize(async (object: any) => {
+		// ...
 	});

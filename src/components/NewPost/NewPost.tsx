@@ -10,6 +10,7 @@ import { InputType } from 'app/types';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/userSlice';
+import formatCurrentTime from 'app/formatCurrentTime';
 
 interface Inputs {
 	body: InputType;
@@ -51,11 +52,11 @@ export default () => {
 		},
 	});
 
-	const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
+	const [currentTime, setCurrentTime] = useState(formatCurrentTime());
 
 	useEffect(() => {
 		const timer = setInterval(() => {
-			setCurrentTime(new Date().toLocaleString());
+			setCurrentTime(formatCurrentTime());
 		}, 1000);
 		return () => clearInterval(timer);
 	}, []);

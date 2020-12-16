@@ -11,6 +11,7 @@ import { InputType } from 'app/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from 'app/userSlice';
 import { addComment } from 'app/postsSlice';
+import formatCurrentTime from 'app/formatCurrentTime';
 
 interface Inputs {
 	body: InputType;
@@ -49,11 +50,11 @@ export default ({ postId }: { postId: string }) => {
 		},
 	});
 
-	const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
+	const [currentTime, setCurrentTime] = useState(formatCurrentTime());
 
 	useEffect(() => {
 		const timer = setInterval(() => {
-			setCurrentTime(new Date().toLocaleString());
+			setCurrentTime(formatCurrentTime());
 		}, 1000);
 		return () => clearInterval(timer);
 	}, []);
