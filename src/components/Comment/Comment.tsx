@@ -14,6 +14,7 @@ import { InputType } from 'app/types';
 import trashIcon from 'assets/images/delete.svg';
 import editIcon from 'assets/images/edit.svg';
 import moreIcon from 'assets/images/more.svg';
+import useProfilePicture from 'app/useProfilePicture';
 
 interface Inputs {
 	body: InputType;
@@ -182,7 +183,10 @@ export default ({
 
 	return (
 		<section className={styles.comment}>
-			<img src={profilePic} alt='profile' className={styles.profilePic}></img>
+			<img
+				src={useProfilePicture(uid)}
+				alt='profile'
+				className={styles.profilePic}></img>
 			<header>
 				<h3 className={styles.name}>{name}</h3>
 				<time className={styles.time}>{createdAt}</time>

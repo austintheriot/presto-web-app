@@ -20,6 +20,7 @@ import commentFull from 'assets/images/commentFull.svg';
 import trashIcon from 'assets/images/delete.svg';
 import editIcon from 'assets/images/edit.svg';
 import moreIcon from 'assets/images/more.svg';
+import useProfilePicture from 'app/useProfilePicture';
 
 interface Inputs {
 	body: InputType;
@@ -40,7 +41,7 @@ export default ({
 	createdAt,
 	likes,
 	name,
-	profilePic = 'https://images.pexels.com/photos/922376/pexels-photo-922376.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+	profilePic,
 	state,
 	uid,
 	zip,
@@ -244,7 +245,7 @@ export default ({
 							{/* PROFILE PIC*/}
 							<div className={styles.profilePic}>
 								<Link to={`/profile/${uid}`} className={styles.Link}>
-									<img alt='/profile' src={profilePic} />
+									<img alt='/profile' src={useProfilePicture(uid)} />
 								</Link>
 							</div>
 							{/* NAME */}
