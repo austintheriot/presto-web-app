@@ -1,8 +1,13 @@
+.title {
+	margin-bottom: 2rem;
+}
+
 .profilePicForm {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	padding: 1rem 0;
 
 	label {
 		height: max-content;
@@ -42,7 +47,7 @@
 
 	button,
 	label {
-		margin: 2rem 0.5rem;
+		margin: 1rem;
 	}
 
 	input {

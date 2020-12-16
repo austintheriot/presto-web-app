@@ -144,11 +144,7 @@ export default () => {
 	const [locationMessage, setLocationMessage] = useState('');
 	const [profilePicMessage, setProfilePicMessage] = useState('');
 	const [profilePicFile, setProfilePicFile] = useState<File | null>(null);
-	const [profilePicInput, setProfilePicInput] = useState({
-		edited: false,
-		uploaded: false,
-		submitted: false,
-	});
+	const [profilePicSubmitted, setProfilePicSubmitted] = useState(false);
 
 	const hideSuggestionList = (
 		setInputs: React.Dispatch<React.SetStateAction<ProfileTypes.Inputs>>,
@@ -580,19 +576,11 @@ export default () => {
 		const file = e.currentTarget.files ? e.currentTarget.files[0] : null;
 		if (anyProfilePicErrors(file)) {
 			setProfilePicFile(null);
-			setProfilePicInput({
-				edited: true,
-				uploaded: false,
-				submitted: false,
-			});
+			setProfilePicSubmitted(false);
 		} else if (file) {
 			setProfilePicFile(file);
 			setProfilePicMessage(`Selected Image: ${file.name}`);
-			setProfilePicInput({
-				edited: true,
-				uploaded: true,
-				submitted: false,
-			});
+			setProfilePicSubmitted(false);
 		}
 	};
 
@@ -620,20 +608,12 @@ export default () => {
 			);
 			setProfilePicMessage('Profile picture updated!');
 			setProfilePicFile(null);
-			setProfilePicInput({
-				edited: false,
-				uploaded: false,
-				submitted: true,
-			});
+			setProfilePicSubmitted(true);
 		} catch (err) {
 			console.log('[Profile]: Error while uploading profile picture');
 			console.log(err);
 			setProfilePicMessage('Sorry, an error occurred. Please try again later.');
-			setProfilePicInput({
-				edited: false,
-				uploaded: false,
-				submitted: false,
-			});
+			setProfilePicSubmitted(false);
 		}
 	};
 
@@ -641,7 +621,7 @@ export default () => {
 		<>
 			<Nav />
 			{/* User Name */}
-			<h1 className={styles.title}>Profile</h1>
+			<h1 className={styles.title}>{user.name ? user.name : 'Profile'}</h1>
 
 			{/* Location */}
 			<LocationDisplay user={user} />
@@ -657,7 +637,7 @@ export default () => {
 					accept='.png, .jpg, .jpeg, .svg'
 				/>
 				<Button type='submit'>
-					{profilePicInput.submitted ? 'Submitted' : 'Submit'}
+					{profilePicSubmitted ? 'Submitted' : 'Submit'}
 				</Button>
 			</form>
 			<Message message={profilePicMessage} />
@@ -687,6 +667,8 @@ export default () => {
 					message={locationMessage}
 					color={locationMessage ? 'black' : ''}
 				/>
+
+				{/* Activity */}
 				<NewInput
 					type='text'
 					customType='activity'
@@ -703,6 +685,8 @@ export default () => {
 					suggestionClickHandler={suggestionClickHandler}
 					setInputs={setInputs}
 				/>
+
+				{/* Instrument */}
 				<NewInput
 					type='text'
 					customType='instrument'
@@ -719,6 +703,8 @@ export default () => {
 					suggestionClickHandler={suggestionClickHandler}
 					setInputs={setInputs}
 				/>
+
+				{/* Bio */}
 				<Textarea
 					customType='bio'
 					setInputs={setInputs}
@@ -733,6 +719,8 @@ export default () => {
 					}
 					input={inputs.bio}
 				/>
+
+				{/* Website */}
 				<NewInput
 					type='text'
 					customType='website'
@@ -755,6 +743,7 @@ export default () => {
 					Save
 				</Button>
 			</form>
+
 			{/* Date Joined */}
 			{user.createdAt ? (
 				<p className={styles.joinedAt}>Joined: {formatDate(user.createdAt)}</p>
