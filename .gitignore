@@ -27,3 +27,5 @@ geoapifyKey.ts
 config.ts
 untracked/
 *.log
+
+.firebase
