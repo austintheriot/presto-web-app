@@ -1,21 +1,13 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import * as path from 'path';
 admin.initializeApp();
 const db = admin.firestore();
-const path = require('path');
-
-interface Context {
-	params: {
-		postId: string;
-		collectionId: 'strings' | 'comments';
-		docId: string;
-	};
-}
 
 //Update likes/comments on posts when a new document is written (when a user likes/comments)
 exports.updateLikesAndCommentsCount = functions.firestore
 	.document('posts/{postId}/{collectionId}/{docId}') //watch subcollection of posts for changes
-	.onWrite((change: any, context: Context) => {
+	.onWrite((change, context: functions.EventContext) => {
 		//Example path: `/posts/bXKkHTXxQgs6QlZS8G9M/likes/DTOrxcyi04dYaxl5WhCiakSnnmf1
 		const postId: string = context.params.postId; // == "bXKkHTXxQgs6QlZS8G9M" --id of the post
 		const collectionId: 'strings' | 'comments' = context.params.collectionId; //== "likes" or "comments"
@@ -63,31 +55,24 @@ exports.updateLikesAndCommentsCount = functions.firestore
 
 exports.updateProfilePicUrl = functions.storage
 	.object()
-	.onFinalize(async (object: any) => {
+	.onFinalize(async (object) => {
 		try {
-			//path to new storage file
-			const filePath = object.name;
-			//user uid (name of the created file)
-			const uid = path.baseName(filePath);
-			const bucket = admin.storage().bucket(object.bucket);
-			//file reference?
-			const file: any = bucket.file(object.name);
-			const profilePicUrl = await file.getDownloadURL();
+			const filePath = object.name || ''; //long/path/to new storage file
+			const uid = path.basename(filePath); //user uid (name of the created file)
+			const url = object.mediaLink || ''; //get media download link
 
 			//do a batch write for all posts: update profilePic URL
 			const batch = db.batch();
-			await db
+			const querySnapshots = await db
 				.collection('posts')
 				.where('uid', '==', uid)
-				.get()
-				.then((querySnapshot: any) => {
-					querySnapshot.forEach((doc: any) => {
-						batch.update(doc, {
-							profilePic: profilePicUrl,
-						});
-					});
+				.get();
+			querySnapshots.forEach((doc) => {
+				batch.update(doc.ref, {
+					profilePic: url,
 				});
-			batch.commit();
+			});
+			await batch.commit();
 		} catch (err) {
 			console.log(err);
 		}
