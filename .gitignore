@@ -28,4 +28,4 @@ config.ts
 untracked/
 *.log
 
-.firebase
+.firebase/
