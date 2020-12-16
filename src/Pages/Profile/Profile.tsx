@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
 import InstrumentArray from 'app/InstrumentArray';
-import { db } from 'app/config';
+import { db, storage } from 'app/config';
 import geoapifyKey from 'app/geoapifyKey';
 
 import { useSelector } from 'react-redux';
@@ -142,6 +142,13 @@ export default () => {
 	const [timerId, setTimerId] = useState(setTimeout(() => {}, 0));
 	const [saveMessage, setSaveMessage] = useState('');
 	const [locationMessage, setLocationMessage] = useState('');
+	const [profilePicMessage, setProfilePicMessage] = useState('');
+	const [profilePicFile, setProfilePicFile] = useState<File | null>(null);
+	const [profilePicInput, setProfilePicInput] = useState({
+		edited: false,
+		uploaded: false,
+		submitted: false,
+	});
 
 	const hideSuggestionList = (
 		setInputs: React.Dispatch<React.SetStateAction<ProfileTypes.Inputs>>,
@@ -537,6 +544,99 @@ export default () => {
 		);
 	};
 
+	const anyProfilePicErrors = (file: File | null) => {
+		const $5_MB = 5 * 1028 * 1028;
+		const ACCEPTED_FILE_TYPES = [
+			'image/jpg',
+			'image/jpeg',
+			'image/png',
+			'image/svg+xml',
+		];
+
+		if (!file) {
+			console.log('[Profile]: No file chosen!');
+			setProfilePicMessage('Please select a file.');
+			return true;
+		}
+
+		if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
+			console.log('[Profile]: Wrong file type!');
+			setProfilePicMessage(
+				'Please choose an image with one the following types: .jpg, .jpeg, .svg, or .png'
+			);
+			return true;
+		}
+
+		if (file.size > $5_MB) {
+			console.log('[Profile]: Image size too big!');
+			setProfilePicMessage('Image must be less than 5MB.');
+			return true;
+		}
+
+		return false;
+	};
+
+	const chooseProfilePic = (e: React.FormEvent<HTMLInputElement>) => {
+		const file = e.currentTarget.files ? e.currentTarget.files[0] : null;
+		if (anyProfilePicErrors(file)) {
+			setProfilePicFile(null);
+			setProfilePicInput({
+				edited: true,
+				uploaded: false,
+				submitted: false,
+			});
+		} else if (file) {
+			setProfilePicFile(file);
+			setProfilePicMessage(`Selected Image: ${file.name}`);
+			setProfilePicInput({
+				edited: true,
+				uploaded: true,
+				submitted: false,
+			});
+		}
+	};
+
+	const uploadProfilePic = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (anyProfilePicErrors(profilePicFile)) return;
+		try {
+			setProfilePicMessage('Loading...');
+			const ref = storage.ref().child('profile_pictures').child(user.uid);
+			console.log('[Profile]: Uploading new profilePic...');
+			await ref.put(profilePicFile!);
+			console.log('[Profile]: Uploaded profilePic.');
+			console.log('[Profile]: Getting download link for image...');
+			const url = await ref.getDownloadURL();
+			console.log('[Profile]: Retrieved download link for image.');
+			console.log("[Profile]: Updating user's profile info...");
+			await db.collection('users').doc(user.uid).set(
+				{
+					profilePic: url,
+				},
+				{ merge: true }
+			);
+			console.log(
+				'[Profile]: User profilePic successfully updated in database.'
+			);
+			setProfilePicMessage('Profile picture updated!');
+			setProfilePicFile(null);
+			setProfilePicInput({
+				edited: false,
+				uploaded: false,
+				submitted: true,
+			});
+		} catch (err) {
+			console.log('[Profile]: Error while uploading profile picture');
+			console.log(err);
+			setProfilePicMessage('Sorry, an error occurred. Please try again later.');
+			setProfilePicInput({
+				edited: false,
+				uploaded: false,
+				submitted: false,
+			});
+		}
+	};
+
 	return (
 		<>
 			<Nav />
@@ -548,6 +648,21 @@ export default () => {
 
 			{/* Profile Picture */}
 			<ProfilePicture size={'large'} src={user.profilePic} />
+			<form onSubmit={uploadProfilePic} className={styles.profilePicForm}>
+				<label htmlFor='choose-profile-pic'>Upload Picture</label>
+				<input
+					onChange={chooseProfilePic}
+					id='choose-profile-pic'
+					type='file'
+					accept='.png, .jpg, .jpeg, .svg'
+				/>
+				<Button type='submit'>
+					{profilePicInput.submitted ? 'Submitted' : 'Submit'}
+				</Button>
+			</form>
+			<Message message={profilePicMessage} />
+
+			<hr className={styles.hr} />
 
 			{/* Profile Settings */}
 			<form onSubmit={submitHandler}>
@@ -570,7 +685,7 @@ export default () => {
 				/>
 				<Message
 					message={locationMessage}
-					color={locationMessage ? 'black' : 'hidden'}
+					color={locationMessage ? 'black' : ''}
 				/>
 				<NewInput
 					type='text'
@@ -634,10 +749,7 @@ export default () => {
 					setInputs={setInputs}
 				/>
 				{saveMessage ? (
-					<Message
-						message={saveMessage}
-						color={saveMessage ? 'black' : 'hidden'}
-					/>
+					<Message message={saveMessage} color={saveMessage ? 'black' : ''} />
 				) : null}
 				<Button type='submit' onClick={submitHandler}>
 					Save

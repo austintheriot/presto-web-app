@@ -1,3 +1,66 @@
+.profilePicForm {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+
+	label {
+		height: max-content;
+		width: max-content;
+		box-sizing: border-box;
+		display: block;
+		border: none;
+		outline: none;
+		text-decoration: none;
+		background-color: var(--pop-color);
+		color: white;
+		cursor: pointer;
+		text-align: center;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		box-shadow: none;
+		padding: 0.5rem 3rem;
+		border-radius: 5px;
+		transition: background-color 0.1s;
+		font-size: 1rem;
+		font-weight: 300;
+
+		a,
+		a:link,
+		p {
+			color: white;
+			font-size: 1rem;
+			outline: none;
+			text-decoration: none;
+		}
+
+		&:hover,
+		&:focus {
+			background-color: var(--pop-color-dark);
+		}
+	}
+
+	button,
+	label {
+		margin: 2rem 0.5rem;
+	}
+
+	input {
+		pointer-events: none;
+		display: block;
+		height: 0;
+		width: 0;
+		opacity: 0;
+	}
+}
+
+.hr {
+	display: block;
+	width: 90%;
+	max-width: 400px;
+	margin: 1rem auto;
+}
+
 .joinedAt {
 	margin: 3rem auto 5rem auto;
 }
