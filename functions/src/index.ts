@@ -1,4 +1,3 @@
-import * as firebase from 'firebase/app';
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
@@ -27,7 +26,7 @@ exports.updateLikesAndCommentsCount = functions.firestore
 			.doc(postId) //id of the post that was edited
 			.collection(collectionId) //i.e. likes or comments
 			.get()
-			.then((querySnapshot: firebase.firestore.QuerySnapshot) => {
+			.then((querySnapshot: any) => {
 				const numberOfDocs = querySnapshot.size; //get number of documents in the subcollection
 
 				//duplicate the contents of the subcollection into an object (each doc is an attribute)
@@ -72,7 +71,7 @@ exports.updateProfilePicUrl = functions.storage
 			const uid = path.baseName(filePath);
 			const bucket = admin.storage().bucket(object.bucket);
 			//file reference?
-			const file: firebase.storage.Reference = bucket.file(object.name);
+			const file: any = bucket.file(object.name);
 			const profilePicUrl = await file.getDownloadURL();
 
 			//do a batch write for all posts: update profilePic URL
@@ -81,8 +80,8 @@ exports.updateProfilePicUrl = functions.storage
 				.collection('posts')
 				.where('uid', '==', uid)
 				.get()
-				.then((querySnapshot: firebase.firestore.QuerySnapshot) => {
-					querySnapshot.forEach((doc: firebase.firestore.DocumentSnapshot) => {
+				.then((querySnapshot: any) => {
+					querySnapshot.forEach((doc: any) => {
 						batch.update(doc, {
 							profilePic: profilePicUrl,
 						});
