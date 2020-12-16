@@ -2,13 +2,13 @@ import React from 'react';
 import styles from './Message.module.scss';
 
 interface Props {
-	color?: string;
+	color?: 'black' | 'red' | 'green' | '';
 	message?: string;
 }
 
 const message = (props: Props) => {
 	let divStyle;
-	switch (props?.color) {
+	switch (props.color) {
 		case 'black':
 			divStyle = styles.divBlack;
 			break;
@@ -24,7 +24,7 @@ const message = (props: Props) => {
 	}
 
 	let paragraphStyle;
-	switch (props?.color) {
+	switch (props.color) {
 		case 'black':
 			paragraphStyle = styles.paragraphBlack;
 			break;
