@@ -104,10 +104,10 @@ export const postsSlice = createSlice({
 	},
 });
 
-export const fetchPosts = (searchKey: string, searchValue: string) => (
-	dispatch: Function,
-	getState: Function
-) => {
+export const fetchPosts = (
+	searchKey: 'city' | 'state' | 'country',
+	searchValue: string
+) => (dispatch: Function, getState: Function) => {
 	let postsData: PostsData = {
 		postContainer: {},
 		status: 'loading',
