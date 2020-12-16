@@ -7,7 +7,7 @@ import LoadingScreen from 'pages/LoadingScreen/LoadingScreen';
 import HomePublic from 'pages/HomePublic/HomePublic';
 import Login from 'pages/Login/Login';
 import Signup from 'pages/Signup/Signup';
-import LogoutByRender from 'components/LogoutByRender';
+import LogoutByRender from 'components/LogoutRedirect';
 import Posts from 'pages/Posts/Posts';
 import IndividualPost from 'pages/IndividualPost/IndividualPost';
 import Profile from 'pages/Profile/Profile';
