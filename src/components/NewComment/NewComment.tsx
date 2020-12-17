@@ -24,12 +24,7 @@ type KeyOfInputs = keyof Inputs;
 export default ({ postId }: { postId: string }) => {
 	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
-	const {
-		uid = '',
-		activity = '',
-		profilePic = noProfilePic,
-		name = '',
-	}: UserPayload = user;
+	const { uid = '', activity = '', profilePic, name = '' }: UserPayload = user;
 
 	const [inputs, setInputs] = useState<Inputs>({
 		body: {
@@ -190,7 +185,7 @@ export default ({ postId }: { postId: string }) => {
 					{/* PROFILE PIC*/}
 					<div className={styles.profilePic}>
 						<Link to={`/profile/${uid}`} className={styles.Link}>
-							<img alt='/profile' src={profilePic} />
+							<img alt='/profile' src={profilePic || noProfilePic} />
 						</Link>
 					</div>
 					{/* NAME */}

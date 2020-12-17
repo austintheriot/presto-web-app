@@ -24,7 +24,7 @@ export default () => {
 	const {
 		uid = '',
 		activity = '',
-		profilePic = noProfilePic,
+		profilePic,
 		city = '',
 		country = '',
 		name = '',
@@ -196,7 +196,7 @@ export default () => {
 					{/* PROFILE PIC*/}
 					<div className={styles.profilePic}>
 						<Link to={`/profile/${uid}`} className={styles.Link}>
-							<img alt='/profile' src={profilePic} />
+							<img alt='/profile' src={profilePic || noProfilePic} />
 						</Link>
 					</div>
 					{/* NAME */}
