@@ -40,6 +40,7 @@ export interface LocationType extends NewInputType {
 
 export interface Inputs {
 	[key: string]: NewInputType;
+	name: NewInputType;
 	activity: NewInputType;
 	instrument: NewInputType;
 	website: NewInputType;
@@ -50,6 +51,7 @@ export interface Inputs {
 export type KeyOfInputs = keyof Inputs;
 
 export interface NewInfoFromState {
+	name?: string;
 	activity?: string;
 	instrument?: string;
 	website?: string;

@@ -33,6 +33,22 @@ export default () => {
 		.join(', ')
 		.trim();
 	const [inputs, setInputs] = useState<ProfileTypes.Inputs>({
+		name: {
+			label: 'Name',
+			suggestions: {
+				selected: false,
+				loading: false,
+				show: false,
+				array: [],
+			},
+			value: user.name || '',
+			edited: false,
+			message: {
+				error: false,
+				text: 'i.e. Firstname Lastname, Band Name, or Ensemble',
+				default: 'i.e. Firstname Lastname, Band Name, or Ensemble',
+			},
+		},
 		activity: {
 			label: 'Musical Activity',
 			suggestions: {
@@ -117,8 +133,8 @@ export default () => {
 			},
 			message: {
 				error: false,
-				text: 'e.g. Address, City, or State, etc.',
-				default: 'e.g. Address, City, or State, etc.',
+				text: 'i.e. Address, City, or State, etc.',
+				default: 'i.e. Address, City, or State, etc.',
 			},
 		},
 	});
@@ -379,25 +395,19 @@ export default () => {
 	): ProfileTypes.NewInfoFromState => {
 		//only update information if new information has been provided
 		let newInfoFromState: ProfileTypes.NewInfoFromState = {};
-
+		if (inputs.name.edited) {
+			newInfoFromState.name = inputs.name.value;
+		}
 		if (inputs.activity.edited) {
-			console.log('activity edited?: ', inputs.activity.edited);
-			console.log('activity value: ', inputs.activity.value);
 			newInfoFromState.activity = inputs.activity.value;
 		}
 		if (inputs.instrument.edited) {
-			console.log('instrument edited?: ', inputs.instrument.edited);
-			console.log('instrument value: ', inputs.instrument.value);
 			newInfoFromState.instrument = inputs.instrument.value;
 		}
 		if (inputs.website.edited) {
-			console.log('website edited?: ', inputs.website.edited);
-			console.log('website value: ', inputs.website.value);
 			newInfoFromState.website = inputs.website.value;
 		}
 		if (inputs.bio.edited) {
-			console.log('bio edited?: ', inputs.bio.edited);
-			console.log('bio value: ', inputs.bio.value);
 			newInfoFromState.bio = inputs.bio.value;
 		}
 
@@ -648,6 +658,23 @@ export default () => {
 			{/* Profile Settings */}
 			<form onSubmit={submitHandler}>
 				<Button onClick={autofillLocation}>Autofill Location</Button>
+				{/* Name */}
+				<NewInput
+					type='text'
+					customType='name'
+					handleFocus={(e: React.FormEvent<HTMLInputElement>) =>
+						handleFocus(e, 'name', setInputs)
+					}
+					handleBlur={(e: React.FormEvent<HTMLInputElement>) =>
+						handleBlur(e, 'name')
+					}
+					handleChange={(e: React.FormEvent<HTMLInputElement>) =>
+						handleChange(e, 'name')
+					}
+					input={inputs.name}
+					setInputs={setInputs}
+				/>
+
 				<NewInput
 					type='text'
 					customType='location'
