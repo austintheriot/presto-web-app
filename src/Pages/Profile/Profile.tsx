@@ -271,13 +271,17 @@ export default () => {
 	};
 
 	const extractLocationData = (xhr: XMLHttpRequest) => {
-		const {
+		let {
 			city,
 			county,
 			state,
 			country,
 			zip,
 		} = xhr.response.features[0].properties;
+
+		//replace "United States of America" with "United States" for consistency
+		country =
+			country === 'United States of America' ? 'United States' : country;
 
 		//reduce info to necessary fields:
 		const locationDataObject = {

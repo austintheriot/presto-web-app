@@ -59,9 +59,13 @@ export default function sendAutoCompleteRequest(
 					return {
 						city: properties.city || '',
 						state: properties.state || '',
+						//replace "United States of America" with "United States" for consistency"
 						county: properties.county || '',
 						zip: properties.postcode ? properties.postcode.split(';')[0] : '',
-						country: properties.country || '',
+						country:
+							properties.country === 'United States of America'
+								? 'United States'
+								: properties.country || '',
 					};
 				}
 			);
