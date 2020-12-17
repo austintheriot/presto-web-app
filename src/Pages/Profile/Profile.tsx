@@ -647,9 +647,7 @@ export default () => {
 					type='file'
 					accept='.png, .jpg, .jpeg, .svg'
 				/>
-				<Button type='submit'>
-					{profilePicSubmitted ? 'Submitted' : 'Submit'}
-				</Button>
+				<Button type='submit'>{profilePicSubmitted ? 'Saved' : 'Save'}</Button>
 			</form>
 			<Message message={profilePicMessage} />
 
