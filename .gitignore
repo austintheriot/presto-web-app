@@ -26,6 +26,6 @@ notes.txt
 geoapifyKey.ts
 config.ts
 untracked/
-*.log
+**/*.log
 
 .firebase/
