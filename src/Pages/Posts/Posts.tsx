@@ -22,17 +22,10 @@ export default () => {
 		let postsArray = Object.values(postsData.postContainer)
 			//filter out any posts that have been fetched, but shouldn't be part of the feed
 			.filter((post) => {
-				let equal = true;
-				if (user.city) {
-					equal = post.city === user.city ? true : false;
-				}
-				if (user.state) {
-					equal = post.state === user.state ? true : false;
-				}
-				if (user.country) {
-					equal = post.country === user.country ? true : false;
-				}
-				return equal;
+				if (user.city && post.city !== user.city) return false;
+				if (user.state && post.state !== user.state) return false;
+				if (user.country && post.country !== user.country) return false;
+				return true;
 			})
 			//sort by most recent at the top
 			.sort((postA, postB) => {
