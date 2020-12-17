@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
-import InstrumentArray from 'app/InstrumentArray';
 import { db, storage } from 'app/config';
 import geoapifyKey from 'app/geoapifyKey';
 
@@ -24,6 +23,8 @@ import sendAutoCompleteRequest from './sendAutoCompleteRequest';
 
 import * as ProfileTypes from './ProfileTypes';
 import formatDate from 'app/formatDate';
+import instrumentArray from 'app/instrumentArray';
+import activityArray from 'app/activityArray';
 
 export default () => {
 	const user = useSelector(selectUser);
@@ -38,25 +39,7 @@ export default () => {
 				selected: false,
 				loading: false,
 				show: false,
-				array: [
-					'Arranger',
-					'Composer',
-					'Conductor',
-					'Copyist',
-					'Curator',
-					'Director',
-					'Editor',
-					'Engineer',
-					'Ensemble',
-					'Engraver',
-					'Performer',
-					'Producer',
-					'Publicist',
-					'Teacher',
-					'Therapist',
-					'Worship Leader',
-					'Other',
-				],
+				array: activityArray,
 			},
 			value: user.activity || '',
 			edited: false,
@@ -72,7 +55,7 @@ export default () => {
 				selected: false,
 				loading: false,
 				show: false,
-				array: InstrumentArray,
+				array: instrumentArray,
 			},
 			value: user.instrument || '',
 			edited: false,
@@ -395,31 +378,38 @@ export default () => {
 		inputs: ProfileTypes.Inputs
 	): ProfileTypes.NewInfoFromState => {
 		//only update information if new information has been provided
-
 		let newInfoFromState: ProfileTypes.NewInfoFromState = {};
+
 		if (inputs.activity.edited) {
+			console.log('activity edited?: ', inputs.activity.edited);
+			console.log('activity value: ', inputs.activity.value);
 			newInfoFromState.activity = inputs.activity.value;
 		}
 		if (inputs.instrument.edited) {
+			console.log('instrument edited?: ', inputs.instrument.edited);
+			console.log('instrument value: ', inputs.instrument.value);
 			newInfoFromState.instrument = inputs.instrument.value;
 		}
 		if (inputs.website.edited) {
+			console.log('website edited?: ', inputs.website.edited);
+			console.log('website value: ', inputs.website.value);
 			newInfoFromState.website = inputs.website.value;
 		}
 		if (inputs.bio.edited) {
+			console.log('bio edited?: ', inputs.bio.edited);
+			console.log('bio value: ', inputs.bio.value);
 			newInfoFromState.bio = inputs.bio.value;
 		}
+
 		//all state must be updated if location is edited
 		//so that more specific information does not persist (such as city)
 		//when more general data is changed (such as country)
 		if (inputs.location.edited) {
-			newInfoFromState = {
-				country: inputs.location._data.country || '',
-				state: inputs.location._data.state || '',
-				zip: inputs.location._data.zip || '',
-				county: inputs.location._data.county || '',
-				city: inputs.location._data.city || '',
-			};
+			newInfoFromState.country = inputs.location._data.country || '';
+			newInfoFromState.state = inputs.location._data.state || '';
+			newInfoFromState.zip = inputs.location._data.zip || '';
+			newInfoFromState.county = inputs.location._data.county || '';
+			newInfoFromState.city = inputs.location._data.city || '';
 		}
 
 		return newInfoFromState;
@@ -463,7 +453,12 @@ export default () => {
 			});
 			return true;
 		}
-		if (inputs.activity.edited && !inputs.activity.suggestions.selected) {
+		if (
+			inputs.activity.edited &&
+			!inputs.activity.suggestions.selected && //no option selected
+			!activityArray.includes(inputs.activity.value) && //not a valid input
+			inputs.activity.value //don't show error when empty
+		) {
 			setSaveMessage('Please fix all errors before saving.');
 			setInputs((prevState: ProfileTypes.Inputs) => {
 				const newState = cloneDeep(prevState);
@@ -474,7 +469,12 @@ export default () => {
 			});
 			return true;
 		}
-		if (inputs.instrument.edited && !inputs.instrument.suggestions.selected) {
+		if (
+			inputs.instrument.edited &&
+			!inputs.instrument.suggestions.selected && //no option selected
+			!instrumentArray.includes(inputs.instrument.value) && //not a valid input
+			inputs.instrument.value //don't show error when empty
+		) {
 			setSaveMessage('Please fix all errors before saving.');
 			setInputs((prevState: ProfileTypes.Inputs) => {
 				const newState = cloneDeep(prevState);
@@ -521,6 +521,7 @@ export default () => {
 		//clear all errors:
 		resetInputErrorState(setInputs);
 		const newInfoFromState = createInputObjectFromState(inputs);
+		console.log(newInfoFromState);
 
 		//Only update values if inputs have been edited
 		if (!Object.values(inputs).find((input: NewInputType) => input.edited)) {

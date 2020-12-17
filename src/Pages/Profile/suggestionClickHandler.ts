@@ -17,7 +17,7 @@ export default function suggestionClickHandler(
 			location: {
 				...prevState.location,
 				value: formattedData || '',
-				empty: !formattedData,
+				edited: true,
 				suggestions: {
 					...prevState.location.suggestions,
 					selected: true,
@@ -37,6 +37,7 @@ export default function suggestionClickHandler(
 			[newestType]: {
 				...prevState[newestType],
 				value: newValue,
+				edited: true,
 				suggestions: {
 					...prevState[newestType].suggestions,
 					selected: true,
