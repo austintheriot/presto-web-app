@@ -20,7 +20,6 @@ import commentFull from 'assets/images/commentFull.svg';
 import trashIcon from 'assets/images/delete.svg';
 import editIcon from 'assets/images/edit.svg';
 import moreIcon from 'assets/images/more.svg';
-import useProfilePicture from 'app/useProfilePicture';
 
 interface Inputs {
 	body: InputType;
@@ -245,7 +244,7 @@ export default ({
 							{/* PROFILE PIC*/}
 							<div className={styles.profilePic}>
 								<Link to={`/profile/${uid}`} className={styles.Link}>
-									<img alt='/profile' src={useProfilePicture(uid)} />
+									<img alt='/profile' src={profilePic} />
 								</Link>
 							</div>
 							{/* NAME */}

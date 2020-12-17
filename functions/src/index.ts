@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import * as path from 'path';
 admin.initializeApp();
 const db = admin.firestore();
 
@@ -53,13 +52,19 @@ exports.updateLikesAndCommentsCount = functions.firestore
 //name
 //activity
 
-exports.updateProfilePicUrl = functions.storage
-	.object()
-	.onFinalize(async (object) => {
+//profilePic URLs everywhere when a user's profilePic url changes
+exports.updateProfilePicUrl = functions.firestore
+	.document('users/{userId}') //watch user docs for changes
+	.onWrite(async (change, context: functions.EventContext) => {
+		//only do anything if the the user's profilePic field changed
+		if (change.before.data()?.profilePic === change.after.data()?.profilePic) {
+			return;
+		}
 		try {
-			const filePath = object.name || ''; //long/path/to new storage file
-			const uid = path.basename(filePath); //user uid (name of the created file)
-			const url = object.mediaLink || ''; //get media download link
+			//Example path: `/posts/bXKkHTXxQgs6QlZS8G9M/likes/DTOrxcyi04dYaxl5WhCiakSnnmf1
+			const uid: string = context.params.userId; // == "bXKkHTXxQgs6QlZS8G9M" --id of the post
+			//const docId: string = context.params.docId; //== "DTOrxcyi04dYaxl5WhCiakSnnmf1" --doc id in the subcollection of likes/comments
+			const url: string = change.after.data()?.profilePic;
 
 			//do a batch write for all posts: update profilePic URL
 			const batch = db.batch();
@@ -73,7 +78,9 @@ exports.updateProfilePicUrl = functions.storage
 				});
 			});
 			await batch.commit();
+			return;
 		} catch (err) {
 			console.log(err);
+			return;
 		}
 	});

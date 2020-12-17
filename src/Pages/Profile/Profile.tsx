@@ -589,7 +589,7 @@ export default () => {
 		if (anyProfilePicErrors(profilePicFile)) return;
 		try {
 			setProfilePicMessage('Loading...');
-			const ref = storage.ref().child('profile_pictures').child(user.uid);
+			const ref = storage.ref().child(user.uid);
 			console.log('[Profile]: Uploading new profilePic...');
 			await ref.put(profilePicFile!);
 			console.log('[Profile]: Uploaded profilePic.');
