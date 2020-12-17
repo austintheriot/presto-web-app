@@ -38,12 +38,12 @@ export default () => {
 		<>
 			<Nav />
 			<h1 className={styles.title}>Posts</h1>
+			<NewPost />
 			{postsData.status === 'idle' ? null : postsData.status === 'loading' ? (
 				<p className={styles.message}>Loading posts...</p>
 			) : postsData.status === 'success' ? (
 				<>
 					<LocationDisplay user={user} />
-					<NewPost />
 					{posts}
 					{}
 				</>
