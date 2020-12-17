@@ -1,22 +1,35 @@
 .locationDiv {
-	width: max-content;
-	min-width: 250px;
-	max-width: 600px;
-	height: 4rem;
-	padding: 0.5rem 2rem;
+	width: 90%;
+	max-width: 400px;
+	padding: 1rem 2rem;
 	margin: 2rem auto;
 	border-radius: 20px;
 	box-shadow: var(--shadow);
 	text-align: center;
+	display: flex;
+	flex-wrap: flex;
+	flex-direction: column;
+	justify-content: center;
 
 	img {
 		display: inline-block;
-		height: 1.5rem;
+		height: 2rem;
 	}
 	address {
 		font-size: 2rem;
 		display: inline-block;
 		font-style: normal;
 		margin: 0 1rem;
+	}
+}
+
+@media (min-width: 500px) {
+	.locationDiv {
+		display: block;
+
+		img {
+			display: inline-block;
+			height: 1.5rem;
+		}
 	}
 }
