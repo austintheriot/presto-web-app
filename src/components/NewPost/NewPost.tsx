@@ -11,6 +11,7 @@ import { InputType } from 'app/types';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/userSlice';
 import formatCurrentTime from 'app/formatCurrentTime';
+import noProfilePic from 'assets/images/no-img.svg';
 
 interface Inputs {
 	body: InputType;
@@ -23,7 +24,7 @@ export default () => {
 	const {
 		uid = '',
 		activity = '',
-		profilePic = 'https://images.pexels.com/photos/922376/pexels-photo-922376.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+		profilePic = noProfilePic,
 		city = '',
 		country = '',
 		name = '',

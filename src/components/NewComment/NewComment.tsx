@@ -13,6 +13,8 @@ import { selectUser } from 'app/userSlice';
 import { addComment } from 'app/postsSlice';
 import formatCurrentTime from 'app/formatCurrentTime';
 
+import noProfilePic from 'assets/images/no-img.svg';
+
 interface Inputs {
 	body: InputType;
 }
@@ -25,7 +27,7 @@ export default ({ postId }: { postId: string }) => {
 	const {
 		uid = '',
 		activity = '',
-		profilePic = 'https://images.pexels.com/photos/922376/pexels-photo-922376.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+		profilePic = noProfilePic,
 		name = '',
 	}: UserPayload = user;
 
