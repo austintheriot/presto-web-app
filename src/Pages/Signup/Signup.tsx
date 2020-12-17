@@ -216,10 +216,10 @@ export default function Signup(props: HistoryType) {
 		auth
 			.createUserWithEmailAndPassword(inputs.email.value, inputs.password.value)
 			.then((data) => {
+				setSignedUpUser(data.user);
 				analytics.logEvent('sign_up', {
 					method: 'Email & Password',
 				});
-				setSignedUpUser(data.user);
 			})
 			.catch((error) => {
 				if (error.code === 'auth/email-already-in-use')
@@ -253,7 +253,7 @@ export default function Signup(props: HistoryType) {
 	const redirectAfterSignUp = () => {
 		if (authenticated && signedUpUser?.uid) {
 			console.log(
-				'[Sign Up] adding user email & timeCreated to user document:'
+				'[Sign Up] adding user email & timeCreated to user document.'
 			);
 			// Add a new document in collection "users"
 			db.collection('users')
@@ -270,7 +270,7 @@ export default function Signup(props: HistoryType) {
 				.then(() => {
 					console.log('Document successfully written!');
 				})
-				.catch(function (error) {
+				.catch((error) => {
 					console.error('Error writing document: ', error);
 				});
 			return <Redirect to={redirect} />;
