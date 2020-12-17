@@ -20,8 +20,20 @@ export default () => {
 	useEffect(() => {
 		console.log('[Posts]: filtering posts and sorting by date.');
 		let postsArray = Object.values(postsData.postContainer)
-			//filter out any posts that have been loaded into Redux, but shouldn't be part of the feed
-			.filter((post) => post.country === user.country)
+			//filter out any posts that have been fetched, but shouldn't be part of the feed
+			.filter((post) => {
+				let equal = true;
+				if (user.city) {
+					equal = post.city === user.city ? true : false;
+				}
+				if (user.state) {
+					equal = post.state === user.state ? true : false;
+				}
+				if (user.country) {
+					equal = post.country === user.country ? true : false;
+				}
+				return equal;
+			})
 			//sort by most recent at the top
 			.sort((postA, postB) => {
 				let a = new Date(postA.createdAt ? postA.createdAt : 0).getTime();
@@ -33,7 +45,7 @@ export default () => {
 				return <Post key={el.id} {...el} />;
 			});
 		setPosts(postsArray);
-	}, [postsData.postContainer, user.country]);
+	}, [postsData.postContainer, user.city, user.state, user.country]);
 
 	return (
 		<>

@@ -66,7 +66,7 @@
 
 		display: grid;
 		/* 2 middle sections required here to prevent mobile spacing bug */
-		grid: repeat(3, 1fr) / 60px repeat(2, 1fr) 75px;
+		grid: repeat(3, 1fr) / 50px repeat(2, 1fr) 75px;
 		grid-template-areas:
 			'profilePic name name activity'
 			'profilePic time time activity'
@@ -95,6 +95,7 @@
 
 		font-weight: 600;
 		width: 100%;
+		max-width: 30vw;
 		font-size: 1rem;
 		text-align: left;
 		white-space: nowrap;

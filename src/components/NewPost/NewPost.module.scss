@@ -66,10 +66,10 @@
 
 		display: grid;
 		/* 2 middle sections required here to prevent mobile spacing bug */
-		grid: repeat(3, 1fr) / 60px repeat(2, 1fr) 75px;
+		grid: 19px 16px 16px / 60px repeat(2, 1fr) 75px;
 		grid-template-areas:
 			'profilePic name name activity'
-			'profilePic time time activity'
+			'profilePic location location activity'
 			'profilePic time time activity';
 		place-items: start;
 	}
@@ -92,9 +92,11 @@
 
 	.name {
 		grid-area: name;
+		align-self: flex-start;
 
 		font-weight: 600;
 		width: 100%;
+		max-width: 30vw;
 		font-size: 1rem;
 		text-align: left;
 		white-space: nowrap;
@@ -102,13 +104,28 @@
 		text-overflow: ellipsis;
 	}
 
+	.locationLink,
+	address {
+		grid-area: location;
+		align-self: center;
+
+		text-emphasis: none;
+		text-decoration: none;
+		font-size: 0.75rem;
+		font-style: normal;
+	}
+
 	.timeLink,
 	time {
 		grid-area: time;
+		align-self: flex-start;
+
 		font-size: 0.75rem;
 	}
+
 	.activityLink,
 	.activity {
+		padding-top: 0.1rem;
 		grid-area: activity;
 		font-size: 0.75rem;
 		text-align: right;

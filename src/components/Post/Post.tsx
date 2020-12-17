@@ -20,6 +20,8 @@ import commentFull from 'assets/images/commentFull.svg';
 import trashIcon from 'assets/images/delete.svg';
 import editIcon from 'assets/images/edit.svg';
 import moreIcon from 'assets/images/more.svg';
+import formatLocation from 'app/formatLocation';
+import formatDate from 'app/formatDate';
 
 interface Inputs {
 	body: InputType;
@@ -33,15 +35,15 @@ export default ({
 	error,
 	activity,
 	body,
-	city,
+	city = '',
 	comments,
-	country,
+	country = '',
 	county,
 	createdAt,
 	likes,
 	name,
 	profilePic,
-	state,
+	state = '',
 	uid,
 	zip,
 }: PostType) => {
@@ -255,7 +257,13 @@ export default ({
 							<Link
 								to={`/posts/${id}`}
 								className={[styles.Link, styles.timeLink].join(' ')}>
-								<time>{createdAt}</time>
+								<time>{formatDate(createdAt)}</time>
+							</Link>
+							{/* LOCATION */}
+							<Link to={`/posts/${id}`} className={styles.locationLink}>
+								<address className={styles.location}>
+									{formatLocation({ city, state, country })}
+								</address>
 							</Link>
 							{/* ACTIVITY */}
 							<Link
@@ -263,6 +271,7 @@ export default ({
 								className={[styles.Link, styles.activityLink].join(' ')}>
 								<p className={styles.activity}>{activity}</p>
 							</Link>
+							{/* MORE: DROPDOWN MENU*/}
 							{user.uid === uid ? (
 								<>
 									<div className={styles.more}>

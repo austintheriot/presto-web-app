@@ -68,10 +68,10 @@
 
 		display: grid;
 		/* 2 middle sections required here to prevent mobile spacing bug */
-		grid: repeat(3, 1fr) / 60px repeat(2, 1fr) 75px;
+		grid: 19px 16px 16px / 60px repeat(2, 1fr) 75px;
 		grid-template-areas:
 			'profilePic name name activity'
-			'profilePic time time more'
+			'profilePic location location more'
 			'profilePic time time more';
 		place-items: start;
 	}
@@ -80,6 +80,7 @@
 		grid-area: body;
 		align-self: flex-start;
 
+		padding-top: 1rem;
 		width: 100%;
 		height: max-content;
 	}
@@ -124,6 +125,7 @@
 
 		font-weight: 600;
 		width: 100%;
+		max-width: 30vw;
 		font-size: 1rem;
 		text-align: left;
 		white-space: nowrap;
@@ -131,13 +133,27 @@
 		text-overflow: ellipsis;
 	}
 
+	.locationLink,
+	address {
+		grid-area: location;
+		align-self: center;
+
+		text-emphasis: none;
+		text-decoration: none;
+		color: black;
+		font-size: 0.75rem;
+		font-style: normal;
+	}
+
 	.timeLink,
 	time {
 		grid-area: time;
 		font-size: 0.75rem;
 	}
+
 	.activityLink,
 	.activity {
+		padding-top: 0.1rem;
 		grid-area: activity;
 		font-size: 0.75rem;
 		text-align: right;
@@ -150,6 +166,7 @@
 
 	.more {
 		grid-area: more;
+		align-self: center;
 		justify-self: flex-end;
 		position: relative;
 
@@ -169,8 +186,9 @@
 		}
 
 		.hiddenMenu {
+			box-shadow: var(--shadow);
 			height: 100px;
-			width: 1.5rem;
+			width: 2rem;
 			left: 50%;
 			transform: translateX(-50%);
 			background-color: white;
@@ -215,6 +233,7 @@
 		width: 100%;
 		height: max-content;
 		text-align: left;
+		font-size: 0.9rem;
 
 		img {
 			width: 0.75rem;
@@ -227,6 +246,7 @@
 		width: max-content;
 		height: max-content;
 		text-align: left;
+		font-size: 0.9rem;
 
 		img {
 			width: 0.7rem;

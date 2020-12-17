@@ -10,8 +10,9 @@ import { InputType } from 'app/types';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/userSlice';
-import formatCurrentTime from 'app/formatCurrentTime';
 import noProfilePic from 'assets/images/no-img.svg';
+import formatLocation from 'app/formatLocation';
+import formatCurrentDate from 'app/formatCurrentDate';
 
 interface Inputs {
 	body: InputType;
@@ -53,11 +54,11 @@ export default () => {
 		},
 	});
 
-	const [currentTime, setCurrentTime] = useState(formatCurrentTime());
+	const [currentTime, setCurrentTime] = useState(formatCurrentDate());
 
 	useEffect(() => {
 		const timer = setInterval(() => {
-			setCurrentTime(formatCurrentTime());
+			setCurrentTime(formatCurrentDate());
 		}, 1000);
 		return () => clearInterval(timer);
 	}, []);
@@ -208,6 +209,12 @@ export default () => {
 						to={`/profile/${uid}`}
 						className={[styles.Link, styles.timeLink].join(' ')}>
 						<time>{currentTime}</time>
+					</Link>
+					{/* LOCATION */}
+					<Link to={`/profile/${uid}`} className={styles.locationLink}>
+						<address className={styles.location}>
+							{formatLocation({ city, state, country })}
+						</address>
 					</Link>
 					{/* ACTIVITY */}
 					<Link

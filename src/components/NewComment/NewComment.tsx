@@ -11,9 +11,9 @@ import { InputType } from 'app/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from 'app/userSlice';
 import { addComment } from 'app/postsSlice';
-import formatCurrentTime from 'app/formatCurrentTime';
 
 import noProfilePic from 'assets/images/no-img.svg';
+import formatCurrentDate from 'app/formatCurrentDate';
 
 interface Inputs {
 	body: InputType;
@@ -47,11 +47,11 @@ export default ({ postId }: { postId: string }) => {
 		},
 	});
 
-	const [currentTime, setCurrentTime] = useState(formatCurrentTime());
+	const [currentTime, setCurrentTime] = useState(formatCurrentDate());
 
 	useEffect(() => {
 		const timer = setInterval(() => {
-			setCurrentTime(formatCurrentTime());
+			setCurrentTime(formatCurrentDate());
 		}, 1000);
 		return () => clearInterval(timer);
 	}, []);

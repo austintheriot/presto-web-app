@@ -3,11 +3,10 @@ export default (
 ) => {
 	// eslint-disable-next-line eqeqeq
 	if (createdAt == undefined) return '';
-	else if (typeof createdAt === 'string') {
-		let dateArray = new Date(createdAt).toDateString().split(' ');
-		return [dateArray[1], dateArray[2] + ',', dateArray[3]].join(' ');
-	} else {
-		let dateArray = createdAt.toDate().toDateString().split(' ');
-		return [dateArray[1], dateArray[2] + ',', dateArray[3]].join(' ');
-	}
+	const date =
+		typeof createdAt === 'string' ? new Date(createdAt) : createdAt.toDate();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	const year = date.getFullYear();
+	return `${month}/${day}/${year}`;
 };
