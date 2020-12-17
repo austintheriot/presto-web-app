@@ -263,6 +263,7 @@ export default function Signup(props: HistoryType) {
 						email: signedUpUser.email,
 						createdAt: serverTimeStamp(),
 						country: 'United States',
+						name: 'Guest',
 					},
 					{ merge: true }
 				)
