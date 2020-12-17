@@ -659,7 +659,6 @@ export default () => {
 
 			{/* Profile Settings */}
 			<form onSubmit={submitHandler}>
-				<Button onClick={autofillLocation}>Autofill Location</Button>
 				{/* Name */}
 				<NewInput
 					type='text'
@@ -677,6 +676,8 @@ export default () => {
 					setInputs={setInputs}
 				/>
 
+				{/* Location */}
+				<Button onClick={autofillLocation}>Autofill Location</Button>
 				<NewInput
 					type='text'
 					customType='location'
