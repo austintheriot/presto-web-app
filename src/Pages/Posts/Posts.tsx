@@ -10,6 +10,7 @@ import { selectUser } from 'app/userSlice';
 import { getPostsData } from 'app/postsSlice';
 
 import SpacerLarge from 'components/Spacers/SpacerLarge';
+import { PostType } from 'app/types';
 
 export default () => {
 	const user = useSelector(selectUser);
@@ -28,8 +29,8 @@ export default () => {
 				return b - a;
 			})
 			//convert post data into a Post component
-			.map((el: any, i: number) => {
-				return <Post key={el.uid + el.body + el.createdAt} {...el} />;
+			.map((el: PostType) => {
+				return <Post key={el.id} {...el} />;
 			});
 		setPosts(postsArray);
 	}, [postsData.postContainer, user.country]);
