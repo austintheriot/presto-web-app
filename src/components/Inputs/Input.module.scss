@@ -20,7 +20,7 @@
 	-webkit-box-shadow: none;
 	-webkit-appearance: none;
 	outline: none;
-	background-color: transparent;
+	background-color: white;
 	border: 1px solid #bbb;
 	transition: all 0.1s;
 	border-radius: 5px;
@@ -59,7 +59,7 @@
 	left: 0.75rem;
 	transition: all 0.1s;
 	text-align: left;
-	width: max-content;
+	min-width: max-content;
 	border-radius: 5px;
 	padding: 0.1rem 0.3rem;
 }
